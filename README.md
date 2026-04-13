@@ -1,9 +1,3 @@
-# Production Systems
-
-Architecture, decisions, and source code from production systems I designed and built.
-
----
-
 ## [GTM Scenarios](portfolio/) · [ryanzegalia.com](https://ryanzegalia.com)
 
 Operator scenarios across five B2B verticals, each with a worked example running against seeded Postgres data. The scenarios are grounded in named industry research; the data is deterministic seed, the SQL and computation are real.
