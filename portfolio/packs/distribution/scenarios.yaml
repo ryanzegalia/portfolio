@@ -1,0 +1,14 @@
+- id: erp_detection
+  title: "The ERP Detection Problem"
+  vocabulary_subtext: "Prospect ERP identification from job postings, vendor directories, and technographic data"
+  route: /distribution/erp-detection
+
+- id: pov_pipeline
+  title: "The Proof-of-Value Pipeline"
+  vocabulary_subtext: "Trial metrics flowing into HubSpot deal records in real time"
+  route: /distribution/pov
+
+- id: pe_trigger
+  title: "The PE Trigger Window"
+  vocabulary_subtext: "PE acquisitions creating 100-day buying windows"
+  route: /distribution/pe-triggers

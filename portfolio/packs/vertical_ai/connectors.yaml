@@ -1,0 +1,86 @@
+- source_key: hubspot
+  mappings:
+    canonical_name: properties.name
+    practice_size_employees: properties.num_employees
+    state: properties.state
+    parent_dso_id: properties.parent_account_id
+    account_owner_team: properties.owner_team
+  reconciliation_rules:
+    canonical_name: hubspot
+    parent_dso_id: hubspot
+    account_owner_team: hubspot
+
+- source_key: apollo
+  mappings:
+    practice_size_employees: organization.estimated_num_employees
+    parent_company: organization.parent_organization_name
+  reconciliation_rules:
+    parent_company: apollo
+
+- source_key: zoominfo
+  mappings:
+    practice_size_employees: company.employee_count
+    parent_company: company.ultimate_parent_company
+  reconciliation_rules: {}
+
+- source_key: linkedin
+  mappings:
+    employee_count: company.employee_count
+    job_postings_pms_required: company.recent_jobs.pms_keyword_hits
+  reconciliation_rules: {}
+
+- source_key: fl_sunbiz
+  mappings:
+    parent_dso_id: filings.most_recent_articles_of_merger.parent
+    acquisition_date: filings.most_recent_articles_of_merger.filing_date
+  reconciliation_rules:
+    parent_dso_id: fl_sunbiz
+    acquisition_date: fl_sunbiz
+
+- source_key: dentrix
+  mappings:
+    practice_id: practice.id
+    detected_pms: dentrix
+  reconciliation_rules: {}
+
+- source_key: eaglesoft
+  mappings:
+    practice_id: practice.id
+    detected_pms: eaglesoft
+  reconciliation_rules: {}
+
+- source_key: open_dental
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: curve_dental
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: denticon
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: carestream
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: sirona
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: heartland_dental
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: aspen_dental
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: pacific_dental
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: mb2_dental
+  mappings: {}
+  reconciliation_rules: {}

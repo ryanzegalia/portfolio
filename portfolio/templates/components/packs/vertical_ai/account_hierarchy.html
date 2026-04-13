@@ -1,0 +1,159 @@
+{#
+  Demo 3.1 — Account Hierarchy Resolver
+  =====================================
+  The GTM team has 500 prospect dental practice leads. ZoomInfo says one is
+  independent. Apollo says it's owned by a DSO. LinkedIn says the office
+  manager just changed jobs. The Florida Secretary of State has an Articles
+  of Merger filing from 4 months ago. Claude reads everything and produces
+  a confidence-scored parent verdict with a routing recommendation the rep
+  can act on. Routes the account to the enterprise team with a warm path if
+  there's already an MSA at the parent.
+
+  Expects (via `ctx`):
+    ctx.data:
+      .prospect_count              int
+      .dso_reclassified_count      int
+      .reclassification_breakdown  dict  — {DSO name: count}
+      .hero_smile_dental:
+        .name                      str
+        .state                     str
+        .apollo_says_employees     int
+        .apollo_says_parent        str
+        .zoominfo_says_employees   int
+        .zoominfo_says_independent bool
+        .linkedin_office_manager_changed_at  str (date)
+        .web_scrape_footer_match   bool
+        .sunbiz_filing_date        str (date)
+        .sunbiz_filing_type        str
+        .verdict_confidence        float
+        .warm_contacts_at_heartland_hq int
+    ctx.scenario                   dict
+  Also: pack, compact
+#}
+{% set data = ctx.data %}
+{% set hero = data.hero_smile_dental or {} %}
+
+<div class="demo-module demo-module--account-hierarchy">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">Prospects reclassified as DSO-owned</p>
+      <p class="metric-headline num">{{ data.dso_reclassified_count }}</p>
+      <p class="caption">
+        out of <span class="num">{{ data.prospect_count }}</span> practices &middot;
+        {{ data.reclassification_breakdown|length }} parent companies identified via enrichment waterfall
+      </p>
+    </div>
+    <span class="pill-status-warning">
+      <span class="status-dot status-dot--warning"></span>
+      routing correction needed
+    </span>
+  </header>
+
+  {# Enrichment waterfall — 5 sources converge into Claude verdict #}
+  <section class="enrichment-waterfall" aria-label="Enrichment waterfall">
+    <p class="data-label">Enrichment waterfall</p>
+    <ol class="waterfall-steps">
+      <li class="waterfall-step">
+        <span class="waterfall-step-label">ZoomInfo</span>
+        <span class="waterfall-step-finding">
+          independent, {{ hero.zoominfo_says_employees }} employees
+        </span>
+      </li>
+      <li class="waterfall-step">
+        <span class="waterfall-step-label">Apollo</span>
+        <span class="waterfall-step-finding waterfall-step-finding--drift">
+          owned by {{ hero.apollo_says_parent }}, {{ hero.apollo_says_employees }} employees
+        </span>
+      </li>
+      <li class="waterfall-step">
+        <span class="waterfall-step-label">LinkedIn</span>
+        <span class="waterfall-step-finding">
+          office manager changed {{ hero.linkedin_office_manager_changed_at }}
+        </span>
+      </li>
+      <li class="waterfall-step">
+        <span class="waterfall-step-label">Web scrape</span>
+        <span class="waterfall-step-finding">
+          {% if hero.web_scrape_footer_match %}
+            "A {{ hero.apollo_says_parent }} practice" in site footer
+          {% else %}
+            no parent reference in site footer
+          {% endif %}
+        </span>
+      </li>
+      <li class="waterfall-step">
+        <span class="waterfall-step-label">FL Sunbiz</span>
+        <span class="waterfall-step-finding waterfall-step-finding--confirmed">
+          {{ hero.sunbiz_filing_type }} filed {{ hero.sunbiz_filing_date }}
+        </span>
+      </li>
+      <li class="waterfall-step waterfall-step--verdict">
+        <span class="waterfall-step-label">LLM synthesis</span>
+        <span class="waterfall-step-finding">
+          parent confirmed &middot; confidence
+          <span class="num">{{ hero.verdict_confidence }}</span>
+        </span>
+      </li>
+    </ol>
+  </section>
+
+  {# Verdict card for the hero practice #}
+  {% if hero %}
+  <article class="hierarchy-verdict-card">
+    <header class="hierarchy-verdict-header">
+      <div>
+        <h3 class="card-title">{{ hero.name }}</h3>
+        <p class="caption">{{ hero.state }} &middot; prospect list entry</p>
+      </div>
+      <span class="pill-status-healthy">confidence {{ hero.verdict_confidence }}</span>
+    </header>
+
+    <dl class="hierarchy-verdict-facts">
+      <div>
+        <dt class="data-label">Actual parent</dt>
+        <dd class="data-value-lg">{{ hero.apollo_says_parent }}</dd>
+      </div>
+      <div>
+        <dt class="data-label">Acquired</dt>
+        <dd class="data-value num">{{ hero.sunbiz_filing_date }}</dd>
+      </div>
+      <div>
+        <dt class="data-label">Warm path</dt>
+        <dd class="data-value num">
+          {{ hero.warm_contacts_at_heartland_hq }} contact{% if hero.warm_contacts_at_heartland_hq != 1 %}s{% endif %}
+          at {{ hero.apollo_says_parent }} HQ
+        </dd>
+      </div>
+    </dl>
+
+    <blockquote class="agent-verdict">
+      <p class="data-label">Resolver recommendation</p>
+      <p>
+        Existing {{ hero.apollo_says_parent }} MSA likely. Route this account to
+        the enterprise team, not SMB. Warm path available via existing HubSpot
+        contacts at {{ hero.apollo_says_parent }} HQ.
+      </p>
+    </blockquote>
+  </article>
+  {% endif %}
+
+  {# Reclassification breakdown — which parents absorbed which counts #}
+  {% if data.reclassification_breakdown and not compact %}
+  <section class="reclassification-breakdown">
+    <p class="data-label">Reclassification breakdown</p>
+    {% set max_count = (data.reclassification_breakdown.values()|list|max) %}
+    <ul class="hbar-list">
+      {% for parent, count in data.reclassification_breakdown.items() %}
+      <li class="hbar">
+        <span class="hbar-label">{{ parent }}</span>
+        <span class="hbar-track">
+          <span class="hbar-fill" style="width: {{ (count / max_count * 100)|round(0)|int }}%"></span>
+        </span>
+        <span class="hbar-value num">{{ count }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+</div>

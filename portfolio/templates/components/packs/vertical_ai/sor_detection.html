@@ -1,0 +1,94 @@
+{#
+  Demo 3.2 — System-of-Record Detection
+  =====================================
+  The vendor's product integrates into the dental practice's Practice
+  Management System — Dentrix, Eaglesoft, Open Dental, Curve, etc. Each
+  integration is a different code path. Reps need to know which PMS runs at
+  a prospect before the demo, because demoing the wrong integration tanks
+  the deal. The data isn't anywhere clean — Apollo and ZoomInfo don't track
+  it, dentists don't list it on their websites. The signal aggregator scrapes
+  the site source, checks Indeed job postings, looks for Patterson case study
+  mentions, and scores confidence.
+
+  Expects (via `ctx`):
+    ctx.data.sor_detection:
+      .practices_with_pms_detection_count  int
+      .high_confidence_threshold           float
+      .detected_distribution               dict {PMS: count}
+      .hero_practice:
+        .name
+        .detected_pms
+        .confidence
+        .signals  list[str]
+    ctx.data.prospect_count                int
+    ctx.scenario                           dict
+  Also: pack, compact
+#}
+{% set sor = ctx.data.sor_detection %}
+{% set hero = sor.hero_practice or {} %}
+{% set total = ctx.data.prospect_count %}
+
+<div class="demo-module demo-module--sor-detection">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">Practices with PMS auto-detected</p>
+      <p class="metric-headline num">{{ sor.practices_with_pms_detection_count }}</p>
+      <p class="caption">
+        {{ ((sor.practices_with_pms_detection_count / total) * 100)|round(0)|int }}% coverage
+        across {{ total }} prospect practices &middot; no cold-call required
+      </p>
+    </div>
+    <span class="pill-status-healthy">
+      <span class="status-dot status-dot--healthy"></span>
+      {{ sor.high_confidence_threshold }} conf threshold
+    </span>
+  </header>
+
+  {# PMS distribution — handcrafted horizontal SVG bar chart #}
+  {% if sor.detected_distribution %}
+  <section class="pms-distribution">
+    <p class="data-label">Detected PMS distribution</p>
+    {% set max_count = (sor.detected_distribution.values()|list|max) %}
+    <ul class="hbar-list">
+      {% for pms, count in sor.detected_distribution.items() %}
+      <li class="hbar">
+        <span class="hbar-label">{{ pms }}</span>
+        <span class="hbar-track">
+          <span class="hbar-fill hbar-fill--accent" style="width: {{ (count / max_count * 100)|round(0)|int }}%"></span>
+        </span>
+        <span class="hbar-value num">{{ count }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {# Hero practice card with signal checklist #}
+  {% if hero %}
+  <article class="sor-hero-card">
+    <header class="sor-hero-header">
+      <div>
+        <h3 class="card-title">{{ hero.name }}</h3>
+        <p class="caption">detected &middot; {{ hero.signals|length }} independent signals</p>
+      </div>
+      <div class="sor-hero-pms">
+        <span class="data-label">Detected PMS</span>
+        <span class="sor-hero-pms-name">{{ hero.detected_pms }}</span>
+        <span class="pill-status-healthy">confidence {{ hero.confidence }}</span>
+      </div>
+    </header>
+
+    {% if hero.signals %}
+    <ul class="sor-signals">
+      {% for signal in hero.signals %}
+      <li class="sor-signal">
+        <span class="sor-signal-check" aria-hidden="true">&check;</span>
+        <span>{{ signal }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </article>
+  {% endif %}
+
+</div>

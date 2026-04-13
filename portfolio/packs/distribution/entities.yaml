@@ -1,0 +1,12 @@
+- entity_type: prospect
+  fields:
+    - canonical_name
+    - detected_erp
+    - erp_confidence
+    - sub_vertical
+    - branch_count
+    - revenue_band
+    - pe_backed
+    - trial_status
+    - trial_accuracy
+    - trial_ftes_saved

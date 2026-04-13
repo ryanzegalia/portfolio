@@ -1,0 +1,30 @@
+- source_key: salesforce
+  mappings:
+    canonical_name: opportunity.account.name
+    deal_stage: opportunity.stage_name
+    deal_amount: opportunity.amount
+  reconciliation_rules:
+    canonical_name: salesforce
+    deal_stage: salesforce
+
+- source_key: github
+  mappings:
+    repo_count_total: org.public_repos
+    primary_language: repo.language
+  reconciliation_rules:
+    repo_count_total: github
+
+- source_key: product_telemetry
+  mappings:
+    repo_count_scanned: scan_connections.count
+    last_scan: scan_connections.last_scan_ts
+  reconciliation_rules:
+    repo_count_scanned: product_telemetry
+
+- source_key: crunchbase
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: regulatory_calendar
+  mappings: {}
+  reconciliation_rules: {}

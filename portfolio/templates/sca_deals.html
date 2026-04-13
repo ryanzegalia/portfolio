@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Thread-Gap Deals | {{ pack.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-back">
+    <a href="/{{ pack.id }}" class="back-link">&larr; {{ pack.name }}</a>
+  </div>
+
+  <section class="rollup">
+    <p class="rollup-narrative">{{ rollup_markdown }}</p>
+  </section>
+
+  {% include "components/packs/sca/multi_thread_deal.html" %}
+</div>
+{% endblock %}

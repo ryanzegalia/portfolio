@@ -1,0 +1,49 @@
+services:
+  portfolio-db:
+    image: postgres:16-alpine
+    container_name: portfolio-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required — copy .env.example to .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required — copy .env.example to .env}
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required — copy .env.example to .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  portfolio-web:
+    build: .
+    container_name: portfolio-web
+    ports:
+      - "8550:8000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@portfolio-db:5432/${POSTGRES_DB}
+      LIVE_AI: ${LIVE_AI:-false}
+      PLAUSIBLE_DOMAIN: ${PLAUSIBLE_DOMAIN:-localhost}
+    depends_on:
+      portfolio-db:
+        condition: service_healthy
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')\""]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  pgdata:

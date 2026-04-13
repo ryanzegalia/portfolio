@@ -1,0 +1,27 @@
+- source_key: hubspot
+  display_name: HubSpot
+  source_type: crm
+
+- source_key: stripe
+  display_name: Stripe
+  source_type: billing
+
+- source_key: bigquery
+  display_name: BigQuery
+  source_type: warehouse
+
+- source_key: hightouch
+  display_name: Hightouch
+  source_type: reverse_etl
+
+- source_key: hex
+  display_name: Hex
+  source_type: notebook
+
+- source_key: clay
+  display_name: Clay
+  source_type: enrichment
+
+- source_key: apollo
+  display_name: Apollo
+  source_type: enrichment_outbound

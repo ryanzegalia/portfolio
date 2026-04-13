@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Critical Shifts | {{ pack.name }}{% endblock %}
+
+{#
+  Standalone full-page view of the 6am Call-Off demo. Wrapper around
+  components/packs/home_care/call_off.html. The same partial renders in the
+  home-care scrollytelling landing section with compact=True.
+#}
+{% block content %}
+<div class="container">
+  <div class="page-back">
+    <a href="/{{ pack.id }}" class="back-link">&larr; {{ pack.name }}</a>
+  </div>
+
+  <section class="rollup">
+    <p class="rollup-narrative">{{ rollup_markdown }}</p>
+  </section>
+
+  {% include "components/packs/home_care/call_off.html" %}
+</div>
+{% endblock %}

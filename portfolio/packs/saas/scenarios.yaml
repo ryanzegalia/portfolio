@@ -1,0 +1,101 @@
+- id: phantom_seats
+  title: "Phantom Seats"
+  vocabulary_subtext: "Seat count drift between HubSpot and the product database"
+  route: /saas/revenue
+  card_text: |
+    ┌─ REVENUE AT RISK ──────────────────────────────────────────────────────┐
+    │  $84,200 in unbilled expansion across 18 accounts                      │
+    │                                                                        │
+    │  TOP OFFENDERS  (sorted by impact)                                     │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ Meridian Labs                                          $22,800   │  │
+    │  │ HubSpot deal:    8 seats × $295/mo = $2,360/mo                   │  │
+    │  │ BigQuery:        23 active users in last 30 days                 │  │
+    │  │ Drift detected:  6 days ago (seat count grew 8 → 23)             │  │
+    │  │ Unbilled MRR:    15 extra seats × $295/mo = $4,425/mo            │  │
+    │  │ Annualized exp.: $4,425 × 12 mo = $53,100                        │  │
+    │  │ Conservative:    $22,800 (5 mo to next renewal × $4,425)         │  │
+    │  │ Last Hightouch sync: 2 hours ago                                 │  │
+    │  │ [View source records]   [Send expansion alert to Sarah Kim]      │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ Bridgewater Systems                                    $11,400   │  │
+    │  │ HubSpot deal:    5 seats × $195/mo = $975/mo                     │  │
+    │  │ BigQuery:        14 active users in last 30 days                 │  │
+    │  │ Drift detected:  12 days ago (seat count grew 5 → 14)            │  │
+    │  │ Unbilled MRR:    9 extra seats × $195/mo = $1,755/mo             │  │
+    │  │ Conservative:    $11,400 (6.5 mo to next renewal × $1,755)       │  │
+    │  │ [View source records]   [Send expansion alert to Mike Reyes]     │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ Northwind Software                                      $7,200   │  │
+    │  │ HubSpot deal:    4 seats × $195/mo = $780/mo                     │  │
+    │  │ BigQuery:        11 active users in last 30 days                 │  │
+    │  │ Drift detected:  9 days ago (seat count grew 4 → 11)             │  │
+    │  │ Unbilled MRR:    7 extra seats × $195/mo = $1,365/mo             │  │
+    │  │ Conservative:    $7,200 (5.3 mo to next renewal × $1,365)        │  │
+    │  │ [View source records]   [Send expansion alert to Jenna Larsson]  │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    └────────────────────────────────────────────────────────────────────────┘
+- id: stale_pql
+  title: "Stale PQL"
+  vocabulary_subtext: "Decayed PQLs without AE follow-up"
+  route: /saas/pql
+  card_text: |
+    ┌─ PQL INSPECTOR - Last 30 Days ─────────────────────────────────────────┐
+    │  68 PQLs detected · 22 routed to AE · 7 converted · $94K ARR           │
+    │  ⚠ 14 PQLs decayed without AE follow-up                                │
+    │    Est. ARR at risk: $58K (32% conv) - $180K (100% conv)               │
+    │                                                                        │
+    │  DECAYED PQL QUEUE                                                     │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ Atlas Digital                                                    │  │
+    │  │ Triggered:   created 4th project, invited 6 teammates,           │  │
+    │  │              hit 500GB bandwidth (14 days ago)                   │  │
+    │  │ PQL score:   94 → routed to Sarah Kim (HubSpot owner)            │  │
+    │  │ Last AE activity: none. Score decayed to 38 yesterday.           │  │
+    │  │ Reconciliation diff:                                             │  │
+    │  │   HubSpot:    3 contacts, no deal, $0 MRR                        │  │
+    │  │   BigQuery:   23 active users, $0 MRR (still free),              │  │
+    │  │               500GB bandwidth (would be $890/mo on Pro)          │  │
+    │  │ [Re-trigger AE]    [Create deal]    [Open in HubSpot]            │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ Cascade Analytics                                                │  │
+    │  │ Triggered:   added 3rd workspace, weekly active users 4 → 18     │  │
+    │  │ PQL score:   87 → routed to Mike Reyes                           │  │
+    │  │ Last AE activity: none. 18 days since routing.                   │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    └────────────────────────────────────────────────────────────────────────┘
+- id: forecast_variance
+  title: "Forecast Variance"
+  vocabulary_subtext: "Coverage, AE hygiene, commission audit"
+  route: /saas/forecast
+  card_text: |
+    ┌─ FORECAST & PIPELINE HEALTH ───────────────────────────────────────────┐
+    │  {{ relative_quarter }}                                                │
+    │                                                                        │
+    │  Coverage:        2.3× committed pipeline (target: 3.0×)  ⚠           │
+    │  Forecast:        $1.84M (commit) · $2.40M (best case)                 │
+    │  Last Q variance: −34% (committed $4.4M, booked $2.9M, 66% close rate) │
+    │                                                                        │
+    │  AE PIPELINE HYGIENE SCORECARD                                         │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ AE             Pipeline   Coverage   Stage Skips   Overdue       │  │
+    │  │                                                    in Stage      │  │
+    │  │ Sarah Kim      $890K      3.1×        0             1            │  │
+    │  │ Mike Reyes     $620K      1.8×  ⚠     4             7  ⚠        │  │
+    │  │ Jenna Larsson  $1.1M      2.4×        1             3            │  │
+    │  │ Priya Shah     $740K      2.7×        2             2            │  │
+    │  │                                                                  │  │
+    │  │ Stale = deal in current stage longer than per-stage SLA          │  │
+    │  │ (Discovery 14d, Demo 21d, Negotiation 14d, Verbal 7d)            │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    │                                                                        │
+    │  COMMISSION AUDIT - 4 deals miscredited                                │
+    │  Atlas Digital    $28K   closed by Mike Reyes, credited to Jenna L.   │
+    │  Cascade Analytics $19K  closed by Priya Shah, credited to Mike R.    │
+    │  Helix Robotics   $42K   ownership flipped twice, no resolution       │
+    │  Lattice Health   $14K   closed by Sarah Kim, credited to system      │
+    └────────────────────────────────────────────────────────────────────────┘
+    they all hit the live database every request.

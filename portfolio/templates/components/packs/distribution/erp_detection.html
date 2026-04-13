@@ -1,0 +1,72 @@
+{#
+  Demo 5.1 — ERP Detection
+  =========================
+  Enrichment waterfall for detecting which ERP a prospect runs.
+  Signal sources (job postings, vendor directories, trade shows,
+  technographic) each contribute a weighted confidence score.
+
+  Expects (all via `ctx`):
+    ctx.prospects               list   — prospects with signal data
+    ctx.detected_prospect_count int    — total detected
+    ctx.scenario                dict   — scenarios.yaml entry
+
+  Also expects top-level:
+    pack     Pack — active pack
+    compact  bool — when true, show top 3
+#}
+<div class="demo-module demo-module--erp-detection">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">Prospects with ERP signals</p>
+      <p class="metric-headline num">{{ ctx.detected_prospect_count }}</p>
+      <p class="caption">
+        ERP detected from job postings, vendor directories, trade shows
+      </p>
+    </div>
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      enrichment queue
+    </span>
+  </header>
+
+  {% set display_prospects = ctx.prospects[:2] if compact else ctx.prospects %}
+  {% for prospect in display_prospects %}
+  <div class="erp-card">
+    <div class="erp-card-header">
+      <div class="erp-card-company">
+        <span class="erp-company-name">{{ prospect.company }}</span>
+        <span class="erp-sub-vertical">{{ prospect.sub_vertical }}</span>
+      </div>
+      <div class="erp-card-verdict">
+        {% if prospect.detected_erp %}
+        <span class="erp-verdict-name">{{ prospect.detected_erp }}</span>
+        {% else %}
+        <span class="erp-verdict-name erp-verdict--unknown">Unknown</span>
+        {% endif %}
+        <span class="erp-verdict-confidence">{{ (prospect.confidence * 100)|int }}%</span>
+      </div>
+    </div>
+
+    <div class="erp-signals">
+      {% for signal in prospect.signals %}
+      <div class="erp-signal-row">
+        <span class="erp-signal-source">{{ signal.source | replace('_', ' ') | title }}</span>
+        <span class="erp-signal-detail">{{ signal.detail }}</span>
+        <span class="erp-signal-indicator {% if signal.found %}erp-signal--found{% else %}erp-signal--missing{% endif %}">
+          {% if signal.found %}&#10003;{% else %}&ndash;{% endif %}
+        </span>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="erp-card-footer">
+      <div class="erp-confidence-bar">
+        <div class="erp-confidence-fill" style="width: {{ (prospect.confidence * 100)|int }}%"></div>
+      </div>
+      <span class="pill-routing pill-routing--{{ prospect.route }}">
+        {% if prospect.route == "demo_track" %}Demo Track{% else %}Manual Qual{% endif %}
+      </span>
+    </div>
+  </div>
+  {% endfor %}
+</div>

@@ -1,0 +1,216 @@
+id: sca
+name: "Software Supply Chain Compliance"
+vertical_label: "Software Supply Chain Compliance"
+
+glossary:
+  SCA: "Software Composition Analysis, tools that scan codebases for open-source dependencies, detect licenses, and flag vulnerabilities."
+  SBOM: "Software Bill of Materials, a structured inventory of every component in a software product. Increasingly required by regulation."
+  copyleft: "License type (GPL, AGPL) requiring derivative works to carry the same license. The compliance exposure that drives legal team involvement in SCA evaluations."
+  SPDX: "Standard SBOM format maintained by the Linux Foundation. One of two common interchange formats alongside CycloneDX."
+  CycloneDX: "OWASP's SBOM format, common in security-focused toolchains."
+  false positive: "A scan result flagging a dependency as vulnerable or non-compliant when it is not. The metric engineering teams weight most heavily during proof-of-concept evaluations."
+  CRA: "EU Cyber Resilience Act, requires SBOM disclosure for products with digital elements sold in the EU. Full enforcement December 2027."
+  PCI DSS: "Payment Card Industry Data Security Standard. Version 4.0, mandatory March 2025, requires software component inventory for anyone processing card payments."
+  net dollar retention: "Revenue from existing customers this year divided by last year. Top SCA companies reported above 130% during their high-growth phase; mature portfolios tend to settle lower."
+  POC: "Proof of concept, the 2-4 week evaluation period where engineering scans a representative repo set before committing to a vendor."
+  reverse-ETL: "Tools like Hightouch that sync warehouse data back into operational systems like the CRM."
+
+research_sources:
+  - title: "Snyk · Open Source Security / SCA product"
+    url: "https://snyk.io/product/open-source-security-management/"
+    note: "Pioneered the bottom-up DevSec GTM motion. Reported net dollar retention above 130% during its high-growth phase from seat and project expansion."
+  - title: "FOSSA · license compliance product"
+    url: "https://fossa.com/license-compliance/"
+    note: "Positioned between Black Duck (enterprise) and Snyk (developer). Strongest on license governance and attribution reports."
+  - title: "EU Cyber Resilience Act official text"
+    url: "https://digital-strategy.ec.europa.eu/en/policies/cyber-resilience-act"
+    note: "Entered force December 2024. Vulnerability reporting September 2026. Full enforcement December 2027."
+  - title: "PCI DSS 4.0 Resource Hub"
+    url: "https://blog.pcisecuritystandards.org/pci-dss-v4-0-resource-hub"
+    note: "Mandatory March 2025. Requires inventory of all bespoke and third-party software components."
+  - title: "Gartner Magic Quadrant for Application Security Testing"
+    url: "https://www.gartner.com/reviews/market/application-security-testing"
+    note: "Heavily influences enterprise shortlists. Competitive positioning between SCA vendors is well documented here."
+  - title: "CISA · Software Bill of Materials (SBOM)"
+    url: "https://www.cisa.gov/sbom"
+    note: "The original federal SBOM mandate framework. Individual agency discretion since early 2026."
+
+terminology:
+  entity: Prospect
+  entity_plural: Prospects
+  pipeline: "Sales Pipeline"
+  agent: Agent
+  scoreable_lead: Trigger
+  scoreable_lead_plural: Triggers
+
+dashboard_cards:
+  - id: multi_thread_deal
+    title: Thread-Gap Deals
+    subtitle: "Multi-stakeholder deals with stalled evaluation threads"
+    metric_field: stalled_deal_count
+    icon: ph-git-branch
+    href: /sca/deals
+  - id: compliance_trigger
+    title: Event Triggers
+    subtitle: "Time-sensitive compliance buying windows"
+    metric_field: active_trigger_count
+    icon: ph-bell-ringing
+    href: /sca/triggers
+  - id: repo_coverage
+    title: Coverage Gaps
+    subtitle: "Customers scanning a fraction of their codebase"
+    metric_field: underscanned_account_count
+    icon: ph-code
+    href: /sca/coverage
+
+landing:
+  signals: "Salesforce . GitHub . Crunchbase . CI/CD Scan Logs"
+
+  hero:
+    eyebrow: "Software supply chain compliance, three operational scenarios"
+    problem: >
+      SCA companies sell a compliance product to engineering teams, security
+      teams, and legal teams who evaluate on different criteria and often run
+      parallel tracks on the same deal. The pipeline data that would show which
+      thread is stuck, which compliance signal is time-sensitive, or which
+      customer is underscanning usually lives across the CRM, product telemetry,
+      and external event sources that are not wired together.
+    root_tile_title: >
+      Engineering, security, and legal evaluate the same tool on different
+      criteria, and the pipeline data that would reconcile those threads lives
+      in three different systems.
+    card_preview: >
+      Three scenarios: The Multi-Threaded Deal, The Compliance Event Trigger,
+      and The Repo Coverage Gap. Real seeded Postgres, with a SQL
+      repo-coverage expansion query rendered inline.
+    intro_paragraph: >
+      Multi-stakeholder deals where engineering and legal evaluate on different
+      axes, compliance events that create time-sensitive windows nobody is
+      monitoring, and expansion opportunities hiding in product telemetry the
+      CSM team never sees. One worked example for each.
+    research_prelude: >
+      Software supply chain compliance sits at the intersection of developer
+      tooling, legal operations, and regulatory pressure. The practitioner
+      writing from Snyk, FOSSA, and the reverse-ETL teams at Hightouch covers
+      the tooling, but the GTM operational gaps between those tools tend to
+      surface in RevOps job descriptions and quarterly pipeline reviews, not
+      in public blog posts.
+
+  sections:
+    - id: multi_thread_deal
+      loader: sca.multi_thread_deal
+      partial: components/packs/sca/multi_thread_deal.html
+      narrative:
+        eyebrow: "Scenario 1 of 3"
+        title: "The Multi-Threaded Deal"
+        problem: |
+          A Salesforce opportunity shows one open deal at Stage 3. Behind that
+          single record, engineering is running a proof-of-concept on
+          false-positive rates, legal is evaluating license detection accuracy
+          through a contact who has not logged anything in the CRM, and security
+          submitted a vendor risk questionnaire three weeks ago. Two of the
+          three evaluation threads have gone quiet and the pipeline view cannot
+          show it.
+        solution: |
+          What I'd sketch here is a per-deal thread tracker that classifies
+          contacts by role, maps their activity to evaluation criteria, and
+          scores each thread independently. When engineering is active but legal
+          has gone dark for two weeks, the deal gets a thread-gap flag that
+          routes to the AE with the stalled thread identified.
+      cta:
+        label: "See the full thread-gap view"
+        href: /sca/deals
+
+    - id: compliance_trigger
+      loader: sca.compliance_trigger
+      partial: components/packs/sca/compliance_trigger.html
+      narrative:
+        eyebrow: "Scenario 2 of 3"
+        title: "The Compliance Event Trigger"
+        problem: |
+          A prospect announced an acquisition closing in Q3. Under the EU Cyber
+          Resilience Act, their product needs SBOM disclosure by December 2027.
+          Their PCI DSS 4.0 audit is due in six months. Each event creates a
+          buying window, but the signals live in Crunchbase press releases,
+          regulatory calendars, and industry publications nobody is monitoring
+          systematically. By the time a BDR notices, a competitor has already
+          started the conversation.
+        solution: |
+          My first pass would be an event-trigger enrichment layer that watches
+          M&A announcements, regulatory deadline proximity, and job posting
+          velocity for roles like "SBOM program manager." Each signal carries a
+          time-decay weight -- hottest in the first 30 days, cold by 90.
+          High-urgency triggers route to a named AE with the event context
+          attached.
+        production_example:
+          url: "https://github.com/ryanzegalia/portfolio/blob/main/jobradar/src/scoring_orchestrator.py"
+          label: "Multi-source progressive scoring pipeline with fast filtering and LLM gatekeeper"
+      cta:
+        label: "See the trigger queue"
+        href: /sca/triggers
+
+    - id: repo_coverage
+      loader: sca.repo_coverage
+      partial: components/packs/sca/repo_coverage.html
+      narrative:
+        eyebrow: "Scenario 3 of 3"
+        title: "The Repo Coverage Gap"
+        problem: |
+          A customer signed a 50-seat contract eight months ago. Their GitHub
+          organization has 47 repositories; product telemetry shows three
+          connected and scanning. The CSM team does not have this coverage ratio
+          in Salesforce, so the renewal conversation happens without the most
+          compelling expansion data point: the customer is paying for compliance
+          coverage on 6% of their codebase.
+        solution: |
+          A reasonable shape for this is a nightly job that pulls the customer's
+          GitHub org metadata and joins it against product telemetry to
+          calculate a coverage ratio. Repos with recent commits but no scans
+          get flagged as active-unscanned. The ratio and a dollar-weighted
+          expansion estimate get written back to Salesforce so the CSM sees it
+          during renewal prep.
+        code_artifact:
+          language: sql
+          caption: "The shape of the repo-coverage expansion query"
+          code: |
+            -- Coverage ratio per customer: repos connected
+            -- vs. total in the org. Flags active-unscanned
+            -- repos and computes dollar-weighted expansion.
+            WITH org_repos AS (
+              SELECT
+                customer_id,
+                COUNT(*)                        AS total_repos,
+                COUNT(*) FILTER (
+                  WHERE last_commit >= current_date
+                        - interval '90 days'
+                )                               AS active_repos
+              FROM github_org_repos
+              GROUP BY 1
+            ),
+            scanned AS (
+              SELECT
+                customer_id,
+                COUNT(DISTINCT repo_id)         AS scanned_repos
+              FROM scan_connections
+              WHERE last_scan >= current_date - interval '30 days'
+              GROUP BY 1
+            )
+            SELECT
+              c.account_name,
+              o.total_repos,
+              o.active_repos,
+              COALESCE(s.scanned_repos, 0)     AS scanned_repos,
+              ROUND(
+                COALESCE(s.scanned_repos, 0)::numeric
+                / NULLIF(o.active_repos, 0), 2
+              )                                 AS coverage_ratio,
+              (o.active_repos - COALESCE(s.scanned_repos, 0))
+                * c.per_repo_rate               AS expansion_arr
+            FROM org_repos o
+            JOIN customers c ON c.id = o.customer_id
+            LEFT JOIN scanned s USING (customer_id)
+            WHERE COALESCE(s.scanned_repos, 0) < o.active_repos
+            ORDER BY expansion_arr DESC;
+      cta:
+        label: "See the full coverage view"
+        href: /sca/coverage

@@ -1,0 +1,247 @@
+id: vertical-ai
+name: "Vertical AI vendor GTM (dental DSO example)"
+# `vertical_label` is the short label on the root portfolio page's 3-card preview.
+# Kept bounded to telegraph that dental is the example, not the category — so a
+# Canals / industrial-supply-chain reader isn't forced to translate "Vertical AI"
+# generically in their head.
+vertical_label: "Vertical AI GTM (dental example)"
+
+# 2026-04-11 research evidence pass: glossary terms for hover tooltips.
+glossary:
+  DSO: "Dental Support Organization. A private-equity-backed company that owns or contracts with a group of dental practices. DSO consolidation in dental is fast: 200+ new affiliations in 2024 alone."
+  "Heartland Dental": "The largest DSO in the US, owned by KKR, ~1,650 practices. Used in the scenario as a concrete example of the acquisition events that stale CRMs miss."
+  "Aspen Dental": "A top-5 DSO by practice count. Example of the PE-owned dental networks that change ownership records without telling vendors."
+  ZoomInfo: "A B2B contact database sold as the default prospecting data layer for most sales teams. Known to lag on DSO ownership changes."
+  Apollo: "A B2B contact database that competes with ZoomInfo. Has different ownership info, which is why a waterfall reconciliation across both plus state filings can be better than either alone."
+  LinkedIn: "The professional-network graph. Used in the scenario as a third enrichment source for office-manager changes that precede DSO acquisitions."
+  "FL Sunbiz": "Florida Division of Corporations public filings database. Free, structured record of corporate ownership changes and Articles of Merger. The anchor source for reconciling DSO-vs-independent claims."
+  "Articles of Merger": "A corporate filing that records one entity merging into another. Public record in most US states, including Florida's Sunbiz. Shows the exact date of an acquisition."
+  PMS: "Practice Management System. The software a dental office runs at the front desk and back office. Scheduling, charting, billing, insurance. The product a vertical AI vendor has to integrate with."
+  Dentrix: "The market-leading dental PMS, owned by Henry Schein. Installed base of thousands of practices; the integration a vertical AI vendor wants to hit first."
+  Eaglesoft: "Patterson Dental's PMS product. The second-largest dental PMS after Dentrix."
+  "Open Dental": "An open-source-flavored dental PMS, popular with independent practices and smaller DSOs."
+  Curve: "A cloud-native dental PMS competing with Dentrix and Eaglesoft. Modern web interface; growing share among new practices."
+  Denticon: "A Planet DDS dental PMS used by many DSOs for its multi-location capabilities."
+  Carestream: "A dental imaging + PMS vendor whose PMS product runs in a subset of practices."
+  "Henry Schein": "The parent company of Dentrix and a dominant dental supply distributor. The gatekeeper for Dentrix integrations and customer lists."
+  "Practice Management System": "Full form of PMS. The software a dental office runs at the front desk and back office."
+  "system of record": "The one database a team considers authoritative for a given domain. 'The WellSky schedule is the system of record for hours' means any conflict is resolved by trusting WellSky."
+  "enrichment waterfall": "A pattern where each prospect is run through a sequence of data sources (CRM → 3rd-party database → scrape → public filings → LLM synthesis), each one filling in what the previous sources couldn't."
+  DSOs: "Dental Support Organizations. Plural form of DSO."
+  QBR: "Quarterly Business Review. The recurring meeting where a customer and vendor review the quarter's usage, results, and next steps. The main forum for defending a renewal."
+  CSM: "Customer Success Manager. The post-sale role that owns customer retention and usage."
+  "per-location ROI": "For multi-location customers (e.g. DSOs), the financial impact of the vendor's product measured at each individual location rather than rolled up to the group. The unit a CSM needs to win a renewal conversation."
+  "multi-location customer": "A customer that operates multiple distinct locations (e.g. a DSO with 40 practices). Common in dental, veterinary, home services, and franchise verticals."
+  "cold email": "Outbound sales email sent to a prospect who hasn't raised their hand. In a consolidated market, cold email to an acquired practice often gets forwarded to the DSO's procurement."
+  "SMB sale": "A sales cycle to a small or mid-size business customer. Typically shorter, single decision-maker, monthly contract."
+  "enterprise negotiation": "A sales cycle to an enterprise customer. Typically 6+ months, multiple stakeholders, procurement + legal + security review."
+  "case acceptance": "In dental, the percentage of treatment plans that patients agree to proceed with. A KPI many dental AI vendors claim to move, so it's the renewal conversation."
+
+research_sources:
+  - title: "Becker's Dental · 200+ DSO affiliations in 2024"
+    url: "https://www.beckersdental.com/dso-dpms/200-dso-affiliations-in-2024-state-by-state-breakdown/"
+    note: "The trade publication tracking DSO consolidation. Where the 'the parent company changes and your CRM doesn't know' pattern gets reported quarterly. Anchor for the Account Hierarchy scenario."
+  - title: "Florida Division of Corporations · Sunbiz search"
+    url: "https://search.sunbiz.org/Inquiry/CorporationSearch/ByName"
+    note: "The free, public state corporation filings database. The ground truth for DSO ownership changes. Anything filed as Articles of Merger is discoverable here before ZoomInfo or Apollo catch it."
+  - title: "Heartland Dental · practice locator"
+    url: "https://www.heartland.com/"
+    note: "The largest DSO in the US. Used as the concrete example for the Account Hierarchy scenario because acquisitions are publicly disclosed and Sunbiz records are cleanly structured."
+  - title: "Henry Schein One · Dentrix"
+    url: "https://www.henryscheinone.com/products/dentrix/"
+    note: "The market-leading dental PMS. The reason the System-of-Record Detection scenario is a real pain: Henry Schein doesn't publish customer lists, and a vertical AI vendor has to reconstruct PMS coverage from public signals."
+  - title: "Patterson Dental · Eaglesoft"
+    url: "https://www.pattersondental.com/cp/software/dental-practice-management-software/eaglesoft"
+    note: "The second dental PMS, same gatekeeper pattern as Dentrix. Vendors competing with Henry Schein's data moat have to scrape detection, not buy a list."
+  - title: "Practice Analytics · multi-PMS integrations"
+    url: "https://practiceanalytics.com/integrations/"
+    note: "The honest alternative to PMS detection: bigger tools just integrate directly with every PMS instead of trying to detect from outside. Referenced in SOR Detection scenario as the 'existing tools handle this differently' framing."
+
+terminology:
+  entity: Practice
+  entity_plural: Practices
+  pipeline: "Sales Pipeline"
+  agent: Agent
+  scoreable_lead: Prospect
+  scoreable_lead_plural: Prospects
+
+dashboard_cards:
+  - id: account_hierarchy
+    title: Account Hierarchy
+    subtitle: "Prospects reclassified as DSO-owned"
+    metric_field: dso_reclassified_count
+    icon: ph-tree-structure
+    href: /vertical-ai/enrichment
+  - id: sor_detection
+    title: PMS Detection
+    subtitle: "Prospects auto-tagged with their PMS"
+    metric_field: sor_high_confidence_count
+    icon: ph-detective
+    href: /vertical-ai/enrichment/sor-detection
+  - id: customer_roi
+    title: Customer ROI
+    subtitle: "Per-location case acceptance lift"
+    metric_field: roi_top_account_dollars
+    icon: ph-chart-line-up
+    href: /vertical-ai/customers
+  - id: open_drift_events
+    title: Open Drift Events
+    subtitle: "Cross-source disagreements awaiting resolution"
+    metric_field: open_drift_count
+    icon: ph-warning
+    href: /vertical-ai/agents
+
+# Scrollytelling landing page config — consumed by templates/vertical_landing.html
+# Verbatim narrative text from 2026-04-10-opslayer-final-build-plan.md lines 671-828.
+landing:
+  signals: "ZoomInfo · Apollo · LinkedIn · FL Sunbiz"
+
+  hero:
+    eyebrow: "Dental DSO vendor GTM, three operational scenarios"
+    # Umbrella framing for the vertical — the shape of operator pain in
+    # vertical AI GTM that all three scenarios below are specific
+    # variations of. Rewritten 2026-04-11 anti-template pass v3 (previous
+    # H1 was scenario 1's story, not an umbrella).
+    problem: >
+      In vertical AI GTM, the data a sales team actually needs about a
+      prospect or customer (who the parent company is, which software runs
+      the practice, how well the product is working at each of their
+      locations) usually isn't in any standard B2B contact database. It
+      has to be reconstructed from state filings, job postings, and
+      customer telemetry.
+    # Short 1-line version for the root tile.
+    root_tile_title: >
+      The data a vertical AI GTM team actually needs about a prospect or
+      customer usually isn't in any standard B2B contact database.
+    # Rendered on the root launchpad card. Names the three canonical
+    # vertical AI scenarios inline and calls out the artifact specific to
+    # this vertical. Added 2026-04-11 root tile card pass.
+    card_preview: >
+      Three scenarios: Account Hierarchy Resolver, System-of-Record
+      Detection, and Per-Location ROI. Real seeded Postgres, with a
+      30-line Python enrichment-waterfall function rendered inline.
+    # hero.thesis dropped.
+    intro_paragraph: >
+      Account hierarchies where the parent matters more than the contact,
+      practice management systems nobody will tell you about until after
+      the demo, and per-location ROI buried inside customer Dentrix
+      instances. One worked example for each.
+    research_prelude: >
+      Vertical-AI GTM is new enough that most operational reality lives
+      inside sales teams, not in public writing. Dental DSOs are the
+      concrete example below because the public record is unusually
+      accessible: state corporation filings, trade-press acquisition
+      coverage, and active practitioner communities.
+
+  sections:
+    - id: account_hierarchy
+      loader: vertical_ai.hierarchy
+      partial: components/packs/vertical_ai/account_hierarchy.html
+      narrative:
+        eyebrow: "Scenario 1 of 3"
+        title: "The Account Hierarchy Resolver"
+        problem: |
+          A 500-lead tradeshow list. ZoomInfo says one practice is
+          independent, Apollo says it's DSO-owned, LinkedIn says the office
+          manager just changed jobs. Florida Sunbiz says it was acquired
+          four months ago by Heartland Dental. A cold email to that
+          practice gets forwarded to Heartland procurement, turning a
+          30-day SMB sale into a 9-month enterprise negotiation.
+        solution: |
+          What I'd sketch is an enrichment waterfall that runs each prospect
+          through ZoomInfo, Apollo, LinkedIn, and a website scrape. When
+          the sources disagree, an LLM reads them together with Florida
+          Sunbiz corporate filings and produces a confidence-scored verdict
+          on the parent company. Not a decision. A routing recommendation
+          the rep gets before the first email.
+        code_artifact:
+          language: python
+          caption: "The shape of the enrichment waterfall"
+          code: |
+            def resolve_parent(practice: Practice) -> ParentVerdict:
+                """Reconcile ZoomInfo / Apollo / LinkedIn / Sunbiz / web
+                scrape into a confidence-scored DSO-parent verdict.
+
+                Returns None when no source has an opinion, so the caller
+                can decide whether to skip the practice or route it as
+                'independent, low confidence'.
+                """
+                sources: list[SourceSignal] = [
+                    zoominfo.lookup(practice),
+                    apollo.lookup(practice),
+                    linkedin.office_manager_history(practice),
+                    web_scrape(practice.website).detect_dso_footer(),
+                    sunbiz.corporate_filings(practice.legal_name),
+                ]
+
+                # Drop sources that didn't return anything actionable
+                signals = [s for s in sources if s is not None]
+                if not signals:
+                    return ParentVerdict(parent=None, confidence=0.0, signals=[])
+
+                # LLM arbitrates the disagreement, anchored on Sunbiz as
+                # the ground-truth legal filing when present
+                verdict = llm_synthesize(
+                    task="identify_dso_parent",
+                    prospect=practice,
+                    signals=signals,
+                    anchor="sunbiz",
+                )
+
+                return ParentVerdict(
+                    parent=verdict.parent_company,
+                    confidence=verdict.confidence,
+                    signals=signals,
+                    warm_path=hubspot.contacts_at(verdict.parent_company),
+                )
+      cta:
+        label: "Walk through one resolved practice"
+        href: /vertical-ai/enrichment
+
+    - id: sor_detection
+      loader: vertical_ai.sor_detection
+      partial: components/packs/vertical_ai/sor_detection.html
+      narrative:
+        eyebrow: "Scenario 2 of 3"
+        title: "System-of-Record Detection"
+        problem: |
+          A vertical AI vendor integrates with whatever dental PMS the
+          practice runs (Dentrix, Eaglesoft, Open Dental, Curve, Denticon).
+          Each is a different code path, and demoing the wrong one tanks
+          the deal. Reps cold-call to ask, which kills outbound velocity.
+          Apollo and ZoomInfo don't track it.
+        solution: |
+          The honest answer is that bigger tools solve this by integrating
+          directly with every PMS instead of detecting from the outside.
+          My sketch is the detection angle: aggregate Indeed job postings
+          asking for specific PMS experience, vendor case study mentions,
+          and website source code into a confidence score. It's a
+          prototype, not a finished tool. The point is the approach when
+          you can't buy the data cleanly.
+      cta:
+        label: "Walk through one detected PMS"
+        href: /vertical-ai/enrichment/sor-detection
+
+    - id: per_location_roi
+      loader: vertical_ai.per_location_roi
+      partial: components/packs/vertical_ai/per_location_roi.html
+      narrative:
+        eyebrow: "Scenario 3 of 3"
+        title: "Per-Location ROI"
+        problem: |
+          A 12-location dental group on a $180K/year contract. At 6 months,
+          renewal turns on proving case acceptance went up at each location.
+          That data lives in 12 separate Dentrix instances. Today the
+          vendor argues on vibes, the operator counters with a finance
+          director's spreadsheet that says "we don't see the lift," and
+          renewals slip.
+        solution: |
+          The first thing I'd try is a per-location lift calculator: for
+          each location, pull product telemetry and pull case acceptance
+          from that location's Dentrix instance. Calculate the lift against
+          the pre-deployment baseline, flag flat or sync-broken locations,
+          and roll it up to a group-level number a CSM can take into the
+          QBR.
+      cta:
+        label: "See the full Health River profile"
+        href: /vertical-ai/customers

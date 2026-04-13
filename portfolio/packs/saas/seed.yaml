@@ -1,0 +1,236 @@
+account_names:
+  hero:
+    - Meridian Labs
+    - Bridgewater Systems
+    - Northwind Software
+    - Atlas Digital
+    - Cascade Analytics
+    - Pinnacle Group
+    - Lattice Health
+    - Helix Robotics
+  filler:
+    - Aurora Systems
+    - Solstice Networks
+    - Beacon Analytics
+    - Echo Logistics
+
+ae_names:
+  - Sarah Kim
+  - Mike Reyes
+  - Jenna Larsson
+  - Priya Shah
+
+value_generators:
+  mrr_range: [1500, 18000]
+  seat_count_range: [3, 80]
+  drift_dollar_range: [3000, 25000]
+  pql_score_range: [60, 100]
+
+drift_dollar_impacts:
+  hs_meridian_labs__seat_count: 22800
+  hs_bridgewater_systems__seat_count: 11400
+  hs_northwind_software__seat_count: 7200
+
+aggregate_drift_dollars: 84200
+aggregate_drift_account_count: 18
+
+pql:
+  decayed_count: 14
+  conversion_rate_low: 0.32
+  conversion_rate_high: 1.00
+  dollar_at_risk_low: 58000
+  dollar_at_risk_high: 180000
+  decay_threshold_days: 30
+  hero_decayed:
+    - account_name: "Atlas Digital"
+      pql_score: 94
+      decayed_days: 14
+      assigned_ae: "Sarah Kim"
+      ae_activity_count: 0
+    - account_name: "Cascade Analytics"
+      pql_score: 87
+      decayed_days: 18
+      assigned_ae: "Mike Reyes"
+
+forecast:
+  current_quarter_committed: 5400000
+  current_quarter_booked: 1230000
+  current_quarter_coverage_ratio: 2.3
+  coverage_target: 3.0
+  historical_close_rate: 0.66
+  ae_scorecard:
+    - ae_name: "Sarah Kim"
+      coverage_ratio: 3.1
+      stage_skips: 0
+      overdue_in_stage: 1
+      pipeline_dollars: 890000
+    - ae_name: "Mike Reyes"
+      coverage_ratio: 1.8
+      stage_skips: 4
+      overdue_in_stage: 7
+      pipeline_dollars: 620000
+    - ae_name: "Jenna Larsson"
+      coverage_ratio: 2.4
+      stage_skips: 1
+      overdue_in_stage: 3
+      pipeline_dollars: 1100000
+    - ae_name: "Priya Shah"
+      coverage_ratio: 2.7
+      stage_skips: 2
+      overdue_in_stage: 2
+      pipeline_dollars: 740000
+  commission_audit:
+    - deal_name: "Atlas Digital"
+      amount: 28000
+      closed_by: "Mike Reyes"
+      credited_to: "Jenna Larsson"
+    - deal_name: "Cascade Analytics"
+      amount: 19000
+      closed_by: "Priya Shah"
+      credited_to: "Mike Reyes"
+    - deal_name: "Helix Robotics"
+      amount: 42000
+      closed_by: "Mike Reyes"
+      credited_to: "Mike Reyes"
+      flip_count: 2
+    - deal_name: "Lattice Health"
+      amount: 14000
+      closed_by: "Sarah Kim"
+      credited_to: "system"
+
+connector_data:
+  hubspot:
+    - source_external_id: "hs_meridian_labs"
+      natural_key: hs_meridian_labs
+      canonical:
+        canonical_name: "Meridian Labs"
+        name: "Meridian Labs"
+        mrr: 2360
+        seat_count: 8
+        plan_tier: "Growth"
+        hubspot_owner: "Sarah Kim"
+        lifecycle_stage: "customer"
+      raw:
+        id: "hs_meridian_labs"
+        properties:
+          name: "Meridian Labs"
+          mrr: 2360
+          seat_count: 8
+          plan_tier: "Growth"
+          hubspot_owner_id: "sarah_kim_001"
+        archived: false
+
+    - source_external_id: "hs_bridgewater_systems"
+      natural_key: hs_bridgewater_systems
+      canonical:
+        canonical_name: "Bridgewater Systems"
+        name: "Bridgewater Systems"
+        mrr: 1475
+        seat_count: 5
+        plan_tier: "Growth"
+        hubspot_owner: "Mike Reyes"
+      raw:
+        id: "hs_bridgewater_systems"
+        properties:
+          name: "Bridgewater Systems"
+          mrr: 1475
+          seat_count: 5
+        archived: false
+
+    - source_external_id: "hs_northwind_software"
+      natural_key: hs_northwind_software
+      canonical:
+        canonical_name: "Northwind Software"
+        name: "Northwind Software"
+        mrr: 1180
+        seat_count: 4
+        plan_tier: "Growth"
+        hubspot_owner: "Jenna Larsson"
+      raw:
+        id: "hs_northwind_software"
+        properties:
+          name: "Northwind Software"
+          mrr: 1180
+          seat_count: 4
+        archived: false
+
+    - source_external_id: "hs_atlas_digital"
+      natural_key: hs_atlas_digital
+      canonical:
+        canonical_name: "Atlas Digital"
+        name: "Atlas Digital"
+        mrr: 0
+        seat_count: 0
+        plan_tier: "Free"
+        hubspot_owner: "Sarah Kim"
+        lifecycle_stage: "PQL"
+        pql_score: 94
+      raw:
+        id: "hs_atlas_digital"
+        properties:
+          name: "Atlas Digital"
+          pql_score: 94
+
+  bigquery:
+    - source_external_id: "bq_meridian_labs"
+      natural_key: bq_meridian_labs
+      canonical:
+        canonical_name: "Meridian Labs"
+        seat_count: 23
+        last_login: "2026-04-09"
+        account_health: "expanding"
+      raw:
+        monthly_active_users:
+          distinct_user_id_count: 23
+        events:
+          most_recent_login: "2026-04-09"
+
+    - source_external_id: "bq_bridgewater_systems"
+      natural_key: bq_bridgewater_systems
+      canonical:
+        canonical_name: "Bridgewater Systems"
+        seat_count: 14
+        last_login: "2026-04-08"
+      raw:
+        monthly_active_users:
+          distinct_user_id_count: 14
+
+    - source_external_id: "bq_northwind_software"
+      natural_key: bq_northwind_software
+      canonical:
+        canonical_name: "Northwind Software"
+        seat_count: 11
+        last_login: "2026-04-09"
+      raw:
+        monthly_active_users:
+          distinct_user_id_count: 11
+
+  stripe:
+    - source_external_id: "stripe_meridian_labs"
+      natural_key: stripe_meridian_labs
+      canonical:
+        canonical_name: "Meridian Labs"
+        mrr: 2360
+        plan_tier: "Growth"
+        invoice_status: "paid"
+      raw:
+        subscription:
+          id: "sub_meridian"
+          plan:
+            nickname: "Growth"
+        invoice:
+          amount_due: 2360
+
+  hightouch:
+    - source_external_id: "ht_seat_sync"
+      natural_key: ht_seat_sync
+      canonical:
+        sync_name: "HubSpot ↔ BigQuery Seat Sync"
+        last_run: "2026-04-10T01:14:00Z"
+        last_success: "2026-04-10T01:14:00Z"
+        last_failure: "2026-04-08T13:14:00Z"
+        cadence_minutes: 240
+        failure_count_30d: 3
+      raw:
+        model: "hubspot_to_bq_seats"
+        status: "completed"

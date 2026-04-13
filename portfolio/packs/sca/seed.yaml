@@ -1,0 +1,320 @@
+prospect_names:
+  hero:
+    - "Vericode"
+    - "Cloudspan"
+    - "NexGen Payments"
+    - "Meridian Federal Solutions"
+    - "Tessera Health"
+    - "Archway Fintech"
+  filler:
+    - "Stratos Software"
+    - "Beacon Platform"
+    - "Lighthouse AI"
+    - "Ridgeline Systems"
+
+ae_names:
+  - "Jordan Reeves"
+  - "Alyssa Chen"
+  - "Marcus Whitfield"
+
+value_generators:
+  deal_amount_range: [28000, 180000]
+  repo_count_range: [12, 120]
+  per_repo_rate_range: [600, 1200]
+
+# -- Scenario 1: The Multi-Threaded Deal --
+# Thread activity data per deal. Each deal has up to 3 stakeholder
+# threads (engineering, legal, security) with independent activity.
+multi_thread_deals:
+  stalled_deal_count: 3
+  hero_deals:
+    - company: "Vericode"
+      deal_stage: "POC"
+      deal_amount: 142000
+      assigned_ae: "Jordan Reeves"
+      threads:
+        - role: "engineering"
+          contact: "Sam Torres, Staff Engineer"
+          last_touch: "3 days ago"
+          touches_30d: 8
+          last_trial_scan: "2 days ago"
+          status: "active"
+          detail: "Ran CI integration on 4 repos, reviewing false-positive rates"
+        - role: "legal"
+          contact: "Diana Park, Associate GC"
+          last_touch: "19 days ago"
+          touches_30d: 1
+          last_trial_scan: null
+          status: "stalled"
+          detail: "Requested copyleft attribution report, no follow-up since"
+        - role: "security"
+          contact: "Raj Mehta, CISO"
+          last_touch: "24 days ago"
+          touches_30d: 0
+          last_trial_scan: null
+          status: "stalled"
+          detail: "Submitted vendor risk questionnaire, awaiting response"
+      thread_gap_days: 21
+    - company: "Meridian Federal Solutions"
+      deal_stage: "Legal/Procurement"
+      deal_amount: 178000
+      assigned_ae: "Marcus Whitfield"
+      threads:
+        - role: "engineering"
+          contact: "Alex Drummond, DevOps Lead"
+          last_touch: "31 days ago"
+          touches_30d: 0
+          last_trial_scan: "28 days ago"
+          status: "stalled"
+          detail: "POC completed, waiting on legal to clear procurement"
+        - role: "legal"
+          contact: "Karen Liu, Senior Counsel"
+          last_touch: "8 days ago"
+          touches_30d: 3
+          last_trial_scan: null
+          status: "active"
+          detail: "Reviewing SBOM format compliance with federal attestation requirements"
+        - role: "security"
+          contact: "Tom Baskin, ISSO"
+          last_touch: "14 days ago"
+          touches_30d: 2
+          last_trial_scan: null
+          status: "stalled"
+          detail: "Cleared the vendor risk assessment, waiting on legal sign-off"
+      thread_gap_days: 23
+    - company: "Archway Fintech"
+      deal_stage: "POC"
+      deal_amount: 56000
+      assigned_ae: "Alyssa Chen"
+      threads:
+        - role: "engineering"
+          contact: "Wei Zhang, Platform Engineer"
+          last_touch: "2 days ago"
+          touches_30d: 11
+          last_trial_scan: "1 day ago"
+          status: "active"
+          detail: "Actively scanning 6 repos, filed 2 false-positive reports"
+        - role: "legal"
+          contact: "Maria Santos, Compliance Manager"
+          last_touch: "12 days ago"
+          touches_30d: 2
+          last_trial_scan: null
+          status: "stalled"
+          detail: "Requested PCI DSS 4.0 component inventory mapping, no response yet"
+        - role: "security"
+          contact: null
+          last_touch: null
+          touches_30d: 0
+          last_trial_scan: null
+          status: "no_contact"
+          detail: "No security contact identified on this opportunity"
+      thread_gap_days: 10
+    - company: "NexGen Payments"
+      deal_stage: "Security Review"
+      deal_amount: 94000
+      assigned_ae: "Alyssa Chen"
+      threads:
+        - role: "engineering"
+          contact: "Chris Novak, VP Engineering"
+          last_touch: "6 days ago"
+          touches_30d: 4
+          last_trial_scan: "5 days ago"
+          status: "active"
+          detail: "Scanning 2 repos, testing SPDX export for PCI audit"
+        - role: "legal"
+          contact: null
+          last_touch: null
+          touches_30d: 0
+          last_trial_scan: null
+          status: "no_contact"
+          detail: "No legal contact identified on this opportunity"
+        - role: "security"
+          contact: "Priya Sato, Security Lead"
+          last_touch: "4 days ago"
+          touches_30d: 6
+          last_trial_scan: null
+          status: "active"
+          detail: "Reviewing vulnerability database coverage, comparing to Snyk"
+      thread_gap_days: 0
+
+# -- Scenario 2: The Compliance Event Trigger --
+# External events that create time-sensitive buying windows.
+# Each trigger has a type, days_since (for decay calc), and routing.
+compliance_triggers:
+  active_trigger_count: 6
+  hero_triggers:
+    - company: "Tessera Health"
+      event_type: "m_and_a"
+      event_label: "Acquired by Palantir Health Systems"
+      event_detail: "Announced 12 days ago. Acquirer requires SBOM audit of all target company software assets before close."
+      days_since: 12
+      decay_score: 0.87
+      composite_score: 92
+      routing: "named_ae"
+      assigned_ae: "Jordan Reeves"
+    - company: "Cloudspan"
+      event_type: "cra_deadline"
+      event_label: "EU CRA vulnerability reporting deadline"
+      event_detail: "Sells SaaS product to EU customers. September 2026 vulnerability reporting requirement is 5 months out."
+      days_since: 0
+      months_to_deadline: 5
+      decay_score: 0.58
+      composite_score: 88
+      routing: "named_ae"
+      assigned_ae: "Alyssa Chen"
+    - company: "NexGen Payments"
+      event_type: "pci_dss"
+      event_label: "PCI DSS 4.0 audit due"
+      event_detail: "Payment processor. Requirement 6.3.2 component inventory audit scheduled for Q3. Currently no SBOM tooling in place."
+      days_since: 0
+      months_to_deadline: 3
+      decay_score: 0.33
+      composite_score: 85
+      routing: "named_ae"
+      assigned_ae: "Alyssa Chen"
+    - company: "Beacon Platform"
+      event_type: "job_signal"
+      event_label: "Hiring SBOM Program Manager"
+      event_detail: "Posted 8 days ago on LinkedIn. Job description references SPDX, CycloneDX, and federal attestation requirements."
+      days_since: 8
+      decay_score: 0.91
+      composite_score: 74
+      routing: "bdr_queue"
+      assigned_ae: null
+    - company: "Stratos Software"
+      event_type: "m_and_a"
+      event_label: "Series D from Vista Equity"
+      event_detail: "Announced 34 days ago. Vista typically requires open-source license audits within first 90 days of investment."
+      days_since: 34
+      decay_score: 0.62
+      composite_score: 68
+      routing: "bdr_queue"
+      assigned_ae: null
+    - company: "Ridgeline Systems"
+      event_type: "ai_code_adoption"
+      event_label: "Deploying GitHub Copilot at scale"
+      event_detail: "Engineering blog post 22 days ago announced org-wide Copilot rollout. 400+ developers. No mention of license scanning for generated code."
+      days_since: 22
+      decay_score: 0.76
+      composite_score: 62
+      routing: "bdr_queue"
+      assigned_ae: null
+
+# -- Scenario 3: The Repo Coverage Gap --
+# Customer expansion data. Each account shows GitHub org repos
+# vs. product scan connections, with dollar-weighted expansion.
+repo_coverage:
+  underscanned_account_count: 5
+  hero_account:
+    company: "Vericode"
+    contract_arr: 142000
+    per_repo_rate: 950
+    total_repos: 47
+    active_repos: 38
+    scanned_repos: 3
+    coverage_ratio: 0.08
+    expansion_arr: 33250
+    repos:
+      - name: "vericode/api-gateway"
+        language: "Go"
+        last_commit: "1 day ago"
+        scanned: true
+        dependencies: 142
+      - name: "vericode/web-client"
+        language: "TypeScript"
+        last_commit: "2 days ago"
+        scanned: true
+        dependencies: 387
+      - name: "vericode/auth-service"
+        language: "Python"
+        last_commit: "3 days ago"
+        scanned: true
+        dependencies: 98
+      - name: "vericode/billing-engine"
+        language: "Go"
+        last_commit: "1 day ago"
+        scanned: false
+        dependencies: null
+      - name: "vericode/data-pipeline"
+        language: "Python"
+        last_commit: "4 days ago"
+        scanned: false
+        dependencies: null
+      - name: "vericode/ml-models"
+        language: "Python"
+        last_commit: "2 days ago"
+        scanned: false
+        dependencies: null
+      - name: "vericode/mobile-ios"
+        language: "Swift"
+        last_commit: "6 days ago"
+        scanned: false
+        dependencies: null
+      - name: "vericode/mobile-android"
+        language: "Kotlin"
+        last_commit: "5 days ago"
+        scanned: false
+        dependencies: null
+      - name: "vericode/infra-terraform"
+        language: "HCL"
+        last_commit: "3 days ago"
+        scanned: false
+        dependencies: null
+      - name: "vericode/docs"
+        language: "Markdown"
+        last_commit: "12 days ago"
+        scanned: false
+        dependencies: null
+      - name: "vericode/sdk-node"
+        language: "TypeScript"
+        last_commit: "8 days ago"
+        scanned: false
+        dependencies: null
+      - name: "vericode/sdk-python"
+        language: "Python"
+        last_commit: "9 days ago"
+        scanned: false
+        dependencies: null
+      # Remaining repos are generated as unscanned with varying
+      # activity levels. The template renders all 47 tiles using
+      # this list plus filler entries from the context loader.
+  filler_accounts:
+    - company: "Cloudspan"
+      contract_arr: 88000
+      total_repos: 31
+      scanned_repos: 8
+      coverage_ratio: 0.26
+      expansion_arr: 21850
+    - company: "NexGen Payments"
+      contract_arr: 94000
+      total_repos: 22
+      scanned_repos: 5
+      coverage_ratio: 0.23
+      expansion_arr: 16150
+    - company: "Meridian Federal Solutions"
+      contract_arr: 178000
+      total_repos: 64
+      scanned_repos: 12
+      coverage_ratio: 0.19
+      expansion_arr: 49400
+    - company: "Tessera Health"
+      contract_arr: 56000
+      total_repos: 18
+      scanned_repos: 7
+      coverage_ratio: 0.39
+      expansion_arr: 10450
+
+# -- Connector data for DB seeding --
+# Minimal entity records for the entity_detail route.
+connector_data:
+  salesforce:
+    - source_external_id: "sf-vericode"
+      natural_key: "vericode"
+      canonical:
+        canonical_name: "Vericode"
+        deal_stage: "POC"
+        deal_amount: 142000
+      raw:
+        opportunity_id: "006xx000003abc"
+        stage_name: "POC"
+        amount: 142000

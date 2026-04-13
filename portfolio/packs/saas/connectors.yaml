@@ -1,0 +1,46 @@
+- source_key: hubspot
+  mappings:
+    canonical_name: properties.name
+    mrr: properties.mrr
+    seat_count: properties.seat_count
+    plan_tier: properties.plan_tier
+    hubspot_owner: properties.hubspot_owner_id
+    lifecycle_stage: properties.lifecyclestage
+  reconciliation_rules:
+    canonical_name: hubspot
+    plan_tier: hubspot
+    hubspot_owner: hubspot
+    lifecycle_stage: hubspot
+
+- source_key: stripe
+  mappings:
+    mrr: invoice.amount_due
+    plan_tier: subscription.plan.nickname
+  reconciliation_rules:
+    mrr: stripe
+    invoice_status: stripe
+
+- source_key: bigquery
+  mappings:
+    seat_count: monthly_active_users.distinct_user_id_count
+    last_login: events.most_recent_login
+  reconciliation_rules:
+    seat_count: bigquery
+    last_login: bigquery
+    account_health: bigquery
+
+- source_key: hightouch
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: hex
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: clay
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: apollo
+  mappings: {}
+  reconciliation_rules: {}

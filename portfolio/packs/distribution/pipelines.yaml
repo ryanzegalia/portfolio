@@ -1,0 +1,24 @@
+fiscal_year_start: "01-01"
+quarter_anchor: auto
+
+sales_pipeline:
+  entity_type: prospect
+  stages:
+    - name: Discovery
+      sla_days: 14
+      order: 1
+    - name: ERP Qualification
+      sla_days: 7
+      order: 2
+    - name: POV
+      sla_days: 21
+      order: 3
+    - name: Negotiation
+      sla_days: 14
+      order: 4
+    - name: Closed-Won
+      sla_days: null
+      order: 5
+    - name: Closed-Lost
+      sla_days: null
+      order: 6

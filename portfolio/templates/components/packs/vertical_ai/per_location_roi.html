@@ -1,0 +1,98 @@
+{#
+  Demo 3.3 — Per-Location ROI
+  ===========================
+  The vendor sells to a 12-location dental group. Renewal in 47 days. The
+  operator says "our customers love it" on vibes, the finance director says
+  "we don't see the lift" from a spreadsheet. The lift calculator pulls
+  product telemetry per location AND case acceptance per location from 12 separate
+  Dentrix instances, reconciles them, flags any location where the two
+  disagree or the lift is flat, and produces a renewal brief the CSM can
+  take into the QBR.
+
+  Expects (via `ctx`):
+    ctx.customer_roi:
+      .name                             str
+      .location_count                   int
+      .active_locations                 int
+      .arr                              int
+      .renewal_in_days                  int
+      .case_acceptance_baseline_pct     float
+      .case_acceptance_current_pct      float
+      .incremental_dollars              int
+      .roi_multiple                     float
+      .flat_location                    str
+      .per_location_lift                list of {name, baseline_pct, current_pct, lift_pct, sync_status, flat?}
+      .renewal_brief                    str
+    ctx.scenario                        dict
+  Also: pack, compact
+#}
+{% set c = ctx.customer_roi %}
+{% set locations = c.per_location_lift or [] %}
+{% set max_lift = (locations|map(attribute='lift_pct')|list|max) if locations else 20 %}
+
+<div class="demo-module demo-module--per-location-roi">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">{{ c.name }}</p>
+      <p class="metric-headline num">{{ c.roi_multiple }}&times;</p>
+      <p class="caption">
+        ROI &middot; &#36;{{ '{:,}'.format(c.incremental_dollars) }} incremental case acceptance value &middot;
+        renewal in <span class="num">{{ c.renewal_in_days }}</span> days
+      </p>
+    </div>
+    <div class="roi-summary-pills">
+      <span class="pill-status-healthy">
+        <span class="status-dot status-dot--healthy"></span>
+        {{ c.active_locations }}/{{ c.location_count }} lift
+      </span>
+      {% if c.flat_location %}
+      <span class="pill-status-warning">
+        <span class="status-dot status-dot--warning"></span>
+        {{ c.flat_location }} flat
+      </span>
+      {% endif %}
+    </div>
+  </header>
+
+  {# Per-location horizontal bar chart — real data, flat location highlighted red #}
+  {% if locations %}
+  <section class="roi-locations">
+    <p class="data-label">Per-location case acceptance lift</p>
+    <ul class="hbar-list">
+      {% for loc in locations %}
+      {% set is_flat = loc.flat or loc.lift_pct == 0 %}
+      <li class="hbar {% if is_flat %}hbar--flat{% endif %}">
+        <span class="hbar-label">
+          {{ loc.name }}
+          {% if loc.sync_status == 'lag_2d' %}
+            <span class="pill-status-warning">lag</span>
+          {% endif %}
+        </span>
+        <span class="hbar-track">
+          <span class="hbar-fill {% if is_flat %}hbar-fill--drift{% else %}hbar-fill--healthy{% endif %}"
+                style="width: {{ (loc.lift_pct / max_lift * 100)|round(0)|int if loc.lift_pct > 0 else 2 }}%"></span>
+        </span>
+        <span class="hbar-value num">
+          {% if loc.lift_pct > 0 %}+{% endif %}{{ loc.lift_pct }}%
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="roi-aggregate-row">
+      <span class="hbar-label">Group rollup</span>
+      <span class="hbar-value num">
+        {{ c.case_acceptance_baseline_pct }}% &rarr; {{ c.case_acceptance_current_pct }}%
+        <strong>(+{{ (c.case_acceptance_current_pct - c.case_acceptance_baseline_pct)|round(1) }} points)</strong>
+      </span>
+    </div>
+  </section>
+  {% endif %}
+
+  {% if c.renewal_brief %}
+  <blockquote class="agent-verdict">
+    <p class="data-label">Renewal recommendation</p>
+    <p>{{ c.renewal_brief }}</p>
+  </blockquote>
+  {% endif %}
+
+</div>

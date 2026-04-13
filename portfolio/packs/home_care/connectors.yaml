@@ -1,0 +1,62 @@
+- source_key: wellsky_personal_care
+  mappings:
+    canonical_name: client.full_name
+    care_plan_id: client.care_plan_id
+    authorized_hours_per_week: care_plan.authorized_hours
+    scheduled_start: shift.start
+    scheduled_end: shift.end
+    care_needs: care_plan.tasks
+  reconciliation_rules:
+    canonical_name: wellsky_personal_care
+    care_plan_id: wellsky_personal_care
+    authorized_hours_per_week: wellsky_personal_care
+    scheduled_start: wellsky_personal_care
+    scheduled_end: wellsky_personal_care
+
+- source_key: sandata
+  mappings:
+    clocked_in_at: visit.in_time
+    clocked_out_at: visit.out_time
+    task_list: visit.tasks_completed
+  reconciliation_rules:
+    clocked_in_at: sandata
+    clocked_out_at: sandata
+    task_list: sandata
+
+- source_key: john_hancock_ltc
+  mappings:
+    ltc_daily_cap: policy.daily_cap
+    ltc_policy_status: policy.status
+  reconciliation_rules:
+    ltc_daily_cap: john_hancock_ltc
+    ltc_policy_status: john_hancock_ltc
+
+- source_key: viventium
+  mappings:
+    caregiver_payroll_hours: pay_period.hours_paid
+  reconciliation_rules:
+    caregiver_payroll_hours: viventium
+
+- source_key: alayacare
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: aaniie
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: indeed
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: ziprecruiter
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: quickbooks
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: genworth
+  mappings: {}
+  reconciliation_rules: {}

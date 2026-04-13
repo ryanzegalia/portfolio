@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>{% block title %}Ryan Zegalia, operations engineering portfolio{% endblock %}</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{% block og_title %}{% if active_pack %}{{ active_pack.landing.hero.problem if active_pack.landing else active_pack.name }}{% else %}Ryan Zegalia, operations engineering portfolio{% endif %}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Five B2B operator problems, five worked examples against real seeded Postgres. A portfolio project by Ryan Zegalia.{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}/static/img/icon-512.png{% endblock %}">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1" integrity="sha384-cPFV+/abYd3INVFHPmSKpBmcnH+Q+bTZW7dv/EiuShUNPkHyFmRF8PsL7Ibfvunk" crossorigin="anonymous"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/static/css/portfolio.css">
+  <!-- Pygments syntax highlighting for inline code artifacts (Phase 4) -->
+  <link rel="stylesheet" href="/static/css/pygments.css">
+  <!-- Favicon / logo set (see static/img/). SVG for modern browsers with dark-mode
+       adaptation, ICO fallback, apple-touch for iOS home screen. -->
+  <link rel="icon" href="/static/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/static/img/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#384D70">
+
+  <!-- Plausible -->
+  {% if plausible_domain %}
+  <script defer data-domain="{{ plausible_domain }}" src="https://plausible.io/js/script.tagged-events.js"></script>
+  {% endif %}
+
+  {% block head_extra %}{% endblock %}
+</head>
+
+{#
+  `data-pack` on <body> lets CSS scope per-vertical theme tokens (accent
+  colors) per vertical via `body[data-pack="saas"] { --brand-accent: ... }`.
+  The root page and non-pack pages leave it blank and fall back to the
+  default slate brand.
+#}
+<body{% if active_pack %} data-pack="{{ active_pack.id }}"{% endif %}>
+  {% include "partials/topnav.html" %}
+  <main class="site-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block footer %}
+  {% if request.url.path != '/' %}
+  <footer class="site-footer">
+    <div class="footer-links">
+      <span class="footer-name">Ryan Zegalia</span>
+      <a href="https://www.linkedin.com/in/ryan-zegalia-6bbb90217/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+      <a href="mailto:ryanzegalia@gmail.com" aria-label="Email"><i class="ph ph-envelope-simple"></i></a>
+      <a href="https://github.com/ryanzegalia/portfolio" target="_blank" rel="noopener" aria-label="GitHub portfolio"><i class="ph ph-github-logo"></i></a>
+    </div>
+  </footer>
+  {% endif %}
+  {% endblock %}
+
+  <!-- Visited dot indicator (localStorage-driven) -->
+  <script>
+    (function() {
+      var KEY = 'visited:rows';
+      var visited = {};
+      try {
+        visited = JSON.parse(localStorage.getItem(KEY) || '{}');
+      } catch (e) {
+        visited = {};
+      }
+      var path = window.location.pathname;
+      var m = path.match(/\/[^/]+\/(?:accounts|customers|clients|practices)\/([^/?#]+)/);
+      if (m) {
+        visited[m[1]] = Date.now();
+        try {
+          localStorage.setItem(KEY, JSON.stringify(visited));
+        } catch (e) { /* storage full / disabled */ }
+      }
+      var rows = document.querySelectorAll('[data-entity-id]');
+      for (var i = 0; i < rows.length; i++) {
+        var id = rows[i].getAttribute('data-entity-id');
+        if (visited[id]) {
+          rows[i].classList.add('row-visited');
+        }
+      }
+    })();
+  </script>
+
+  <!-- First-paint micro-copy fade on cursor move -->
+  <script>
+    (function() {
+      var microCopy = document.querySelector('.micro-copy');
+      if (!microCopy) return;
+      var fade = function() {
+        microCopy.classList.add('micro-copy-faded');
+        document.removeEventListener('mousemove', fade);
+      };
+      document.addEventListener('mousemove', fade, { once: true });
+    })();
+  </script>
+
+  {#
+    Scroll-driven reveal: elements marked `data-reveal` fade in when they
+    enter the viewport. Layered via a `js-scroll-reveal` class on <html> so
+    the no-JS baseline (and prefers-reduced-motion) shows content
+    immediately. All animation is opacity-only, 420ms ease-out — restrained
+    to match the existing slate/indigo aesthetic.
+  #}
+  <script>
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+
+      // Signal to CSS that scroll reveal is active so initial state hides elements.
+      document.documentElement.classList.add('js-scroll-reveal');
+
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in-view');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+      document.querySelectorAll('[data-reveal]').forEach(function(el) {
+        io.observe(el);
+      });
+    })();
+  </script>
+
+  {% block scripts_extra %}{% endblock %}
+</body>
+</html>

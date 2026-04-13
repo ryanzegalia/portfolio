@@ -1,0 +1,52 @@
+- entity_type: client
+  fields:
+    - canonical_name
+    - care_plan_id
+    - acuity_level
+    - authorized_hours_per_week
+    - ltc_carrier
+    - ltc_daily_cap
+    - ltc_policy_status
+    - billing_method
+    - dollar_impact_per_field
+
+- entity_type: caregiver
+  fields:
+    - canonical_name
+    - certifications
+    - max_distance_mi
+    - hire_date
+    - termination_date
+    - prior_shift_count_by_client
+
+- entity_type: shift
+  fields:
+    - client_id
+    - caregiver_id
+    - scheduled_start
+    - scheduled_end
+    - clocked_in_at
+    - clocked_out_at
+    - status
+    - care_needs
+    - sla_minutes_until_start
+
+- entity_type: care_plan
+  fields:
+    - client_id
+    - last_updated
+    - acuity_level
+    - tasks
+    - reauth_due_at
+
+- entity_type: visit
+  fields:
+    - client_id
+    - caregiver_id
+    - scheduled_start
+    - scheduled_end
+    - clocked_in_at
+    - clocked_out_at
+    - task_list
+    - evv_record_id
+    - mismatch_flags

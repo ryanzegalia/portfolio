@@ -1,0 +1,152 @@
+{#
+  Demo 2.2 — EVV Triple Mismatch  (THE HERO MOMENT)
+  =================================================
+  The original plan called the three-system side-by-side reconciliation the
+  "feature a hiring manager remembers a week later" — the thing no iPaaS tool
+  shows you. Three sources (Sandata EVV clock, WellSky schedule, WellSky care
+  plan) disagree about what happened on a single visit. Side-by-side columns
+  highlight the drifting fields in red. A Reconciler Agent reads the repeat
+  pattern over prior visits and drafts an LTC carrier reauth request.
+
+  Expects (via `ctx`):
+    ctx.evv:
+      .monthly_visit_count       int
+      .monthly_mismatch_count    int
+      .monthly_mismatch_dollars  int
+      .hero_visit:
+        .client
+        .caregiver
+        .visit_date
+        .sandata_clock_in
+        .sandata_clock_out
+        .sandata_hours
+        .schedule_start
+        .schedule_end
+        .schedule_hours
+        .overage_hours
+        .ltc_carrier
+        .ltc_daily_cap_dollars
+        .overage_unbillable_dollars
+        .laundry_unauthorized      bool
+      .mismatch_breakdown        list of {bucket, visits, dollars}
+    ctx.scenario                 dict
+  Also: pack, compact
+#}
+{% set evv = ctx.evv %}
+{% set hv = evv.hero_visit or {} %}
+
+<div class="demo-module demo-module--evv">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">EVV reconciliation &middot; last 30 days</p>
+      <p class="metric-headline num">&minus;&#36;{{ '{:,}'.format(evv.monthly_mismatch_dollars) }}</p>
+      <p class="caption">
+        {{ evv.monthly_mismatch_count }} mismatches across {{ evv.monthly_visit_count }} visits &middot;
+        Sandata EVV &times; WellSky schedule &times; WellSky care plan
+      </p>
+    </div>
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      {{ evv.monthly_mismatch_count }} drift events
+    </span>
+  </header>
+
+  {% if evv.mismatch_breakdown and not compact %}
+  <section class="evv-mismatch-breakdown">
+    <p class="data-label">Mismatch breakdown</p>
+    <ul class="evv-mismatch-list">
+      {% for bucket in evv.mismatch_breakdown %}
+      <li>
+        <span class="num">{{ bucket.visits }}</span> visits: {{ bucket.bucket }}
+        <span class="evv-mismatch-dollars num">&minus;&#36;{{ '{:,}'.format(bucket.dollars|abs) }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if hv %}
+  <section class="evv-hero-visit">
+    <header class="evv-hero-header">
+      <h3 class="card-title">{{ hv.client }}</h3>
+      <p class="caption">
+        Visit {{ hv.visit_date }} &middot; caregiver {{ hv.caregiver }}
+      </p>
+    </header>
+
+    {# Compute disagreement flags for cell-level highlighting #}
+    {% set start_disagrees = hv.sandata_clock_in != hv.schedule_start %}
+    {% set end_disagrees = hv.sandata_clock_out != hv.schedule_end %}
+    {% set hours_disagree = hv.sandata_hours != hv.schedule_hours %}
+
+    <div class="evv-three-col">
+      <table class="evv-three-col-table mobile-stackable-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>
+              <span class="evv-source-label">Sandata EVV</span>
+              <span class="caption">GPS clock-in</span>
+            </th>
+            <th>
+              <span class="evv-source-label">WellSky Schedule</span>
+              <span class="caption">what was planned</span>
+            </th>
+            <th>
+              <span class="evv-source-label">WellSky Care Plan</span>
+              <span class="caption">what was authorized</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="evv-row-label">Start</th>
+            <td data-col="Sandata EVV" class="{% if start_disagrees %}evv-cell-drift{% endif %}">{{ hv.sandata_clock_in }}</td>
+            <td data-col="WellSky Schedule" class="{% if start_disagrees %}evv-cell-drift{% endif %}">{{ hv.schedule_start }}</td>
+            <td data-col="WellSky Care Plan">{{ hv.schedule_start }}</td>
+          </tr>
+          <tr>
+            <th class="evv-row-label">End</th>
+            <td data-col="Sandata EVV" class="{% if end_disagrees %}evv-cell-drift{% endif %}">{{ hv.sandata_clock_out }}</td>
+            <td data-col="WellSky Schedule" class="{% if end_disagrees %}evv-cell-drift{% endif %}">{{ hv.schedule_end }}</td>
+            <td data-col="WellSky Care Plan" class="caption">-</td>
+          </tr>
+          <tr>
+            <th class="evv-row-label">Hours</th>
+            <td data-col="Sandata EVV" class="num {% if hours_disagree %}evv-cell-drift{% endif %}">{{ hv.sandata_hours }}</td>
+            <td data-col="WellSky Schedule" class="num {% if hours_disagree %}evv-cell-drift{% endif %}">{{ hv.schedule_hours }}</td>
+            <td data-col="WellSky Care Plan" class="num">{{ hv.schedule_hours }} max</td>
+          </tr>
+          <tr>
+            <th class="evv-row-label">Tasks</th>
+            <td data-col="Sandata EVV" class="{% if hv.laundry_unauthorized %}evv-cell-drift{% endif %}">
+              bath, meal{% if hv.laundry_unauthorized %}, <strong>+ laundry</strong>{% endif %}
+            </td>
+            <td data-col="WellSky Schedule">bath, meal</td>
+            <td data-col="WellSky Care Plan">bath, meal</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="evv-impact">
+      <p>
+        <strong>Drift:</strong> {{ ((hv.sandata_hours - hv.schedule_hours) * 60)|int }} minutes
+        over authorization{% if hv.laundry_unauthorized %} + unauthorized task{% endif %}
+      </p>
+      <p>
+        <strong>Impact:</strong> {{ hv.overage_hours }} hrs over the daily cap
+        &rarr; blocks <span class="num">&#36;{{ '%.2f' % hv.overage_unbillable_dollars }}</span> of
+        the per-diem reimbursement
+      </p>
+      {% if not compact %}
+      <p class="caption">
+        Calculated against this client's {{ hv.ltc_carrier }} policy daily cap of
+        &#36;{{ hv.ltc_daily_cap_dollars }}/day. Per-diem caps apply, not hourly rates.
+      </p>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+</div>

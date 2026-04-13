@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Account Hierarchy Resolver | {{ pack.name }}{% endblock %}
+
+{#
+  Standalone full-page view of the Account Hierarchy Resolver demo. Wrapper
+  around components/packs/vertical_ai/account_hierarchy.html. The same
+  partial renders in the vertical-ai scrollytelling landing section with
+  compact=True.
+#}
+{% block content %}
+<div class="container">
+  <div class="page-back">
+    <a href="/{{ pack.id }}" class="back-link">&larr; {{ pack.name }}</a>
+  </div>
+
+  <section class="rollup">
+    <p class="rollup-narrative">{{ rollup_markdown }}</p>
+  </section>
+
+  {% include "components/packs/vertical_ai/account_hierarchy.html" %}
+</div>
+{% endblock %}

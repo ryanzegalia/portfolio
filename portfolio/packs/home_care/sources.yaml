@@ -1,0 +1,39 @@
+- source_key: wellsky_personal_care
+  display_name: "WellSky Personal Care (formerly ClearCare)"
+  source_type: agency_management
+
+- source_key: alayacare
+  display_name: AlayaCare
+  source_type: agency_management
+
+- source_key: aaniie
+  display_name: "Aaniie (formerly Smartcare)"
+  source_type: agency_management
+
+- source_key: sandata
+  display_name: Sandata
+  source_type: evv
+
+- source_key: indeed
+  display_name: Indeed
+  source_type: caregiver_pipeline
+
+- source_key: ziprecruiter
+  display_name: ZipRecruiter
+  source_type: caregiver_pipeline
+
+- source_key: quickbooks
+  display_name: QuickBooks
+  source_type: family_billing
+
+- source_key: viventium
+  display_name: Viventium
+  source_type: payroll
+
+- source_key: john_hancock_ltc
+  display_name: "John Hancock LTC"
+  source_type: ltc_carrier
+
+- source_key: genworth
+  display_name: Genworth
+  source_type: ltc_carrier

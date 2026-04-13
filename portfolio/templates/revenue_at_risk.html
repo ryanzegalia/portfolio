@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Revenue at Risk | {{ pack.name }}{% endblock %}
+
+{#
+  Standalone full-page view of the Phantom Seats demo.
+  Thin wrapper that provides the page chrome and delegates the entire demo
+  body to the shared partial. The same partial is embedded on the SaaS
+  scrollytelling landing page with `compact=True`; here we render the full
+  list of drift accounts.
+#}
+{% block content %}
+<div class="container">
+  <div class="page-back">
+    <a href="/{{ pack.id }}" class="back-link">&larr; {{ pack.name }}</a>
+  </div>
+
+  <section class="rollup">
+    <p class="rollup-narrative">{{ rollup_markdown }}</p>
+  </section>
+
+  {% include "components/packs/saas/phantom_seats.html" %}
+</div>
+{% endblock %}

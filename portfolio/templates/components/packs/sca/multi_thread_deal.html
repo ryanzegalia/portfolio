@@ -1,0 +1,74 @@
+{#
+  Demo 4.1 — The Multi-Threaded Deal
+  ===================================
+  SCA deals have 3 stakeholder threads (engineering, legal, security)
+  evaluating on different criteria. This widget shows thread-gap health
+  per deal: which threads are active, stalled, or missing.
+
+  Expects (all via `ctx`):
+    ctx.deals               list   — hero deals with thread data
+    ctx.stalled_deal_count  int    — total deals with stalled threads
+    ctx.scenario            dict   — scenarios.yaml entry
+
+  Also expects top-level:
+    pack     Pack — active pack
+    compact  bool — when true, show top 3 deals
+#}
+<div class="demo-module demo-module--thread-deal">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">Deals with stalled threads</p>
+      <p class="metric-headline num">{{ ctx.stalled_deal_count }}</p>
+      <p class="caption">
+        Engineering, legal, or security evaluation gone quiet
+      </p>
+    </div>
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      thread gaps detected
+    </span>
+  </header>
+
+  {% set display_deals = ctx.deals[:2] if compact else ctx.deals %}
+  {% for deal in display_deals %}
+  <div class="thread-deal-card">
+    <div class="thread-deal-header">
+      <span class="thread-deal-company">{{ deal.company }}</span>
+      <span class="thread-deal-meta">
+        <span class="pill-stage">{{ deal.deal_stage }}</span>
+        <span class="thread-deal-amount">${{ '{:,}'.format(deal.deal_amount) }}</span>
+      </span>
+    </div>
+    <div class="thread-deal-ae">{{ deal.assigned_ae }}</div>
+
+    <div class="thread-bars">
+      {% for thread in deal.threads %}
+      <div class="thread-bar thread-bar--{{ thread.status }}">
+        <span class="thread-bar-role">{{ thread.role | capitalize }}</span>
+        <div class="thread-bar-body">
+          <span class="thread-bar-contact">
+            {% if thread.contact %}{{ thread.contact }}{% else %}No contact identified{% endif %}
+          </span>
+          <span class="thread-bar-detail">{{ thread.detail }}</span>
+        </div>
+        <div class="thread-bar-meta">
+          {% if thread.last_touch %}
+          <span class="thread-bar-recency">{{ thread.last_touch }}</span>
+          {% endif %}
+          <span class="pill-thread-status pill-thread-status--{{ thread.status }}">
+            {% if thread.status == "active" %}Active{% elif thread.status == "stalled" %}Stalled{% else %}No contact{% endif %}
+          </span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if deal.thread_gap_days > 0 %}
+    <div class="thread-deal-gap">
+      <span class="thread-gap-label">Thread gap (most active to most stale)</span>
+      <span class="thread-gap-value">{{ deal.thread_gap_days }} days</span>
+    </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>

@@ -1,0 +1,81 @@
+{#
+  Demo 4.3 — The Repo Coverage Gap
+  =================================
+  Customer scanning 3 of 47 repos. Grid of repo tiles (lit = scanned,
+  dim = unscanned), with coverage ratio and dollar-weighted expansion.
+
+  Expects (all via `ctx`):
+    ctx.hero_account               dict   — account with repo list
+    ctx.filler_accounts            list   — summary rows for other accounts
+    ctx.underscanned_account_count int    — total underscanned accounts
+    ctx.scenario                   dict   — scenarios.yaml entry
+
+  Also expects top-level:
+    pack     Pack — active pack
+    compact  bool — when true, show hero account only
+#}
+{% set acct = ctx.hero_account %}
+<div class="demo-module demo-module--repo-coverage">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">{{ acct.company }}</p>
+      <p class="metric-headline num">{{ (acct.coverage_ratio * 100)|int }}%</p>
+      <p class="caption">
+        {{ acct.scanned_repos }} of {{ acct.active_repos }} active repos scanned
+        ({{ acct.total_repos }} total)
+        &middot; ${{ '{:,}'.format(acct.contract_arr) }} ARR
+      </p>
+    </div>
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      {{ acct.active_repos - acct.scanned_repos }} repos unscanned
+    </span>
+  </header>
+
+  <div class="repo-grid">
+    {% for repo in acct.repos %}
+    <div class="repo-tile {% if repo.scanned %}repo-tile--scanned{% elif repo.last_commit %}repo-tile--active{% else %}repo-tile--inactive{% endif %}"
+         title="{{ repo.name }}{% if repo.language %} ({{ repo.language }}){% endif %}{% if repo.scanned %} — scanned, {{ repo.dependencies }} deps{% elif repo.last_commit %} — active, not scanned{% else %} — inactive{% endif %}">
+      {% if repo.scanned %}
+      <span class="repo-tile-name">{{ repo.name.split('/')[-1] }}</span>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="repo-coverage-footer">
+    <div class="repo-coverage-expansion">
+      <span class="data-label">Expansion opportunity</span>
+      <span class="repo-expansion-value">${{ '{:,}'.format(acct.expansion_arr) }} ARR</span>
+      <span class="caption">
+        {{ acct.active_repos - acct.scanned_repos }} active repos
+        &times; ${{ '{:,}'.format(acct.per_repo_rate) }}/repo
+      </span>
+    </div>
+  </div>
+
+  {% if not compact and ctx.filler_accounts %}
+  <table class="data-table demo-module-table mobile-stackable-table repo-coverage-table">
+    <thead>
+      <tr>
+        <th>Account</th>
+        <th class="num">Repos</th>
+        <th class="num">Scanned</th>
+        <th class="num">Coverage</th>
+        <th class="num">Expansion ARR</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in ctx.filler_accounts %}
+      <tr>
+        <td data-col="Account">{{ row.company }}</td>
+        <td data-col="Repos" class="num">{{ row.total_repos }}</td>
+        <td data-col="Scanned" class="num">{{ row.scanned_repos }}</td>
+        <td data-col="Coverage" class="num">{{ (row.coverage_ratio * 100)|int }}%</td>
+        <td data-col="Expansion ARR" class="num">${{ '{:,}'.format(row.expansion_arr) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+</div>

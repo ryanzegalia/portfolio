@@ -1,0 +1,1 @@
+The PQL scoring rules in `packs/saas/scenarios.yaml` flagged sixty-eight accounts in the last thirty days. Twenty-two were routed to an AE in HubSpot. Seven converted. Fourteen decayed past threshold without any AE activity at all. Those are the queue below. The dollar-at-risk range is conservative-to-optimistic so you can decide which lens you want.

@@ -1,0 +1,78 @@
+{#
+  Demo 5.2 — The Proof-of-Value Pipeline
+  =======================================
+  Active POV trials with real-time metrics (accuracy, orders/day,
+  FTE savings, error rate) and threshold status.
+
+  Expects (all via `ctx`):
+    ctx.trials          list   — active trial data with metrics
+    ctx.active_pov_count int   — total active POVs
+    ctx.scenario        dict   — scenarios.yaml entry
+
+  Also expects top-level:
+    pack     Pack — active pack
+    compact  bool — when true, show hero trial only
+#}
+<div class="demo-module demo-module--pov-pipeline">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">Active proof-of-value trials</p>
+      <p class="metric-headline num">{{ ctx.active_pov_count }}</p>
+      <p class="caption">
+        Live trial metrics synced from product telemetry
+      </p>
+    </div>
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      trials in progress
+    </span>
+  </header>
+
+  {% set display_trials = ctx.trials[:2] if compact else ctx.trials %}
+  {% for trial in display_trials %}
+  <div class="pov-card">
+    <div class="pov-card-header">
+      <div>
+        <span class="pov-company">{{ trial.company }}</span>
+        <span class="pov-meta">
+          {{ trial.assigned_ae }}
+          &middot; ${{ '{:,}'.format(trial.deal_amount) }}
+          {% if trial.trial_days_remaining > 0 %}
+          &middot; {{ trial.trial_days_remaining }}d remaining
+          {% else %}
+          &middot; Trial complete
+          {% endif %}
+        </span>
+      </div>
+      <span class="pill-pov-status pill-pov-status--{{ trial.status }}">
+        {% if trial.status == "above_threshold" %}Above Threshold{% elif trial.status == "below_threshold" %}Below Threshold{% else %}Mixed{% endif %}
+      </span>
+    </div>
+
+    <div class="pov-metrics">
+      <div class="pov-metric {% if trial.metrics.accuracy >= trial.thresholds.accuracy %}pov-metric--pass{% else %}pov-metric--fail{% endif %}">
+        <span class="pov-metric-value">{{ (trial.metrics.accuracy * 100)|round(1) }}%</span>
+        <span class="pov-metric-label">Accuracy</span>
+        <span class="pov-metric-threshold">target {{ (trial.thresholds.accuracy * 100)|int }}%</span>
+      </div>
+      <div class="pov-metric {% if trial.metrics.orders_per_day >= trial.thresholds.orders_per_day %}pov-metric--pass{% else %}pov-metric--fail{% endif %}">
+        <span class="pov-metric-value">{{ trial.metrics.orders_per_day }}</span>
+        <span class="pov-metric-label">Orders / day</span>
+        <span class="pov-metric-threshold">target {{ trial.thresholds.orders_per_day }}</span>
+      </div>
+      <div class="pov-metric {% if trial.metrics.fte_savings >= trial.thresholds.fte_savings %}pov-metric--pass{% else %}pov-metric--fail{% endif %}">
+        <span class="pov-metric-value">{{ trial.metrics.fte_savings }}</span>
+        <span class="pov-metric-label">FTE savings</span>
+        <span class="pov-metric-threshold">target {{ trial.thresholds.fte_savings }}</span>
+      </div>
+      <div class="pov-metric {% if trial.metrics.error_rate <= trial.thresholds.error_rate %}pov-metric--pass{% else %}pov-metric--fail{% endif %}">
+        <span class="pov-metric-value">{{ (trial.metrics.error_rate * 100)|round(1) }}%</span>
+        <span class="pov-metric-label">Error rate</span>
+        <span class="pov-metric-threshold">baseline {{ (trial.metrics.error_rate_baseline * 100)|round(1) }}%</span>
+      </div>
+    </div>
+
+    <p class="pov-verdict">{{ trial.verdict }}</p>
+  </div>
+  {% endfor %}
+</div>

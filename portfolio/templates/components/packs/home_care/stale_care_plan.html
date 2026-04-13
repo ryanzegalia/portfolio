@@ -1,0 +1,96 @@
+{#
+  Demo 2.3 — The Stale Care Plan
+  ==============================
+  Once a day, a scheduled job reads the most recent shift notes per client and
+  looks for language patterns suggesting the client's care needs have changed
+  since the care plan was last updated. When the pattern is consistent, the
+  system drafts an LTC carrier reauthorization request pulling the supporting
+  quotes inline, so the agency can act on it the same day instead of losing
+  two weeks of margin waiting for someone to notice.
+
+  The visual story: four shift note quotes over nine days, each progressively
+  more concerning, followed by an LLM-generated drift verdict and a recommended
+  action.
+
+  Expects (via `ctx`):
+    ctx.care_plan_drift:
+      .drift_client_count              int
+      .clinical_review_count           int
+      .estimated_lost_margin_per_month int
+      .hero_client:
+        .name
+        .care_plan_age_days
+        .ltc_carrier
+        .drift_type
+        .shift_notes                   list of {date, quote}
+        .current_plan
+        .inferred_actual
+        .agent_recommendation
+    ctx.scenario                       dict
+  Also: pack, compact
+#}
+{% set cpd = ctx.care_plan_drift %}
+{% set hc = cpd.hero_client or {} %}
+
+<div class="demo-module demo-module--care-plan">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">Clients with acuity drift</p>
+      <p class="metric-headline num">{{ cpd.drift_client_count }}</p>
+      <p class="caption">
+        &#36;{{ '{:,}'.format(cpd.estimated_lost_margin_per_month) }}/mo estimated margin leak &middot;
+        {{ cpd.clinical_review_count }} flagged for clinical review
+      </p>
+    </div>
+    <span class="pill-status-warning">
+      <span class="status-dot status-dot--warning"></span>
+      Inferred from shift notes
+    </span>
+  </header>
+
+  {% if hc %}
+  <article class="care-plan-card">
+    <header class="care-plan-header">
+      <h3 class="card-title">{{ hc.name }}</h3>
+      <p class="caption">
+        Care plan last updated {{ hc.care_plan_age_days }} days ago
+        {% if hc.ltc_carrier %}&middot; {{ hc.ltc_carrier }}{% endif %}
+      </p>
+    </header>
+
+    {% if hc.shift_notes %}
+    <section class="care-plan-notes">
+      <p class="data-label">Shift-note signals (last 9 days)</p>
+      <ol class="care-plan-note-list">
+        {% for note in hc.shift_notes %}
+        <li class="care-plan-note">
+          <time class="care-plan-note-date num">{{ note.date }}</time>
+          <blockquote class="care-plan-note-quote">&ldquo;{{ note.quote }}&rdquo;</blockquote>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+    {% endif %}
+
+    <section class="care-plan-verdict">
+      <div class="care-plan-verdict-col care-plan-verdict-col--current">
+        <p class="data-label">Current care plan</p>
+        <p class="care-plan-verdict-text">{{ hc.current_plan }}</p>
+      </div>
+      <div class="care-plan-verdict-arrow" aria-hidden="true">&rarr;</div>
+      <div class="care-plan-verdict-col care-plan-verdict-col--inferred">
+        <p class="data-label">Inferred actual</p>
+        <p class="care-plan-verdict-text">{{ hc.inferred_actual }}</p>
+      </div>
+    </section>
+
+    {% if hc.agent_recommendation %}
+    <blockquote class="agent-verdict">
+      <p class="data-label">Reassessment recommendation</p>
+      <p>{{ hc.agent_recommendation }}</p>
+    </blockquote>
+    {% endif %}
+  </article>
+  {% endif %}
+
+</div>

@@ -1,0 +1,19 @@
+- source_key: hubspot
+  display_name: HubSpot
+  source_type: crm
+
+- source_key: erp_telemetry
+  display_name: ERP Telemetry
+  source_type: product
+
+- source_key: crunchbase
+  display_name: Crunchbase
+  source_type: enrichment
+
+- source_key: job_postings
+  display_name: Job Postings
+  source_type: enrichment
+
+- source_key: vendor_directories
+  display_name: Vendor Directories
+  source_type: enrichment

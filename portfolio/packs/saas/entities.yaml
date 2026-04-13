@@ -1,0 +1,38 @@
+- entity_type: account
+  fields:
+    - canonical_name
+    - mrr
+    - seat_count
+    - actual_seats
+    - plan_tier
+    - hubspot_owner
+    - lifecycle_stage
+    - account_health
+    - last_login
+    - pipeline_stage
+    - stage_entered_at
+    - dollar_impact_per_field
+
+- entity_type: contact
+  fields:
+    - first_name
+    - last_name
+    - email
+    - title
+    - account_id
+    - pql_score
+
+- entity_type: deal
+  fields:
+    - amount
+    - stage
+    - close_date
+    - owner_ae
+    - stage_entered_at
+    - account_id
+
+- entity_type: product_event
+  fields:
+    - event_type
+    - properties
+    - occurred_at

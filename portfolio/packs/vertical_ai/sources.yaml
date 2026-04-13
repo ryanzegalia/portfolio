@@ -1,0 +1,63 @@
+- source_key: hubspot
+  display_name: HubSpot
+  source_type: crm
+
+- source_key: apollo
+  display_name: Apollo
+  source_type: enrichment
+
+- source_key: zoominfo
+  display_name: ZoomInfo
+  source_type: enrichment
+
+- source_key: linkedin
+  display_name: LinkedIn
+  source_type: signal
+
+- source_key: dentrix
+  display_name: "Dentrix (PMS, ~40% market share)"
+  source_type: pms
+
+- source_key: eaglesoft
+  display_name: "Eaglesoft (PMS, Patterson Dental)"
+  source_type: pms
+
+- source_key: open_dental
+  display_name: Open Dental
+  source_type: pms
+
+- source_key: curve_dental
+  display_name: Curve Dental
+  source_type: pms
+
+- source_key: denticon
+  display_name: Denticon
+  source_type: pms
+
+- source_key: carestream
+  display_name: Carestream
+  source_type: pms
+
+- source_key: sirona
+  display_name: Sirona
+  source_type: pms
+
+- source_key: fl_sunbiz
+  display_name: "FL Sunbiz (Florida Division of Corporations)"
+  source_type: state_filing
+
+- source_key: heartland_dental
+  display_name: Heartland Dental
+  source_type: dso_directory
+
+- source_key: aspen_dental
+  display_name: Aspen Dental
+  source_type: dso_directory
+
+- source_key: pacific_dental
+  display_name: Pacific Dental Services
+  source_type: dso_directory
+
+- source_key: mb2_dental
+  display_name: MB2 Dental
+  source_type: dso_directory

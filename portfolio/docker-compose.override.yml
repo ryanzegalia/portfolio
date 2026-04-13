@@ -1,0 +1,9 @@
+# Dev overrides — automatically merged by `docker compose up`.
+# Volume mount needs root to write; --reload picks up Python changes.
+# Production builds use the Dockerfile's USER app directive instead.
+services:
+  portfolio-web:
+    user: root
+    volumes:
+      - .:/app
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload

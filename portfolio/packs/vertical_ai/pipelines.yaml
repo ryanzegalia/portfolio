@@ -1,0 +1,37 @@
+fiscal_year_start: "01-01"
+quarter_anchor: auto
+
+sales_pipeline:
+  entity_type: practice
+  stages:
+    - name: New
+      sla_days: 7
+      order: 1
+    - name: Qualified
+      sla_days: 14
+      order: 2
+    - name: Demo
+      sla_days: 14
+      order: 3
+    - name: Negotiation
+      sla_days: 14
+      order: 4
+    - name: Won
+      sla_days: null
+      order: 5
+
+enrichment_pipeline:
+  entity_type: enrichment_run
+  stages:
+    - name: Pending
+      sla_days: null
+      order: 1
+    - name: Running
+      sla_days: null
+      order: 2
+    - name: Complete
+      sla_days: null
+      order: 3
+    - name: Manual-Review
+      sla_days: 3
+      order: 4

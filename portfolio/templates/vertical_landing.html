@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}{{ pack.name }}{% endblock %}
+
+{#
+  Scrollytelling landing page for one vertical pack.
+
+  The handler (`pack_operations` in routes/pack_demo.py) iterates the pack's
+  `landing.sections` config, runs each section's loader from
+  SECTION_CONTEXT_LOADERS, and passes the results as `sections` — each item
+  is a dict with:
+
+    {
+      "id":        str,
+      "partial":   str   — Jinja template path (components/packs/{pack}/{demo}.html)
+      "narrative": {eyebrow, title, problem, solution}
+      "cta":       {label, href}
+      "ctx":       dict  — whatever the loader returned (passed to the partial as `ctx`)
+    }
+
+  The layout is two-column on desktop: narrative on the left, demo component
+  (position: sticky) on the right. Each section is its own grid row; sticky
+  naturally constrains to the section's containing block so the demo unsticks
+  at the section boundary and the next section's demo takes over.
+
+  On mobile the grid collapses to a single column, no sticky — media query
+  in portfolio.css handles it.
+
+  Per-vertical isolation: this template has NO cross-vertical links. The
+  footer contact panel lives in base.html and is conditionally rendered per
+  pack. The nav stays pack-scoped.
+#}
+
+{% block content %}
+<section class="vl-hero" data-reveal>
+  <div class="container">
+    {% if hero.eyebrow %}
+    <p class="vl-eyebrow">{{ hero.eyebrow }}</p>
+    {% endif %}
+    <h1 class="vl-problem">{{ hero.problem }}</h1>
+  </div>
+</section>
+
+<div class="vl-sections container">
+  {% for section in sections %}
+  <section class="vl-section" id="demo-{{ section.id }}">
+    <div class="vl-narrative-col">
+      <div class="vl-narrative" data-reveal>
+        {% if section.narrative.eyebrow %}
+        <p class="vl-section-eyebrow">{{ section.narrative.eyebrow }}</p>
+        {% endif %}
+        <h2 class="vl-section-title">{{ section.narrative.title }}</h2>
+        <div class="vl-problem-text">
+          {% for para in section.narrative.problem.split('\n\n') %}
+          <p>{{ para.strip() | markup_terms(pack.glossary) }}</p>
+          {% endfor %}
+        </div>
+        <div class="vl-solution-text">
+          {% for para in section.narrative.solution.split('\n\n') %}
+          <p>{{ para.strip() | markup_terms(pack.glossary) }}</p>
+          {% endfor %}
+        </div>
+        {% if section.narrative.production_example %}
+        <p class="vl-production-link">
+          A production implementation of this pattern:
+          <a href="{{ section.narrative.production_example.url }}" target="_blank" rel="noopener">{{ section.narrative.production_example.label }}</a>
+        </p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="vl-demo-col">
+      <div class="vl-demo-sticky">
+        {% with ctx = section.ctx, compact = true %}
+          {% include section.partial %}
+        {% endwith %}
+      </div>
+    </div>
+
+    {% if section.narrative.code_artifact %}
+    <details class="vl-code-artifact-details">
+      <summary>
+        <span class="vl-code-artifact-summary">
+          {{ section.narrative.code_artifact.caption or 'Code artifact' }}
+          <span class="vl-code-artifact-meta">
+            ({{ (section.narrative.code_artifact.language or 'code') | upper }},
+             {{ section.narrative.code_artifact.code.strip().count('\n') + 1 }} lines)
+          </span>
+        </span>
+      </summary>
+      <figure class="vl-code-artifact">
+        {% if section.narrative.code_artifact.caption %}
+        <figcaption class="vl-code-caption">{{ section.narrative.code_artifact.caption }}</figcaption>
+        {% endif %}
+        {{ section.narrative.code_artifact.code | highlight_code(section.narrative.code_artifact.language or 'text') }}
+      </figure>
+    </details>
+    {% endif %}
+  </section>
+  {% endfor %}
+</div>
+
+{# Phase 3 (2026-04-11 research evidence pass): research sources + glossary
+   footer. Renders between the last scenario and the vl-footer-cta. Carries
+   the "I actually read things" signal in plain view plus a mobile-friendly
+   glossary <details> block that replaces the hover tooltips on touch. #}
+{% if pack.research_sources %}
+<section class="vl-research-footer container" data-reveal>
+  <p class="vl-research-inline">
+    <span class="vl-research-label">Sources</span>
+    {% for src in pack.research_sources %}
+      <a href="{{ src.url }}" target="_blank" rel="noopener" class="vl-research-link">{{ src.title }}</a>{% if not loop.last %} · {% endif %}
+    {% endfor %}
+  </p>
+</section>
+{% endif %}
+
+<section class="vl-footer-cta container" data-reveal>
+  <div class="vl-footer-links">
+    <a href="https://www.linkedin.com/in/ryan-zegalia-6bbb90217/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+    <a href="mailto:ryanzegalia@gmail.com" aria-label="Email"><i class="ph ph-envelope-simple"></i></a>
+    <a href="https://github.com/ryanzegalia/portfolio" target="_blank" rel="noopener" aria-label="GitHub portfolio"><i class="ph ph-github-logo"></i></a>
+  </div>
+</section>
+{% endblock %}
+
+{# Suppress the base.html site-footer — this template has its own
+   .vl-footer-cta with the same contact links. No duplication needed. #}
+{% block footer %}{% endblock %}

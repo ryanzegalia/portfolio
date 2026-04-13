@@ -1,0 +1,251 @@
+id: home-care
+name: "Non-Clinical Home Care"
+# Plain-English label on the root card — the precise
+# "Non-Clinical Private-Pay Home Care" phrasing still shows in the hero
+# eyebrow on /home-care itself (see hero.eyebrow below).
+vertical_label: "Home Care Agencies"
+
+# 2026-04-11 research evidence pass: glossary terms for hover tooltips.
+# Applied via the `markup_terms` Jinja filter to every problem/solution
+# paragraph in the vertical landing template. Longest keys match first,
+# so "Sandata EVV" is tagged as one unit rather than just "EVV" inside it.
+glossary:
+  EVV: "Electronic Visit Verification. A GPS + timestamp check that a caregiver was physically at the client's home for their shift. Federally required for Medicaid under the 21st Century Cures Act; voluntarily used by many private-pay agencies to protect against LTC-insurance claim disputes."
+  "Sandata EVV": "The most common EVV software. Used by state Medicaid systems in several 'closed model' states as the mandated clock-in app; agencies also deploy it voluntarily alongside WellSky."
+  WellSky: "The dominant home care scheduling + care plan software. Agencies use it as their system of record for shifts, client info, and authorized hours."
+  Viventium: "A payroll platform focused on home care. Pulls hours from the scheduler and pays caregivers. That's exactly where the EVV-vs-schedule gap turns into a dollar leak."
+  Careswitch: "A scheduling + caregiver experience product for home care agencies, with built-in SMS fanout for call-offs."
+  AxisCare: "A home care management suite with scheduling, EVV, billing, and a community forum where operators discuss day-to-day pain."
+  "LTC insurance": "Long-Term Care insurance. Carriers reimburse home care for policyholders but require a nurse assessment (sent by the carrier, not the agency) to authorize or reauthorize hours."
+  "John Hancock LTC": "One of the larger LTC insurance carriers. Used in the scenario as a concrete example of a carrier that requires periodic reauthorization."
+  reauth: "Reauthorization. The periodic review an LTC carrier runs to decide whether to keep paying for a client's hours. Assessed by the carrier's nurse, not the agency. Agencies supply documentation; they never draft the reauth itself."
+  "fairness rotation": "An informal practice where schedulers spread last-minute backup shifts evenly across caregivers, so the same two people don't get called every morning. Tracked manually, usually breaks within a month."
+  "acuity drift": "Shorthand for a client's care needs changing faster than the care plan reflects. Margin-leaks both ways. The agency absorbs un-reimbursed care, or the client gets under-served."
+  "care plan": "The authorized list of tasks and hours for a client. Typically stored in WellSky, set during intake and updated at reauthorization."
+  Medicaid: "Federally-matched state health insurance for low-income and certain disabled populations. Home care reimbursed by Medicaid is the main path that triggers EVV requirements."
+  "private-pay": "Home care paid directly by the client or family (or via LTC insurance) rather than Medicaid. Not subject to the federal EVV mandate. Agencies often still use EVV voluntarily."
+  "QuickBooks": "Intuit's small-business accounting software. Used by many agencies for family invoicing, which is where the hours-invoiced-vs-hours-paid gap shows up."
+
+research_sources:
+  - title: "CMS · FY 2025 Medicaid improper payments fact sheet"
+    url: "https://www.cms.gov/newsroom/fact-sheets/fiscal-year-2025-improper-payments-fact-sheet"
+    note: "CMS reports that 77% of FY 2025 Medicaid improper payments came from insufficient documentation. For home care, EVV mismatches and missing visit records sit exactly in that documentation category, which is the underlying pain the EVV reconciliation scenario addresses."
+  - title: "AxisCare · scheduling features"
+    url: "https://axiscare.com/features/scheduling/"
+    note: "Reference point for what existing products already cover on backup-caregiver fanout. Load-bearing for the 'existing products handle some version of this' framing in Scenario 1."
+  - title: "Careswitch"
+    url: "https://www.careswitch.com/"
+    note: "A scheduling product with built-in SMS coverage flows. The other existing-product reference for Scenario 1."
+  - title: "LifeWorx · LTC insurance assessment process"
+    url: "https://lifeworx.com/services/long-term-care-insurance-assessment/"
+    note: "Confirms that the carrier (not the agency) sends a nurse to do the reauthorization assessment. Load-bearing for Scenario 3's role boundary. The single most important sentence on the page hangs on this source."
+  - title: "FLTCIP (OPM Federal LTC Insurance) · claims reimbursement rules"
+    url: "https://www.ltcfeds.gov/claims-information/reimbursement"
+    note: "Federal LTC insurance program's carrier-side documentation rules: agencies supply itemized invoices with dates of service, hours per day, and description of services. The clinical reauth (functional and cognitive assessment) stays with a carrier-coordinated nurse. Complements the LifeWorx role-boundary citation above."
+  - title: "Ankota · state-by-state EVV rules and mandated vendors"
+    url: "https://www.ankota.com/evv-state-by-state"
+    note: "The most widespread EVV software is Sandata, mandated as the closed-model clock-in tool in several states (CT, IL, RI, TN). This page names the states and their EVV vendor choices."
+  - title: "CMS · Electronic Visit Verification"
+    url: "https://www.medicaid.gov/medicaid/home-community-based-services/guidance/electronic-visit-verification-evv/index.html"
+    note: "The federal EVV requirement originated in the 21st Century Cures Act and is administered by CMS for Medicaid-funded personal care and home health services."
+
+terminology:
+  entity: Client
+  entity_plural: Clients
+  pipeline: "Care Pipeline"
+  agent: Agent
+  scoreable_lead: Inquiry
+  scoreable_lead_plural: Inquiries
+
+dashboard_cards:
+  - id: critical_shifts
+    title: Critical Shifts
+    subtitle: "Unfilled in the next 4 hours"
+    metric_field: critical_shift_count
+    icon: ph-alarm
+    href: /home-care/shifts/critical
+  - id: evv_reconciliation
+    title: EVV Reconciliation
+    subtitle: "Sandata vs. WellSky vs. care plan mismatches"
+    metric_field: monthly_evv_mismatch_dollars
+    icon: ph-clock-counter-clockwise
+    href: /home-care/reconciliation/evv
+  - id: care_plan_drift
+    title: Care Plan Drift
+    subtitle: "Acuity drift detected from shift notes"
+    metric_field: care_plan_drift_count
+    icon: ph-stethoscope
+    href: /home-care/care-plans/drift
+  - id: open_drift_events
+    title: Open Drift Events
+    subtitle: "Cross-system disagreements awaiting resolution"
+    metric_field: open_drift_count
+    icon: ph-warning
+    href: /home-care/agents
+
+# Scrollytelling landing page config — consumed by templates/vertical_landing.html
+# Verbatim narrative text from 2026-04-10-opslayer-final-build-plan.md lines 507-654.
+landing:
+  signals: "Sandata EVV · WellSky · Viventium · LTC carriers"
+
+  hero:
+    eyebrow: "Non-clinical home care, three operational scenarios"
+    # Umbrella framing for the vertical — the shape of operator pain in
+    # home care that all three scenarios below are specific variations of.
+    # Plain descriptive voice to match the research_prelude and the
+    # scenario problem paragraphs. Rewritten 2026-04-11 anti-template pass v3
+    # (previous H1 was scenario 2's story, not an umbrella).
+    problem: >
+      In home care, the schedule, the care plan, and the shift notes each
+      describe what's supposed to be happening in a client's home. They
+      rarely all agree on what actually is happening, and reconciling the
+      gaps is where a lot of the operational work goes.
+    # Short 1-line version of the umbrella, used as the tile title on the
+    # root launchpad. Same shape, compressed for scanability.
+    root_tile_title: >
+      The schedule, the care plan, and the shift notes rarely agree about
+      what's actually happening in a client's home.
+    # Rendered on the root launchpad card between the umbrella title and
+    # the tool signals row. Names the three canonical scenarios inline
+    # and calls out the artifact specific to this vertical. Added
+    # 2026-04-11 root tile card pass.
+    card_preview: >
+      Three scenarios: The 6am Call-Off, The EVV Triple Mismatch, and
+      The Stale Care Plan. Real seeded Postgres, with a 24-line SQL
+      three-way reconciliation artifact rendered inline.
+    # hero.thesis dropped — was "Three operator pains, one underlying
+    # disconnect", templated language identical across all three packs.
+    intro_paragraph: >
+      A 6am scheduling crisis with no fairness rotation, a triple-system
+      EVV reconciliation that quietly drains hours, and a care plan that's
+      slipped behind a client's actual condition. One worked example for
+      each.
+    research_prelude: >
+      The home care world has its own vocabulary (EVV, reauth, fairness
+      rotation, acuity drift), and the real operational knowledge lives in
+      operator forums and practitioner interviews, not in published papers.
+
+  sections:
+    - id: call_off
+      loader: home_care.call_off
+      partial: components/packs/home_care/call_off.html
+      narrative:
+        eyebrow: "Scenario 1 of 3"
+        title: "The 6am Call-Off"
+        problem: |
+          A caregiver texts the scheduler at 6:02am that she's sick, an hour
+          before a client's medication shift. The scheduler manually texts
+          backups; whoever replies first wins. No audit trail, no fairness
+          rotation, and the family only finds out when a new face shows up
+          at 7am.
+        solution: |
+          Existing products (Careswitch, AxisCare) already handle some
+          version of this, so what I'd sketch is really a way to think about
+          it: pull eligible caregivers from WellSky, rank them by client
+          history, distance, certification, and fairness rotation, then fan
+          out an SMS sequence in priority order and log the whole thing.
+      cta:
+        label: "Walk through one coverage decision"
+        href: /home-care/shifts/critical
+
+    - id: evv_mismatch
+      loader: home_care.evv_mismatch
+      partial: components/packs/home_care/evv_mismatch.html
+      narrative:
+        eyebrow: "Scenario 2 of 3"
+        title: "The EVV Triple Mismatch"
+        problem: |
+          A caregiver clocks in at 8:14am via Sandata EVV, the WellSky
+          schedule says 8:00 to 12:00, and the WellSky care plan authorizes
+          4 hours of bathing and meal prep. Three sources, three numbers,
+          nobody reconciles. Viventium pays 3.95 hours, QuickBooks invoices
+          4.0, and when the drift goes the other way the LTC insurance
+          carrier denies the extra time.
+        solution: |
+          My sketch is a three-way reconciler that pulls each visit from all
+          three sources and compares them. When they disagree on hours or
+          tasks, it records the mismatch, calculates the dollar impact at
+          the carrier's reimbursement rate, and surfaces recurring patterns
+          on the same caregiver-client pair so the agency has evidence to
+          request a care plan update.
+        production_example:
+          url: "https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/tax-reconciliation.md"
+          label: "Three-way tax reconciliation across a tax engine, ERP, and Stripe"
+        code_artifact:
+          language: sql
+          caption: "The shape of a three-way reconciliation query"
+          code: |
+            -- one row per visit showing hours drift between EVV,
+            -- schedule, and the care plan authorization. CTE avoids
+            -- the alias-in-same-SELECT problem in Postgres.
+            WITH visit_hours AS (
+              SELECT
+                v.visit_id,
+                v.client_id,
+                v.caregiver_id,
+                ROUND(EXTRACT(EPOCH FROM
+                  (e.clock_out - e.clock_in)) / 3600.0, 2
+                )                             AS hours_actual,
+                ROUND(EXTRACT(EPOCH FROM
+                  (s.scheduled_end - s.scheduled_start)) / 3600.0, 2
+                )                             AS hours_scheduled,
+                a.authorized_hours_per_day    AS hours_authorized,
+                c.carrier_id
+              FROM visits v
+              JOIN evv_clockins e             USING (visit_id)
+              JOIN scheduled_shifts s         USING (visit_id)
+              JOIN care_plan_authorizations a USING (client_id)
+              WHERE v.visit_date
+                BETWEEN current_date - interval '30 days'
+                    AND current_date
+            )
+            SELECT
+              vh.visit_id,
+              cl.client_name,
+              cg.caregiver_name,
+              vh.hours_actual,
+              vh.hours_scheduled,
+              vh.hours_authorized,
+              vh.hours_actual - LEAST(
+                vh.hours_scheduled, vh.hours_authorized
+              )                               AS drift_hours,
+              (vh.hours_actual - LEAST(
+                vh.hours_scheduled, vh.hours_authorized
+              )) * r.rate                     AS dollar_drift
+            FROM visit_hours vh
+            JOIN clients cl     USING (client_id)
+            JOIN caregivers cg  USING (caregiver_id)
+            JOIN carrier_reimbursement_rates r
+              ON r.carrier_id = vh.carrier_id
+            WHERE ABS(vh.hours_actual
+                      - vh.hours_scheduled) > 0.1
+            ORDER BY dollar_drift DESC;
+      cta:
+        label: "Walk through one reconciled visit"
+        href: /home-care/reconciliation/evv
+
+    - id: stale_care_plan
+      loader: home_care.stale_care_plan
+      partial: components/packs/home_care/stale_care_plan.html
+      narrative:
+        eyebrow: "Scenario 3 of 3"
+        title: "The Stale Care Plan"
+        problem: |
+          A caregiver's shift notes 12 days ago say "client having more
+          trouble getting out of bed, asked for help to sit up before
+          transferring." The WellSky care plan still reads "ambulatory,
+          minimal assistance, independent transfers." Nobody has flagged
+          it. The agency has been absorbing unmatched care for two weeks,
+          and the client is at clinical risk.
+        solution: |
+          The shape I'd start with is a daily job that reads recent shift
+          notes and uses an LLM to watch for signals that a client's needs
+          have changed since the care plan was last updated. When the
+          pattern holds across multiple shifts, it flags the client and
+          collects the supporting quotes. Not to draft the reauth itself
+          (LTC carriers send their own nurse to do that assessment, not
+          the agency), but to give the clinical liaison evidence for an
+          off-cycle reassessment.
+      cta:
+        label: "Walk through one drifted care plan"
+        href: /home-care/care-plans/drift

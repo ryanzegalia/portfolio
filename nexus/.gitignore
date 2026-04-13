@@ -1,0 +1,18 @@
+# Internal working files
+_HARVEST_INDEX.md
+_sanitization_manifest.json
+_quality_review.md
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp

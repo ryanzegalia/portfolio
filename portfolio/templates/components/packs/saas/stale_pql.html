@@ -1,0 +1,94 @@
+{#
+  Demo 1.2 — Stale PQL
+  ====================
+  PQLs that crossed the score threshold, were routed to an AE in HubSpot, and
+  then got zero follow-up activity. The signal decays over the window and goes
+  invisible while everyone stares at a Hex notebook trying to debug why.
+
+  The visual story is honest: each card shows the actual PQL score (now
+  decayed), the actual routed / decayed timestamps, and the real dollar range.
+  No synthetic sparklines, no fabricated historical values.
+
+  Expects (via `ctx`):
+    ctx.data:
+      .rows                 list  — decayed PQLs, sorted by score desc
+        .id                 uuid
+        .account_name       str
+        .pql_score          float — current (decayed) score
+        .routed_to          str   — HubSpot owner name
+        .routed_at          datetime
+        .decayed_at         datetime
+        .dollar_at_risk_low int
+        .dollar_at_risk_high int
+      .decayed_count         int
+      .dollar_at_risk_low    int
+      .dollar_at_risk_high   int
+      .conversion_rate_low   float
+      .conversion_rate_high  float
+      .decay_threshold_days  int
+    ctx.scenario             dict
+  Also: pack, compact
+#}
+{% set data = ctx.data %}
+{% set display_rows = data.rows[:3] if compact else data.rows[:8] %}
+
+<div class="demo-module demo-module--stale-pql">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">PQLs decayed without follow-up</p>
+      <p class="metric-headline num">{{ data.decayed_count }}</p>
+      <p class="caption">
+        &#36;{{ '{:,.0f}'.format(data.dollar_at_risk_low / 1000) }}K &ndash;
+        &#36;{{ '{:,.0f}'.format(data.dollar_at_risk_high / 1000) }}K ARR at risk
+        &middot; {{ (data.conversion_rate_low * 100)|int }}&ndash;{{ (data.conversion_rate_high * 100)|int }}% conversion band
+      </p>
+    </div>
+    <span class="pill-status-warning">
+      <span class="status-dot status-dot--warning"></span>
+      {{ data.decay_threshold_days }}d decay window
+    </span>
+  </header>
+
+  <div class="pql-card-stack">
+    {% for row in display_rows %}
+    <article class="pql-card" data-entity-id="{{ row.id }}">
+      <div class="pql-card-header">
+        <h3 class="card-title">{{ row.account_name }}</h3>
+        <span class="caption">routed to {{ row.routed_to or '(unassigned)' }}</span>
+      </div>
+
+      <div class="pql-card-body">
+        <div class="pql-score-block">
+          <span class="data-label">PQL score</span>
+          <div class="pql-score-row">
+            <span class="pql-score num">{{ row.pql_score|int }}</span>
+            <span class="pill-status-warning">decayed</span>
+          </div>
+        </div>
+        <div class="pql-dollar-block">
+          <span class="data-label">ARR at risk</span>
+          <span class="pql-dollar num">
+            &#36;{{ '{:,}'.format((row.dollar_at_risk_low or 0)|int) }}&ndash;&#36;{{ '{:,}'.format((row.dollar_at_risk_high or 0)|int) }}
+          </span>
+        </div>
+      </div>
+
+      <div class="pql-timeline">
+        <div class="pql-timeline-track" aria-hidden="true">
+          <span class="pql-timeline-dot pql-timeline-dot--start"></span>
+          <span class="pql-timeline-dot pql-timeline-dot--end"></span>
+        </div>
+        <div class="pql-timeline-labels">
+          <span class="caption">
+            Routed {% if row.routed_at %}{{ row.routed_at.strftime('%b %-d') }}{% else %}-{% endif %}
+          </span>
+          <span class="caption">
+            Decayed {% if row.decayed_at %}{{ row.decayed_at.strftime('%b %-d') }}{% else %}-{% endif %}
+          </span>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+
+</div>

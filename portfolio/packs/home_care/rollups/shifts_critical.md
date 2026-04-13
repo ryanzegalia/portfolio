@@ -1,0 +1,1 @@
+Maria Lopez called off her 7am with Mr. Henderson eight minutes ago. The walk-through below is one coverage decision. The ranked backups come from a single SQL query against caregiver availability, certifications, prior-shift history with this client, and fairness rotation. The same query the on-call scheduler would write by hand at six in the morning if there were time.

@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local test database (sqlite)
+test_portfolio.db
+*.db-journal
+
+# Environment + secrets
+.env
+.env.local
+*.pem
+*.key
+
+# Docker build artifacts
+*.tar
+portfolio-image.tar
+
+# Editor/IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Captured fallback screenshots are build artifacts — keep the dir, not the files
+static/fallback/*.png
+!static/fallback/.gitkeep

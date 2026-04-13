@@ -1,0 +1,118 @@
+- id: account_hierarchy_resolver
+  title: "Account Hierarchy Resolver"
+  vocabulary_subtext: "Prospects reclassified as DSO-owned"
+  route: /vertical-ai/enrichment
+  card_text: |
+    ┌─ ACCOUNT HIERARCHY RESOLVER ───────────────────────────────────────────┐
+    │  500 prospect practices uploaded · 73 parent-child links found         │
+    │                                                                        │
+    │  ENRICHMENT WATERFALL  (per practice)                                  │
+    │   ZoomInfo    84% hit rate   $0.42/lookup  →                           │
+    │   Apollo      91% hit rate   $0.18/lookup  →                           │
+    │   LinkedIn    indirect       free  →                                   │
+    │   Web scrape  100%           free  →                                   │
+    │   Claude synthesis  (reads all 4 + state SOS records)                  │
+    │                                                                        │
+    │  TOP DRIFT  (sources disagree)                                         │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ Smile Dental of Tampa                                            │  │
+    │  │   ZoomInfo:    INDEPENDENT, 8 employees                          │  │
+    │  │   Apollo:      OWNED BY Heartland Dental, 12 employees           │  │
+    │  │   LinkedIn:    Office manager changed 2 weeks ago                │  │
+    │  │   Web (site):  "A Heartland Dental practice" in footer           │  │
+    │  │   FL SOS:      Articles of merger filed 2025-12-08               │  │
+    │  │                                                                  │  │
+    │  │   Claude resolver verdict  (confidence 0.96):                    │  │
+    │  │     Parent: Heartland Dental                                     │  │
+    │  │     Acquisition date: ~Dec 2025                                  │  │
+    │  │     Implication: Existing Heartland MSA likely. Route to         │  │
+    │  │     enterprise team, not SMB. Warm path: 2 contacts at           │  │
+    │  │     Heartland HQ already in HubSpot.                             │  │
+    │  │                                                                  │  │
+    │  │   [Mark as child of Heartland]    [Manual review]                │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    │                                                                        │
+    │  IMPACT - 73 of 500 prospects reclassified · projected $180K ARR       │
+    │  delta from corrected routing                                          │
+    └────────────────────────────────────────────────────────────────────────┘
+- id: sor_detection
+  title: "System-of-Record Detection"
+  vocabulary_subtext: "PMS auto-tagging from web signals"
+  route: /vertical-ai/enrichment/sor-detection
+  card_text: |
+    ┌─ PMS DETECTION AGENT ──────────────────────────────────────────────────┐
+    │  Run on 500 practices · 412 detected (82%) · 88 manual review          │
+    │                                                                        │
+    │  DETECTION SIGNALS                                                     │
+    │   1. Practice website source code scan (specific JS libs, cookie       │
+    │      names, embedded iframes from PMS vendors)                         │
+    │   2. Job postings on Indeed and LinkedIn requiring PMS experience      │
+    │   3. Vendor case study mentions ("Featured customer of...")            │
+    │   4. Patient portal subdomain patterns                                 │
+    │   5. Online appointment scheduling integration tells                   │
+    │                                                                        │
+    │  DETECTED DISTRIBUTION                                                 │
+    │   Dentrix      166  (40%)                                              │
+    │   Eaglesoft     89  (22%)                                              │
+    │   Open Dental   71  (17%)                                              │
+    │   Curve         28  (7%)                                               │
+    │   Other / unknown   58                                                 │
+    │                                                                        │
+    │  HIGH-CONFIDENCE EXAMPLE                                               │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ Beachside Family Dentistry, Sarasota FL                          │  │
+    │  │ Detected PMS:  Eaglesoft  (confidence 0.88)                      │  │
+    │  │ Signals:                                                         │  │
+    │  │   ✓ Patterson Innovation Connection portal markup detected       │  │
+    │  │     in <head> (Patterson-hosted patient engagement library)      │  │
+    │  │   ✓ Indeed job 2025-12: "front desk, Eaglesoft 2 yrs req"        │  │
+    │  │   ✓ Patterson Dental partner case study mention (2023)           │  │
+    │  │   ✓ Patient portal subdomain (patient.beachsidefamilydental.com) │  │
+    │  │     resolves to a Patterson-hosted endpoint                      │  │
+    │  │                                                                  │  │
+    │  │ Integration path:  Eaglesoft via Patterson API                   │  │
+    │  │ Demo prep:         use the Eaglesoft sandbox, not Dentrix        │  │
+    │  │ [Mark as Eaglesoft]   [Add to outbound sequence]                 │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    └────────────────────────────────────────────────────────────────────────┘
+- id: per_location_roi
+  title: "Per-Location ROI"
+  vocabulary_subtext: "Customer success: case acceptance lift by location"
+  route: /vertical-ai/customers
+  card_text: |
+    ┌─ Health River Dental Group  ·  12 locations  ·  $180K ARR  ·          │
+    │  renewal in 47 days                                                    │
+    │                                                                        │
+    │  PRODUCT USAGE  (vendor telemetry)                                     │
+    │   ✓ All 12 locations actively using the product                        │
+    │   ✓ 84% of pano X-rays scanned in last 30 days                         │
+    │   ✓ Average 23 AI findings per provider per week                       │
+    │                                                                        │
+    │  PER-LOCATION CASE ACCEPTANCE LIFT vs PRE-DEPLOYMENT                   │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ Location          Case Acpt   Δ vs pre   Reconciled?             │  │
+    │  │ Tampa Main        38% → 44%    +16%      ✓ all 3 sources         │  │
+    │  │ Sarasota          36% → 43%    +19%      ✓                       │  │
+    │  │ St. Pete          39% → 43%    +10%      ⚠ Dentrix lag 2 days    │  │
+    │  │ Clearwater        37% → 37%     0%       ⚠ flat - investigate    │  │
+    │  │ Brandon           41% → 47%    +15%      ✓                       │  │
+    │  │ Largo             38% → 44%    +16%      ✓                       │  │
+    │  │ ...                                                              │  │
+    │  │                                                                  │  │
+    │  │ GROUP ROLLUP      38.4% → 43.7%   +13.8%                         │  │
+    │  │ Translated:       ~$420K incremental case acceptance value       │  │
+    │  │                   Vendor ARR: $180K  →  ROI: 2.3×                │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    │                                                                        │
+    │  Renewal Brief Agent:                                                  │
+    │  "11 of 12 locations show meaningful case acceptance lift.             │
+    │   Clearwater is flat - investigate. Likely cause: only 2 of 4          │
+    │   providers at Clearwater are using the product (per usage             │
+    │   telemetry). Recommended renewal strategy: lead with the $420K        │
+    │   incremental value figure, address Clearwater proactively with        │
+    │   a free on-site training session. Renewal probability if              │
+    │   Clearwater is addressed: 88%."                                       │
+    │                                                                        │
+    │  [Generate renewal one-pager PDF]   [Schedule QBR]   [Slack CSM]       │
+    └────────────────────────────────────────────────────────────────────────┘
+    incremental case dollars divided by ARR for the contract period.

@@ -1,0 +1,61 @@
+{#
+  Demo 1.1 — Phantom Seats
+  ========================
+  The classic PLG SaaS failure mode: HubSpot says the customer is paying for N
+  seats, the product database says N+M users are actually logging in, nobody
+  reconciles, expansion revenue sits unbilled.
+
+  Expects (all via `ctx`):
+    ctx.rows                     list   — accounts with seat drift, sorted desc by $
+    ctx.aggregate                int    — total $ across all drift accounts
+    ctx.aggregate_account_count  int    — total accounts with drift
+    ctx.scenario                 dict   — scenarios.yaml entry (plain_english + technical_detail)
+
+  Also expects top-level:
+    pack     Pack — active pack (for URL construction)
+    compact  bool — when true, render top 5 + a "see all" CTA to /saas/revenue
+
+  Mount points:
+    - templates/revenue_at_risk.html       (compact=False  — full table)
+    - templates/vertical_landing.html      (compact=True   — top 5 + CTA)
+#}
+<div class="demo-module demo-module--phantom-seats">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">Revenue at risk</p>
+      <p class="metric-headline num">${{ '{:,}'.format(ctx.aggregate) }}</p>
+      <p class="caption">
+        {{ ctx.aggregate_account_count }} accounts &middot; HubSpot says one seat count, BigQuery says another
+      </p>
+    </div>
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      {{ ctx.rows|length }} drift events
+    </span>
+  </header>
+
+  <table class="data-table demo-module-table mobile-stackable-table">
+    <thead>
+      <tr>
+        <th>Account</th>
+        <th class="num">HubSpot seats</th>
+        <th class="num">BigQuery users</th>
+        <th class="num">$ impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% set display_rows = ctx.rows[:3] if compact else ctx.rows[:10] %}
+      {% for row in display_rows %}
+      <tr data-entity-id="{{ row.entity_id }}">
+        <td data-col="Account">
+          <a href="/{{ pack.id }}/accounts/{{ row.entity_id }}" class="row-link">{{ row.name }}</a>
+        </td>
+        <td data-col="HubSpot seats" class="num">{{ row.value_a }}</td>
+        <td data-col="BigQuery users" class="num">{{ row.value_b }}</td>
+        <td data-col="$ impact" class="num">{% if row.dollar_impact %}${{ '{:,}'.format(row.dollar_impact|int) }}{% else %}-{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>

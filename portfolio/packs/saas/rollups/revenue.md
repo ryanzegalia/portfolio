@@ -1,0 +1,1 @@
+Hightouch has been syncing seat counts on a four-hour cadence for ten months. Three of the syncs have failed silently in the last six days. The accounts below are the ones where the product database now disagrees with what HubSpot is billing, sorted by impact, top of the queue first.

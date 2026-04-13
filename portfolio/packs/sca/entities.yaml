@@ -1,0 +1,14 @@
+- entity_type: prospect
+  fields:
+    - canonical_name
+    - deal_stage
+    - deal_amount
+    - thread_engineering_last_touch
+    - thread_legal_last_touch
+    - thread_security_last_touch
+    - thread_gap_days
+    - repo_count_total
+    - repo_count_scanned
+    - coverage_ratio
+    - contract_arr
+    - per_repo_rate

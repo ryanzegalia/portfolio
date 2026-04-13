@@ -1,0 +1,19 @@
+- source_key: salesforce
+  display_name: Salesforce
+  source_type: crm
+
+- source_key: github
+  display_name: GitHub
+  source_type: code_host
+
+- source_key: product_telemetry
+  display_name: Scan Telemetry
+  source_type: product
+
+- source_key: crunchbase
+  display_name: Crunchbase
+  source_type: enrichment
+
+- source_key: regulatory_calendar
+  display_name: Regulatory Calendar
+  source_type: enrichment

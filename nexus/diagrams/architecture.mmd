@@ -1,0 +1,28 @@
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#f0f0ff', 'primaryTextColor': '#333', 'primaryBorderColor': '#666', 'lineColor': '#666', 'fontSize': '15px'}}}%%
+graph TD
+    A["Browser<br/>56-page Dashboard"] --> B["nginx + TLS"]
+
+    subgraph VPS["Production VPS"]
+        B --> C["Gunicorn"]
+        C --> D["Flask API<br/>58 services · 596 routes"]
+        D --> E[("PostgreSQL<br/>145 tables")]
+        D --> F[("Redis")]
+        G["9 Heartbeats<br/>5-min to nightly"] --> E
+        G --> D
+    end
+
+    G -->|"poll"| H["Legacy ERP"]
+    G -->|"poll"| I["Tax Engine"]
+    G -->|"poll"| J["Email Platform"]
+    G -->|"poll"| K["MS Graph"]
+    D -->|"API"| L["FedEx · USPS · the shipping API"]
+    D -->|"API"| M["PM Tool"]
+    D -->|"API"| N["S3 · Cloudflare"]
+
+    subgraph PC["Customer PC"]
+        O["Connector UI<br/>Python 3"] --> P["Radio Bridge<br/>Python 2.7"]
+        P --> Q["802.15.4 RF"]
+        Q --> R["Wireless Modules"]
+    end
+
+    O -->|"outbox sync<br/>30s"| D

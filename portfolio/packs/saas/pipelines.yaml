@@ -1,0 +1,33 @@
+fiscal_year_start: "01-01"
+quarter_anchor: auto
+
+sales_pipeline:
+  entity_type: account
+  stages:
+    - name: Discovery
+      sla_days: 14
+      order: 1
+    - name: Demo
+      sla_days: 21
+      order: 2
+    - name: Negotiation
+      sla_days: 14
+      order: 3
+    - name: Verbal
+      sla_days: 7
+      order: 4
+    - name: Closed-Won
+      sla_days: null
+      order: 5
+    - name: Closed-Lost
+      sla_days: null
+      order: 6
+
+ae_targets:
+  pipeline_coverage_ratio: 3.0
+  close_rate_target: 0.30
+
+historical_close_rate: 0.66
+historical_committed: 4400000
+historical_booked: 2900000
+historical_variance_pct: -34

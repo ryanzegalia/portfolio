@@ -1,0 +1,14 @@
+- id: multi_thread_deal
+  title: "The Multi-Threaded Deal"
+  vocabulary_subtext: "Engineering, legal, and security evaluating on different criteria"
+  route: /sca/deals
+
+- id: compliance_trigger
+  title: "The Compliance Event Trigger"
+  vocabulary_subtext: "M&A, regulatory deadlines, and job signals creating buying windows"
+  route: /sca/triggers
+
+- id: repo_coverage
+  title: "The Repo Coverage Gap"
+  vocabulary_subtext: "Customers scanning a fraction of their codebase"
+  route: /sca/coverage

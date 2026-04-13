@@ -1,0 +1,115 @@
+{#
+  Demo 2.1 — The 6am Call-Off
+  ===========================
+  Caregiver texts "out sick" at 6:02am for a 7:00am shift. Normally the
+  scheduler spends 20+ minutes fan-texting backups by hand and the family
+  finds out at 7:30 when an unexpected face shows up. The Stuck Triage Agent
+  ranks eligible caregivers by prior-shift history + distance + fairness,
+  queues an SMS fanout with 90s delays between sends, first reply wins,
+  auto-notifies family. Two minutes wall clock, zero scheduler attention.
+
+  Expects (via `ctx`):
+    ctx.critical_shifts:
+      .count_unfilled_next_4hr     int
+      .family_visible_impact_dollars int
+      .blended_rate_footnote       str
+      .hero_shift:
+        .client_name              str
+        .shift_start              str
+        .shift_end                str
+        .starts_in_minutes        int
+        .original_caregiver       str
+        .call_off_time            str
+        .call_off_reason          str
+        .care_needs               list[str]
+        .authorized_hours_per_day int
+        .billing_type             str
+        .system_of_record         str
+        .ranked_backups           list of {rank, name, prior_shifts, distance_miles, notes}
+        .agent_verdict            str
+    ctx.scenario                  dict
+  Also: pack, compact
+#}
+{% set cs = ctx.critical_shifts %}
+{% set shift = cs.hero_shift or {} %}
+
+<div class="demo-module demo-module--call-off">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">Unfilled shifts · next 4 hours</p>
+      <p class="metric-headline num">{{ cs.count_unfilled_next_4hr }}</p>
+      <p class="caption">
+        &#36;{{ cs.family_visible_impact_dollars }} family-visible impact if coverage slips &middot;
+        Stuck Triage Agent ranks backups by prior shifts + distance + fairness
+      </p>
+    </div>
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      {{ shift.starts_in_minutes }} min to start
+    </span>
+  </header>
+
+  {% if shift %}
+  <article class="call-off-card">
+    <div class="call-off-shift-header">
+      <h3 class="card-title">{{ shift.client_name }} &middot; {{ shift.shift_start }}&ndash;{{ shift.shift_end }}</h3>
+      <p class="caption">
+        Original caregiver <strong>{{ shift.original_caregiver }}</strong>
+        called off {{ shift.call_off_time }} &middot; {{ shift.call_off_reason }}
+      </p>
+    </div>
+
+    <dl class="call-off-shift-meta">
+      <div>
+        <dt class="data-label">Care needs</dt>
+        <dd>
+          {% for need in shift.care_needs %}
+            <span class="chip">{{ need }}</span>
+          {% endfor %}
+        </dd>
+      </div>
+      <div>
+        <dt class="data-label">Authorized</dt>
+        <dd class="data-value num">{{ shift.authorized_hours_per_day }} hrs/day &middot; {{ shift.billing_type }}</dd>
+      </div>
+      <div>
+        <dt class="data-label">System of record</dt>
+        <dd class="data-value">{{ shift.system_of_record }}</dd>
+      </div>
+    </dl>
+
+    <div class="call-off-backups">
+      <p class="data-label">Ranked backups <span class="caption">by prior shifts with this client &middot; distance</span></p>
+      <ol class="call-off-backup-list">
+        {% for backup in shift.ranked_backups %}
+        <li class="call-off-backup {% if backup.rank == 1 %}call-off-backup--top{% endif %}">
+          <span class="call-off-rank num">{{ backup.rank }}</span>
+          <div class="call-off-backup-body">
+            <p class="call-off-backup-name">
+              {{ backup.name }}
+              {% if backup.rank == 1 %}<span class="pill-status-healthy">recommended</span>{% endif %}
+            </p>
+            <p class="caption">
+              <span class="num">{{ backup.prior_shifts }}</span> prior shift{% if backup.prior_shifts != 1 %}s{% endif %}
+              &middot; <span class="num">{{ backup.distance_miles }}</span> mi
+              {% if backup.notes %}&middot; {{ backup.notes }}{% endif %}
+            </p>
+          </div>
+          {% if backup.rank == 1 %}
+          <span class="sync-indicator is-syncing" aria-label="Sending SMS"></span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+    </div>
+
+    {% if shift.agent_verdict %}
+    <blockquote class="agent-verdict">
+      <p class="data-label">Coverage recommendation</p>
+      <p>{{ shift.agent_verdict }}</p>
+    </blockquote>
+    {% endif %}
+  </article>
+  {% endif %}
+
+</div>

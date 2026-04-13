@@ -1,0 +1,29 @@
+fiscal_year_start: "01-01"
+quarter_anchor: auto
+
+care_pipeline:
+  entity_type: shift
+  stages:
+    - name: Scheduled
+      sla_days: null
+      order: 1
+    - name: Confirmed
+      sla_days: null
+      order: 2
+    - name: In-Progress
+      sla_days: null
+      order: 3
+    - name: Completed
+      sla_days: null
+      order: 4
+    - name: Reconciled
+      sla_days: null
+      order: 5
+
+shift_coverage_sla:
+  hours_before_start_warning: 4
+  hours_before_start_critical: 1
+
+care_plan_reauth:
+  reauth_lead_time_days: 30
+  reauth_window_days: 60

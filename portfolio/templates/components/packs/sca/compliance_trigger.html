@@ -1,0 +1,62 @@
+{#
+  Demo 4.2 — The Compliance Event Trigger
+  ========================================
+  Regulatory events, M&A announcements, and job signals create
+  time-sensitive buying windows. This widget shows a trigger queue
+  with time-decay scoring and routing recommendations.
+
+  Expects (all via `ctx`):
+    ctx.triggers              list   — hero trigger events
+    ctx.active_trigger_count  int    — total active triggers
+    ctx.scenario              dict   — scenarios.yaml entry
+
+  Also expects top-level:
+    pack     Pack — active pack
+    compact  bool — when true, show top 4 triggers
+#}
+<div class="demo-module demo-module--compliance-trigger">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">Active compliance triggers</p>
+      <p class="metric-headline num">{{ ctx.active_trigger_count }}</p>
+      <p class="caption">
+        M&amp;A, regulatory deadlines, job signals, AI code adoption
+      </p>
+    </div>
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      time-sensitive
+    </span>
+  </header>
+
+  <div class="trigger-list">
+    {% set display_triggers = ctx.triggers[:2] if compact else ctx.triggers %}
+    {% for trigger in display_triggers %}
+    <div class="trigger-card">
+      <div class="trigger-card-header">
+        <span class="trigger-company">{{ trigger.company }}</span>
+        <span class="trigger-score">{{ trigger.composite_score }}</span>
+      </div>
+
+      <div class="trigger-card-body">
+        <span class="pill-event-type pill-event-type--{{ trigger.event_type }}">
+          {% if trigger.event_type == "m_and_a" %}M&amp;A{% elif trigger.event_type == "cra_deadline" %}CRA Deadline{% elif trigger.event_type == "pci_dss" %}PCI DSS{% elif trigger.event_type == "job_signal" %}Job Signal{% elif trigger.event_type == "ai_code_adoption" %}AI Code{% else %}{{ trigger.event_type }}{% endif %}
+        </span>
+        <span class="trigger-label">{{ trigger.event_label }}</span>
+      </div>
+
+      <p class="trigger-detail">{{ trigger.event_detail }}</p>
+
+      <div class="trigger-card-footer">
+        <div class="trigger-decay-bar">
+          <div class="trigger-decay-fill" style="width: {{ (trigger.decay_score * 100)|int }}%"></div>
+        </div>
+        <span class="trigger-days">{% if trigger.months_to_deadline %}{{ trigger.months_to_deadline }}mo to deadline{% else %}{{ trigger.days_since }}d ago{% endif %}</span>
+        <span class="pill-routing pill-routing--{{ trigger.routing }}">
+          {% if trigger.routing == "named_ae" %}{{ trigger.assigned_ae }}{% else %}BDR Queue{% endif %}
+        </span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

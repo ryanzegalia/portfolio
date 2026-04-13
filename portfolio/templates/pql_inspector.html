@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}PQL Inspector | {{ pack.name }}{% endblock %}
+
+{#
+  Standalone full-page view of the Stale PQL demo. Wrapper around
+  components/packs/saas/stale_pql.html. The same partial renders in the SaaS
+  scrollytelling landing section with compact=True.
+#}
+{% block content %}
+<div class="container">
+  <div class="page-back">
+    <a href="/{{ pack.id }}" class="back-link">&larr; {{ pack.name }}</a>
+  </div>
+
+  <section class="rollup">
+    <p class="rollup-narrative">{{ rollup_markdown }}</p>
+  </section>
+
+  {% include "components/packs/saas/stale_pql.html" %}
+</div>
+{% endblock %}

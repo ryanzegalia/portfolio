@@ -1,0 +1,152 @@
+{#
+  Demo 1.3 — Forecast Variance
+  ============================
+  Last week of the quarter, CRO wants confidence. HubSpot says one pipeline
+  number, the real stage-transition history says something different. Plus a
+  commission audit because deals got re-credited and nobody has a clean trail.
+
+  Expects (all via `ctx`):
+    ctx.data:
+      .quarter_label            str   — "Q2 2026 · 47 days remaining"
+      .coverage_ratio           float — current coverage (e.g. 2.3)
+      .coverage_target          float — target coverage (e.g. 3.0)
+      .historical_committed     int   — last Q committed dollars
+      .historical_booked        int   — last Q booked dollars
+      .historical_close_rate    float — 0.66 = 66%
+      .historical_variance_pct  int   — -34 = -34%
+      .ae_scorecard             list  — AEs with pipeline/coverage/skips/overdue
+      .commission_audit         list  — deals with credited-owner mismatches
+      .stale_sla_tooltip        str
+    ctx.scenario                dict
+
+  Also:
+    pack     Pack
+    compact  bool
+#}
+{% set data = ctx.data %}
+{% set ratio = data.coverage_ratio %}
+{% set target = data.coverage_target %}
+{# Gauge: map coverage ratio to a 0-100 arc; target line at (target / (target*1.2)) * 100 #}
+{% set gauge_max = (target * 1.2) %}
+{% set ratio_pct = (ratio / gauge_max * 100)|round(1) %}
+{% set target_pct = (target / gauge_max * 100)|round(1) %}
+{% set ratio_angle = -90 + (ratio_pct * 1.8) %}
+{% set target_angle = -90 + (target_pct * 1.8) %}
+{% set gauge_status = 'drift' if ratio < target * 0.85 else ('warning' if ratio < target else 'healthy') %}
+
+<div class="demo-module demo-module--forecast">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">{{ data.quarter_label }}</p>
+      <p class="metric-headline num">{{ ratio }}&times;</p>
+      <p class="caption">
+        pipeline coverage &middot; target {{ target }}&times;
+        &middot; last Q variance
+        <span class="num">{{ data.historical_variance_pct }}%</span>
+      </p>
+    </div>
+    <div class="forecast-gauge" aria-label="Coverage {{ ratio }}x of {{ target }}x target">
+      <svg viewBox="0 0 120 72" preserveAspectRatio="xMidYMid meet">
+        {# Background arc — 180° semicircle #}
+        <path d="M 10 62 A 50 50 0 0 1 110 62"
+              fill="none"
+              stroke="var(--card-border)"
+              stroke-width="8"
+              stroke-linecap="round"/>
+        {# Foreground arc — proportional to ratio_pct (stroke-dasharray math) #}
+        {% set arc_len = 157 %}{# ≈ π × 50 #}
+        {% set dash_on = (arc_len * (ratio_pct / 100))|round(1) %}
+        {% set dash_off = (arc_len - dash_on)|round(1) %}
+        <path d="M 10 62 A 50 50 0 0 1 110 62"
+              fill="none"
+              stroke="var(--status-{{ gauge_status }})"
+              stroke-width="8"
+              stroke-linecap="round"
+              stroke-dasharray="{{ dash_on }} {{ dash_off }}"/>
+        {# Target tick — small notch at target_pct position #}
+        {% set tx = 60 + 50 * (target_pct / 100 * 2 - 1)|round(3) %}
+        {% set ty = 62 - (50 * (1 - ((target_pct / 100 * 2 - 1) ** 2)) ** 0.5)|round(3) %}
+        <circle cx="{{ tx }}" cy="{{ ty }}" r="2.5" fill="var(--text-primary)"/>
+        <text x="60" y="60" text-anchor="middle" font-size="14" font-weight="700"
+              fill="var(--text-primary)" font-family="var(--font-mono)">{{ ratio }}&times;</text>
+      </svg>
+    </div>
+  </header>
+
+  {% if data.ae_scorecard %}
+  <section class="forecast-scorecard">
+    <h3 class="section-title">AE pipeline hygiene</h3>
+    <div class="scorecard-table">
+      <table class="data-table mobile-stackable-table">
+        <thead>
+          <tr>
+            <th>AE</th>
+            <th class="num">Pipeline</th>
+            <th class="num">Coverage</th>
+            <th class="num">Stage skips</th>
+            <th class="num" title="{{ data.stale_sla_tooltip }}">Overdue</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ae in data.ae_scorecard %}
+          <tr>
+            <td data-col="AE">{{ ae.ae_name }}</td>
+            <td data-col="Pipeline" class="num">&#36;{{ '{:,}'.format(ae.pipeline_dollars) }}</td>
+            <td data-col="Coverage" class="num">
+              {{ ae.coverage_ratio }}&times;
+              {% if ae.coverage_ratio < target * 0.85 %}
+                <span class="status-dot status-dot--drift" aria-label="Below target"></span>
+              {% endif %}
+            </td>
+            <td data-col="Stage skips" class="num">
+              {% if ae.stage_skips > 2 %}
+                <span class="pill-status-drift">{{ ae.stage_skips }}</span>
+              {% else %}
+                {{ ae.stage_skips }}
+              {% endif %}
+            </td>
+            <td data-col="Overdue" class="num">
+              {% if ae.overdue_in_stage > 5 %}
+                <span class="pill-status-drift">{{ ae.overdue_in_stage }}</span>
+              {% else %}
+                {{ ae.overdue_in_stage }}
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if not compact %}
+    <p class="caption">{{ data.stale_sla_tooltip }}</p>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if data.commission_audit and not compact %}
+  <section class="forecast-commission-audit">
+    <h3 class="section-title">Commission audit: {{ data.commission_audit|length }} deals miscredited</h3>
+    <table class="data-table mobile-stackable-table">
+      <thead>
+        <tr>
+          <th>Deal</th>
+          <th class="num">Amount</th>
+          <th>Closed by</th>
+          <th>Credited to</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for deal in data.commission_audit %}
+        <tr>
+          <td data-col="Deal">{{ deal.deal_name }}</td>
+          <td data-col="Amount" class="num">&#36;{{ '{:,}'.format(deal.amount) }}</td>
+          <td data-col="Closed by">{{ deal.closed_by }}</td>
+          <td data-col="Credited to">{{ deal.credited_to or '(none)' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+  {% endif %}
+
+</div>

@@ -1,0 +1,68 @@
+{#
+  Demo 5.3 — The PE Trigger Window
+  =================================
+  PE acquisitions of distributors with 100-day urgency decay bars,
+  fit scores, and routing recommendations.
+
+  Expects (all via `ctx`):
+    ctx.triggers                  list   — PE acquisition events
+    ctx.active_pe_trigger_count   int    — total active triggers
+    ctx.scenario                  dict   — scenarios.yaml entry
+
+  Also expects top-level:
+    pack     Pack — active pack
+    compact  bool — when true, show top 4
+#}
+<div class="demo-module demo-module--pe-triggers">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">PE acquisition triggers</p>
+      <p class="metric-headline num">{{ ctx.active_pe_trigger_count }}</p>
+      <p class="caption">
+        100-day buying windows from distribution M&amp;A
+      </p>
+    </div>
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      time-sensitive
+    </span>
+  </header>
+
+  <div class="pe-trigger-list">
+    {% set display_triggers = ctx.triggers[:2] if compact else ctx.triggers %}
+    {% for trigger in display_triggers %}
+    <div class="pe-card {% if trigger.window_remaining <= 14 %}pe-card--closing{% endif %}">
+      <div class="pe-card-header">
+        <div>
+          <span class="pe-firm">{{ trigger.pe_firm }}</span>
+          <span class="pill-deal-type">{{ trigger.deal_type }}</span>
+        </div>
+        <span class="pe-fit-score">
+          <span class="pe-fit-label">Fit</span>
+          {{ trigger.fit_score }}
+        </span>
+      </div>
+
+      <div class="pe-card-body">
+        <span class="pe-target">{{ trigger.target_company }}</span>
+        <span class="pe-target-meta">
+          {{ trigger.sub_vertical }} &middot; {{ trigger.revenue_band }} &middot; {{ trigger.geography }}
+        </span>
+      </div>
+
+      <p class="pe-context">{{ trigger.context }}</p>
+
+      <div class="pe-card-footer">
+        <div class="pe-window-bar">
+          <div class="pe-window-fill {% if trigger.window_remaining <= 14 %}pe-window-fill--critical{% elif trigger.window_remaining <= 30 %}pe-window-fill--warning{% endif %}" style="width: {{ trigger.window_remaining }}%"></div>
+        </div>
+        <span class="pe-days">{{ trigger.days_since }}d ago</span>
+        <span class="pe-window-label">{{ trigger.window_remaining }}d left</span>
+        <span class="pill-routing pill-routing--{{ trigger.routing }}">
+          {% if trigger.routing == "named_ae" %}{{ trigger.assigned_ae }}{% else %}BDR Queue{% endif %}
+        </span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

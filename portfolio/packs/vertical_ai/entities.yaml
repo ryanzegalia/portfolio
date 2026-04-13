@@ -1,0 +1,44 @@
+- entity_type: practice
+  fields:
+    - canonical_name
+    - state
+    - practice_size_employees
+    - parent_dso_id
+    - detected_pms
+    - detection_confidence
+    - prospect_status
+    - account_owner_team
+    - dollar_impact_per_field
+
+- entity_type: dso
+  fields:
+    - canonical_name
+    - existing_msa
+    - warm_contacts_count
+    - msa_signed_at
+
+- entity_type: customer
+  fields:
+    - canonical_name
+    - location_count
+    - active_locations
+    - arr
+    - renewal_at
+    - case_acceptance_baseline_pct
+    - case_acceptance_current_pct
+    - incremental_dollars
+    - roi_multiple
+
+- entity_type: location
+  fields:
+    - parent_customer_id
+    - case_acceptance_baseline_pct
+    - case_acceptance_current_pct
+    - lift_pct
+    - status
+
+- entity_type: enrichment_run
+  fields:
+    - prospect_count
+    - reclassified_count
+    - run_at

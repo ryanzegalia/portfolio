@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{{ entity.canonical_name }} | {{ pack.name }}{% endblock %}
+
+{#
+  Entity detail view.
+
+  Renders one card per upstream source (HubSpot / BigQuery / Stripe for SaaS,
+  generic per-source cards for other packs). All three cards walk the SAME
+  canonical field schema so the comparison reads as three columns of the
+  same table — drift cells appear in the same row across columns and get
+  a red value color + inline "$X drift" note.
+
+  The old version of this template exposed `natural_key`, `field_hash`, and
+  a raw_snapshot <details> dump — that was the debug-view Ryan flagged. The
+  handler now flattens raw_snapshot into business fields in
+  `gtm/account_brief.py::_build_saas_source_cards`. This template only
+  consumes the flattened `source_cards` shape.
+#}
+
+{% block content %}
+<div class="container entity-detail">
+  <header class="page-header">
+    <a href="/{{ pack.id }}" class="back-link">&larr; {{ pack.name }}</a>
+    <h1 class="page-title">{{ entity.canonical_name }}</h1>
+    <p class="page-subtitle">
+      {{ entity.entity_type|capitalize }}
+      {% if entity.confidence %}&middot; confidence {{ '%.2f'|format(entity.confidence) }}{% endif %}
+    </p>
+  </header>
+
+  <section class="source-comparison">
+    <h2 class="section-title">Source comparison</h2>
+    <p class="section-lede">
+      Three source systems, the same customer, five business fields.
+      Cells in red disagree across sources.
+    </p>
+
+    <div class="source-grid">
+      {% for card in source_cards %}
+      <article class="card source-card">
+        <header class="source-card-header">
+          <h3 class="card-title">{{ card.source_display_name }}</h3>
+          {% if card.pulled_at %}
+          <span class="caption">pulled {{ card.pulled_at.strftime('%Y-%m-%d %H:%M') }}</span>
+          {% endif %}
+        </header>
+        <dl class="source-card-fields">
+          {% for row in card.rows %}
+          <div class="source-card-row{% if row.is_drift %} is-drift{% endif %}{% if row.is_missing %} is-missing{% endif %}">
+            <dt class="source-card-label">{{ row.label }}</dt>
+            <dd class="source-card-value{% if row.is_drift %} source-card-value--drift{% endif %}">
+              {{ row.value }}
+              {% if row.drift_note %}
+              <span class="source-card-drift-note">{{ row.drift_note }}</span>
+              {% endif %}
+            </dd>
+          </div>
+          {% endfor %}
+        </dl>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

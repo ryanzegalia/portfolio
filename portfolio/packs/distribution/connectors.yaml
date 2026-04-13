@@ -1,0 +1,28 @@
+- source_key: hubspot
+  mappings:
+    canonical_name: company.name
+    deal_stage: deal.stage_name
+    deal_amount: deal.amount
+  reconciliation_rules:
+    canonical_name: hubspot
+    deal_stage: hubspot
+
+- source_key: erp_telemetry
+  mappings:
+    orders_processed: trial.daily_order_count
+    accuracy_rate: trial.accuracy_pct
+    ftes_saved: trial.fte_equivalent
+  reconciliation_rules:
+    orders_processed: erp_telemetry
+
+- source_key: crunchbase
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: job_postings
+  mappings: {}
+  reconciliation_rules: {}
+
+- source_key: vendor_directories
+  mappings: {}
+  reconciliation_rules: {}

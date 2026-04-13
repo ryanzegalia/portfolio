@@ -1,0 +1,25 @@
+{#
+  Brand-only top nav. Rendered on every page via include in base.html.
+
+  Deliberately minimal: the whole nav is "Ryan Zegalia" as a link to the
+  root. No cross-vertical links — each vertical page should feel bespoke
+  to its reader. Readers curious about scope discover the other verticals
+  by clicking the brand through to the root, not from a nav strip.
+
+  On the root page itself the link is rendered as inert (pointer-events:
+  none via .is-root) so it doesn't feel like a broken self-reference.
+#}
+<nav class="topnav" aria-label="Portfolio">
+  <div class="topnav-inner">
+    {% if request.url.path == '/' %}
+      <span class="topnav-brand is-root">Ryan Zegalia</span>
+    {% else %}
+      <a class="topnav-brand" href="/">Ryan Zegalia</a>
+    {% endif %}
+    <div class="topnav-socials">
+      <a href="https://www.linkedin.com/in/ryan-zegalia-6bbb90217/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+      <a href="mailto:ryanzegalia@gmail.com" aria-label="Email"><i class="ph ph-envelope-simple"></i></a>
+      <a href="https://github.com/ryanzegalia/portfolio" target="_blank" rel="noopener" aria-label="GitHub portfolio"><i class="ph ph-github-logo"></i></a>
+    </div>
+  </div>
+</nav>

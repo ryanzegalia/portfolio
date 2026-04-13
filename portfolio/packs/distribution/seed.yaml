@@ -1,0 +1,278 @@
+prospect_names:
+  hero:
+    - "Consolidated Electrical Distributors"
+    - "Granite State Plumbing Supply"
+    - "Heartland HVAC Parts"
+    - "Pacific Pipe & Supply"
+    - "Mountain West Industrial"
+    - "Great Lakes Safety Supply"
+  filler:
+    - "Tri-County Electric"
+    - "Western MRO Supply"
+    - "Atlantic Valve & Fitting"
+    - "Prairie Construction Supply"
+
+ae_names:
+  - "Derek Hollis"
+  - "Samantha Voss"
+  - "Carlos Ruiz"
+
+value_generators:
+  deal_amount_range: [48000, 320000]
+  branch_count_range: [3, 28]
+
+# -- Scenario 1: The ERP Detection Problem --
+# Prospects with enrichment signals for ERP detection.
+erp_detection:
+  detected_prospect_count: 5
+  hero_prospects:
+    - company: "Consolidated Electrical Distributors"
+      sub_vertical: "Electrical"
+      branch_count: 22
+      detected_erp: "Epicor Prophet 21"
+      confidence: 0.90
+      route: "demo_track"
+      signals:
+        - source: "job_posting"
+          detail: "Indeed posting: 'Prophet 21 System Administrator, 3+ years'"
+          found: true
+        - source: "vendor_directory"
+          detail: "Listed in Epicor partner success stories (2024)"
+          found: true
+        - source: "trade_show"
+          detail: "Exhibitor at Epicor Insights 2025 conference"
+          found: true
+        - source: "technographic"
+          detail: "6sense profile shows Epicor match"
+          found: false
+    - company: "Mountain West Industrial"
+      sub_vertical: "MRO / Industrial"
+      branch_count: 14
+      detected_erp: null
+      confidence: 0.15
+      route: "manual_qualification"
+      signals:
+        - source: "job_posting"
+          detail: "No ERP-specific keywords in 12 recent postings"
+          found: false
+        - source: "vendor_directory"
+          detail: "Not found in Epicor, SAP, or NetSuite directories"
+          found: false
+        - source: "trade_show"
+          detail: "Exhibited at ISA (Industrial Supply Association) 2025"
+          found: true
+        - source: "technographic"
+          detail: "No match in 6sense"
+          found: false
+    - company: "Granite State Plumbing Supply"
+      sub_vertical: "Plumbing / PVF"
+      branch_count: 6
+      detected_erp: "NetSuite"
+      confidence: 0.70
+      route: "demo_track"
+      signals:
+        - source: "job_posting"
+          detail: "LinkedIn job: 'Warehouse Manager, NetSuite experience preferred'"
+          found: true
+        - source: "vendor_directory"
+          detail: "No match in NetSuite customer directory"
+          found: false
+        - source: "trade_show"
+          detail: "Attended SuiteWorld 2025 (badge scan data)"
+          found: true
+        - source: "technographic"
+          detail: "6sense shows NetSuite ERP match"
+          found: true
+    - company: "Heartland HVAC Parts"
+      sub_vertical: "HVAC"
+      branch_count: 9
+      detected_erp: "Epicor Eclipse"
+      confidence: 0.60
+      route: "demo_track"
+      signals:
+        - source: "job_posting"
+          detail: "Glassdoor review mentions 'Eclipse system' in daily workflow"
+          found: true
+        - source: "vendor_directory"
+          detail: "No match in Epicor Eclipse directory"
+          found: false
+        - source: "trade_show"
+          detail: "AHR Expo 2025 exhibitor"
+          found: true
+        - source: "technographic"
+          detail: "No match in 6sense"
+          found: false
+    - company: "Pacific Pipe & Supply"
+      sub_vertical: "PVF"
+      branch_count: 4
+      detected_erp: "Acumatica"
+      confidence: 0.85
+      route: "demo_track"
+      signals:
+        - source: "job_posting"
+          detail: "Indeed: 'Inside Sales, Acumatica distribution module experience'"
+          found: true
+        - source: "vendor_directory"
+          detail: "Acumatica customer case study (2023)"
+          found: true
+        - source: "trade_show"
+          detail: "No relevant trade show signal"
+          found: false
+        - source: "technographic"
+          detail: "6sense shows Acumatica match"
+          found: true
+
+# -- Scenario 2: The Proof-of-Value Pipeline --
+# Active trials with real-time metrics.
+pov_pipeline:
+  active_pov_count: 3
+  hero_trials:
+    - company: "Granite State Plumbing Supply"
+      deal_stage: "POV"
+      deal_amount: 96000
+      assigned_ae: "Samantha Voss"
+      trial_start: "2026-03-28"
+      trial_end: "2026-04-11"
+      trial_days_remaining: 0
+      thresholds:
+        accuracy: 0.90
+        orders_per_day: 100
+        fte_savings: 2.0
+        error_rate: 0.05
+      metrics:
+        accuracy: 0.94
+        accuracy_trend: "stable"
+        orders_per_day: 218
+        fte_savings: 3.1
+        error_rate: 0.028
+        error_rate_baseline: 0.072
+      status: "above_threshold"
+      verdict: "All metrics above go threshold. Business case: 3.1 FTE savings at $42K/FTE = $130K annual savings against $96K contract."
+    - company: "Heartland HVAC Parts"
+      deal_stage: "POV"
+      deal_amount: 142000
+      assigned_ae: "Derek Hollis"
+      trial_start: "2026-04-01"
+      trial_end: "2026-04-15"
+      trial_days_remaining: 4
+      thresholds:
+        accuracy: 0.90
+        orders_per_day: 150
+        fte_savings: 2.5
+        error_rate: 0.05
+      metrics:
+        accuracy: 0.87
+        accuracy_trend: "improving"
+        orders_per_day: 164
+        fte_savings: 2.2
+        error_rate: 0.061
+        error_rate_baseline: 0.089
+      status: "below_threshold"
+      flagged_metric: "accuracy"
+      verdict: "Accuracy at 87% (threshold 90%). Error rate trending down. SE intervention recommended: review misclassified SKU categories."
+    - company: "Mountain West Industrial"
+      deal_stage: "POV"
+      deal_amount: 210000
+      assigned_ae: "Carlos Ruiz"
+      trial_start: "2026-04-05"
+      trial_end: "2026-04-19"
+      trial_days_remaining: 8
+      thresholds:
+        accuracy: 0.90
+        orders_per_day: 200
+        fte_savings: 3.0
+        error_rate: 0.05
+      metrics:
+        accuracy: 0.91
+        accuracy_trend: "stable"
+        orders_per_day: 187
+        fte_savings: 2.8
+        error_rate: 0.043
+        error_rate_baseline: 0.095
+      status: "mixed"
+      flagged_metric: "orders_per_day"
+      verdict: "Accuracy and error rate above threshold. Orders/day at 94% of target (187/200). Monitor adoption rate at the Denver branch."
+
+# -- Scenario 3: The PE Trigger Window --
+# Recent PE acquisitions in distribution with urgency decay.
+pe_triggers:
+  active_pe_trigger_count: 5
+  hero_triggers:
+    - pe_firm: "Platinum Equity"
+      deal_type: "Acquisition"
+      target_company: "R&B Wholesale Distributors"
+      sub_vertical: "Foodservice / Janitorial"
+      acquisition_date: "2026-02-14"
+      days_since: 56
+      window_remaining: 44
+      fit_score: 88
+      revenue_band: "$200M-$500M"
+      geography: "Western US"
+      routing: "named_ae"
+      assigned_ae: "Carlos Ruiz"
+      context: "Platinum targets operational efficiency in distribution. R&B has 12 branches across 4 states, processing 800+ orders/day by phone and email."
+    - pe_firm: "QXO Inc."
+      deal_type: "Roll-up"
+      target_company: "Beacon Roofing Supply"
+      sub_vertical: "Roofing / Construction"
+      acquisition_date: "2026-01-22"
+      days_since: 79
+      window_remaining: 21
+      fit_score: 72
+      revenue_band: "$5B+"
+      geography: "National"
+      routing: "named_ae"
+      assigned_ae: "Derek Hollis"
+      context: "QXO's stated thesis is digitizing analog distribution. Beacon is the largest US roofing distributor. Enterprise deal, long cycle."
+    - pe_firm: "WinSupply"
+      deal_type: "Roll-up"
+      target_company: "R.A. Novia Associates"
+      sub_vertical: "Plumbing / HVAC"
+      acquisition_date: "2026-03-18"
+      days_since: 24
+      window_remaining: 76
+      fit_score: 91
+      revenue_band: "$10M-$50M"
+      geography: "Connecticut"
+      routing: "named_ae"
+      assigned_ae: "Samantha Voss"
+      context: "WinSupply acquires 3-5 regional distributors per year. R.A. Novia is their third 2026 acquisition. Standard integration playbook includes technology audit in first 60 days."
+    - pe_firm: "Clearlake Capital"
+      deal_type: "Acquisition"
+      target_company: "Kaman Distribution"
+      sub_vertical: "Industrial / MRO"
+      acquisition_date: "2026-03-02"
+      days_since: 40
+      window_remaining: 60
+      fit_score: 79
+      revenue_band: "$500M-$1B"
+      geography: "National"
+      routing: "bdr_queue"
+      assigned_ae: null
+      context: "Clearlake has a distribution vertical thesis. Kaman Distribution Group spun off from Kaman Aerospace. 200+ branches, complex ERP landscape."
+    - pe_firm: "KKR"
+      deal_type: "Carve-out"
+      target_company: "HD Supply Facilities Maintenance"
+      sub_vertical: "MRO / Facilities"
+      acquisition_date: "2026-01-08"
+      days_since: 93
+      window_remaining: 7
+      fit_score: 65
+      revenue_band: "$1B+"
+      geography: "National"
+      routing: "bdr_queue"
+      assigned_ae: null
+      context: "Window closing. 93 days since close. If no outreach has happened, this trigger is likely stale. Low priority."
+
+connector_data:
+  hubspot:
+    - source_external_id: "hs-consolidated"
+      natural_key: "consolidated_electrical"
+      canonical:
+        canonical_name: "Consolidated Electrical Distributors"
+        deal_stage: "Discovery"
+        deal_amount: 186000
+      raw:
+        company_id: "comp_00123"
+        stage_name: "Discovery"
+        amount: 186000

@@ -1,0 +1,195 @@
+practice_names:
+  hero:
+    - "Smile Dental of Tampa"
+    - "Beachside Family Dentistry"
+  filler: []
+
+dso_names:
+  - "Heartland Dental"
+  - "Aspen Dental"
+  - "MB2 Dental"
+  - "Pacific Dental Services"
+
+customer_names:
+  hero:
+    - "Health River Dental Group"
+  filler: []
+
+enrichment:
+  prospect_count: 500
+  dso_reclassified_count: 73
+  reclassification_breakdown:
+    Heartland Dental: 31
+    Aspen Dental: 18
+    MB2 Dental: 12
+    Pacific Dental Services: 7
+    smaller: 5
+  hero_smile_dental:
+    name: "Smile Dental of Tampa"
+    state: FL
+    apollo_says_employees: 12
+    apollo_says_parent: "Heartland Dental"
+    zoominfo_says_employees: 8
+    zoominfo_says_independent: true
+    linkedin_office_manager_changed_at: "2026-03-25"
+    web_scrape_footer_match: true
+    sunbiz_filing_date: "2025-12-08"
+    sunbiz_filing_type: "Articles of Merger"
+    verdict_confidence: 0.96
+    warm_contacts_at_heartland_hq: 2
+
+sor_detection:
+  practices_with_pms_detection_count: 412
+  high_confidence_threshold: 0.85
+  detected_distribution:
+    Dentrix: 166
+    Eaglesoft: 89
+    "Open Dental": 71
+    "Curve Dental": 28
+    Other: 58
+  hero_practice:
+    name: "Beachside Family Dentistry"
+    detected_pms: "Eaglesoft"
+    confidence: 0.88
+    signals:
+      - "Patterson Innovation Connection portal markup detected in <head> (Patterson-hosted patient engagement library)"
+      - "Indeed job 2025-12: 'front desk, Eaglesoft 2 yrs req'"
+      - "Patterson Dental partner case study mention (2023)"
+      - "Patient portal subdomain (patient.beachsidefamilydental.com) resolves to a Patterson-hosted endpoint"
+
+customer_roi:
+  hero_customer:
+    name: "Health River Dental Group"
+    location_count: 12
+    active_locations: 11
+    arr: 180000
+    renewal_in_days: 47
+    case_acceptance_baseline_pct: 38.4
+    case_acceptance_current_pct: 43.7
+    incremental_dollars: 420000
+    roi_multiple: 2.3
+    flat_location: "Clearwater"
+    flat_location_provider_count: 4
+    flat_location_active_provider_count: 2
+    per_location_lift:
+      - { name: "Tampa Main",      baseline_pct: 38, current_pct: 44, lift_pct: 16, sync_status: "ok" }
+      - { name: "Sarasota",        baseline_pct: 36, current_pct: 43, lift_pct: 19, sync_status: "ok" }
+      - { name: "St. Pete",        baseline_pct: 39, current_pct: 43, lift_pct: 10, sync_status: "lag_2d" }
+      - { name: "Clearwater",      baseline_pct: 37, current_pct: 37, lift_pct: 0,  sync_status: "ok", flat: true }
+      - { name: "Brandon",         baseline_pct: 41, current_pct: 47, lift_pct: 15, sync_status: "ok" }
+      - { name: "Largo",           baseline_pct: 38, current_pct: 44, lift_pct: 16, sync_status: "ok" }
+      - { name: "Riverview",       baseline_pct: 39, current_pct: 46, lift_pct: 18, sync_status: "ok" }
+      - { name: "Wesley Chapel",   baseline_pct: 40, current_pct: 47, lift_pct: 17, sync_status: "ok" }
+      - { name: "Temple Terrace",  baseline_pct: 37, current_pct: 43, lift_pct: 14, sync_status: "ok" }
+      - { name: "New Port Richey", baseline_pct: 38, current_pct: 44, lift_pct: 15, sync_status: "ok" }
+      - { name: "Palm Harbor",     baseline_pct: 39, current_pct: 45, lift_pct: 16, sync_status: "ok" }
+      - { name: "Dunedin",         baseline_pct: 38, current_pct: 44, lift_pct: 16, sync_status: "ok" }
+    renewal_brief: |
+      11 of 12 locations show meaningful case acceptance lift. Clearwater is
+      flat and worth investigating. Likely cause: only 2 of 4 providers at
+      Clearwater are using the product (per usage telemetry). Recommended
+      renewal strategy: lead with the $420K incremental value figure, address
+      Clearwater proactively with a free on-site training session. Renewal
+      probability if Clearwater is addressed: 88%.
+
+drift_dollar_impacts:
+  ent_smile_dental_tampa__parent_dso_id: 180000
+
+connector_data:
+  hubspot:
+    - source_external_id: "hs_smile_dental_tampa"
+      natural_key: hs_smile_dental_tampa
+      canonical:
+        canonical_name: "Smile Dental of Tampa"
+        state: "FL"
+        practice_size_employees: 8
+        parent_dso_id: null
+        account_owner_team: "SMB"
+      raw:
+        properties:
+          name: "Smile Dental of Tampa"
+          state: "FL"
+          num_employees: 8
+          parent_account_id: null
+
+    - source_external_id: "hs_beachside_family_dentistry"
+      natural_key: hs_beachside_family_dentistry
+      canonical:
+        canonical_name: "Beachside Family Dentistry"
+        state: "FL"
+        practice_size_employees: 6
+      raw:
+        properties:
+          name: "Beachside Family Dentistry"
+
+    - source_external_id: "hs_health_river"
+      natural_key: hs_health_river
+      canonical:
+        canonical_name: "Health River Dental Group"
+        practice_size_employees: 84
+      raw:
+        properties:
+          name: "Health River Dental Group"
+
+    - source_external_id: "hs_heartland"
+      natural_key: hs_heartland
+      canonical:
+        canonical_name: "Heartland Dental"
+        is_dso: true
+      raw:
+        properties:
+          name: "Heartland Dental"
+
+  apollo:
+    - source_external_id: "ap_smile_dental_tampa"
+      natural_key: ap_smile_dental
+      canonical:
+        canonical_name: "Smile Dental of Tampa"
+        practice_size_employees: 12
+        parent_company: "Heartland Dental"
+      raw:
+        organization:
+          name: "Smile Dental of Tampa"
+          estimated_num_employees: 12
+          parent_organization_name: "Heartland Dental"
+
+  zoominfo:
+    - source_external_id: "zi_smile_dental_tampa"
+      natural_key: zi_smile_dental
+      canonical:
+        canonical_name: "Smile Dental of Tampa"
+        practice_size_employees: 8
+        parent_company: null
+      raw:
+        company:
+          name: "Smile Dental of Tampa"
+          employee_count: 8
+          ultimate_parent_company: null
+
+  fl_sunbiz:
+    - source_external_id: "sunbiz_smile_dental"
+      natural_key: fl_sunbiz_smile_dental
+      canonical:
+        canonical_name: "Smile Dental of Tampa"
+        parent_dso_id: "Heartland Dental"
+        acquisition_date: "2025-12-08"
+        filing_type: "Articles of Merger"
+      raw:
+        filings:
+          most_recent_articles_of_merger:
+            parent: "Heartland Dental"
+            filing_date: "2025-12-08"
+
+  heartland_dental:
+    - source_external_id: "hd_msa"
+      natural_key: hd_msa
+      canonical:
+        canonical_name: "Heartland Dental MSA"
+        signed_at: "2024-06-01"
+        warm_contacts_at_hq: 2
+      raw:
+        msa:
+          status: "active"
+          warm_contacts:
+            - "hd_contact_1"
+            - "hd_contact_2"

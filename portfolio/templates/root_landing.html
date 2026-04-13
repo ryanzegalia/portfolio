@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Ryan Zegalia, operations engineering portfolio{% endblock %}
+
+{#
+  Personal portfolio index.
+
+  This page is the fallback index. In normal use Ryan sends direct
+  per-vertical URLs to hiring managers. When a reader does land here,
+  the page has one job: orient them and get them into the right vertical
+  in ~15 seconds.
+
+  2026-04-11 anti-template pass v3 (launchpad + mini bio at top):
+  - Photo + 2-paragraph plain-text mini bio is the hero. No marketing H1,
+    no eyebrow, no craft line. Identity carries the framing.
+  - Three large clickable tiles, one per vertical. Each reads its short
+    umbrella from `p.landing.hero.root_tile_title` (falls back to
+    `hero.problem` if the short version isn't set, which would happen
+    only if pack.yaml drops behind).
+  - Footer is the LinkedIn/Email/GitHub row, nothing else. The reader
+    directive that used to live above the footer is now baked into the
+    mini bio at the top of the page.
+#}
+
+{% block content %}
+<section class="root-hero" data-reveal>
+  <div class="container root-hero-inner">
+    {# Photo. 256x256 JPEG, displayed at 120px desktop / 96px mobile. #}
+    <img class="root-hero-avatar" src="/static/img/ryan.jpg" alt="Ryan Zegalia">
+    <div class="root-hero-body">
+      <p>
+        I'm Ryan Zegalia. 13 years in operations at a mid-size B2C/B2B
+        manufacturer, progressing through warehouse fulfillment, purchasing,
+        e-commerce, marketing, and into the systems and automation I build now.
+      </p>
+      <p>
+        Five industry explorations below. For source
+        code, documentation, and production systems I've built, see my
+        <a href="https://github.com/ryanzegalia/portfolio" target="_blank" rel="noopener">GitHub portfolio</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<nav class="root-tiles container" aria-label="Verticals">
+  {% for p in packs %}
+  <a class="root-tile" data-pack="{{ p.id }}" href="/{{ p.id }}" data-reveal>
+    {#
+      5-layer card (2026-04-11):
+      1. eyebrow         — vertical label (reuses .root-tile-eyebrow)
+      2. title           — 1-line umbrella from hero.root_tile_title
+      3. scenarios       — prose preview from hero.card_preview
+      4. signals         — muted tool vocabulary from landing.signals
+      5. cta             — "Read the three scenarios →" anchored bottom-right
+    #}
+    <span class="root-tile-eyebrow">{{ p.vertical_label }}</span>
+
+    <h2 class="root-tile-title">
+      {% if p.landing and p.landing.hero and p.landing.hero.root_tile_title %}
+        {{ p.landing.hero.root_tile_title | trim }}
+      {% elif p.landing and p.landing.hero and p.landing.hero.problem %}
+        {{ p.landing.hero.problem | trim }}
+      {% else %}
+        {{ p.name }}
+      {% endif %}
+    </h2>
+
+    {% if p.landing and p.landing.hero and p.landing.hero.card_preview %}
+    <p class="root-tile-scenarios">{{ p.landing.hero.card_preview | trim }}</p>
+    {% endif %}
+
+    {% if p.landing and p.landing.signals %}
+    <p class="root-tile-signals">{{ p.landing.signals }}</p>
+    {% endif %}
+
+    <span class="root-tile-cta">
+      Read the three scenarios &rarr;
+    </span>
+  </a>
+  {% endfor %}
+</nav>
+
+<section class="root-footer-cta container" data-reveal>
+  <div class="root-footer-links">
+    <a href="https://www.linkedin.com/in/ryan-zegalia-6bbb90217/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+    <a href="mailto:ryanzegalia@gmail.com" aria-label="Email"><i class="ph ph-envelope-simple"></i></a>
+    <a href="https://github.com/ryanzegalia/portfolio" target="_blank" rel="noopener" aria-label="GitHub portfolio"><i class="ph ph-github-logo"></i></a>
+  </div>
+</section>
+{% endblock %}

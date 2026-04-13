@@ -1,0 +1,219 @@
+id: saas
+name: "PLG B2B SaaS"
+vertical_label: "PLG B2B SaaS"
+# Short label used on the root portfolio page's 3-card preview.
+# Keep terse; longer framing lives in the landing hero.
+
+# 2026-04-11 research evidence pass: glossary terms for hover tooltips
+# (markup_terms filter in vertical_landing.html).
+glossary:
+  HubSpot: "A CRM used broadly by mid-market SaaS GTM teams. For PLG companies it tends to hold the paid-seat count and pipeline but lag behind actual product usage."
+  BigQuery: "Google's cloud data warehouse. In PLG GTM stacks it's usually the source of truth for product telemetry. The table where HubSpot seat counts disagree with reality."
+  Hightouch: "A reverse-ETL product that syncs data from warehouses like BigQuery into operational tools like HubSpot. Jobs can fail silently, which is one of the root causes of the seat-drift scenario."
+  Stripe: "Payment + billing platform. For usage-based or seat-based SaaS, the amount invoiced through Stripe is the third source that should agree with HubSpot and BigQuery but often doesn't."
+  PLG: "Product-Led Growth. A GTM model where the product itself drives acquisition and expansion, with sales assist layered on top. PLG companies tend to have usage signals that lead revenue by weeks."
+  PQL: "Product-Qualified Lead. An account whose in-product behavior crosses a threshold that historically converts. The counterpart to MQL for product-led GTM."
+  AE: "Account Executive. The closing sales role that owns opportunities in the pipeline."
+  MQL: "Marketing-Qualified Lead. A traditional marketing-sourced lead. In PLG funnels, product signals usually outperform MQL signals for conversion."
+  ARR: "Annual Recurring Revenue. The standard SaaS revenue metric for subscription customers."
+  "pipeline coverage": "The ratio of open pipeline dollar value to the quarter's remaining quota. Below ~3.0× usually means the quarter is at risk; above means there's enough to weather normal fallout."
+  "stage-skipping": "A deal moving from an early pipeline stage directly to late-stage without passing through the intermediate stages. Hides quality problems the standard pipeline view doesn't catch."
+  "commission audit": "A RevOps workflow that reconstructs how a deal actually moved through the pipeline and who owned it when, so commission is paid correctly when multiple AEs touched a deal."
+  RevOps: "Revenue Operations. The function that owns GTM systems, data, and process. The role this portfolio is aimed at."
+  Attio: "A warehouse-native CRM popular with PLG RevOps teams that want product signals inside the CRM rather than syncing through middleware."
+  "warehouse-native": "GTM tools built on top of the company's data warehouse (Snowflake / BigQuery / Redshift) instead of maintaining a separate internal database. Reduces sync gaps."
+  Hex: "A collaborative notebook tool used by analytics and RevOps teams for ad-hoc data exploration. Often the place a 'debug why this PQL didn't convert' session ends up."
+
+research_sources:
+  - title: "Hightouch · reverse ETL for SaaS GTM"
+    url: "https://hightouch.com/blog/reverse-etl"
+    note: "The tool most commonly used to sync product usage from BigQuery into HubSpot. Its failure mode, jobs that fail silently, is directly responsible for the phantom seats scenario."
+  - title: "Attio + Hightouch · product data inside your CRM"
+    url: "https://attio.com/blog/attio-hightouch-all-your-user-and-product-data-inside-your-crm"
+    note: "Good reference on the 'continuous reconciliation logic upstream in the warehouse' pattern that makes seat drift visible to AEs as a working queue."
+  - title: "HubSpot · managing seats and seat billing"
+    url: "https://knowledge.hubspot.com/account-management/manage-seats"
+    note: "HubSpot's own docs on how seats are recorded on a deal. Useful for understanding why the warehouse vs. CRM drift happens: HubSpot's seat count is manual on deal closure."
+  - title: "Stripe · metered billing + usage records"
+    url: "https://docs.stripe.com/billing/subscriptions/usage-based"
+    note: "The third side of the triangle (CRM / warehouse / billing). Stripe's usage-based billing is where phantom seats turn into unbilled revenue."
+  - title: "OpenView · Your guide to Product-Qualified Leads"
+    url: "https://openviewpartners.com/blog/your-guide-to-product-qualified-leads-pqls/"
+    note: "Practitioner writing on PQL definitions, scoring, and the AE-routing pattern that decays if nobody watches the queue."
+  - title: "dbt · incremental models for warehouse-native GTM"
+    url: "https://docs.getdbt.com/docs/build/incremental-models"
+    note: "The transform layer where pipeline-history tables (Forecast Variance scenario) actually live. The 'store the full history of every stage move' shape is usually built as a dbt incremental model."
+
+terminology:
+  entity: Account
+  entity_plural: Accounts
+  pipeline: "Sales Pipeline"
+  agent: Agent
+  scoreable_lead: PQL
+  scoreable_lead_plural: PQLs
+
+dashboard_cards:
+  - id: revenue_at_risk
+    title: Revenue at Risk
+    subtitle: "Phantom seats and unbilled expansion"
+    metric_field: aggregate_drift_dollars
+    icon: ph-currency-circle-dollar
+    href: /saas/revenue
+  - id: stale_pql
+    title: PQL Decay
+    subtitle: "Decayed PQLs without AE follow-up"
+    metric_field: decayed_pql_count
+    icon: ph-flag
+    href: /saas/pql
+  - id: forecast_variance
+    title: Forecast Health
+    subtitle: "Coverage, AE pipeline hygiene, commission audit"
+    metric_field: forecast_coverage_ratio
+    icon: ph-chart-line
+    href: /saas/forecast
+  - id: drift_events
+    title: Open Drift Events
+    subtitle: "Cross-source disagreements awaiting resolution"
+    metric_field: open_drift_count
+    icon: ph-warning
+    href: /saas/agents
+
+# Scrollytelling landing page config — consumed by templates/vertical_landing.html
+# via pack_operations(). Each section's `loader` must exist as a key in
+# SECTION_CONTEXT_LOADERS in routes/pack_demo.py. The narrative text is
+# copied verbatim from 2026-04-10-opslayer-final-build-plan.md lines 364-492.
+landing:
+  # Root page 3-card preview uses this. Surfaced as a caption row above the CTA.
+  signals: "HubSpot · BigQuery · Stripe · Hightouch"
+
+  hero:
+    eyebrow: "PLG B2B SaaS, three operational scenarios"
+    # Umbrella framing for the vertical — the shape of operator pain in
+    # PLG SaaS GTM that all three scenarios below are specific variations
+    # of. Rewritten 2026-04-11 anti-template pass v3 (previous H1 was
+    # scenario 1's story, not an umbrella).
+    problem: >
+      PLG RevOps lives with a CRM that records the state of the pipeline
+      and the customer list as of right now. How each deal or account got
+      where it is, and what customers are actually doing in the product,
+      usually lives in a warehouse or a billing system that isn't the CRM.
+    # Short 1-line version for the root tile.
+    root_tile_title: >
+      The CRM records the current state of the pipeline, but the history
+      behind each deal and the product behavior behind each account live
+      somewhere else.
+    # Rendered on the root launchpad card. Names the three canonical
+    # SaaS scenarios inline and calls out the artifact specific to this
+    # vertical. Added 2026-04-11 root tile card pass.
+    card_preview: >
+      Three scenarios: Phantom Seats, Stale PQL, and Forecast Variance.
+      Real seeded Postgres, with a 22-line SQL seat-drift reconciliation
+      artifact rendered inline.
+    # hero.thesis dropped.
+    intro_paragraph: >
+      Phantom seats nobody's billing, PQL signals decaying in a queue
+      nobody watches, and forecast variance the standard pipeline view
+      can't explain. One worked example for each.
+    research_prelude: >
+      PLG operations is written about more publicly than most verticals,
+      mostly by practitioners at Hightouch, Attio, and warehouse-native
+      RevOps teams. These three scenarios come up repeatedly in that
+      writing.
+
+  sections:
+    - id: phantom_seats
+      loader: saas.phantom_seats
+      partial: components/packs/saas/phantom_seats.html
+      narrative:
+        eyebrow: "Scenario 1 of 3"
+        title: "The Phantom Seats"
+        problem: |
+          HubSpot says an account is on an 8-seat plan. The product database
+          shows 23 active users in the last 30 days. Sales reps quote upgrade
+          conversations against what HubSpot says, missing unbilled revenue.
+          This is common at PLG companies where the Hightouch sync quietly
+          lags reality.
+        solution: |
+          The shape I'd start with is a scheduled job that compares HubSpot's
+          paid seat count to the warehouse's active-user count each month.
+          When they disagree, it records the gap with a dollar figure from
+          the contract. That becomes a simple queue an AE can work, raising
+          the bill or opening an expansion.
+        production_example:
+          url: "https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/heartbeat-services.md"
+          label: "Nine scheduled reconciliation services with checkpoint sync and circuit breakers"
+        code_artifact:
+          language: sql
+          caption: "The shape of the seat-drift query"
+          code: |
+            -- one row per account where the billed seats and last-30d
+            -- active users disagree. Assumes hubspot_companies and
+            -- product_events are landed in the warehouse nightly by a
+            -- Hightouch reverse-ETL sync (or similar).
+            WITH active_users AS (
+              SELECT
+                account_id,
+                COUNT(DISTINCT user_id) AS active_user_count_30d
+              FROM product_events
+              WHERE event_ts >= current_date - interval '30 days'
+              GROUP BY 1
+            )
+            SELECT
+              h.account_id,
+              h.account_name,
+              h.billed_seats                               AS hubspot_seats,
+              COALESCE(a.active_user_count_30d, 0)         AS warehouse_users,
+              GREATEST(COALESCE(a.active_user_count_30d, 0) - h.billed_seats, 0) AS overage_users,
+              (GREATEST(COALESCE(a.active_user_count_30d, 0) - h.billed_seats, 0)
+                 * h.contract_per_seat_rate)               AS dollar_impact
+            FROM hubspot_companies h
+            LEFT JOIN active_users a USING (account_id)
+            WHERE COALESCE(a.active_user_count_30d, 0) > h.billed_seats
+            ORDER BY dollar_impact DESC;
+      cta:
+        label: "See the full drift table"
+        href: /saas/revenue
+
+    - id: stale_pql
+      loader: saas.stale_pql
+      partial: components/packs/saas/stale_pql.html
+      narrative:
+        eyebrow: "Scenario 2 of 3"
+        title: "The Stale PQL"
+        problem: |
+          A free user hit a usage threshold 14 days ago. The PQL was scored,
+          routed to an AE in HubSpot, and never followed up. The score has
+          decayed below threshold, and the signal is now invisible outside a
+          weekly Hex notebook review.
+        solution: |
+          What I'd sketch is a scorer that watches in-product behavior and
+          flags accounts on usage patterns that historically convert. If a
+          high-scoring account sits untouched in an AE queue for two weeks,
+          it resurfaces with the original signals and HubSpot context so the
+          AE can re-run the play in one click.
+      cta:
+        label: "See all 14 decayed PQLs"
+        href: /saas/pql
+
+    - id: forecast_variance
+      loader: saas.forecast_variance
+      partial: components/packs/saas/forecast_variance.html
+      narrative:
+        eyebrow: "Scenario 3 of 3"
+        title: "Forecast Variance"
+        problem: |
+          End of quarter. The CRO needs forecast confidence. HubSpot shows
+          $4.2M committed pipeline, last quarter the team booked $2.9M
+          against $4.4M at a 66% close rate, but with stage-skipping the
+          standard pipeline view hides. Commission disputes are stacking up
+          because deals were re-credited mid-quarter and nobody has an audit
+          trail.
+        solution: |
+          The way I'd approach it is to store the full history of every
+          deal's stage moves, not just where it sits right now. That history
+          unlocks a real pipeline coverage ratio, catches stage-skips
+          HubSpot hides, and builds a clean commission audit you can
+          actually defend.
+      cta:
+        label: "Open the full forecast view"
+        href: /saas/forecast

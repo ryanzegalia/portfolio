@@ -1,0 +1,120 @@
+- id: shift_coverage_critical
+  title: "The 6am Call-Off"
+  vocabulary_subtext: "Unfilled shifts inside the SLA window"
+  route: /home-care/shifts/critical
+  card_text: |
+    ┌─ ACTIVE SHIFT COVERAGE GAPS ───────────────────────────────────────────┐
+    │  3 unfilled shifts in next 4 hours · est. $620 family-visible impact¹  │
+    │                                                                        │
+    │  ¹ Blended rate $52/hr (includes caregiver wage, agency margin,        │
+    │    scheduler overhead). Regional COL adjustment: high-COL markets.     │
+    │                                                                        │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │  Mr. Henderson  ·  7:00–11:00am  (in 58 min)                     │  │
+    │  │  Original caregiver:  Maria Lopez (called off 6:02am - flu)      │  │
+    │  │  Care needs:  medication reminder, breakfast prep,               │  │
+    │  │               light housekeeping                                 │  │
+    │  │  Authorized:  4 hrs/day private pay                              │  │
+    │  │  System of record:  WellSky Personal Care                        │  │
+    │  │                                                                  │  │
+    │  │  RANKED BACKUPS  (by client history + proximity +                │  │
+    │  │  certification + fairness rotation)                              │  │
+    │  │    1.  Yolanda Torres    4 prior shifts w/ Henderson · 3.2 mi    │  │
+    │  │    2.  Brittany Williams 1 prior shift · 5.8 mi                  │  │
+    │  │    3.  Crystal Hudson    0 prior · 2.1 mi  (closest)             │  │
+    │  │    4.  Marcus Johnson    0 prior · 7.4 mi                        │  │
+    │  │                                                                  │  │
+    │  │  [Fan out SMS to top 4]   [Notify family]   [Manual assign]      │  │
+    │  │                                                                  │  │
+    │  │  Coverage Agent:                                                 │  │
+    │  │  "Yolanda has the strongest match (4 prior shifts, 3.2mi,        │  │
+    │  │  no overlap with her Tuesday morning shift). Auto-fanout         │  │
+    │  │  sequenced: Yolanda → Crystal → Brittany → Marcus, 90s           │  │
+    │  │  between sends, first reply wins. Sending..."                    │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    └────────────────────────────────────────────────────────────────────────┘
+- id: evv_triple_mismatch
+  title: "EVV Triple Mismatch"
+  vocabulary_subtext: "Sandata vs. WellSky schedule vs. WellSky care plan"
+  route: /home-care/reconciliation/evv
+  card_text: |
+    ┌─ EVV ↔ SCHEDULE ↔ AUTHORIZATION RECONCILIATION ────────────────────────┐
+    │  Last 30 days · 1,247 visits checked · 47 mismatches · −$2,340         │
+    │                                                                        │
+    │  MISMATCH BREAKDOWN                                                    │
+    │   • 23 visits - caregiver hours > authorized hours    (−$890)          │
+    │   • 18 visits - caregiver hours < scheduled hours     (−$620)          │
+    │   •  6 visits - EVV record missing entirely (paper)   (−$830)          │
+    │                                                                        │
+    │  TOP IMPACT MISMATCH                                                   │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ Mrs. Ada Robinson  ·  4/03/26  ·  Caregiver: Yolanda Torres      │  │
+    │  │ ┌──────────────┬──────────────┬──────────────┬───────────────┐   │  │
+    │  │ │              │ Sandata EVV  │ WellSky      │ WellSky       │   │  │
+    │  │ │              │              │ Schedule     │ Care Plan     │   │  │
+    │  │ │ Start        │ 8:14am       │ 8:00am       │ 8:00am        │   │  │
+    │  │ │ End          │ 12:42pm      │ 12:00pm      │ -             │   │  │
+    │  │ │ Hours        │ 4.47         │ 4.00         │ 4.00 max      │   │  │
+    │  │ │ Tasks        │ bath, meal,  │ bath, meal   │ bath, meal    │   │  │
+    │  │ │              │ + laundry    │              │               │   │  │
+    │  │ └──────────────┴──────────────┴──────────────┴───────────────┘   │  │
+    │  │                                                                  │  │
+    │  │ Drift:   28 minutes over authorization + unauthorized task       │  │
+    │  │ Impact:  0.47 hrs over the daily cap                             │  │
+    │  │          → blocks $14.10 of the per-diem reimbursement²          │  │
+    │  │          + family will dispute the laundry charge                │  │
+    │  │                                                                  │  │
+    │  │ ² Calculated against this client's John Hancock LTC policy daily │  │
+    │  │   cap of $210/day; the 0.47 hr overage maps to ~$14.10 of capped │  │
+    │  │   reimbursement on this visit. Per-diem caps apply, not hourly.  │  │
+    │  │                                                                  │  │
+    │  │ Reconciler Agent:                                                │  │
+    │  │ "Yolanda has done 4 prior shifts with Mrs. Ada and laundry has   │  │
+    │  │ been added each time without an authorization update. Suggest    │  │
+    │  │ requesting an LTC carrier reauth to add 'laundry, 30 min,        │  │
+    │  │ 1×/week' to Mrs. Ada's care plan. Draft below."                  │  │
+    │  │                                                                  │  │
+    │  │ [Accept fix]   [Manual review]   [Generate reauth request]       │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    │                                                                        │
+    │  Note: EVV reporting is required for Medicaid waiver clients under     │
+    │  the 21st Century Cures Act, and most agencies voluntarily use the     │
+    │  same EVV system for their private-pay clients too - running two       │
+    │  EVV systems is operationally infeasible.                              │
+    └────────────────────────────────────────────────────────────────────────┘
+- id: care_plan_drift
+  title: "The Stale Care Plan"
+  vocabulary_subtext: "Acuity drift detected from shift notes"
+  route: /home-care/care-plans/drift
+  card_text: |
+    ┌─ CARE PLAN DRIFT ALERTS ───────────────────────────────────────────────┐
+    │  9 clients with shift-note signals not reflected in care plan          │
+    │  Est. lost margin: $1,840/mo · clinical risk flagged on 3              │
+    │                                                                        │
+    │  ┌──────────────────────────────────────────────────────────────────┐  │
+    │  │ Mr. Henderson  ·  Care plan last updated 47 days ago             │  │
+    │  │ LTC carrier:  John Hancock LTC                                   │  │
+    │  │                                                                  │  │
+    │  │ LLM-detected acuity drift from shift notes:                      │  │
+    │  │   3/29:  "trouble getting out of bed, helped him sit up"         │  │
+    │  │   4/01:  "needed two-person assist for transfer to chair"        │  │
+    │  │   4/04:  "wife mentioned he fell last weekend"                   │  │
+    │  │   4/06:  "took 25 min for what used to be 10 min transfer"       │  │
+    │  │                                                                  │  │
+    │  │ Drift type:        acuity_increase                               │  │
+    │  │ Current care plan: ambulatory, minimal assist, independent       │  │
+    │  │ Inferred actual:   needs transfer assist, fall risk              │  │
+    │  │                                                                  │  │
+    │  │ Stuck Triage Agent:                                              │  │
+    │  │ "This client needs an acuity reassessment. The shift-note        │  │
+    │  │ pattern over 9 days shows a consistent increase in transfer      │  │
+    │  │ assistance time. Recommended: schedule a reassessment, then      │  │
+    │  │ submit a reauthorization to John Hancock LTC requesting an       │  │
+    │  │ increase from 4 to 5 hours per day. Reauth packets typically     │  │
+    │  │ require recent assessment notes plus the requesting clinician's  │  │
+    │  │ signature. Draft request below."                                 │  │
+    │  │                                                                  │  │
+    │  │ [Schedule reassess]   [Draft reauth]   [Notify family]           │  │
+    │  └──────────────────────────────────────────────────────────────────┘  │
+    └────────────────────────────────────────────────────────────────────────┘
+    client lands on this page.

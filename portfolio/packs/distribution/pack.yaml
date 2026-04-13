@@ -1,0 +1,231 @@
+id: distribution
+name: "Wholesale Distribution Technology"
+vertical_label: "Wholesale Distribution Technology"
+
+glossary:
+  ERP: "Enterprise Resource Planning, the core transactional system a distributor runs on. Determines every technology integration path."
+  Prophet 21: "Epicor's distribution-specific ERP, widely adopted in mid-market electrical, plumbing, and HVAC distribution."
+  Epicor: "Major ERP vendor for distribution. Parent of Prophet 21 and Eclipse product lines."
+  POV: "Proof of Value, a trial period where the distributor tests automation on their own orders before committing to a contract."
+  inside sales: "Order desk reps who process incoming orders by phone, email, and fax. The role AI order entry automates."
+  FTE: "Full-time equivalent. The headcount savings metric distributors think in. A distributor operating on 3% net margin needs every dollar of software justified against direct labor cost."
+  hit rate: "Share of a customer's total spend that a distributor captures vs. loses to competitors. Sometimes called share of wallet. The metric branch managers care about most."
+  roll-up: "PE strategy of acquiring multiple companies in the same vertical and consolidating operations. Creates sequential buying windows for tech vendors."
+  PVF: "Pipe, valves, and fittings, a major distribution sub-vertical with its own trade shows, associations, and buyer personas."
+  MRO: "Maintenance, repair, and operations supply, another distribution sub-vertical often with higher margins than commodity distribution."
+  technographic: "Data about a company's installed technology stack, sourced from providers like 6sense, job postings, and vendor directories."
+
+research_sources:
+  - title: "Proton.ai · sales challenges in industrial distribution"
+    url: "https://www.proton.ai/blog/sales-challenges-industrial-distributors-face"
+    note: "Practitioner writing on the aging sales force and rep succession risk: the demographic side of the buyer profile."
+  - title: "Proton.ai · software implementation in distribution"
+    url: "https://www.proton.ai/blog/key-to-successful-software-implementation-distribution"
+    note: "Change management as the real implementation obstacle: C-level champion, day-to-day adoption owner, phased rollout. The cultural sale that happens after the contract signs."
+  - title: "Proton.ai · tech adoption rates for distributors"
+    url: "https://www.proton.ai/blog/tech-adoption-rates"
+    note: "Rep resistance to new tools and the tangible-benefit proof loop that gates adoption. The proof-of-value culture that makes distribution tech deals different from horizontal SaaS."
+  - title: "Distribution Strategy Group on PE deal activity"
+    url: "https://archive.distributionstrategy.com/quiet-no-more-wholesale-distributors-draw-record-deal-activity-in-2025/"
+    note: "Tracks PE consolidation and M&A activity across wholesale distribution verticals. PMCF's Distribution M&A Pulse recorded roughly 290 deals in the first half of 2025."
+  - title: "White Cup · CRM for Epicor Prophet 21 distributors"
+    url: "https://whitecupsolutions.com/white-cup-epicor-prophet21/"
+    note: "150+ Epicor P21 customers. Builds per-ERP integrations, the pattern that makes ERP detection a qualification requirement."
+  - title: "Supply House Times · 2024 Industrial Distribution Year in Review"
+    url: "https://www.supplyht.com/articles/106591-industrial-distribution-2024-year-in-review"
+    note: "Industry publication covering M&A, technology adoption, and workforce trends across electrical, plumbing, HVAC, and PVF distribution."
+  - title: "Deloitte + Manufacturing Institute · 3.8M workforce gap by 2033"
+    url: "https://themanufacturinginstitute.org/manufacturers-need-as-many-as-3-8-million-new-employees-by-2033/"
+    note: "3.8 million manufacturing jobs needed by 2033 per the 2024 Deloitte/MI study: 2.8M from retirements, 760K from industry growth, 230K from federal infrastructure and CHIPS Act demand. The retirement-driven 74% of that gap is the demographic pressure behind AI order-entry adoption in distribution."
+  - title: "Epicor Prophet 21 distribution ERP"
+    url: "https://www.epicor.com/en/solutions/industries/distribution/"
+    note: "The dominant mid-market distribution ERP. Its integration architecture defines the technical qualification path for every vendor selling into its install base."
+
+terminology:
+  entity: Prospect
+  entity_plural: Prospects
+  pipeline: "Sales Pipeline"
+  agent: Agent
+  scoreable_lead: Trigger
+  scoreable_lead_plural: Triggers
+
+dashboard_cards:
+  - id: erp_detection
+    title: ERP Detection
+    subtitle: "Prospect ERP identification for demo routing"
+    metric_field: detected_prospect_count
+    icon: ph-database
+    href: /distribution/erp-detection
+  - id: pov_pipeline
+    title: POV Pipeline
+    subtitle: "Active proof-of-value trials with live metrics"
+    metric_field: active_pov_count
+    icon: ph-chart-bar
+    href: /distribution/pov
+  - id: pe_trigger
+    title: PE Triggers
+    subtitle: "Acquisition-driven buying windows"
+    metric_field: active_pe_trigger_count
+    icon: ph-building-office
+    href: /distribution/pe-triggers
+
+landing:
+  signals: "Epicor P21 . NetSuite . Crunchbase . HubSpot"
+
+  hero:
+    eyebrow: "Wholesale distribution technology, three operational scenarios"
+    problem: >
+      Selling technology to wholesale distributors means qualifying on their
+      ERP before you can demo, proving ROI on their own transactional data
+      before they will commit, and catching acquisition-driven buying windows
+      that open and close within 90 days. The qualification signals, trial
+      outcomes, and market events that drive this pipeline usually live outside
+      the CRM.
+    root_tile_title: >
+      Qualifying on ERP, proving ROI on the prospect's own data, and catching
+      PE-driven buying windows before they close.
+    card_preview: >
+      Three scenarios: The ERP Detection Problem, The Proof-of-Value Pipeline,
+      and The PE Trigger Window. Real seeded Postgres, with a Python ERP
+      confidence scoring function rendered inline.
+    intro_paragraph: >
+      Knowing which ERP a prospect runs before the first call, quantifying
+      trial outcomes so the business case writes itself, and catching the
+      100-day window after a PE acquisition before a competitor does. One
+      worked example for each.
+    research_prelude: >
+      Wholesale distribution is an industry that runs on relationships,
+      institutional knowledge, and ERP systems that predate the smartphone.
+      The practitioner writing from Proton.ai and Distribution Strategy Group
+      covers the sales challenges, and the PE deal flow data from Supply
+      House Times tells the acquisition story. The GTM operational problems
+      tend to be solved ad-hoc because most distribution-tech vendors have
+      not staffed for RevOps yet.
+
+  sections:
+    - id: erp_detection
+      loader: distribution.erp_detection
+      partial: components/packs/distribution/erp_detection.html
+      narrative:
+        eyebrow: "Scenario 1 of 3"
+        title: "The ERP Detection Problem"
+        problem: |
+          Before a sales team can demo to a distributor, they need to know
+          which ERP the prospect runs. The ERP determines the integration
+          path, the demo environment, and whether setup takes an hour or three
+          months. Distributors do not advertise their ERP on their website.
+          Most sales teams handle this manually, with an SDR spending 15
+          minutes per prospect on LinkedIn and Google before making a call.
+        solution: |
+          What I'd prototype is an enrichment layer that scores ERP confidence
+          from four signal sources: job postings mentioning "Prophet 21
+          administrator," vendor partner directories, trade show exhibitor
+          lists, and technographic providers like 6sense. Each source
+          contributes a weighted score. High-confidence matches route to the
+          right demo track; prospects with no signals get flagged for manual
+          qualification instead of wasting an AE's call.
+        production_example:
+          url: "https://github.com/ryanzegalia/portfolio/blob/main/jobradar/src/keyword_scorer.py"
+          label: "528-line weighted multi-factor scoring engine with section-based evidence accumulation"
+        code_artifact:
+          language: python
+          caption: "The shape of the ERP confidence scorer"
+          code: |
+            def score_erp_confidence(
+                prospect_id: str, signals: dict
+            ) -> dict:
+                """Score ERP confidence from enrichment signals.
+
+                Each signal source contributes independently.
+                A single strong signal (job posting naming the
+                ERP) is enough to route; multiple weak signals
+                accumulate to medium confidence.
+                """
+                weights = {
+                    "job_posting_keyword":  0.45,
+                    "vendor_directory":     0.30,
+                    "trade_show_exhibitor": 0.15,
+                    "technographic_match":  0.10,
+                }
+
+                erp_scores: dict[str, float] = {}
+                for signal_type, matches in signals.items():
+                    w = weights.get(signal_type, 0.05)
+                    for erp_name, strength in matches.items():
+                        erp_scores[erp_name] = (
+                            erp_scores.get(erp_name, 0)
+                            + w * strength
+                        )
+
+                if not erp_scores:
+                    return {
+                        "erp": None,
+                        "confidence": 0,
+                        "route": "manual_qualification",
+                    }
+
+                best = max(erp_scores, key=erp_scores.get)
+                conf = min(erp_scores[best], 1.0)
+                return {
+                    "prospect_id": prospect_id,
+                    "erp": best,
+                    "confidence": round(conf, 2),
+                    "route": (
+                        "demo_track" if conf >= 0.6
+                        else "manual_qualification"
+                    ),
+                }
+      cta:
+        label: "See the full enrichment view"
+        href: /distribution/erp-detection
+
+    - id: pov_pipeline
+      loader: distribution.pov_pipeline
+      partial: components/packs/distribution/pov_pipeline.html
+      narrative:
+        eyebrow: "Scenario 2 of 3"
+        title: "The Proof-of-Value Pipeline"
+        problem: |
+          A distributor agreed to a two-week proof-of-value trial on a subset
+          of incoming orders. The trial is processing 200 orders a day at 94%
+          accuracy with 3.1 FTE-equivalent time savings. But this data lives
+          in product telemetry, not in HubSpot. The AE's deal record shows
+          "POV In Progress" with no quantified outcome attached. When the trial
+          ends, the business case is assembled manually from three disconnected
+          sources.
+        solution: |
+          The first thing I'd try is a sync that writes POV outcomes directly
+          to the HubSpot deal record as the trial runs: daily accuracy, orders
+          processed, time saved, error rate against the manual baseline. When
+          the trial crosses go/no-go thresholds, the deal auto-advances with a
+          pre-built business case. Trials that stall get flagged for SE
+          intervention on the specific underperforming metric.
+      cta:
+        label: "See the trial dashboard"
+        href: /distribution/pov
+
+    - id: pe_trigger
+      loader: distribution.pe_trigger
+      partial: components/packs/distribution/pe_triggers.html
+      narrative:
+        eyebrow: "Scenario 3 of 3"
+        title: "The PE Trigger Window"
+        problem: |
+          A private equity firm acquired a regional plumbing distributor last
+          month. Within the first 100 days, the PE operating team will audit
+          technology adoption and push for automation. This is the
+          highest-intent buying window in distribution, but the acquisition was
+          announced on Business Wire and covered by Supply House Times. By the
+          time a BDR notices on LinkedIn, the 100-day window is half over and
+          a competitor is already in conversations.
+        solution: |
+          My sketch is a trigger monitor that watches PE deal flow from
+          Crunchbase, PitchBook, and industry publications. Each acquisition
+          gets scored on recency (hottest in the first 30 days, cold by 90),
+          PE firm profile (roll-up thesis in distribution scores higher than
+          generalist), and target company fit by revenue band and sub-vertical.
+          High-scoring triggers route to a named AE with the acquisition
+          context.
+      cta:
+        label: "See the acquisition feed"
+        href: /distribution/pe-triggers
