@@ -8,7 +8,7 @@ Architecture, decisions, and source code from production systems I designed and 
 
 Operator scenarios across five B2B verticals, each with a worked example running against seeded Postgres data. The scenarios are grounded in named industry research; the data is deterministic seed, the SQL and computation are real.
 
-## [Nexus](nexus/) · Integration & Automation Platform
+## [Nexus](nexus/)
 
 Integration and automation platform for a B2B/B2C manufacturer. Connects ERP, tax, shipping, email, and project-management systems. Documentation only: architecture decisions, component breakdowns, and case studies. No source code published.
 
