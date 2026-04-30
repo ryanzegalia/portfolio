@@ -22,6 +22,10 @@ Source excerpt from a job-discovery and application-generation pipeline spanning
 
 Self-hosted service stack on a single machine with self-healing monitoring, automated GPU transcoding, and nightly disaster-recovery backups. Docker (WSL2), NSSM services, PowerShell automation, FastAPI microservices, Caddy reverse proxy.
 
+## [Local AI Infrastructure](ai-infra/)
+
+Three services managing local AI workloads on a workstation: a GPU-gated observation worker for knowledge-graph generation, a unified cost-attribution dashboard spanning local Ollama and Claude API, and a priority-aware Ollama proxy with per-model scheduling and eviction monitoring. Built to bound API spend and prevent GPU thrashing across mixed workloads.
+
 ---
 
 ## Other Projects
@@ -32,6 +36,7 @@ Small tools and experiments, not documented in depth:
 - **Boys Trip** · Airbnb listing price monitor with calendar sync, background checking, and OAuth. FastAPI + React + Docker.
 - **Smart Strip** · TP-Link Kasa smart power strip controller with per-outlet monitoring. FastAPI + vanilla JS.
 - **Gaming Rig Dashboard** · Real-time GPU/CPU monitoring pulling from LibreHardwareMonitor and Kasa APIs. FastAPI.
+- **LiveDex** · Self-hosted Pokémon living dex. Watches save folders across devices via Syncthing, decompiles Citra/3DS save files with PKHeX.Core, aggregates a unified collection dashboard.
 
 ---
 

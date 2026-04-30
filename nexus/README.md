@@ -52,6 +52,10 @@ Nexus is the integration layer for the company, a mid-size B2B/B2C electronics m
 - [Vanilla JS Decision](decisions/028-vanilla-js-es-modules-over-framework.md) -- 56 pages, no framework, no build step
 - [UI Architecture](architecture/UI_ARCHITECTURE.md) -- Web Components, design tokens, SSE
 
+### Internal AI Access Layer
+- [Conversational Data Access](components/ai-data-access.md) -- MCP server fronting customer / order / support / email / identity / operations data
+- [Read-Only-by-Default Pattern](components/ai-data-access.md#safety) -- multi-layer enforcement separating queries from mutations
+
 ### Infrastructure
 - [PostgreSQL Migration](decisions/002-postgresql-migration-with-sqlite3-compat-shim.md) -- zero-rewrite migration via compat shim
 - [Circuit Breakers](decisions/005-circuit-breakers-on-external-apis.md) -- 10-error threshold across integrations
@@ -75,6 +79,7 @@ Detailed documentation for each subsystem:
 | Quality | [Review & Feedback](components/review-and-feedback.md) |
 | IoT | [Connector/IoT Server-Side](components/connector-iot-server-side.md) |
 | Resilience | [Heartbeat Services](components/heartbeat-services.md) |
+| AI Access | [Conversational Data Access](components/ai-data-access.md) |
 
 ## Engineering Decisions
 
@@ -90,7 +95,7 @@ Detailed documentation for each subsystem:
 - [Tech Stack](architecture/TECH_STACK.md) -- technology choices with rationale
 - [Systems Overview](architecture/SYSTEMS_OVERVIEW.md) -- heartbeat cadences, three-zone data model
 - [Testing & Correctness](TESTING.md) -- why runtime verification, not unit tests
-- [Methodology](METHODOLOGY.md) -- how Claude Code is configured as a development platform: hooks, agents, memory, automated checks
+- [Methodology](../METHODOLOGY.md) -- how Claude Code is configured as a development platform: hooks, agents, memory, automated checks
 
 ---
 

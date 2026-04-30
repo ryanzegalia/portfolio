@@ -34,6 +34,8 @@ A Caddy reverse proxy sits in front of everything, terminating TLS and routing `
 
 3. **External Health Checks** -- Uptime Kuma monitors all service endpoints from inside the network. Healthchecks.io receives heartbeats from the server itself, providing an external dead-man's-switch that alerts if the entire machine goes offline.
 
+**Alerting layer.** All three watchdogs and per-service health emitters route through a custom Discord dispatcher rather than direct webhooks. The dispatcher handles category-based channel routing across 16 channels, severity tiers (info/warn/critical with role mentions on critical), dedup keys to suppress alert storms, and interactive ack/silence/escalate buttons. Replaces the original fan-out of per-service webhooks with a single point of structured alerting.
+
 ### Backup System
 
 Nightly disaster recovery backups cover 9 categories:
