@@ -13,10 +13,10 @@ A dual-auth model -- company portal OAuth (JWT) for employees and admin password
 
 | File | Lines | Role |
 |---|---|---|
-| `api/routes/v1/auth.py` | 383 | Route-level auth handlers. Dual auth: password (admin) or OAuth (Portal JWT validation). Rate-limited login. HMAC-based password hashing. |
+| `api/routes/v1/auth.py` | 383 | Route-level auth handlers. Dual auth: password (admin) or OAuth (Portal JWT validation). Rate-limited login. Hashed password storage. |
 | `api/routes/v1/users.py` | 476 | Admin-only CRUD for dashboard users. Template access patterns (regex-based), page permissions, group memberships. |
 | `api/services/user_service.py` | 985 | User authentication, session management, template access control for dashboard users. Handles lazy user creation from Portal OAuth (default role `user`, no template access). |
-| `api/services/seat_monitor.py` | 228 | Monitors the ERP license seat availability by scraping the unauthenticated `the vendor login page` page. State machine: CONNECTED -> WARNING -> DISCONNECTED. Fail-open: allows login after 5 consecutive failures or 5 min stale data. 55s scrape interval, thread-safe. |
+| `api/services/seat_monitor.py` | 228 | Monitors the ERP license seat availability by scraping the unauthenticated `the vendor login page`. State machine: CONNECTED -> WARNING -> DISCONNECTED. Fail-open: allows login after 5 consecutive failures or 5 min stale data. 55s scrape interval, thread-safe. |
 
 ## Scale and verified numbers
 
@@ -50,6 +50,6 @@ A dual-auth model -- company portal OAuth (JWT) for employees and admin password
 ## Security notes
 
 - Login is rate-limited per IP to prevent brute force against the admin password path.
-- Passwords are stored using HMAC-based password hashing.
+- Passwords are stored as keyed hashes, never in plaintext.
 - Portal JWTs are validated against the Portal's public key, not just decoded client-side.
 - Session tokens are 32-byte URL-safe random strings. The `auth_sessions` table's `session_token` column is the primary key.

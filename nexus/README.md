@@ -1,104 +1,74 @@
-# Nexus: Production Automation Platform
+# Nexus: A Revenue-Operations Platform for a Multi-Brand Hardware Manufacturer
 
-## At a Glance
+Nexus is the revenue-operations platform for a multi-brand B2B/B2C hardware manufacturer (~20-50 employees, international distribution) whose product line spans four brands. It started in late December 2025 and has run in production since February 2026. It was built by one person at the company, alongside non-engineering duties, using Claude Code as the primary development environment.
 
-| Metric | Value |
-|---|---|
-| Python (API layer) | ~79,000 lines |
-| Services | 58 modular services |
-| Database tables | 145 |
-| Background heartbeats | 9 (5-min to nightly cadences) |
-| External integrations | 15 (REST, GraphQL, HTML scraping, webhooks) |
-| Flask routes | ~600 |
-| Dashboard | 56 pages, 31 JS modules |
+The platform is organized as four layers, each independently defensible:
 
-## Overview
+1. **Ingestion and integration.** 15 external HTTP integrations sync the hosted ERP (orders, fulfillments, inventory, purchase orders, catalog), the support desk, Moosend email marketing, FedEx, USPS and Shippo shipping, Avalara tax, and Monday.com, plus a custom Windows desktop connector.
+2. **Customer data foundation.** A governed PostgreSQL mirror of every customer and contact, with probabilistic identity resolution (Splink) and deduplication.
+3. **Intelligence.** Customer-360 and order-360 views, a product knowledge system, demand forecasting (built and backtested, not yet activated in production), sales-trends and profitability reporting, live cart telemetry with visitor presence, and a storefront analytics console with session-to-order revenue attribution.
+4. **AI-agent tool layer.** 117 MCP tools that expose every layer above to LLM agents, with read-only SQL enforced at two layers and writes gated behind explicit approval.
 
-Nexus is the integration layer for the company, a mid-size B2B/B2C electronics manufacturer. The company uses separate systems for ERP, e-commerce, email marketing, project management, and shipping. Nexus connects those systems, automates operational workflows that used to be manual, and provides team-specific tools through a browser-based dashboard.
+## By the numbers
 
-## By Domain
+All numbers are code-verified or live-DB-verified in [METRICS.md](METRICS.md), as of 2026-07-09:
 
-### Data Pipelines
-- [Checkpoint Sync](decisions/006-checkpoint-based-incremental-sync.md) -- resume from where you left off
-- [Nightly Full-Refresh](decisions/003-nightly-full-refresh-alongside-delta-sync.md) -- safety net for silent ERP corrections
-- [Smart Column Resolver](decisions/004-four-tier-smart-column-resolver.md) -- 4-tier fuzzy matching for CSV imports
-- [Column Resolver Demo](examples/column_resolver.py) -- runnable Python implementation
-- [Heartbeat Services](components/heartbeat-services.md) -- 9 background sync services
+- **43,000+ customers** and **117,000+ contacts** in the governed mirror
+- **109,000+ orders** and **719,000+ fulfillments** ingested from the ERP
+- **268 PostgreSQL tables** across the ingestion, foundation, and intelligence layers
+- **117 MCP tools**, read-only SQL enforced at two layers
+- An **identity spine** resolving contacts to **~29,500 persons** across **~8,200 household clusters**
+- **15 external HTTP integrations** across ERP, shipping, tax, email, and project management
 
-### Pricing Operations
-- [Pricing Automation](case-studies/pricing-automation.md) -- **2+ days -> ~3 hours**
-- [Operation Locks](decisions/008-per-product-operation-locks.md) -- bounded LRU concurrency
-- [SSE + POST Dual-Path](decisions/016-sse-post-dual-path.md) -- real-time streaming with fallback
-- [Lock Cache Demo](examples/resource_lock_cache.py) -- runnable Python implementation
-- [Verify-on-Write Demo](examples/verify_on_write.py) -- runnable Python implementation
+As supporting detail, the API tier is about **150,000 lines of Python** across roughly **160 service modules** and **~850 route decorators**, re-measured 2026-07-09. Each service is a distinct integration or operational domain: Nexus replaces 15 disconnected systems and the manual work that used to bridge them.
 
-### Tax & Compliance
-- [Tax Reconciliation](case-studies/tax-reconciliation.md) -- **37,847 transactions** reconciled across 3 systems
-- [Tax Engine Read-Only Pattern](decisions/015-tax-engine-reconciliation-read-only-pattern.md) -- free reads, no write-back
+## Documentation map
 
-### Shipping & Tracking
-- [Tiered Polling](decisions/018-tiered-polling-for-multi-carrier-shipment-tracking.md) -- urgent/active/dormant cadences
-- [Shipping API Fallback](decisions/009-carrier-api-fallback-for-mid-access-control.md) -- deadline-driven carrier migration
-- [Checkpoint Sync Demo](examples/checkpoint_sync.py) -- runnable Python implementation
+- [ARCHITECTURE.md](architecture/ARCHITECTURE.md): architecture and data flow across the four layers.
+- [SYSTEMS_OVERVIEW.md](architecture/SYSTEMS_OVERVIEW.md): domain map, heartbeat cadences, database zones, and the sales-trends and product knowledge systems.
+- [TECH_STACK.md](architecture/TECH_STACK.md): every technology, with rationale.
+- [METRICS.md](METRICS.md): canonical numbers with verification methods.
+- [UI_ARCHITECTURE.md](architecture/UI_ARCHITECTURE.md): the vanilla-JavaScript operations dashboard.
 
-### QC & Equipment Testing
-- [QC Tracking](case-studies/qc-tracking.md) -- **10,000+ units/year** lifecycle management
+## Some meaningful decisions
 
-### IoT / Hardware
-- [Connector Overview](connector/README.md) -- Windows desktop app for managing wireless modules
-- [Python 2.7 Bridge](decisions/022-python-27-bridge-isolation-via-http-subprocess.md) -- subprocess isolation for the radio library
+The [decisions/](decisions/) folder documents decisions that were meaningful enough to write down. A few:
 
-### Frontend
-- [Vanilla JS Decision](decisions/028-vanilla-js-es-modules-over-framework.md) -- 56 pages, no framework, no build step
-- [UI Architecture](architecture/UI_ARCHITECTURE.md) -- Web Components, design tokens, SSE
+- [ADR-002](decisions/002-postgresql-migration-with-sqlite3-compat-shim.md): move ~200 call sites from SQLite to PostgreSQL without a rewrite, via a sqlite3-compatible wrapper over psycopg2.
+- [ADR-005](decisions/005-circuit-breakers-on-external-apis.md): a circuit breaker on every external call, so one broken dependency does not cascade.
+- [ADR-008](decisions/008-per-product-operation-locks.md): per-product locks with a bounded LRU cache, so parallel operators do not corrupt the same product.
+- [ADR-016](decisions/016-sse-post-dual-path.md): SSE progress streaming with a blocking-POST fallback on pool exhaustion.
+- [ADR-022](decisions/022-python-27-bridge-isolation-via-http-subprocess.md): isolate a Python 2.7 radio library behind an HTTP subprocess.
+- [ADR-012](decisions/012-claude-code-as-primary-dev-environment.md): Claude Code as the primary development environment.
 
-### Internal AI Access Layer
-- [Conversational Data Access](components/ai-data-access.md) -- MCP server fronting customer / order / support / email / identity / operations data
-- [Read-Only-by-Default Pattern](components/ai-data-access.md#safety) -- multi-layer enforcement separating queries from mutations
+## Case studies
 
-### Infrastructure
-- [PostgreSQL Migration](decisions/002-postgresql-migration-with-sqlite3-compat-shim.md) -- zero-rewrite migration via compat shim
-- [Circuit Breakers](decisions/005-circuit-breakers-on-external-apis.md) -- 10-error threshold across integrations
-- [Startup Recovery](decisions/007-startup-recovery-for-background-services.md) -- dependency-ordered replay on restart
+Deep dives on the platform's most critical subsystems:
 
-## Component Documentation
+- [Pricing automation](case-studies/pricing-automation.md): manual pricing collapsed to a review-and-apply workflow with layered concurrency defense.
+- [Tax reconciliation](case-studies/tax-reconciliation.md): monthly reconciliation across Avalara, the ERP, and payment records.
+- [QC tracking](case-studies/qc-tracking.md): a quality-control system with a triage queue and live inventory ledger.
+- [Customer and catalog dedupe](case-studies/customer-catalog-dedupe.md): grouping duplicate customers and catalog entries at mirror scale.
+- [Identity resolution](case-studies/identity-resolution.md): the Splink-based spine that clusters contacts into persons and households.
+- [Demand forecasting](case-studies/demand-forecasting.md): a seasonal-curve model built and backtested, staged ahead of activation.
+- [Cart telemetry and consent editing](case-studies/cart-telemetry-consent-editing.md): live cart and visitor presence with consent-aware handling.
+- [Storefront analytics and attribution](case-studies/storefront-analytics-attribution.md): the telemetry read surface, and matching anonymous sessions to orders without identity tracking.
+- [The MCP agent layer](case-studies/mcp-agent-layer.md): the platform exposed to AI agents behind read-only SQL and gated writes.
 
-Detailed documentation for each subsystem:
+## The connector
 
-| Domain | Component |
-|--------|-----------|
-| Authentication | [Auth & Users](components/auth-and-users.md) |
-| ERP Integration | [ERP Integration](components/erp-integration.md) |
-| Data Sync | [Microsoft Graph/Excel Sync](components/microsoft-graph-excel-sync.md) |
-| Email Marketing | [Email Marketing](components/email-marketing.md) |
-| Events | [Trade Show Platform](components/events-platform.md) |
-| Compliance | [Hazmat Compliance](components/hazmat-compliance.md) |
-| Infrastructure | [Infrastructure & Deployment](components/infrastructure.md) |
-| Products | [Product Catalog](components/product-catalog.md) |
-| Monitoring | [Reporting & Monitoring](components/reporting-and-monitoring.md) |
-| Quality | [Review & Feedback](components/review-and-feedback.md) |
-| IoT | [Connector/IoT Server-Side](components/connector-iot-server-side.md) |
-| Resilience | [Heartbeat Services](components/heartbeat-services.md) |
-| AI Access | [Conversational Data Access](components/ai-data-access.md) |
+The [connector/](connector/) is a Windows desktop application that ships to customers as a signed executable. It pairs a Python 3 Flask UI with a Python 2.7 bridge for 802.15.4 radio communication with wireless hardware modules, syncs passively back to the main API, and recovers from bridge failures on its own. See [ADR-022](decisions/022-python-27-bridge-isolation-via-http-subprocess.md).
 
-## Engineering Decisions
+## How the work gets done
 
-[35 decisions](decisions/) organized by domain -- migration, resilience, concurrency, integration, frontend, IoT, security, tooling.
+Claude Code is the primary development environment. Architecture, data models, and behavior are specified up front; Claude Code then writes code, runs tests, and iterates against that specification. The build process is documented in [METHODOLOGY.md](../METHODOLOGY.md). Every number here is verified against code or the running system, not against prior documentation, because documentation drifts and the code is canon.
 
-## Code Examples
+## About
 
-[4 runnable Python demos](examples/) implementing production patterns from the system. Each runs standalone with `python filename.py`, stdlib only.
+Ryan Zegalia is a Senior Creative Content & Web Manager at the company. Nexus is the engineering work built alongside that role, which also covers operational coordination, campaign launches, warehouse oversight, and marketing for four brands. A live architecture walkthrough is available on request.
 
-## System Documentation
+## A note on the code
 
-- [Architecture](architecture/ARCHITECTURE.md) -- system diagram, data flow, resilience layer
-- [Tech Stack](architecture/TECH_STACK.md) -- technology choices with rationale
-- [Systems Overview](architecture/SYSTEMS_OVERVIEW.md) -- heartbeat cadences, three-zone data model
-- [Testing & Correctness](TESTING.md) -- why runtime verification, not unit tests
-- [Methodology](../METHODOLOGY.md) -- how Claude Code is configured as a development platform: hooks, agents, memory, automated checks
+The code is the company's intellectual property and lives in a private repository. Everything in this folder is an authentic representation of a system that runs in production today, documented in enough detail to verify the work without the source.
 
----
-
-Decision records are written when decisions are made, not reconstructed retroactively.
-
-*This portfolio documents architectural decisions and engineering patterns from a proprietary production system. No source code is included. See [LICENSE.md](LICENSE.md) for usage terms.*
+*See [LICENSE.md](LICENSE.md) for usage terms.*

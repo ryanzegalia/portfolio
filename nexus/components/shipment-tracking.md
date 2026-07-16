@@ -39,6 +39,12 @@ A multi-carrier tracking pipeline that discovers shipments from the ERP, polls F
 - **Recipient info cached at ingest.** One the ERP contact API call per shipment at discovery time, stored in the row. Dashboard reads require zero external calls.
 - **One-time migration** at table creation splits comma-separated multi-tracking rows into individual records and corrects historical USPS-as-FedEx misclassification.
 
+## External read surface for support automation (July 2026)
+
+In July 2026 the tracking layer gained a versioned external API (`/api/v1/tracking/*`) built for the company's support-desk automation: a support bot can look up shipment status and delivery exceptions without touching the ERP directly. The platform acts as a buffer in front of the system of record, with the surface API-key gated, rate-limited, and read-only. Lookups join through order headers so responses are brand-aware across the company's product lines. The integration was verified live against 11,000+ shipment rows with 100% sales-channel coverage before the bot went to production.
+
+The integration audit also surfaced two operational risks in the surrounding support tooling that were documented and scheduled rather than left latent: an uncached edge worker generating roughly 290K requests per week against a shared rate-limit bucket, and a vendor API-token deprecation with a hard 2027 deadline that requires an OAuth migration.
+
 ## Integration Points
 
 **Reads from:**

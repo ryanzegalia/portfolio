@@ -23,11 +23,11 @@ Together these files are the backbone of every data sync in Nexus.
 - **Two authentication paths**: JWT HS256 for REST (1-hour token cache, 60s refresh buffer), RSA-encrypted password + cookies for office backend (`pycryptodome` for RSA, `httpx` for session)
 - **~12+ heartbeat services** call into these files as their primary read surface
 - **~5 pricing services** call into `erp_auth_service.py` for writes
-- **License seat management** -- `seat_monitor.py` watches the ERP's unauthenticated `the vendor login page` page to detect available seats and block connections when none are free
+- **License seat management** -- `seat_monitor.py` watches the ERP's unauthenticated `the vendor login page` to detect available seats and block connections when none are free
 
 ## Why two interfaces
 
-the ERP's REST API is the clean modern surface -- authenticated, returns JSON, supports pagination and delta queries. Nexus uses it everywhere it can. But the REST API doesn't expose every field that matters. Notably:
+The ERP's REST API is the clean modern surface -- authenticated, returns JSON, supports pagination and delta queries. Nexus uses it everywhere it can. But the REST API doesn't expose every field that matters. Notably:
 
 - Pricing writes go to the office backend (REST is read-only for pricing)
 - Deal management (coupons, discounts, thresholds) isn't in the REST response

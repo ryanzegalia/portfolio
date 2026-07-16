@@ -1,8 +1,8 @@
-# ADR-015: the tax engine Reconciliation as a Read-Only Consumer
+# ADR-015: The tax engine Reconciliation as a Read-Only Consumer
 
 ## Context
 
-the tax engine is the company'ss tax processor. It calculates sales tax on every order, files returns with state tax authorities, and maintains the authoritative tax ledger. Nexus needs tax data for reconciliation: matching what the ERP charged customers against what the tax engine calculated and remitted. Discrepancies between these two numbers are the whole point of the reconciliation system.
+The tax engine is the company's tax processor. It calculates sales tax on every order, files returns with state tax authorities, and maintains the authoritative tax ledger. Nexus needs tax data for reconciliation: matching what the ERP charged customers against what the tax engine calculated and remitted. Discrepancies between these two numbers are the whole point of the reconciliation system.
 
 The accounting team lead's monthly process involved manually exporting four reports (the ERP Orders, the ERP Returns, the tax engine Transactions, Stripe Payments), cleaning columns, pasting into a state-by-state Excel template, and comparing the ERP (what was charged) vs the tax engine (what was remitted). The goal was to eliminate the manual export step.
 
@@ -10,7 +10,7 @@ The key discovery during planning: the tax engine API provides free unlimited re
 
 ## Decision
 
-**Nexus reads from the tax engine. Nexus never writes to the tax engine.** the tax engine remains the authoritative source of truth for tax data; Nexus is a reconciliation consumer.
+**Nexus reads from the tax engine. Nexus never writes to the tax engine.** The tax engine remains the authoritative source of truth for tax data; Nexus is a reconciliation consumer.
 
 Concretely:
 - `tax_engine_heartbeat.py` polls `GET /transactions` every 5 minutes via checkpoint delta, fetching only new transactions since the last successful sync.
@@ -18,7 +18,7 @@ Concretely:
 - When a new tax engine transaction arrives, the heartbeat creates the ERP stub record locally and enriches it via the ERP REST API. This gives reconciliation both sides (the tax engine + the ERP) without consuming the ERP license seat.
 - The reconciliation view is built entirely at read time -- no pre-computed join or denormalized mirror.
 
-The reconciliation requires two separate sources: the ERP is the source of truth for what was charged to customers. the tax engine is the source of truth for what tax was calculated and remitted. Discrepancies between these two are what the system is looking for.
+The reconciliation requires two separate sources: the ERP is the source of truth for what was charged to customers. The tax engine is the source of truth for what tax was calculated and remitted. Discrepancies between these two are what the system is looking for.
 
 If Nexus wrote back to the tax engine, it would be "correcting" one side of the comparison against the other -- hiding the discrepancies instead of surfacing them. The entire value proposition would break.
 

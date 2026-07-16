@@ -23,7 +23,7 @@ The order ingestion path -- new orders arrive from the ERP every 5 minutes via t
 - **Order heartbeat cadence**: 5 minutes
 - **SKU cache size**: 500 (reset per tick)
 - **PO sync trigger paths**: 3 (nightly, manual, inventory-triggered)
-- **the ERP request delay**: 0.3 seconds between scrapes (rate-limit politeness)
+- **The ERP request delay**: 0.3 seconds between scrapes (rate-limit politeness)
 - **Circuit breaker threshold**: 10 consecutive errors (platform standard)
 
 ## Key architectural decisions

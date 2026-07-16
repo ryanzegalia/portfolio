@@ -1,7 +1,7 @@
 # ADR-022: Python 2.7 Bridge Isolation via HTTP Subprocess
 ## Context
 
-The Nexus Connector is a Windows desktop application that manages wireless modules via an 802.15.4 radio (the "USB radio dongle" USB dongle). Talking to the USB radio dongle requires the `the radio library` library from the radio vendor. the radio library is written for Python 2.7. It has never been ported to Python 3. There is no official successor library. Anyone who wants to talk to SNAP modules is stuck with Python 2.7 in some form.
+The Nexus Connector is a Windows desktop application that manages wireless modules via an 802.15.4 radio (the "USB radio dongle" USB dongle). Talking to the USB radio dongle requires the radio library from the radio vendor. The radio library is written for Python 2.7. It has never been ported to Python 3. There is no official successor library. Anyone who wants to talk to SNAP modules is stuck with Python 2.7 in some form.
 
 This created a hard constraint. The rest of the connector needed modern Python 3 -- Flask 3.x for the web UI, `bleak` for Bluetooth, `pystray` for the system tray, f-strings, type hints, modern async. Forcing the whole connector onto Python 2.7 would have meant giving up all of that. Python 2.7 reached end-of-life on 2020-01-01. Building new features on it is a slow-motion disaster.
 

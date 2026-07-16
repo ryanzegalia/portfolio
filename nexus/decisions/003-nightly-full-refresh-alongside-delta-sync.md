@@ -32,7 +32,7 @@ Consolidating the nightly work into one pipeline (rather than every service runn
 
 - **Full-refresh only (no delta).** Rejected because it would require either polling the ERP constantly (high cost, high latency) or accepting 24-hour data freshness (unacceptable for a live operations dashboard).
 
-- **Event-driven sync via webhooks.** the ERP doesn't offer webhook events for the fields that matter. Even if it did, a webhook-only architecture is brittle -- a missed webhook is an invisible data gap. Delta polling + nightly full-refresh is more resilient than any webhook setup.
+- **Event-driven sync via webhooks.** The ERP doesn't offer webhook events for the fields that matter. Even if it did, a webhook-only architecture is brittle -- a missed webhook is an invisible data gap. Delta polling + nightly full-refresh is more resilient than any webhook setup.
 
 - **Compare checksums instead of full-refresh.** Would reduce write volume during nightly runs but wouldn't reduce API read volume (you'd still have to fetch every record to hash it). No real savings.
 
@@ -50,5 +50,5 @@ Consolidating the nightly work into one pipeline (rather than every service runn
 **Bad / costs:**
 - 1:30 AM UTC is a choice. UTC makes the run deterministic regardless of daylight saving time, but it lands at different clock times for different observers.
 - The nightly pipeline is a point of failure concentration. When it's broken, it's broken for every data source it covers -- products, inventory, orders, tax certs, POs. Mitigated by the per-step try/except and by the fact that the 5-minute delta heartbeats keep running in parallel.
-- The full-refresh reads every record every night, which on Nexus scale is tens of thousands of API calls per run. the ERP's API has no per-call cost, so this is free, but it wouldn't be on a metered API.
+- The full-refresh reads every record every night, which on Nexus scale is tens of thousands of API calls per run. The ERP's API has no per-call cost, so this is free, but it wouldn't be on a metered API.
 - Step ordering matters and is implicit. Products must sync before inventory (inventory references SKU IDs); tax certs must sync before order tax reconciliation. The order is hardcoded in `nightly_sync.py`; there's no declarative dependency graph. Adding a new step requires knowing where it fits.

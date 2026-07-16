@@ -18,7 +18,7 @@ Real-time progress streams via Server-Sent Events. The operator watches a progre
 
 ## Technical Highlights
 
-- **Verify-on-write semantics.** the ERP doesn't always persist writes on the first attempt. Every price change gets a verification read-back within 500ms. If the read doesn't match, the operation is flagged for review. This is why the pricing tool has run every sale cycle without a pricing error.
+- **Verify-on-write semantics.** The ERP doesn't always persist writes on the first attempt. Every price change gets a verification read-back within 500ms. If the read doesn't match, the operation is flagged for review.
 - **Three-state queue** (queued -> applied -> verified) with a session-level state machine wrapped around it (draft -> in_progress -> completed -> reverted). Session status is computed from option states, never stored independently.
 - **Per-product threading locks with bounded LRU.** Non-blocking acquire, 500-entry cap, oldest-unlocked eviction. Multiple operators, one lock per product.
 - **SSE + POST dual path with automatic failover.** Real-time progress with fallback to blocking POST on pool exhaustion. The operator never has to restart an operation.
@@ -30,7 +30,7 @@ Real-time progress streams via Server-Sent Events. The operator watches a progre
 
 A sale that took **2+ days** of manual clicking now completes in **~3 hours** -- most of that is the operator reviewing proposed changes before clicking "apply." The automation itself runs in minutes; the human review step is the bottleneck by design.
 
-No known pricing errors have reached customers since deployment. No known `price_history` corruption since the concurrency defense shipped. Operators run reverts through the same verify-on-write pipeline used for forward changes.
+Verification failures are flagged for review instead of silently completing, and every push, verify, and revert lands in the audit trail.
 
 The pattern is used for two recurring sale workflows: Black Friday campaigns and the spring sale. Both use the same apply-verify-revert pipeline, the same state machine, and write to the same internal catalog records for full audit history.
 

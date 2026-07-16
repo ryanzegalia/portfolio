@@ -26,7 +26,7 @@ Discovery led to same-day implementation of automated PostgreSQL backup infrastr
 
 - **Use a managed PostgreSQL with built-in backups** (RDS, Supabase, Neon, Render Managed Postgres). Would have made the gap impossible because backups would have been the vendor's responsibility. Rejected because self-hosted PostgreSQL on the same VPS as the app is simpler, cheaper, and has lower latency (Unix socket vs. TCP to an external host). The tradeoff is that operational responsibilities are self-owned.
 
-- **Rely on VPS-level snapshots from Hetzner.** Hetzner offers snapshots, but they are not automated and they capture the whole VM state, not just the database. For disaster recovery they are useful, but for "I need to restore a single table to yesterday's state" they are the wrong tool.
+- **Rely on provider-level VPS snapshots.** The provider does offer snapshots, but they are not automated and they capture the whole VM state, not just the database. For disaster recovery they are useful, but for "I need to restore a single table to yesterday's state" they are the wrong tool.
 
 ## Consequences
 

@@ -1,89 +1,33 @@
-# Homelab: 27 Services on a Single Machine
+# Home Production Environment
 
-A self-hosted media and application server running 27 services on a Windows 10 laptop. The system handles media streaming, transcoding, monitoring, backups, and a handful of custom web applications -- all managed through a mix of Docker containers (via WSL2), native Windows services, and PowerShell automation.
+A self-managed production environment that runs personal media, home tooling, and a local AI stack on commodity hardware, with real monitoring, offsite backups, and single sign-on across every app.
 
 ## Architecture
 
-```text
-                    Caddy (reverse proxy)
-                          |
-        +---------+-------+-------+---------+
-        |         |       |       |         |
-    Jellyfin   Homepage  Apps   APIs    Monitoring
-    (stream)   (dashboard)              (3 layers)
-        |
-    Transcoder -----> FFmpeg (GPU transcode)
-        |
-    Media Library (Movies + TV)
-```
+The environment spans five hosts, four active and one retired and decommissioned, running roughly 40 Docker services as of July 2026. Services are grouped into seven functional areas: media, downloads, monitoring, home tools, identity, infrastructure, and GPU and AI workloads.
 
-### Service Management
+A reverse proxy at the edge handles TLS and routing. It pairs wildcard DNS with automatic certificate issuance, so a newly added service gets HTTPS with no per-service configuration to write. Network-wide DNS filtering runs at the same layer. A single-sign-on identity provider fronts the applications with OAuth login and per-application provisioning, so access is granted in one place rather than per service.
 
-Services run in two modes depending on their requirements:
+Storage is a pooled union filesystem of roughly 48TB spanning mixed drives, presented to services as a single namespace so capacity can grow by adding disks without reshaping paths.
 
-- **Docker (WSL2):** PostgreSQL-backed apps, Homepage dashboard, custom microservices. Managed via `docker-compose` with health checks and restart policies.
-- **NSSM (native Windows):** Services that need direct GPU access, Windows filesystem paths, or can't tolerate WSL networking quirks. NSSM wraps each process as a Windows service with auto-restart on failure.
+Download services run inside a VPN network namespace that is fail-closed by design: if the tunnel drops, traffic stops rather than leaking to the open network.
 
-A Caddy reverse proxy sits in front of everything, terminating TLS and routing `*.local` domains to the correct port.
+## Reliability
 
-### Monitoring (Three Layers)
+Backups run nightly to offsite object storage, using restic against B2-class storage. A morning canary job verifies the previous night's chain rather than assuming it completed.
 
-1. **Memory Watchdog** -- PowerShell script on a 10-minute timer. Tracks working set of each monitored process against configurable thresholds. Cooldown logic prevents restart storms. Polymorphic restart handles both Windows services and standalone executables.
+A backup audit surfaced a disaster-recovery circular dependency: the decryption credentials for the backup lived in a credential vault that was itself inside the backup scope. A cold restore would have needed the very backup it could not open without those credentials. The fix moved the recovery credentials out of band, so a full restore no longer depends on the system being restored.
 
-2. **Docker Watchdog** -- Checks WSL2 Docker daemon health every 5 minutes. Detects cold-boot scenarios where WSL auto-suspended, wakes the VM, waits for Docker to stabilize, then recovers any stopped containers.
+Three incidents shaped the current storage design:
 
-3. **External Health Checks** -- Uptime Kuma monitors all service endpoints from inside the network. Healthchecks.io receives heartbeats from the server itself, providing an external dead-man's-switch that alerts if the entire machine goes offline.
+- Repeated storage-pool collapses were root-caused to a flaky USB-SATA bridge and a systemd mount-dependency teardown ordering, then designed around rather than papered over.
+- An ephemeral-container storage bug was silently discarding user uploads. Once root-caused, the affected paths were converted to host bind-mounts and added to the nightly backup set in the same incident.
+- A newly added service was found sitting outside backup coverage. Coverage was closed the same day with a write-ahead-log-safe hot database backup, so the snapshot stays consistent without stopping the service.
 
-**Alerting layer.** All three watchdogs and per-service health emitters route through a custom Discord dispatcher rather than direct webhooks. The dispatcher handles category-based channel routing across 16 channels, severity tiers (info/warn/critical with role mentions on critical), dedup keys to suppress alert storms, and interactive ack/silence/escalate buttons. Replaces the original fan-out of per-service webhooks with a single point of structured alerting.
+## Operations
 
-### Backup System
+Uptime monitoring covers more than 25 service monitors and posts alerts to a chat channel. Per-drive SMART monitoring watches disk health, and an hourly watchdog tracks free disk space.
 
-Nightly disaster recovery backups cover 9 categories:
+One hardening pass removed four independent sources of false-positive alerts at once. All four traced back to a single dead proxy that the checks depended on, so the fix corrected the real trigger instead of loosening thresholds, which would only have hidden real failures alongside the noise.
 
-- API-triggered database backups (poll for completion, fall back to latest snapshot)
-- Docker database dumps with container health check polling
-- Incremental directory backups via robocopy
-- WSL UNC path access for Docker volume backups
-- System state exports (firewall rules, service configs, scheduled tasks, installed software)
-
-Tiered retention: daily (7 days) -> weekly (28 days) -> monthly (60 days). An analytics dashboard tracks backup sizes, drive growth, and projects estimated fill dates.
-
-### Custom Transcoding
-
-Custom media transcoding system built after the open-source orchestrator was used for several months but became unsustainable at 19,000+ files. FastAPI server + Python FFmpeg worker with:
-
-- Smart bitrate analysis with HDR detection and resolution-aware skip thresholds
-- 4-tier retry cascade: hwaccel -> subtitle conversion -> subtitle drop -> software decode
-- Stall watchdog that kills hung FFmpeg processes
-- Atomic file replacement with creation-time preservation
-- Drive health monitoring to prevent false delete detection on unmapped drives
-
-## Tech Stack
-
-| Layer | Tools |
-|-------|-------|
-| Streaming | Jellyfin |
-| Reverse Proxy | Caddy (automatic TLS, wildcard local domains) |
-| Containers | Docker on WSL2 Ubuntu |
-| Native Services | NSSM (Non-Sucking Service Manager) |
-| Transcoding | FFmpeg + NVENC (RTX 5090), custom Python orchestration |
-| Databases | PostgreSQL 16, SQLite (per-app) |
-| Migrations | Alembic |
-| Monitoring | Uptime Kuma, Healthchecks.io, custom PowerShell watchdogs |
-| Alerting | Discord webhooks |
-| Backups | PowerShell + robocopy, tiered retention, HTML dashboard |
-| Dashboard | Homepage (Docker), custom widgets |
-
-## Subprojects
-
-- [`transcoder/`](transcoder/) -- Custom transcoding system (scanner + worker)
-- [`backup-system/`](backup-system/) -- Nightly disaster recovery with analytics
-- [`monitoring/`](monitoring/) -- Process and container watchdogs
-
-## Key Design Decisions
-
-**Why Windows?** The server is a repurposed laptop. WSL2 gives Docker support while keeping direct access to NVENC for GPU transcoding and native NTFS for the media library.
-
-**Why not Kubernetes?** Single machine, 27 services. Docker Compose and NSSM cover the orchestration needs without the operational overhead. The monitoring stack catches failures faster than a pod restart policy would.
-
-**Why custom transcoding?** The open-source orchestrator was used initially but didn't hold up at 19,000+ files after extensive tuning. A purpose-built replacement gave direct control over retry logic, stall detection, and GPU scheduling.
+Selected source excerpts live in the subfolders.

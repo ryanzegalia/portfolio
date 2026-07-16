@@ -24,7 +24,7 @@ Two overlapping systems: a general event management suite (5 services covering e
 |---|---|---|
 | `api/services/expo_fetch_heartbeat.py` | 469 | Background heartbeat. Auto-logs into the trade show using a saved Playwright browser session (Google OAuth -- Portal OAuth -- the trade show cookie chain). Downloads ticket exports automatically on 24-hour interval. |
 | `api/services/expo_service.py` | 605 | Excel parsing -- DB storage -- the email platform subscriber sync. Dynamic header mapping, .NET date parsing (`/Date(timestamp)/`). Rate-limited at 1.5s/request to the email platform. |
-| `api/routes/v1/elevate_tickets.py` | 271 | Upload Excel ticket exports, list attendees, trigger the email platform subscriber sync. Dual auth: page permission + API key hash-compare for automation. |
+| `api/routes/v1/expo_tickets.py` | 271 | Upload Excel ticket exports, list attendees, trigger the email platform subscriber sync. Dual auth: page permission + API key hash-compare for automation. |
 
 ## Scale and verified numbers
 
@@ -51,7 +51,7 @@ Two overlapping systems: a general event management suite (5 services covering e
 
 **Writes to:**
 - 9 event tables
-- `elevate_tickets`, `elevate_import_batches`
+- `expo_tickets`, `expo_import_batches`
 - the email platform (subscriber list updates via `email_service` when tickets are imported)
 - `event_history`, `event_activity` (audit trails)
 - S3 (backup event feed)

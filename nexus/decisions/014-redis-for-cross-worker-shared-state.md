@@ -9,14 +9,14 @@ The standard Flask answer is "use Redis for sessions, use Flask-Session." But Fl
 What Redis IS used for:
 
 1. **Rate limit counters** (Flask-Limiter uses Redis as its storage backend). 596 routes with various rate limits -- the counters have to be consistent across workers or a user could burst past the limit by hitting different workers.
-2. **the ERP license seat session sharing.** The auth service maintains a single authenticated session against the ERP's office backend (RSA-encrypted login, cookie-based). Each the ERP login consumes a license seat. Having every worker log in independently would consume all available seats. Redis holds the current valid session cookies so every worker can reuse them.
+2. **The ERP license seat session sharing.** The auth service maintains a single authenticated session against the ERP's office backend (RSA-encrypted login, cookie-based). Each the ERP login consumes a license seat. Having every worker log in independently would consume all available seats. Redis holds the current valid session cookies so every worker can reuse them.
 3. **Occasional small cache entries** for cross-worker consistency.
 
 ## Decision
 
 **Use Redis only for cross-worker shared state. Do not use it for sessions. Graceful fallback when Redis is unavailable.**
 
-`redis_service.py` wraps all Redis operations in try/except and degrades silently if Redis is not running. Rate limiting falls back to in-memory per-worker counters (less accurate but functional). the ERP session sharing falls back to per-worker login (consumes more seats but works).
+`redis_service.py` wraps all Redis operations in try/except and degrades silently if Redis is not running. Rate limiting falls back to in-memory per-worker counters (less accurate but functional). The ERP session sharing falls back to per-worker login (consumes more seats but works).
 
 Redis is optional -- the system boots and runs without it. Degraded mode is documented, tested, and monitored.
 

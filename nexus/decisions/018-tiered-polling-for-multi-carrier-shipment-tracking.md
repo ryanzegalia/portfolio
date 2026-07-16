@@ -2,7 +2,7 @@
 
 ## Context
 
-Nexus tracks dozens of active shipments at peak across FedEx and USPS (via the shipping API), with pattern detection for UPS and Amazon. Each carrier has a tracking API with rate limits. FedEx allows roughly 1,000 calls/day. USPS direct was 60 calls/hour (bottleneck). the shipping API's limit gives significant headroom.
+Nexus tracks dozens of active shipments at peak across FedEx and USPS (via the shipping API), with pattern detection for UPS and Amazon. Each carrier has a tracking API with rate limits. FedEx allows roughly 1,000 calls/day. USPS direct was 60 calls/hour (bottleneck). The shipping API's limit gives significant headroom.
 
 The naive approach -- poll every active shipment every N minutes -- works at small scale but fails at two extremes: shipments that are about to deliver should be polled frequently (delivery events are time-sensitive), and shipments sitting in "label created" limbo for days should not consume polling budget (no events are happening).
 
@@ -34,7 +34,7 @@ Polling every shipment hourly would exceed FedEx's daily limit. A smarter approa
 
 - **Webhooks from carriers.** FedEx and USPS both offer webhook notifications. Evaluated and deferred -- the operational complexity (signature verification, replay protection, retry on webhook delivery failure) was higher than the polling path's complexity at current scale. Revisit if the shipment volume grows past thousands of concurrent packages.
 
-- **Push events from the shipping API instead of pulling.** the shipping API supports webhooks. Same rationale as above -- deferred, not rejected. The tiered polling system is the current implementation; webhooks are a Phase 2 improvement.
+- **Push events from the shipping API instead of pulling.** The shipping API supports webhooks. Same rationale as above -- deferred, not rejected. The tiered polling system is the current implementation; webhooks are a Phase 2 improvement.
 
 ## Consequences
 

@@ -20,7 +20,7 @@ This is separate from the [connector subsystem documentation](../connector/) whi
 | `api/routes/v1/connector_logs.py` | 221 | Receives gzip-compressed logs (startup, shutdown, crash, scheduled, manual). Base64-encoded storage, decompression on read. 30-day retention, 200 logs per connector. |
 | `api/routes/v1/firmware_releases.py` | 298 | Local firmware mirror serving `.spy` files. Mimics the company portal's `/hardware/firmware/versions` contract. |
 | `api/services/module_telemetry_service.py` | 249 | Upgrade sessions, per-module records, battery telemetry. Tracks first_seen/last_seen per (address, connector_id) pair. Thread-safe singleton. |
-| `api/services/netid_service.py` | 447 | Database abstraction for 18R2 remote Net ID allocation pool management using 16-bit SNAP Network IDs. |
+| `api/services/netid_service.py` | 447 | Database abstraction for remote Net ID allocation pool management using 16-bit SNAP Network IDs. |
 
 ## Scale and verified numbers
 

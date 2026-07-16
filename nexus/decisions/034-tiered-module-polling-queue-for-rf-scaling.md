@@ -4,7 +4,7 @@
 
 The current heartbeat uses `mcast_rpc` broadcast (see [ADR-033](033-dmcast-rpc-rejection-mcast-rpc-heartbeat.md)), which works reliably for up to ~25 modules per channel and network group per 400ms response window. Past that, 802.15.4 CSMA/CA collision avoidance fails -- too many modules try to respond at the same time, responses collide, and channel utilization collapses.
 
-Most customers today run 6-15 active modules. A few run 20-25. Growth is real -- large industrial wireless shows run 50-100 modules. The current heartbeat isn't ready for that scale, and redesigning it during a show would be the worst time to discover the limit. The solution has to be designed now, validated with smaller module counts, and ready to activate when needed.
+Most customers today run 6-15 active modules. A few run 20-25. Growth is real -- large field deployments run 50-100 modules. The current heartbeat isn't ready for that scale, and redesigning it mid-deployment would be the worst time to discover the limit. The solution has to be designed now, validated with smaller module counts, and ready to activate when needed.
 
 Early testing revealed that without lifecycle-aware polling, modules could be re-enriched dozens of times per cycle under RF congestion.
 

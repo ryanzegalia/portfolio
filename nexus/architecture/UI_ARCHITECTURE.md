@@ -4,7 +4,7 @@
 
 ## Summary
 
-The Nexus operations dashboard is a **multi-page application** built entirely in **vanilla JavaScript with ES modules**, served as static HTML files by Flask, with a custom CSS design system based on CSS custom properties. Every page is a standalone file that can be read in isolation. Shared chrome comes from a native Web Component (`<cn-shell>`, 1,037 lines). The design token layer (375 lines in `tokens.css`) is read at runtime by both CSS and Chart.js so visual consistency is automatic. Three pages use Server-Sent Events for real-time progress on long-running backend operations. Authentication is dual-layer (session cookies server-side, company portal JWT in sessionStorage for external APIs). Bug reports carry automatic diagnostic context captured passively by a 460-line client-side recorder.
+The Nexus operations dashboard is a **multi-page application** built entirely in **vanilla JavaScript with ES modules**, served as static HTML files by Flask, with a custom CSS design system based on CSS custom properties. Every page is a standalone file that can be read in isolation. Shared chrome comes from a native Web Component (`<cn-shell>`, 1,037 lines). The design token layer (375 lines in `tokens.css`) is read at runtime by both CSS and Chart.js so visual consistency is automatic. Three pages use Server-Sent Events for real-time progress on long-running backend operations. Authentication is dual-layer (session cookies server-side, company portal short-lived tokens for external APIs). Bug reports carry automatic diagnostic context captured passively by a 460-line client-side recorder.
 
 ## The page-level architecture
 
@@ -105,7 +105,7 @@ Plus per-page stylesheets in `dashboard/css/pages/*.css` for page-specific layou
 
 ### Light mode only
 
-`tokens.css` is light-mode only. The token architecture supports theming -- adding a `:root[data-theme="dark"]` override block would flip the entire UI -- but dark-mode values haven't been defined. The `design-system/styleguide.html` demo page is the only place in the codebase where `data-theme="dark"` appears.
+`tokens.css` is light-mode only. The token architecture supports theming -- adding a `:root[data-theme="dark"]` override block would flip the entire UI -- but dark-mode values haven't been defined. The `design-system/styleguide.html` demo page is the one intended place where `data-theme="dark"` appears.
 
 See [ADR-031: CSS custom properties as the single design token source](../decisions/031-css-custom-properties-single-design-token-source.md).
 
@@ -124,13 +124,13 @@ SSE was chosen over WebSockets because the traffic is one-directional (server ->
 **Two layers:**
 
 1. **Session cookies, server-side** -- the authoritative auth. `/api/auth/me` returns the current user based on the `auth_sessions` table. Every protected route checks this.
-2. **Company portal JWT in sessionStorage** -- used only for calls to the company portal API (an external service). Not required for the dashboard's own API.
+2. **Company portal short-lived tokens** -- used only for calls to the company portal API (an external service). Not required for the dashboard's own API.
 
 The two layers are deliberately separate. A Redis outage doesn't affect sessions (they're in Postgres, not Redis). A Portal outage doesn't log users out (they're still authenticated against Nexus's own session store).
 
-Login flow: user clicks "Sign in with Company Portal" -> popup opens portal OAuth -> portal posts JWT via `window.postMessage` -> popup closes -> `auth.js` stores JWT in sessionStorage AND calls `/api/auth/login` to create a server-side session -> reload page.
+Login flow: user clicks "Sign in with Company Portal" -> popup opens portal OAuth -> portal posts JWT via `window.postMessage` -> popup closes -> `auth.js` stores short-lived tokens AND calls `/api/auth/login` to create a server-side session -> reload page.
 
-Admin fallback login: a separate password form is available for Portal outages, gated behind environment-specific credentials.
+A gated operational fallback exists for identity-provider outages.
 
 ## Pageview analytics
 

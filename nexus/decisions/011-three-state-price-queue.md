@@ -2,10 +2,10 @@
 
 ## Context
 
-the ERP is an external system. When Nexus changes a product's price, the change has to be pushed to the ERP's admin backend, and the result is only authoritative once the ERP confirms it. Three things can go wrong between "Nexus decided the new price" and "the ERP has the new price":
+The ERP is an external system. When Nexus changes a product's price, the change has to be pushed to the ERP's admin backend, and the result is only authoritative once the ERP confirms it. Three things can go wrong between "Nexus decided the new price" and "the ERP has the new price":
 
 1. The push fails (network error, auth expired, the ERP returns 500).
-2. The push appears to succeed but the change does not persist (known the ERP behavior -- silent rejection of some edits).
+2. The push appears to succeed but the change does not persist (known ERP behavior -- silent rejection of some edits).
 3. A concurrent write from another source overwrites the Nexus change between push and read-back.
 
 Before this ADR, the pricing workflow had two separate audit trails: `price_changes` (granular, per-the ERP-push) and `price_history` (session summaries). They overlapped but did not cover the "did the push actually take" case cleanly.

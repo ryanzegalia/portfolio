@@ -26,7 +26,7 @@ The user wrote one sentence. The system captured hundreds of data points of cont
 
 - **Tell users to copy the console output manually.** What most tools ask. Fails because users don't do it.
 - **Use a third-party feedback widget** (Sentry's user feedback, LogRocket, Fullstory). Work well but introduce an external dependency with its own privacy surface and cost. For an internal tool with no external users, a custom solution is lighter.
-- **Full session replay via a service like LogRocket.** Even more comprehensive, but records every click and keystroke continuously -- raises privacy concerns even for internal tools, and has ongoing cost. The passive-until-submit pattern captures enough without recording the full session.
+- **Full session replay via a service like LogRocket.** Broader still, but records every click and keystroke continuously -- raises privacy concerns even for internal tools, and has ongoing cost. The passive-until-submit pattern captures enough without recording the full session.
 - **Server-side error logging only.** Already exists (loguru, api_health_log). But server-side logs don't have client-side context -- which button was clicked, what modal was open, what the browser state looked like. Client-side capture closes that gap.
 
 ## Consequences

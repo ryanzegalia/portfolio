@@ -8,6 +8,7 @@ Architectural decisions documenting the context, choice, alternatives evaluated,
 - [006 Checkpoint Sync](006-checkpoint-based-incremental-sync.md): resume from where you left off
 - [013 Heartbeat Cadences](013-heartbeat-cadence-selection.md): 5-min to nightly, why each interval
 - [020 Activity Feed](020-sync-changelog-as-cross-cutting-activity-feed.md): single audit table across all services
+- [042 Order-Status Denylist](042-order-status-denylist.md): denylist over allowlist recovers silently dropped demand
 
 ## Pricing & Operations
 - [001 Build vs Buy](001-custom-python-over-workflow-tools.md): when custom code beats workflow tools
@@ -17,14 +18,29 @@ Architectural decisions documenting the context, choice, alternatives evaluated,
 - [016 SSE + POST](016-sse-post-dual-path.md): real-time streaming with POST fallback
 - [017 Race Conditions](017-sale-revert-race-conditions-and-dedup.md): six-layer defense
 - [025 Non-Critical Writes](025-non-critical-write-classification.md): fire-and-forget for analytics
+- [041 Demand-Model Routing](041-demand-model-routing.md): per-SKU ADI/CV2 classification picks the forecasting method
 
 ## Shipping & Tracking
 - [009 Shipping API Fallback](009-carrier-api-fallback-for-mid-access-control.md): deadline-driven carrier migration
 - [018 Tiered Polling](018-tiered-polling-for-multi-carrier-shipment-tracking.md): urgent/active/dormant cadences
+- [046 Carrier Validation Migration](046-carrier-validation-migration.md): USPS to Shippo ahead of a paid-license deadline
+- [048 Platform-Side Label Generation](048-platform-side-shipping-label-generation.md): labels generated on the platform, the ERP stays the record
 
 ## Tax & Compliance
 - [015 the tax engine Read-Only](015-tax-engine-reconciliation-read-only-pattern.md): free reads, no write-back
 - [024 CSV Injection](024-csv-export-injection-prevention.md): formula sanitization
+
+## Identity & Data Quality
+- [038 Pure-SQL Dedup Recompute](038-pure-sql-dedup-recompute.md): deterministic, rerunnable customer duplicate grouping
+- [039 Identity-Resolver Seam](039-pluggable-identity-resolver-seam.md): pluggable interface ahead of the authoritative portal source
+- [040 Conservative Merge](040-conservative-merge-cannot-link.md): hard cannot-link invariants cap the false-merge rate
+
+## Product Data & Compatibility
+- [047 Interface-Derived Compatibility](047-interface-derived-compatibility.md): product fitment computed from declared connector interfaces, not hand-curated pairs
+
+## Realtime & Storefront
+- [036 Poll-Based Presence](036-poll-based-presence.md): heartbeat polling over persistent sockets for a live dashboard
+- [037 Consent-Gated Cart Editing](037-consent-gated-cart-editing.md): shopper's own session executes rep-staged cart changes
 
 ## Infrastructure & Migration
 - [002 PostgreSQL Migration](002-postgresql-migration-with-sqlite3-compat-shim.md): zero-rewrite migration via compat shim
@@ -38,6 +54,11 @@ Architectural decisions documenting the context, choice, alternatives evaluated,
 ## Security & Quality
 - [021 Pre-Deploy Audit](021-pre-deployment-security-audit-pattern.md): parallel agent review before every deploy
 - [023 Code Signing](023-azure-trusted-signing-over-ov-ev-cert.md): Azure Trusted Signing over traditional certs
+- [045 Pre-Deploy Security Gate](045-predeploy-security-gate.md): three-phase scan-audit-review gate before every release
+
+## AI Agents & Safety
+- [043 Dual-Layer Read-Only SQL](043-dual-layer-readonly-sql.md): two independent guards keep agent SQL read-only
+- [044 Preview-Confirm Write Tools](044-preview-confirm-write-tools.md): read-back verification before a write counts as success
 
 ## Frontend
 - [028 Vanilla JS](028-vanilla-js-es-modules-over-framework.md): 56 pages, no framework, no build step

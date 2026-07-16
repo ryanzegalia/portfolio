@@ -29,14 +29,14 @@ On top of the reconciliation, the same data drives a 50-state post-Wayfair econo
 - **40+ canonical column names** with hundreds of alias variants in `COLUMN_ALIASES`. Adding a new alias is a one-line commit.
 - **Idempotent upserts** with field-level change log. Re-importing produces a diff, not a duplicate.
 - **13 inline idempotent schema migrations** -- every schema evolution is a no-op when re-run. Deploying the service a hundred times produces the same final schema.
-- **Free-reads the tax engine integration.** `GET /transactions` costs nothing, so the 5-minute polling cadence is effectively free. POST endpoints (which count against the tax engine's 7,500/year quota) are never called from Nexus.
+- **Free-reads the tax engine integration.** `GET /transactions` costs nothing, so the 5-minute polling cadence is effectively free. POST endpoints (which count against the tax engine's 7,500/year quota) are not used in the reconciliation path from Nexus.
 - **Post-Wayfair nexus engine** covering all 50 states + DC with state-specific thresholds, per-state AND/OR logic flags, and year-to-date projections.
 
 ## Outcome
 
-**37,847 transactions** reconciled across the tax engine, the ERP, and Stripe. The accounting team lead's monthly reconciliation went from **~1 week/month to automated** -- discrepancies surface in the dashboard as soon as they are detected, not a month later.
+**~38K transactions** reconciled across the tax engine, the ERP, and Stripe. The accounting team lead's monthly reconciliation went from **~1 week/month to automated** -- discrepancies surface in the dashboard as soon as they are detected, not a month later.
 
-No known parser failures since the **4-tier column resolver** shipped. the tax engine has renamed fields at least twice in the observed window; the fuzzy tier caught both without human intervention, attaching low-confidence warnings so the team knew to verify.
+Unmatched columns are surfaced for review rather than guessed. The tax engine has renamed fields at least twice in the observed window; the fuzzy tier caught both without human intervention, attaching low-confidence warnings so the team knew to verify.
 
 The nexus dashboard caught near-crossings in two states before the threshold was reached, giving finance time to prepare registrations instead of scrambling after the fact. Because the reconciliation data was already flowing through the system, adding 50-state nexus exposure tracking was a natural extension -- about 200 lines of Python and a lookup table of state thresholds.
 

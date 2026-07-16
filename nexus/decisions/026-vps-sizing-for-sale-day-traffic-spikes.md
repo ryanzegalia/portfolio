@@ -1,7 +1,7 @@
 # ADR-026: VPS Sizing and Swap for Sale-Day Traffic Spikes
 ## Context
 
-Nexus runs on a Hetzner CPX11 VPS -- 2 vCPUs, 1.9GB RAM, no swap. For steady-state operation this is generous. Nexus is not a high-throughput service -- it is an internal operations platform with a few hundred operator requests per day, plus 9 background heartbeats making a handful of API calls per minute.
+Nexus runs on a small production VPS (2 vCPUs, 1.9GB RAM, no swap). For steady-state operation this is generous. Nexus is not a high-throughput service -- it is an internal operations platform with a few hundred operator requests per day, plus 9 background heartbeats making a handful of API calls per minute.
 
 Sale-day traffic spikes revealed that the VPS configuration (single-threaded sync workers, no swap, default file descriptor limits) couldn't handle concurrent load when a long-running background task coincided with peak customer traffic.
 
@@ -19,11 +19,11 @@ Sale-day traffic spikes revealed that the VPS configuration (single-threaded syn
 
 ## Alternatives Considered
 
-- **Scale up the VPS.** Going from CPX11 to CPX21 (4GB RAM, 3 vCPUs) would have made the specific failure mode less likely but would not have addressed the root causes. Memory spikes, file descriptor limits, and worker blocking would still exist -- just with more headroom. It would also cost 2x more for a system that does not need 2x the capacity at steady state. The hardening pass gets the same reliability improvement for ~$0/month additional cost.
+- **Scale up the VPS.** Going up a tier (4GB RAM, 3 vCPUs) would have made the specific failure mode less likely but would not have addressed the root causes. Memory spikes, file descriptor limits, and worker blocking would still exist -- just with more headroom. It would also cost 2x more for a system that does not need 2x the capacity at steady state. The hardening pass gets the same reliability improvement for ~$0/month additional cost.
 
 - **Switch to async Flask.** Would fix the worker-blocking problem but requires rewriting every route and every service that uses a sync DB driver. Rejected as a months-long project to solve a problem the gthread workers handle cleanly.
 
-- **Add auto-scaling.** Hetzner does not offer auto-scaling out of the box. Setting up a load balancer, multiple VPS instances, and shared session state would add significant operational complexity for a sale event that happens a few times a year.
+- **Add auto-scaling.** The VPS provider does not offer built-in auto-scaling. Setting up a load balancer, multiple VPS instances, and shared session state would add significant operational complexity for a sale event that happens a few times a year.
 
 - **Pre-warm the VPS before sale events.** Reboot Gunicorn, pre-fetch common queries into cache, manually scale up for the day. Doable but brittle -- every sale event becomes a manual operation, and the operator has to remember.
 
@@ -39,4 +39,4 @@ Sale-day traffic spikes revealed that the VPS configuration (single-threaded syn
 - `gthread` workers expose concurrency bugs that sync workers hide. Threaded execution means shared mutable state in the process can race. Nexus's services are mostly thread-safe (SQLAlchemy pool, Redis client, per-request DB connections), but any global state that was not thread-safe had to be audited.
 - Swap I/O is slow. A system that is consistently swapping is a system that is slowly dying. Swap is insurance against spikes, not a normal operating state. Monitoring alerts when swap usage stays above a threshold for longer than an hour.
 - Capping the tracking poll changes the latency characteristics of shipment updates. Some shipments may wait for the next cycle. Acceptable because the tiered polling design (ADR-018) already handles urgency -- urgent shipments are polled every 30 minutes regardless of the cap.
-- The CPX11 VPS is still a small box. Future scale increases may require actually resizing -- this hardening pass buys headroom, not indefinite headroom.
+- The VPS is still a small box. Future scale increases may require actually resizing -- this hardening pass buys headroom, not indefinite headroom.

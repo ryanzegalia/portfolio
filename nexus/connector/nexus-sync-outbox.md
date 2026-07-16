@@ -5,7 +5,7 @@
 
 ## The problem
 
-the wireless line test results captured at a firing site must reach the central Nexus dashboard for reporting, audit, and quality analytics. But the connector may be offline during a show (rural location, bad internet, intentional offline mode). The server may be temporarily unreachable. A synchronous push after every test would block the test workflow; a lost push would lose data permanently.
+the wireless line test results captured at a customer site must reach the central Nexus dashboard for reporting, audit, and quality analytics. But the connector may be offline in the field (rural location, bad internet, intentional offline mode). The server may be temporarily unreachable. A synchronous push after every test would block the test workflow; a lost push would lose data permanently.
 
 Neither outcome is acceptable for a QA system where every recorded result is load-bearing.
 
@@ -43,7 +43,7 @@ Content-Type: application/json
   "session_start": "...",
   "session_end": "...",
   "results": [
-    { "cue": 1, "status": "pass", ... },
+    { "channel": 1, "status": "pass", ... },
     ...
   ]
 }

@@ -2,7 +2,7 @@
 
 ## Context
 
-Every month, the accounting team reconciled tax data across three different systems -- the tax engine (the tax processor), the ERP (order management), and Stripe (payments). Each system exports a CSV with its own column naming conventions. the tax engine has historically renamed fields across versions. the ERP exports have pre-header metadata rows and use a mix of "Order #", "Order No", and "Order Number" across different export types. Stripe uses camelCase IDs nobody else uses.
+Every month, the accounting team reconciled tax data across three different systems -- the tax engine (the tax processor), the ERP (order management), and Stripe (payments). Each system exports a CSV with its own column naming conventions. The tax engine has historically renamed fields across versions. The ERP exports have pre-header metadata rows and use a mix of "Order #", "Order No", and "Order Number" across different export types. Stripe uses camelCase IDs nobody else uses.
 
 The original parser used hardcoded column positions: `col.get('Column Name', fallback_index)`. If the column name matched, it read from that column. If not, it silently fell back to the hardcoded index. This is a data corruption bug waiting to happen.
 
@@ -47,7 +47,7 @@ Header normalization is shared across all tiers. The docstring (`tax_recon_servi
 ## Consequences
 
 **Good:**
-- The accounting team has not had a parser failure since the four-tier resolver shipped. the tax engine renamed `CUST/VENDOR CODE` to `customer id` in one release; the fuzzy tier caught it with 81% confidence and attached a low-severity warning. Zero engineering intervention.
+- The accounting team has not had a parser failure since the four-tier resolver shipped. The tax engine renamed `CUST/VENDOR CODE` to `customer id` in one release; the fuzzy tier caught it with 81% confidence and attached a low-severity warning. Zero engineering intervention.
 - The alias table doubles as a change log. Adding `"merch_tax" -> "merchandise_sales_tax"` is a one-line commit that documents a vendor rename.
 - Warnings with confidence scores teach the user what to trust. A 95% match is silent; a 72% match says "I accepted this but you might want to check." No hidden magic.
 - Content sniffing as a tiebreaker (not a standalone tier) keeps the resolver deterministic -- no column gets resolved purely on data inspection, only on name matching with content as a bonus signal.

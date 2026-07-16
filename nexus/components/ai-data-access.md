@@ -1,21 +1,24 @@
 # Conversational Data Access (Internal MCP Server)
 > Part of the Nexus production automation platform
 
-An internal MCP server that exposes the platform's data and operational surface as ~88 callable tools. Internal users — and the dev environment itself — issue natural-language questions and get answers grounded in live (or near-live) data, instead of writing SQL or clicking through admin UIs.
+An internal MCP server that exposes the platform's data and operational surface as 117 tools (verified July 2026). Internal users -- and the dev environment itself -- issue natural-language questions and get answers grounded in live (or near-live) data, instead of writing SQL or clicking through admin UIs.
 
 
 ## What it is
 
-A 1,675-line Python MCP server fronting the platform's own data warehouse plus three connected third-party systems (a helpdesk, a marketing-automation platform, and a vendor data feed). ~88 tools registered, organized into ~37 module files grouped by business domain.
+A 1,675-line Python MCP server fronting the platform's own data warehouse plus three connected third-party systems (a helpdesk, a marketing-automation platform, and a vendor data feed). 117 tools (verified July 2026), organized into ~37 module files grouped by business domain, grown from 20 tools in mid-April 2026 as the platform expanded.
 
 | Domain | What's in it |
 |---|---|
 | Customer | 360-degree view, contact history, identity reconciliation |
 | Order | order detail, delivery digests, shipping lookup |
+| Product | SKU catalog, pricing history and corrections |
+| Shipping | shipment tracking, delivery digests, warehouse queue |
 | Support | tickets, support analytics, contact history |
-| Email | campaign planner, scheduler, event inspection |
+| Sales & Marketing | sales, coupons, events, campaign scheduling and stats, email-marketing sync |
 | Identity | account / email / contact stitching across systems |
 | Operations | day / week / month rollups, top-N analyses |
+| Platform | live read-only SQL, secrets management, storefront template read/write |
 
 Plus two MCP **resources** -- a domain glossary and a knowledge-base index -- registered separately from tools, so the agent can look up definitions and topic listings without spending a tool call on the lookup.
 
@@ -69,3 +72,8 @@ A non-exhaustive sample of the question shapes the layer is built for:
 ## Cross-cutting patterns
 
 Every domain module exposes the same shape: a small handful of read tools, a small handful of mutation tools (only where mutation is part of the workflow), and one or two summary tools that pre-aggregate common rollups. Tools don't reach across domains directly -- when a customer-domain answer needs order data, it calls the order-domain tool. The boundary keeps each module independently testable and keeps the prompt-side tool surface coherent.
+
+
+## The featured story
+
+See the [AI Agent Tool Layer case study](../case-studies/mcp-agent-layer.md) for the narrative-voice version of this component -- problem, approach, technical highlights, outcome.

@@ -4,6 +4,8 @@ Claude Code is the primary development environment for everything in this portfo
 
 This document describes how the system works -- what runs, when, and why.
 
+Ryan designed and configured every layer described below. Claude Code is the tool that executes within that configuration -- it does not decide its own scope, memory structure, or review process.
+
 ## The Problem It Solves
 
 A codebase with 58 services, 145 database tables, and 15 external integrations has too much context for any single conversation. The Python 2.7 bridge has different rules than the Python 3 API. The tax engine integration has gotchas that cost a day to rediscover. The legacy ERP has undocumented behaviors you learn once and can't afford to forget.
@@ -73,21 +75,21 @@ New lessons are written to topic files as they're discovered. The memory system 
 
 ## MCP Servers
 
-MCP is how Claude Code reaches *live* state — complementing the static memory layer above. Memory files freeze knowledge for fast recall; MCP servers expose tools the agent calls at request time.
+MCP is how Claude Code reaches *live* state -- complementing the static memory layer above. Memory files freeze knowledge for fast recall; MCP servers expose tools the agent calls at request time.
 
-Two MCP servers do most of the methodology-side work. The observation memory MCP (claude-mem) lets the agent search prior-session observations and summaries — "did we already solve this?" without re-doing the discovery. A documentation MCP (Context7) fetches current library/framework docs at call time, so version-specific syntax stays accurate even when training data is stale.
+Two MCP servers do most of the methodology-side work. The observation memory MCP (claude-mem) lets the agent search prior-session observations and summaries -- "did we already solve this?" without re-doing the discovery. A documentation MCP (Context7) fetches current library/framework docs at call time, so version-specific syntax stays accurate even when training data is stale.
 
-Per-repo MCP whitelists keep tool counts bounded — projects that don't need a given server don't pay its tool budget every turn.
+Per-repo MCP whitelists keep tool counts bounded -- projects that don't need a given server don't pay its tool budget every turn.
 
 Domain-specific MCP servers built for individual production systems (e.g. the [Nexus AI access layer](nexus/components/ai-data-access.md)) follow the same pattern: tools encapsulate live operations on the underlying system; the agent reaches in conversationally instead of through SQL or admin UIs.
 
 ## Local AI Infrastructure
 
-The hooks-and-agents layer above is the *software* side of the methodology. Underneath it sits a *services* layer running on a local workstation GPU — three connected services that bound API spend, attribute it where it actually goes, and arbitrate between concurrent local-LLM workloads.
+The hooks-and-agents layer above is the *software* side of the methodology. Underneath it sits a *services* layer running on a local workstation GPU -- three connected services that bound API spend, attribute it where it actually goes, and arbitrate between concurrent local-LLM workloads.
 
-- The Stop hook that processes session transcripts into knowledge-graph observations doesn't call headless Claude — it POSTs a transcript byte range to a local FastAPI worker, which queues, batches, and runs the workload through a local Ollama model. Free at the margin, deferred to off-peak GPU.
-- A unified cost dashboard reconciles Claude API spend (from Claude Code's OpenTelemetry export) with local GPU spend (priced as Sonnet-equivalent). Same view, comparable numbers — so "should I move this workload local?" has an actual answer.
-- A priority-aware Ollama proxy serializes contention between callers (live dictation polish > live observations > batch scoring > overnight backfill) with starvation protection. Adding a new caller is "register a priority, point Ollama URL at the proxy" — not "design your own coordination."
+- The Stop hook that processes session transcripts into knowledge-graph observations doesn't call headless Claude -- it POSTs a transcript byte range to a local FastAPI worker, which queues, batches, and runs the workload through a local Ollama model. Free at the margin, deferred to off-peak GPU.
+- A unified cost dashboard reconciles Claude API spend (from Claude Code's OpenTelemetry export) with local GPU spend (priced as Sonnet-equivalent). Same view, comparable numbers -- so "should I move this workload local?" has an actual answer.
+- A priority-aware Ollama proxy serializes contention between callers (live dictation polish > live observations > batch scoring > overnight backfill) with starvation protection. Adding a new caller is "register a priority, point Ollama URL at the proxy" -- not "design your own coordination."
 
 Full architecture, decisions, and per-service detail in [Local AI Infrastructure](ai-infra/).
 

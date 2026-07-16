@@ -33,8 +33,8 @@ Replaces a ~1 week per month manual spreadsheet reconciliation by the accounting
 
 ## Key Decisions
 
-- **[ADR-004: Four-tier smart column resolver](../decisions/004-four-tier-smart-column-resolver.md)** -- exact -> alias -> fuzzy -> content sniffing. The core innovation that makes the system robust to the ERP/the tax engine/Stripe column renames.
-- **[ADR-015: Tax Engine Reconciliation Read-Only Pattern](../decisions/015-tax-engine-reconciliation-read-only-pattern.md)** -- Nexus reads from the tax engine but never writes back. the tax engine is the authoritative tax ledger.
+- **[ADR-004: Four-tier smart column resolver](../decisions/004-four-tier-smart-column-resolver.md)** -- exact -> alias -> fuzzy -> content sniffing. The core innovation that lets the system tolerate the ERP/the tax engine/Stripe column renames without breaking.
+- **[ADR-015: Tax Engine Reconciliation Read-Only Pattern](../decisions/015-tax-engine-reconciliation-read-only-pattern.md)** -- Nexus reads from the tax engine but never writes back. The tax engine is the authoritative tax ledger.
 - **[ADR-019: Idempotent schema migrations](../decisions/019-idempotent-schema-migrations.md)** -- tax_recon_service.py established the pattern with 13 inline migrations.
 - **[ADR-006: Checkpoint-based incremental sync](../decisions/006-checkpoint-based-incremental-sync.md)** -- tax_engine_heartbeat uses the platform checkpoint pattern.
 

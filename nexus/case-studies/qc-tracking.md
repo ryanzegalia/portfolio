@@ -16,7 +16,7 @@ The solution has two parts:
 
 All database access goes through the service class -- no raw SQL in route handlers. The **11 interrelated tables** have evolved multiple times (columns added, indexes added, new relationship tables introduced), and not a single route file has changed to accommodate schema changes.
 
-The tested inventory ledger is maintained incrementally, not recomputed. Every pass result increments `qc_sku_counts` via `ON CONFLICT DO UPDATE`. Every fail creates a triage entry automatically. The ledger is always live -- no batch job rebuilds it.
+The tested inventory ledger is maintained incrementally, not recomputed. Every pass result increments `qc_sku_counts` via `ON CONFLICT DO UPDATE`. Every fail creates a triage entry automatically. The ledger is live -- no batch job rebuilds it.
 
 Session management handles the "operator forgot to close the session" case. `start_session()` resumes an existing open session if it's less than 24 hours old and belongs to the same user. Sessions older than 24 hours are auto-abandoned with `overall_result='ABANDONED'` before a new one is created, preventing ghost sessions from contaminating throughput stats.
 
@@ -39,6 +39,6 @@ Every session completion writes to `sync_changelog` with `entity_type='qc_event'
 
 **10,000+ units** tracked per year through the full lifecycle. **500+ hours per year saved** (3 minutes saved per unit across 10,000+ units). Before the system, each unit involved manual data entry -- serial number, test result, notes, disposition -- on paper. After, the operator connects via BLE, runs the test sequence, and taps pass/fail; the system handles the rest.
 
-The failed unit triage queue is now actionable. Every failed unit has a disposition (retest, repair, scrap) tracked in the database, assigned to a specific person, with a status lifecycle. Manager assignment targets update themselves as testing happens -- managers see progress in real time instead of asking at end of day. The tested inventory ledger is always live, so the warehouse team can see tested-and-ready unit counts per SKU without running a report.
+The failed unit triage queue is now actionable. Every failed unit has a disposition (retest, repair, scrap) tracked in the database, assigned to a specific person, with a status lifecycle. Manager assignment targets update themselves as testing happens -- managers see progress in real time instead of asking at end of day. The tested inventory ledger is live, so the warehouse team can see tested-and-ready unit counts per SKU without running a report.
 
 See also: [ADR-019: Idempotent schema migrations](../decisions/019-idempotent-schema-migrations.md), [ADR-020: sync_changelog as cross-cutting activity feed](../decisions/020-sync-changelog-as-cross-cutting-activity-feed.md).
