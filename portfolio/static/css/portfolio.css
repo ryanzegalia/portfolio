@@ -2250,9 +2250,9 @@ body[data-pack="distribution"] {
 }
 
 /* Production-systems shelf tiles (hand-authored, not pack-backed).
-   Near-black ink accent: the atlas is the dark machine framed by the
-   light gallery, and its card hints at that before the click. */
-.root-tile[data-pack="atlas"] {
+   Near-black ink accent: the platform is the dark machine framed by
+   the light gallery, and its card hints at that before the click. */
+.root-tile[data-pack="revops"] {
   --brand-accent: #16181d;
   --brand-accent-hover: #0b0d12;
   --brand-accent-soft: #f5f6f8;
@@ -2328,7 +2328,7 @@ body[data-pack="distribution"] {
 .root-tile[data-pack="vertical-ai"] .root-tile-title { font-size: 19px; }
 .root-tile[data-pack="saas"] .root-tile-title { font-size: 18px; }
 .root-tile[data-pack="sca"] .root-tile-title { font-size: 18px; }
-.root-tile[data-pack="atlas"] .root-tile-title { font-size: 21px; }
+.root-tile[data-pack="revops"] .root-tile-title { font-size: 22px; }
 .root-tile[data-pack="ghdocs"] .root-tile-title { font-size: 18px; }
 
 /* Layer 3: scenario preview + artifact callout */
@@ -2570,7 +2570,7 @@ body[data-pack="distribution"] {
   .root-tile[data-pack="vertical-ai"] .root-tile-title { font-size: 17px; }
   .root-tile[data-pack="saas"] .root-tile-title { font-size: 16px; }
   .root-tile[data-pack="sca"] .root-tile-title { font-size: 16px; }
-  .root-tile[data-pack="atlas"] .root-tile-title { font-size: 19px; }
+  .root-tile[data-pack="revops"] .root-tile-title { font-size: 19px; }
   .root-tile[data-pack="ghdocs"] .root-tile-title { font-size: 16px; }
   .root-tile[data-pack="ai-stack"] .root-tile-title { font-size: 18px; }
   .root-tile[data-pack="ops-board"] .root-tile-title { font-size: 20px; }

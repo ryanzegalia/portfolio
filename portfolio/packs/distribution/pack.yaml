@@ -70,7 +70,7 @@ dashboard_cards:
     href: /distribution/pe-triggers
 
 landing:
-  signals: "Epicor P21 . NetSuite . Crunchbase . HubSpot"
+  signals: "Epicor P21 · NetSuite · Crunchbase · HubSpot"
 
   hero:
     eyebrow: "Wholesale distribution technology, three operational scenarios"
@@ -82,8 +82,8 @@ landing:
       outcomes, and market events that drive this pipeline usually live outside
       the CRM.
     root_tile_title: >
-      Qualifying on ERP, proving ROI on the prospect's own data, and catching
-      PE-driven buying windows before they close.
+      Nobody selling into a distributor can tell which ERP the prospect is
+      running, and the answer changes the whole pitch.
     card_preview: >
       Three scenarios: The ERP Detection Problem, The Proof-of-Value Pipeline,
       and The PE Trigger Window. Real seeded Postgres, with a Python ERP

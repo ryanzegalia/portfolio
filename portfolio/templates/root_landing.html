@@ -35,9 +35,8 @@
         e-commerce, marketing, and into the systems and automation I build now.
       </p>
       <p>
-        Below: the production systems I build and operate for work, the
-        environment I run at home, then the industry explorations. Source
-        code and documentation live in my
+        Below: what I build and run at work, what I run at home, and five
+        industry explorations. Source code and documentation live in my
         <a href="https://github.com/ryanzegalia/portfolio" target="_blank" rel="noopener">GitHub portfolio</a>.
       </p>
     </div>
@@ -46,28 +45,31 @@
 
 <section class="root-shelf container" data-reveal>
   <h2 class="root-shelf-head">Production systems</h2>
-  <p class="root-shelf-sub">Real systems, built and operated. Identifiers scrubbed; architecture real.</p>
+  <p class="root-shelf-sub">Systems I build and run at work, shown with the company and product names changed.</p>
 </section>
 
 <nav class="root-tiles container" aria-label="Production systems">
-  <a class="root-tile" data-pack="atlas" href="/atlas" data-reveal>
+  {# 2026-07-27 rewrite (Ryan's direction): plain language, no internal
+     codenames on the page. The card sells the platform, not the map of
+     it. No CTA until the interactive map actually exists to open --
+     dead links cost more than missing ones. #}
+  <article class="root-tile personal-tile" data-pack="revops" data-reveal>
     <span class="root-tile-eyebrow">Production system</span>
-    <h2 class="root-tile-title">The Nexus Atlas: a living map of the ERP and commerce platform I operate</h2>
-    {# P3 drops the rest-map screenshot at static/img/atlas-card.png; the
-       onerror guard keeps the card clean until the asset exists. #}
-    <img class="root-tile-thumb" src="/static/img/atlas-card.png"
-         alt="The Nexus Atlas rest map: eight domains around a central core"
+    <h2 class="root-tile-title">The revenue operations platform I built and run</h2>
+    {# The map screenshot lands at static/img/platform-map.png when the
+       interactive map ships; onerror keeps the card clean until then. #}
+    <img class="root-tile-thumb" src="/static/img/platform-map.png"
+         alt="Map of the revenue operations platform: eight domains around a central core"
          loading="lazy" onerror="this.style.display='none'">
-    <p class="root-tile-scenarios">A sanitized replica of the documentation system I built for the ERP and commerce platform I operate at a mid-size manufacturer: 8 domains, 66 nodes, every page grounded in source and kept true by agent-executed freshness gates.</p>
-    <p class="root-tile-signals">ERP integration &middot; Postgres mirror &middot; MCP tools &middot; research / write / verify agent chain</p>
-    <span class="root-tile-cta">Open the atlas &rarr;</span>
-  </a>
+    <p class="root-tile-scenarios">I kept finding the same problem at work: systems that didn't talk, and people bridging them by hand. Accounting lost a week every month to a manual tax reconciliation. 77% of customer contacts shared an email address with another record. So I built the platform that closes those gaps: the tax reconciliation runs itself now, and ~17K duplicate account groups resolve to the real customer behind them. It's run in production since February 2026, built and maintained alongside the job I was hired to do.</p>
+    <p class="root-tile-signals">268 tables &middot; ~850 routes &middot; 117 agent-callable tools</p>
+  </article>
 
-  <a class="root-tile" data-pack="ghdocs" href="https://github.com/ryanzegalia/portfolio" target="_blank" rel="noopener" data-reveal>
+  <a class="root-tile" data-pack="ghdocs" href="https://github.com/ryanzegalia/portfolio/tree/main/nexus" target="_blank" rel="noopener" data-reveal>
     <span class="root-tile-eyebrow">Documentation</span>
-    <h2 class="root-tile-title">Architecture decisions and case studies from the same platform</h2>
-    <p class="root-tile-scenarios">The written record behind the atlas: architecture decision records, case studies, and component documentation for the Nexus work system.</p>
-    <p class="root-tile-signals">ADRs &middot; case studies &middot; metrics with receipts</p>
+    <h2 class="root-tile-title">How the platform is built, and what it cost to learn</h2>
+    <p class="root-tile-scenarios">Why each piece works the way it does, what broke on the way there, and where the numbers come from.</p>
+    <p class="root-tile-signals">decision records &middot; case studies &middot; architecture notes</p>
     <span class="root-tile-cta">Read on GitHub &rarr;</span>
   </a>
 </nav>
@@ -83,80 +85,80 @@
 #}
 <section class="root-shelf container" data-reveal>
   <h2 class="root-shelf-head">Personal production environment</h2>
-  <p class="root-shelf-sub">Real systems on three hosts in my house, monitored, alerted, and used daily by my family. They live on a private network, so the receipts are screenshots rather than links.</p>
+  <p class="root-shelf-sub">Three machines in my house running real services my family uses every day. They page me when something breaks. They're on a private network, so I've shown screenshots instead of links.</p>
 </section>
 
 <section class="root-tiles container" aria-label="Personal production environment">
   <article class="root-tile personal-tile" data-pack="ai-stack" data-reveal>
     <span class="root-tile-eyebrow">Self-hosted AI</span>
-    <h2 class="root-tile-title">A self-hosted AI stack: local models, one GPU, and an agent watching the whole thing</h2>
-    <p class="root-tile-scenarios">Every AI workload in the house runs on local models: 13 callers behind a priority scheduler that leases out one GPU. A cost dashboard rebuilds each caller's spend from raw request logs. An investigator agent watches the environment, escalates to a paid model only when it's stuck, and once dug 360 zombie processes out of a sick host in 15 tool calls without spending a cent.</p>
+    <h2 class="root-tile-title">One GPU, more programs than it can serve, and a scheduler deciding who waits</h2>
+    <p class="root-tile-scenarios">Everything AI in my house, dictation cleanup, file triage, meeting summaries, job scoring, wants the same GPU. I built the scheduler that decides who waits, and a cost board that rebuilds each program's spend from its raw request logs. An agent watches the machines and investigates failures itself; paid models are the fallback, not the default.</p>
     <div class="personal-thumbs">
       <button class="personal-thumb" type="button"
               data-full="/static/img/personal/scheduler.png"
-              data-caption="The GPU scheduler, live: caller priority table, in-flight dispatches, per-call wait times.">
-        <img src="/static/img/personal/thumb-scheduler.jpg" alt="GPU scheduler dashboard: caller priority table, model health, live dispatches, recent activity" loading="lazy" width="549" height="360">
+              data-caption="The scheduler, live. It shows which program has priority, what's on the GPU right now, and how long each one waited.">
+        <img src="/static/img/personal/thumb-scheduler.jpg" alt="GPU scheduler dashboard: program priority table, model health, live dispatches, recent activity" loading="lazy" width="549" height="360">
       </button>
       <button class="personal-thumb" type="button"
               data-full="/static/img/personal/cost-board.png"
-              data-caption="The cost board: the day's spend, cache performance, and local work priced at what a cloud model would have charged.">
+              data-caption="The cost board. It totals today's spend, cache hits, and what the local work would have cost from a cloud model.">
         <img src="/static/img/personal/thumb-cost-board.jpg" alt="Usage cost dashboard: total cost, API calls, sessions, cache hit rate, local GPU equivalent" loading="lazy" width="985" height="360">
       </button>
     </div>
-    <p class="root-tile-signals">priority scheduler + GPU lease &middot; spend ledger from raw logs &middot; local first, paid when beaten</p>
+    <p class="root-tile-signals">priority scheduler &middot; per-program spend ledger &middot; paid models only as a fallback</p>
   </article>
 
   <article class="root-tile personal-tile" data-pack="ops-board" data-reveal>
     <span class="root-tile-eyebrow">Operations</span>
     <h2 class="root-tile-title">14 services, one screen</h2>
-    <p class="root-tile-scenarios">A single-page operator console for the home fleet: service health, host vitals, GPU state, spend, backups, whatever each service will admit to. Vanilla JavaScript and Web Components, no framework, because a homelab dashboard doesn't need one. I've run a live interview demo from it.</p>
+    <p class="root-tile-scenarios">I was checking ten different tabs to find out what broke. Now every service reports to one page: up or down, host vitals, what the GPU is doing, what it costs, whether the backups ran. Vanilla JavaScript and Web Components, no framework. It's the first thing I open when something's wrong.</p>
     <div class="personal-thumbs">
       <button class="personal-thumb" type="button"
               data-full="/static/img/personal/ops-board.png"
-              data-caption="The overview page: the service fleet with health states, and per-host vitals below.">
+              data-caption="The overview page. It shows every service's health, with per-host vitals below.">
         <img src="/static/img/personal/thumb-ops-board.jpg" alt="Operator dashboard: grid of service cards with health badges and host vitals panels" loading="lazy" width="549" height="360">
       </button>
     </div>
-    <p class="root-tile-signals">vanilla JS &middot; Web Components &middot; Chart.js and nothing heavier</p>
+    <p class="root-tile-signals">vanilla JS &middot; Web Components &middot; Chart.js</p>
   </article>
 
   <article class="root-tile personal-tile" data-pack="cad" data-reveal>
     <span class="root-tile-eyebrow">Computational design</span>
-    <h2 class="root-tile-title">A CAD pipeline that rebuilds a scanned or exported mesh into an editable solid</h2>
-    <p class="root-tile-scenarios">Drop in a mesh from a scan, a marketplace download, or another tool's export, and an agent pipeline reconstructs it as a parametric solid with holes that actually drill and faces that actually offset, live in the browser. On benchmark parts it rebuilds at 0.996 voxel overlap where CAD-Recode, a published neural method, topped out at 0.848. The server-rack case and device trays in the shots were designed end-to-end in it.</p>
+    <h2 class="root-tile-title">I can't do CAD, so I built a pipeline where agents do it</h2>
+    <p class="root-tile-scenarios">I can find a mesh close to what I need; I can't redraw it. So agents do the rebuild: drop in a downloaded mesh and it comes back as a real solid, holes that drill, faces that offset, ready to resize or graft a bracket onto, live in the browser. Every rebuild checks itself against the original. On my test parts it matches 99.6% of the shape, where CAD-Recode, a published research method, reaches 84.8%.</p>
     <div class="personal-thumbs">
       <button class="personal-thumb" type="button"
               data-full="/static/img/personal/cad-assembly.png"
-              data-caption="A 58-part rack assembly in the portal: parts list, watertight checks, and the operation log that built it.">
-        <img src="/static/img/personal/thumb-cad-assembly.jpg" alt="CAD portal: rack assembly with parts list, watertight badges, and operation log" loading="lazy" width="490" height="360">
+              data-caption="A 58-part rack assembly rebuilt from downloaded meshes, with the log of every operation on the right.">
+        <img src="/static/img/personal/thumb-cad-assembly.jpg" alt="Rack assembly in the CAD workspace with parts list and operation log" loading="lazy" width="490" height="360">
       </button>
       <button class="personal-thumb" type="button"
               data-full="/static/img/personal/cad-tray.png"
-              data-caption="A device tray mid-session: three housings seated on a patterned base.">
-        <img src="/static/img/personal/thumb-cad-tray.jpg" alt="CAD portal: device tray with three seated housings on a patterned base" loading="lazy" width="490" height="360">
+              data-caption="A device tray mid-session, with three housings seated on the patterned base.">
+        <img src="/static/img/personal/thumb-cad-tray.jpg" alt="Device tray with three seated housings in the CAD workspace" loading="lazy" width="490" height="360">
       </button>
     </div>
-    <p class="root-tile-signals">mesh in, STEP/3MF out &middot; voxel-IoU self-check on every rebuild &middot; live viewer</p>
+    <p class="root-tile-signals">mesh in, STEP/3MF out &middot; agents drive the rebuild &middot; live viewer</p>
   </article>
 
   <article class="root-tile personal-tile" data-pack="radar" data-reveal>
     <span class="root-tile-eyebrow">Data pipeline</span>
-    <h2 class="root-tile-title">The job-search radar: ~102K postings scraped and scored</h2>
-    <p class="root-tile-scenarios">A handful of scrapers feed one archive. A scoring pass reads every description against what I actually do and ranks the day's catch. The same shape as a vendor data feed: ingest, normalize, score, rank.</p>
+    <h2 class="root-tile-title">A scoring pipeline over ~102K scraped job listings</h2>
+    <p class="root-tile-scenarios">Job boards bury the listings that matter under thousands that don't. Six scrapers feed one archive, and a scoring pass reads every description and ranks it against what I do.</p>
     <div class="personal-thumbs">
       <button class="personal-thumb" type="button"
               data-full="/static/img/personal/job-radar.png"
-              data-caption="Full-text search over the archive: every posting scored for fit, best first.">
+              data-caption="Full-text search over the archive. Every posting carries its fit score, best first.">
         <img src="/static/img/personal/thumb-job-radar.jpg" alt="Job search tool: full-text results for ERP integration ranked by fit score" loading="lazy" width="549" height="360">
       </button>
     </div>
-    <p class="root-tile-signals">six sources &middot; full-text search over every description &middot; keyboard-first triage</p>
+    <p class="root-tile-signals">full-text search over every description &middot; keyboard-first triage</p>
   </article>
 </section>
 
 <section class="root-shelf container" data-reveal>
   <h2 class="root-shelf-head">Industry explorations</h2>
-  <p class="root-shelf-sub">Built demonstrations: five verticals, fictional companies, real seeded Postgres.</p>
+  <p class="root-shelf-sub">Industries I dug into. The companies are fictional. The scenarios are worked in full, code included.</p>
 </section>
 
 <nav class="root-tiles container" aria-label="Industry explorations">

@@ -64,7 +64,7 @@ dashboard_cards:
     href: /sca/coverage
 
 landing:
-  signals: "Salesforce . GitHub . Crunchbase . CI/CD Scan Logs"
+  signals: "Salesforce · GitHub · Crunchbase · CI/CD Scan Logs"
 
   hero:
     eyebrow: "Software supply chain compliance, three operational scenarios"
@@ -76,9 +76,8 @@ landing:
       customer is underscanning usually lives across the CRM, product telemetry,
       and external event sources that are not wired together.
     root_tile_title: >
-      Engineering, security, and legal evaluate the same tool on different
-      criteria, and the pipeline data that would reconcile those threads lives
-      in three different systems.
+      Engineering, security, and legal each judge the same tool on different
+      criteria, and the three answers live in systems that never meet.
     card_preview: >
       Three scenarios: The Multi-Threaded Deal, The Compliance Event Trigger,
       and The Repo Coverage Gap. Real seeded Postgres, with a SQL

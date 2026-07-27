@@ -111,8 +111,8 @@ landing:
       customer telemetry.
     # Short 1-line version for the root tile.
     root_tile_title: >
-      The data a vertical AI GTM team actually needs about a prospect or
-      customer usually isn't in any standard B2B contact database.
+      The facts you need about a dental group, who owns it and what software
+      each office runs, aren't in any contact list you can buy.
     # Rendered on the root launchpad card. Names the three canonical
     # vertical AI scenarios inline and calls out the artifact specific to
     # this vertical. Added 2026-04-11 root tile card pass.
