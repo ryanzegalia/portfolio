@@ -10,9 +10,9 @@
   in ~15 seconds.
 
   2026-07-27 two-shelf reshape:
-  - Shelf 1 "Production systems": real, operated systems. The Nexus Atlas
-    card leads (dark rest-map screenshot inside the light card), then the
-    GitHub documentation card. Hand-authored tiles, not PACK_REGISTRY-backed.
+  - Shelf 1 "Production systems": real, operated systems. The platform
+    card leads (links to the /platform map), then the GitHub documentation
+    card. Hand-authored tiles, not PACK_REGISTRY-backed.
   - Shelf 2 "Industry explorations": the five vertical packs, honestly
     labeled as built demonstrations.
   - Card grammar (eyebrow / title / scenarios / signals / cta) is shared
@@ -51,23 +51,24 @@
 <nav class="root-tiles container" aria-label="Production systems">
   {# 2026-07-27 rewrite (Ryan's direction): plain language, no internal
      codenames on the page. The card sells the platform, not the map of
-     it. No CTA until the interactive map actually exists to open --
-     dead links cost more than missing ones. #}
-  <article class="root-tile personal-tile" data-pack="revops" data-reveal>
+     it. The CTA landed with the platform map at /platform (built by
+     scripts/build_platform_map.py). #}
+  <a class="root-tile" data-pack="revops" href="/platform" data-reveal>
     <span class="root-tile-eyebrow">Production system</span>
     <h2 class="root-tile-title">The revenue operations platform I built and run</h2>
-    {# The map screenshot lands at static/img/platform-map.png when the
-       interactive map ships; onerror keeps the card clean until then. #}
+    {# The map screenshot lands at static/img/platform-map.png once it is
+       captured from /platform; onerror keeps the card clean until then. #}
     <img class="root-tile-thumb" src="/static/img/platform-map.png"
-         alt="Map of the revenue operations platform: eight domains around a central core"
+         alt="Map of the revenue operations platform, grouped by what each part does"
          loading="lazy" onerror="this.style.display='none'">
-    <p class="root-tile-scenarios">I kept finding the same problem at work: systems that didn't talk, and people bridging them by hand. Accounting lost a week every month to a manual tax reconciliation. 77% of customer contacts shared an email address with another record. So I built the platform that closes those gaps: the tax reconciliation runs itself now, and ~17K duplicate account groups resolve to the real customer behind them. It's run in production since February 2026, built and maintained alongside the job I was hired to do.</p>
+    <p class="root-tile-scenarios">I kept finding the same problem at work: systems that didn't talk, and people bridging them by hand. Accounting lost a week every month to a manual tax reconciliation. 77% of customer contacts shared an email address with another record. So I built the platform that closes those gaps: the tax reconciliation runs itself now, and ~17K duplicate account groups resolve to the real customer behind them. It's run in production since February 2026, built and maintained alongside a full-time marketing role.</p>
     <p class="root-tile-signals">268 tables &middot; ~850 routes &middot; 117 agent-callable tools</p>
-  </article>
+    <span class="root-tile-cta">Open the platform map &rarr;</span>
+  </a>
 
   <a class="root-tile" data-pack="ghdocs" href="https://github.com/ryanzegalia/portfolio/tree/main/nexus" target="_blank" rel="noopener" data-reveal>
     <span class="root-tile-eyebrow">Documentation</span>
-    <h2 class="root-tile-title">How the platform is built, and what it cost to learn</h2>
+    <h2 class="root-tile-title">48 decision records and 9 case studies from building it</h2>
     <p class="root-tile-scenarios">Why each piece works the way it does, what broke on the way there, and where the numbers come from.</p>
     <p class="root-tile-signals">decision records &middot; case studies &middot; architecture notes</p>
     <span class="root-tile-cta">Read on GitHub &rarr;</span>
@@ -91,8 +92,8 @@
 <section class="root-tiles container" aria-label="Personal production environment">
   <article class="root-tile personal-tile" data-pack="ai-stack" data-reveal>
     <span class="root-tile-eyebrow">Self-hosted AI</span>
-    <h2 class="root-tile-title">One GPU, more programs than it can serve, and a scheduler deciding who waits</h2>
-    <p class="root-tile-scenarios">Everything AI in my house, dictation cleanup, file triage, meeting summaries, job scoring, wants the same GPU. I built the scheduler that decides who waits, and a cost board that rebuilds each program's spend from its raw request logs. An agent watches the machines and investigates failures itself; paid models are the fallback, not the default.</p>
+    <h2 class="root-tile-title">A scheduler and cost ledger for the one GPU my whole home lab shares</h2>
+    <p class="root-tile-scenarios">All of the AI in my home lab runs through the one GPU on my workstation, and so many different things want it at the same time that I built a scheduler to manage who gets it. A cost dashboard rebuilds what each program spent from the raw request logs. There's also an agent that watches the machines and investigates problems on its own. It uses local models first and only calls a paid model when it gets stuck.</p>
     <div class="personal-thumbs">
       <button class="personal-thumb" type="button"
               data-full="/static/img/personal/scheduler.png"
@@ -111,7 +112,7 @@
   <article class="root-tile personal-tile" data-pack="ops-board" data-reveal>
     <span class="root-tile-eyebrow">Operations</span>
     <h2 class="root-tile-title">14 services, one screen</h2>
-    <p class="root-tile-scenarios">I was checking ten different tabs to find out what broke. Now every service reports to one page: up or down, host vitals, what the GPU is doing, what it costs, whether the backups ran. Vanilla JavaScript and Web Components, no framework. It's the first thing I open when something's wrong.</p>
+    <p class="root-tile-scenarios">Every service in my home lab reports its status to one page I built: whether it's up, how the host machines are doing, what the GPU is working on, and whether the backups ran. I wrote it in plain JavaScript with Web Components because a dashboard this size doesn't need a framework. When something breaks, this is the first place I look.</p>
     <div class="personal-thumbs">
       <button class="personal-thumb" type="button"
               data-full="/static/img/personal/ops-board.png"
@@ -124,8 +125,8 @@
 
   <article class="root-tile personal-tile" data-pack="cad" data-reveal>
     <span class="root-tile-eyebrow">Computational design</span>
-    <h2 class="root-tile-title">I can't do CAD, so I built a pipeline where agents do it</h2>
-    <p class="root-tile-scenarios">I can find a mesh close to what I need; I can't redraw it. So agents do the rebuild: drop in a downloaded mesh and it comes back as a real solid, holes that drill, faces that offset, ready to resize or graft a bracket onto, live in the browser. Every rebuild checks itself against the original. On my test parts it matches 99.6% of the shape, where CAD-Recode, a published research method, reaches 84.8%.</p>
+    <h2 class="root-tile-title">An agent pipeline that rebuilds 3D meshes into editable CAD solids</h2>
+    <p class="root-tile-scenarios">I can't draw CAD from scratch, but I can usually find a downloaded mesh close to what I need. So I built a pipeline where AI agents rebuild that mesh into a real editable solid, and I make my changes from there: resize it, drill holes, add a bracket. It runs live in the browser, and every rebuild gets checked against the original shape. On my test parts it matches 99.6%, where a published research method reaches 84.8%.</p>
     <div class="personal-thumbs">
       <button class="personal-thumb" type="button"
               data-full="/static/img/personal/cad-assembly.png"
@@ -144,7 +145,7 @@
   <article class="root-tile personal-tile" data-pack="radar" data-reveal>
     <span class="root-tile-eyebrow">Data pipeline</span>
     <h2 class="root-tile-title">A scoring pipeline over ~102K scraped job listings</h2>
-    <p class="root-tile-scenarios">Job boards bury the listings that matter under thousands that don't. Six scrapers feed one archive, and a scoring pass reads every description and ranks it against what I do.</p>
+    <p class="root-tile-scenarios">Six scrapers pull job listings into one archive, and a scoring pass reads every description and ranks it against the work I actually do, so I only spend time on the ones that score high.</p>
     <div class="personal-thumbs">
       <button class="personal-thumb" type="button"
               data-full="/static/img/personal/job-radar.png"

@@ -1,4 +1,4 @@
-"""Non-pack-scoped routes: /, /atlas, /traffic, /sitemap.xml."""
+"""Non-pack-scoped routes: /, /platform, /traffic, /sitemap.xml."""
 import os
 from datetime import datetime, timedelta, timezone
 
@@ -17,11 +17,11 @@ router = APIRouter()
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 attach_filters(templates)
 
-# The sanitized Nexus Atlas artifact: a single self-contained HTML file
-# produced by a private build pipeline and dropped here only after its leak
-# gate passes. The route 404s until the file exists so it can ship ahead of
-# the artifact.
-ATLAS_FILE = os.path.join(STATIC_DIR, "atlas", "atlas.html")
+# The platform map: a generated Jinja template produced by
+# scripts/build_platform_map.py from platform_map/fragments/ (its lint gates
+# ASCII + banned identifiers). The route 404s until the generated file
+# exists so the route can ship ahead of the artifact.
+PLATFORM_TEMPLATE = os.path.join(TEMPLATES_DIR, "platform_map.html")
 
 
 def _common_context(request: Request, **extra) -> dict:
@@ -41,11 +41,11 @@ def root_landing(request: Request):
     )
 
 
-@router.get("/atlas")
-def atlas():
-    if not os.path.exists(ATLAS_FILE):
+@router.get("/platform", response_class=HTMLResponse)
+def platform(request: Request):
+    if not os.path.exists(PLATFORM_TEMPLATE):
         raise HTTPException(status_code=404)
-    return FileResponse(ATLAS_FILE, media_type="text/html")
+    return templates.TemplateResponse("platform_map.html", _common_context(request))
 
 
 @router.get("/traffic", include_in_schema=False)
@@ -84,7 +84,7 @@ def traffic(request: Request, k: str = "", days: int = 14,
         db.query(PageEvent.hash_route, views)
         .filter(
             PageEvent.occurred_at >= since,
-            PageEvent.path == "/atlas",
+            PageEvent.path == "/platform",
             PageEvent.hash_route.isnot(None),
             PageEvent.hash_route != "",
         )

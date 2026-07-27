@@ -242,7 +242,7 @@ class PageEvent(Base):
 
     id = Column(String, primary_key=True, default=_uuid)
     path = Column(String, nullable=False)
-    hash_route = Column(String, nullable=True)  # atlas hash route, e.g. "#/n/orders"
+    hash_route = Column(String, nullable=True)  # platform-map hash route, e.g. "#/n/pricing"
     referrer = Column(String, nullable=True)
     src = Column(String, nullable=True, index=True)  # per-application tag (?src=<company>)
     user_agent = Column(String, nullable=True)
