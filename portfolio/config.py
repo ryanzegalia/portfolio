@@ -30,6 +30,10 @@ LIVE_AI = _as_bool(os.environ.get("LIVE_AI"), default=False)
 # Plausible Analytics domain for the <script> tag on the public pages.
 PLAUSIBLE_DOMAIN = os.environ.get("PLAUSIBLE_DOMAIN", "localhost")
 
+# Token that gates the private /traffic viewer. Empty (the default) disables
+# the viewer entirely; the /api/t beacon endpoint records regardless.
+TRAFFIC_TOKEN = os.environ.get("TRAFFIC_TOKEN", "")
+
 # Paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")

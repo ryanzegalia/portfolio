@@ -29,6 +29,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@portfolio-db:5432/${POSTGRES_DB}
       LIVE_AI: ${LIVE_AI:-false}
       PLAUSIBLE_DOMAIN: ${PLAUSIBLE_DOMAIN:-localhost}
+      TRAFFIC_TOKEN: ${TRAFFIC_TOKEN:-}
     depends_on:
       portfolio-db:
         condition: service_healthy

@@ -235,6 +235,28 @@ class Visit(Base):
 
 
 # ---------------------------------------------------------------------------
+# 12. PageEvent - first-party page-view beacon (no cookies, no third parties)
+# ---------------------------------------------------------------------------
+class PageEvent(Base):
+    __tablename__ = "page_events"
+
+    id = Column(String, primary_key=True, default=_uuid)
+    path = Column(String, nullable=False)
+    hash_route = Column(String, nullable=True)  # atlas hash route, e.g. "#/n/orders"
+    referrer = Column(String, nullable=True)
+    src = Column(String, nullable=True, index=True)  # per-application tag (?src=<company>)
+    user_agent = Column(String, nullable=True)
+    # sha256(day|ip|ua) truncated: same-day visitor dedup without storing raw IPs.
+    visitor_hash = Column(String, nullable=True)
+    occurred_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (
+        Index("idx_page_events_time", "occurred_at"),
+        Index("idx_page_events_path_time", "path", "occurred_at"),
+    )
+
+
+# ---------------------------------------------------------------------------
 # Bootstrap
 # ---------------------------------------------------------------------------
 def init_db() -> None:

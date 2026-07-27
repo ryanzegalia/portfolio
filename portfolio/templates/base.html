@@ -32,10 +32,33 @@
   <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
   <meta name="theme-color" content="#384D70">
 
-  <!-- Plausible -->
-  {% if plausible_domain %}
-  <script defer data-domain="{{ plausible_domain }}" src="https://plausible.io/js/script.tagged-events.js"></script>
-  {% endif %}
+  <!-- First-party page beacon: no cookies, no third parties (see /api/t).
+       Carries the ?src= application tag forward across the visit via
+       sessionStorage so deep navigation keeps its attribution. -->
+  <script>
+    (function() {
+      try {
+        if (window.location.pathname === '/traffic') return;
+        var qs = new URLSearchParams(window.location.search);
+        var src = qs.get('src');
+        try {
+          if (src) { sessionStorage.setItem('t:src', src); }
+          else { src = sessionStorage.getItem('t:src') || ''; }
+        } catch (e) { src = src || ''; }
+        var payload = JSON.stringify({
+          p: window.location.pathname,
+          h: window.location.hash || '',
+          r: document.referrer || '',
+          s: src || ''
+        });
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/api/t', new Blob([payload], { type: 'application/json' }));
+        } else {
+          fetch('/api/t', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true });
+        }
+      } catch (e) { /* never break the page */ }
+    })();
+  </script>
 
   {% block head_extra %}{% endblock %}
 </head>

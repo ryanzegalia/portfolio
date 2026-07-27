@@ -2249,6 +2249,56 @@ body[data-pack="distribution"] {
   --brand-accent-soft: #fff1f2;
 }
 
+/* Production-systems shelf tiles (hand-authored, not pack-backed).
+   Near-black ink accent: the atlas is the dark machine framed by the
+   light gallery, and its card hints at that before the click. */
+.root-tile[data-pack="atlas"] {
+  --brand-accent: #16181d;
+  --brand-accent-hover: #0b0d12;
+  --brand-accent-soft: #f5f6f8;
+}
+
+.root-tile[data-pack="ghdocs"] {
+  --brand-accent: #1f2937;
+  --brand-accent-hover: #111827;
+  --brand-accent-soft: #f9fafb;
+}
+
+/* Dark rest-map screenshot inside the light atlas card. Hidden by an
+   onerror guard until the P3 asset pipeline drops the image. */
+.root-tile-thumb {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 820px;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+  object-position: top;
+  background: #0b0d12;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+}
+
+/* Shelf headers split the tile stack into two labeled sections. */
+.root-shelf {
+  padding: var(--space-5) var(--space-4) 0;
+}
+
+.root-shelf-head {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+}
+
+.root-shelf-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
 /* Content layers sit above the ghost numeral. */
 .root-tile-eyebrow,
 .root-tile-title,
@@ -2278,6 +2328,8 @@ body[data-pack="distribution"] {
 .root-tile[data-pack="vertical-ai"] .root-tile-title { font-size: 19px; }
 .root-tile[data-pack="saas"] .root-tile-title { font-size: 18px; }
 .root-tile[data-pack="sca"] .root-tile-title { font-size: 18px; }
+.root-tile[data-pack="atlas"] .root-tile-title { font-size: 21px; }
+.root-tile[data-pack="ghdocs"] .root-tile-title { font-size: 18px; }
 
 /* Layer 3: scenario preview + artifact callout */
 .root-tile-scenarios {
@@ -2323,6 +2375,167 @@ body[data-pack="distribution"] {
   letter-spacing: 0.08em;
 }
 
+/* ------------------------------------------------------------------ */
+/* Personal production environment shelf (2026-07-27).
+   Same 5-layer card grammar as the other shelves, but these are
+   <article> blocks whose click-throughs are the screenshots, so the
+   thumb strip replaces the CTA arrow.
+
+   Accents are instrument-panel hues, not category badges: rust-orange
+   for the AI stack (the machine that runs hot), console cyan for
+   operations, oxide red for CAD (the portal's own palette), phosphor
+   green for the radar (the scope itself). Violet-for-AI was cut in the
+   April pass as generic startup branding; nothing here signals
+   "AI product", deliberately. Kept apart from each other and from the
+   pack accents above (home-care amber, distribution rose).            */
+.personal-tile { cursor: default; }
+
+/* These tiles aren't links; only the thumb buttons inside them are.
+   Null the whole-card hover so the page doesn't promise a click it
+   can't deliver. */
+.personal-tile:hover {
+  border-color: var(--card-border);
+  background: #fff;
+  transform: none;
+}
+
+.root-tile[data-pack="ai-stack"] {
+  --brand-accent: #c2410c;
+  --brand-accent-hover: #9a3412;
+  --brand-accent-soft: #fff7ed;
+}
+.root-tile[data-pack="ops-board"] {
+  --brand-accent: #155e75;
+  --brand-accent-hover: #164e63;
+  --brand-accent-soft: #ecfeff;
+}
+.root-tile[data-pack="cad"] {
+  --brand-accent: #991b1b;
+  --brand-accent-hover: #7f1d1d;
+  --brand-accent-soft: #fef2f2;
+}
+.root-tile[data-pack="radar"] {
+  --brand-accent: #4d7c0f;
+  --brand-accent-hover: #3f6212;
+  --brand-accent-soft: #f7fee7;
+}
+
+/* Title rhythm continues down the third shelf (shorter title, more
+   weight -- same rule as the packs above). */
+.root-tile[data-pack="ai-stack"] .root-tile-title { font-size: 20px; }
+.root-tile[data-pack="ops-board"] .root-tile-title { font-size: 23px; }
+.root-tile[data-pack="cad"] .root-tile-title { font-size: 19px; }
+.root-tile[data-pack="radar"] .root-tile-title { font-size: 21px; }
+
+/* The thumb strip: dark screenshots inside the light card, echoing the
+   atlas card's dark-thumbnail motif. Buttons, not links. */
+.personal-thumbs {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 2px 0 0;
+}
+
+.personal-thumb {
+  display: block;
+  height: 156px;
+  padding: 0;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #0b0d12;
+  cursor: zoom-in;
+  transition: border-color var(--t-base), transform var(--t-base);
+}
+
+.personal-thumb img {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
+.personal-thumb:hover {
+  border-color: var(--brand-accent);
+  transform: translateY(-1px);
+}
+
+.personal-thumb:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 2px;
+}
+
+/* Lightbox: fixed scrim, one image, caption under it. Opacity-only
+   entrance, and none at all under prefers-reduced-motion. */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 72px;
+  background: rgba(11, 13, 18, 0.94);
+}
+
+.lightbox[hidden] { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .lightbox { animation: lightbox-fade 140ms ease-out; }
+  @keyframes lightbox-fade { from { opacity: 0; } }
+}
+
+.lightbox-img {
+  max-width: min(1600px, 100%);
+  max-height: 78vh;
+  border: 1px solid #2a2f3a;
+  border-radius: var(--radius-md);
+  background: #0b0d12;
+}
+
+.lightbox-caption {
+  margin: 0;
+  max-width: 900px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #cdd3de;
+  text-align: center;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  position: absolute;
+  padding: 8px;
+  border: 0;
+  background: none;
+  color: #cdd3de;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox-close { top: 14px; right: 20px; font-size: 30px; }
+.lightbox-prev { left: 16px; top: 50%; transform: translateY(-50%); }
+.lightbox-next { right: 16px; top: 50%; transform: translateY(-50%); }
+
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover { color: #fff; }
+
+.lightbox-close:focus-visible,
+.lightbox-prev:focus-visible,
+.lightbox-next:focus-visible {
+  outline: 2px solid #cdd3de;
+  outline-offset: 2px;
+}
+
+.lightbox-single .lightbox-prev,
+.lightbox-single .lightbox-next { display: none; }
+
 @media (max-width: 768px) {
   .root-hero-inner {
     flex-direction: column;
@@ -2357,6 +2570,19 @@ body[data-pack="distribution"] {
   .root-tile[data-pack="vertical-ai"] .root-tile-title { font-size: 17px; }
   .root-tile[data-pack="saas"] .root-tile-title { font-size: 16px; }
   .root-tile[data-pack="sca"] .root-tile-title { font-size: 16px; }
+  .root-tile[data-pack="atlas"] .root-tile-title { font-size: 19px; }
+  .root-tile[data-pack="ghdocs"] .root-tile-title { font-size: 16px; }
+  .root-tile[data-pack="ai-stack"] .root-tile-title { font-size: 18px; }
+  .root-tile[data-pack="ops-board"] .root-tile-title { font-size: 20px; }
+  .root-tile[data-pack="cad"] .root-tile-title { font-size: 17px; }
+  .root-tile[data-pack="radar"] .root-tile-title { font-size: 19px; }
+
+  .personal-thumb { height: 104px; }
+
+  .lightbox { padding: 16px 44px; }
+  .lightbox-prev { left: 4px; }
+  .lightbox-next { right: 4px; }
+  .lightbox-close { top: 8px; right: 10px; }
 
   .root-tile-scenarios {
     font-size: 13px;
