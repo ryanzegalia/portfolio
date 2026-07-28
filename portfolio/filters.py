@@ -13,6 +13,8 @@ Added 2026-04-11 research evidence pass:
 
 from __future__ import annotations
 
+import hashlib
+import os
 import re
 
 from jinja2 import pass_context
@@ -27,6 +29,28 @@ except ImportError:  # pragma: no cover — pygments is optional at dev time
     _PYGMENTS_AVAILABLE = False
 
 
+def _static_version() -> str:
+    """Content hash of the stylesheets, computed once at import.
+
+    Appended as ?v= to the CSS links in base.html so a browser that cached
+    yesterday's stylesheet fetches the new one the moment the file changes
+    (2026-07-27: Ryan's review hit a stale-cache unstyled page on staging).
+    """
+    h = hashlib.sha256()
+    css_dir = os.path.join(os.path.dirname(__file__), "static", "css")
+    try:
+        for name in sorted(os.listdir(css_dir)):
+            if name.endswith(".css"):
+                with open(os.path.join(css_dir, name), "rb") as f:
+                    h.update(f.read())
+    except OSError:  # pragma: no cover -- missing dir in exotic test setups
+        return "0"
+    return h.hexdigest()[:10]
+
+
+STATIC_VERSION = _static_version()
+
+
 def attach_filters(templates) -> None:
     """Register custom Jinja filters onto a Starlette `Jinja2Templates` instance.
 
@@ -36,6 +60,7 @@ def attach_filters(templates) -> None:
     """
     templates.env.filters["markup_terms"] = markup_terms
     templates.env.filters["highlight_code"] = highlight_code
+    templates.env.globals["static_v"] = STATIC_VERSION
 
 
 @pass_context
