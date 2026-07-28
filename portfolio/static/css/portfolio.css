@@ -4417,53 +4417,78 @@ html.js-scroll-reveal [data-reveal].is-in-view {
   color: var(--text-secondary, var(--text-muted));
 }
 
-/* ---- drawer ---- */
-.map-drawer-backdrop {
+/* ---- system detail modal ----
+   Was a 560px right-hand drawer through round 5. It is a centered modal now
+   because a drawer that narrow cannot show a screenshot of a real console at
+   a legible size, and the screenshot is the point. */
+.map-modal-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(10, 15, 28, 0.42);
   z-index: 60;
 }
 
-.map-drawer {
+.map-modal-wrap {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(560px, 100vw);
-  background: #fff;
-  border-left: 1px solid var(--card-border);
+  inset: 0;
   z-index: 61;
-  overflow-y: auto;
-  padding: var(--space-5) var(--space-6) var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  /* clicks in the gutter fall through to the backdrop, which closes */
+  pointer-events: none;
 }
 
+.map-modal {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  width: min(760px, 92vw);
+  max-height: 86vh;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 64px rgba(10, 15, 28, 0.22);
+  overflow: hidden;
+}
+
+/* only a system with a screenshot needs the room */
+.map-modal.map-modal-wide { width: min(1180px, 94vw); }
+
 @media (prefers-reduced-motion: no-preference) {
-  .map-drawer { animation: map-drawer-in 160ms ease-out; }
-  @keyframes map-drawer-in {
-    from { transform: translateX(24px); opacity: 0; }
+  .map-modal { animation: map-modal-in 160ms ease-out; }
+  @keyframes map-modal-in {
+    from { transform: translateY(10px) scale(0.99); opacity: 0; }
     to { transform: none; opacity: 1; }
   }
 }
 
-.map-drawer[hidden], .map-drawer-backdrop[hidden] { display: none; }
+.map-modal-wrap[hidden], .map-modal-backdrop[hidden] { display: none; }
 
-.map-drawer-head {
+/* the head does not scroll: the title stays put while a long body moves */
+.map-modal-head {
+  flex: none;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: var(--space-3);
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--card-border);
 }
 
-.map-drawer-eyebrow {
+.map-modal-eyebrow {
+  display: block;
   font-size: 11px;
   font-weight: 600;
   color: var(--brand-accent);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  margin-bottom: 5px;
 }
 
-.map-drawer-close {
+.map-modal-close {
+  flex: none;
   font-size: 26px;
   line-height: 1;
   color: var(--text-muted);
@@ -4473,51 +4498,138 @@ html.js-scroll-reveal [data-reveal].is-in-view {
   padding: 2px 6px;
 }
 
-.map-drawer-close:hover { color: var(--text-primary); }
+.map-modal-close:hover { color: var(--text-primary); }
 
-.map-drawer-close:focus-visible {
+.map-modal-close:focus-visible {
   outline: 2px solid var(--brand-accent);
   border-radius: var(--radius-sm);
 }
 
-.map-drawer-title {
+.map-modal-title {
   font-size: 21px;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--text-primary);
   line-height: 1.35;
-  margin: 0 0 var(--space-3);
+  margin: 0;
 }
 
-.map-drawer-body {
+.map-modal-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: var(--space-5);
   font-size: 14.5px;
   line-height: 1.7;
   color: var(--text-primary);
 }
 
-.map-drawer-body p { margin: 0 0 var(--space-3); }
+.map-modal-body p { margin: 0 0 var(--space-3); }
 
-.map-drawer-foot {
-  margin-top: var(--space-4);
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--card-border);
+/* cap the measure so a wide panel never produces a 110-character line */
+.map-modal-body > .node-what,
+.map-modal-body > .node-detail {
+  max-width: 72ch;
+  margin-inline: auto;
 }
 
-.map-copy-link {
-  font: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--brand-accent);
-  background: #fff;
+/* ---- screenshot ---- */
+.node-shot {
+  margin: 0 0 var(--space-4);
+}
+
+.node-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
   border: 1px solid var(--card-border);
-  border-radius: var(--radius-sm);
-  padding: 6px 12px;
-  cursor: pointer;
+  border-radius: var(--radius-md);
+  background: var(--surface-2, #f7f8fa);
 }
 
-.map-copy-link:hover {
-  border-color: var(--brand-accent);
-  background: var(--brand-accent-soft);
+.node-shot figcaption {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* the shot is legible as proof at this size, not as detail: say it is clickable */
+.node-shot img {
+  cursor: zoom-in;
+  transition: border-color var(--t-base);
+}
+
+.node-shot img:hover { border-color: var(--brand-accent); }
+
+.map-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(10, 15, 28, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+  cursor: zoom-out;
+}
+
+.map-lightbox[hidden] { display: none; }
+
+.map-lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+.map-lightbox-close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-5);
+  font-size: 32px;
+  line-height: 1;
+  color: #fff;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 4px 10px;
+  opacity: 0.75;
+}
+
+.map-lightbox-close:hover { opacity: 1; }
+
+.map-lightbox-close:focus-visible {
+  outline: 2px solid #fff;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .map-lightbox { animation: map-modal-in 140ms ease-out; }
+}
+
+/* Two columns once there is room for both: the writeup keeps a readable
+   measure on the left, the screenshot holds the right and stays in view
+   while the text scrolls under it. Below this width they stack, and the
+   shot sits directly under the what-line where it still gets seen. */
+@media (min-width: 1040px) {
+  .map-modal-wide .map-modal-body {
+    display: grid;
+    grid-template-columns: minmax(0, 44ch) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    column-gap: var(--space-6);
+    align-items: start;
+  }
+  .map-modal-wide .map-modal-body > .node-what { grid-column: 1; grid-row: 1; }
+  .map-modal-wide .map-modal-body > .node-detail { grid-column: 1; grid-row: 2; }
+  .map-modal-wide .map-modal-body > .node-shot {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    position: sticky;
+    top: 0;
+    margin: 0;
+  }
 }
 
 @media (max-width: 700px) {
@@ -4528,5 +4640,8 @@ html.js-scroll-reveal [data-reveal].is-in-view {
   .map-dom { width: 128px; padding: 10px 11px; }
   .map-dom-name { font-size: 12.5px; }
   .map-cluster-grid { grid-template-columns: 1fr; }
-  .map-drawer { padding: var(--space-4); }
+  .map-modal-wrap { padding: 0; }
+  .map-modal, .map-modal.map-modal-wide { width: 100%; max-height: 92vh; }
+  .map-modal-head { padding: var(--space-4) var(--space-4) var(--space-3); }
+  .map-modal-body { padding: var(--space-4); }
 }
