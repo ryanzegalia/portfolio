@@ -1,0 +1,15 @@
+# Terms the platform map must never render. One per line, or comma-separated;
+# blank lines and #-comments ignored. Matching is word-boundary and
+# case-insensitive, so "acme" does not flag "acmefoo"; a trailing "*" means
+# prefix match, so "widget*" covers widgets/widgetry as one entry.
+#
+# Copy this file to banned_terms.local (gitignored) and put the real strings
+# there. They are deliberately NOT in this repository: a published list of the
+# words you are avoiding identifies them exactly as well as using them would.
+# PORTFOLIO_BANNED_TERMS="a,b,c" overrides the file.
+
+example-employer
+example-erp-vendor
+example-brand
+example-internal-codename
+example-personal-project*

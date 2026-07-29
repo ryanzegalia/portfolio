@@ -2264,7 +2264,7 @@ body[data-pack="distribution"] {
   --brand-accent-soft: #f9fafb;
 }
 
-/* Dark rest-map screenshot inside the light atlas card. Hidden by an
+/* Dark rest-map screenshot inside the light platform-map card. Hidden by an
    onerror guard until the P3 asset pipeline drops the image. */
 .root-tile-thumb {
   position: relative;
@@ -2428,7 +2428,7 @@ body[data-pack="distribution"] {
 .root-tile[data-pack="radar"] .root-tile-title { font-size: 21px; }
 
 /* The thumb strip: dark screenshots inside the light card, echoing the
-   atlas card's dark-thumbnail motif. Buttons, not links. */
+   platform-map card's dark-thumbnail motif. Buttons, not links. */
 .personal-thumbs {
   position: relative;
   z-index: 1;

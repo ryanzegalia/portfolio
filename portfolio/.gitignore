@@ -58,6 +58,5 @@ scripts/summary.json
 scripts/cap.py
 scripts/capture_scrub.js
 scripts/sim_defs.py
-scripts/build_platform_map.py
 audit-progress-*.md
 scripts/banned_terms.local
