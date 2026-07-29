@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+{% block title %}The platform map, Ryan Zegalia{% endblock %}
+{% block og_title %}The platform map{% endblock %}
+{% block og_description %}The revenue operations platform I built and run, mapped: five groups around one core. Open any system to read the problem it solves and what it changed.{% endblock %}
+
+{#
+  BUILD TEMPLATE -- scripts/build_platform_map.py renders this file into
+  templates/platform_map.html by replacing the map-content placeholder below
+  with the reader DOM (one section per group, one article per system). Edit
+  THIS file and the fragments, never the generated template. Do not repeat
+  the placeholder token in this comment: the build replaces every occurrence.
+
+  The page is the SPOKE MAP (Ryan, 2026-07-27): hub + five groups around it,
+  same light theme as the rest of the site. The reader DOM is the crawlable
+  no-JS truth; the map JS derives every view from it.
+
+  Views (hash-routed, back button works):
+    #/            rest map (hub + groups)
+    #/d/<slug>    group cluster
+    #/n/<id>      system detail, centered modal over its group cluster
+    #/read        the whole map as one readable page
+#}
+
+{% block content %}
+<section class="map-hero container" data-reveal>
+  <h1 class="map-hero-title">The platform map</h1>
+  <p class="map-hero-sub">The revenue operations platform I built and run at
+  work, drawn as a map. Twenty-three systems for a mid-size manufacturer,
+  built and maintained alongside a full-time marketing role. Open a group,
+  then a system, to read why it exists and what it changed.</p>
+</section>
+
+<section class="map-stage" id="map-stage" aria-label="Platform map">
+  <svg class="map-spokes" id="map-spokes" aria-hidden="true"></svg>
+  <div class="map-stage-nodes" id="map-stage-nodes"></div>
+  <div class="map-cluster" id="map-cluster"></div>
+  <p class="map-rest-hint" id="map-rest-hint">Select a group to open it</p>
+</section>
+
+<div class="map-reader container" id="map-reader">
+<p class="reader-back-row"><a class="map-back-link" href="#/">&larr; Back to the map</a></p>
+__MAP_CONTENT__
+</div>
+
+<div class="map-modal-backdrop" id="map-backdrop" hidden></div>
+<div class="map-modal-wrap" id="map-modal-wrap" hidden>
+  <div class="map-modal" id="map-modal" role="dialog" aria-modal="true" aria-labelledby="map-modal-title">
+    <div class="map-modal-head">
+      <div class="map-modal-heading">
+        <span class="map-modal-eyebrow"></span>
+        <h2 class="map-modal-title" id="map-modal-title"></h2>
+      </div>
+      <button class="map-modal-close" type="button" aria-label="Close">&times;</button>
+    </div>
+    <div class="map-modal-body"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var stage = document.getElementById('map-stage');
+  var spokes = document.getElementById('map-spokes');
+  var nodesEl = document.getElementById('map-stage-nodes');
+  var cluster = document.getElementById('map-cluster');
+  var reader = document.getElementById('map-reader');
+  var modalWrap = document.getElementById('map-modal-wrap');
+  var modal = document.getElementById('map-modal');
+  var backdrop = document.getElementById('map-backdrop');
+
+  // ---- derive the map from the reader DOM (the generated truth) ----
+  var GROUPS = [];
+  var NODE = {};   // id -> {article, group}
+  reader.querySelectorAll('.reader-domain').forEach(function (sec) {
+    var g = {
+      slug: sec.getAttribute('data-group'),
+      name: sec.getAttribute('data-group-name'),
+      desc: sec.getAttribute('data-group-desc') || '',
+      nodes: [],
+    };
+    sec.querySelectorAll('.map-node').forEach(function (a) {
+      var id = a.getAttribute('data-node');
+      g.nodes.push(id);
+      NODE[id] = { article: a, group: g };
+    });
+    GROUPS.push(g);
+  });
+  var TOTAL = Object.keys(NODE).length;
+
+  root.classList.add('map-js'); // collapses the reader; the map takes over
+
+  // ---- build the rest map: hub + one card per group ----
+  var hub = document.createElement('div');
+  hub.className = 'map-hub-wrap';
+  hub.innerHTML = '<div class="map-hub"><span class="map-hub-k">One platform</span>' +
+    '<span class="map-hub-n">Revenue Ops</span>' +
+    '<span class="map-hub-c">' + GROUPS.length + ' groups &middot; ' + TOTAL + ' systems</span></div>';
+  nodesEl.appendChild(hub);
+
+  var domBtns = GROUPS.map(function (g) {
+    var b = document.createElement('button');
+    b.className = 'map-dom';
+    b.type = 'button';
+    b.innerHTML = '<span class="map-dom-name">' + g.name + '</span>' +
+      '<span class="map-dom-cnt">' + g.nodes.length + ' systems</span>';
+    b.addEventListener('click', function () { nav('#/d/' + g.slug); });
+    nodesEl.appendChild(b);
+    return b;
+  });
+
+  function layout() {
+    var w = stage.clientWidth, h = stage.clientHeight;
+    var cx = w / 2, cy = h / 2;
+    hub.style.left = cx + 'px'; hub.style.top = cy + 'px';
+    var rx = Math.min(w * 0.36, 380), ry = Math.min(h * 0.36, 240);
+    var lines = [];
+    domBtns.forEach(function (b, i) {
+      var a = -Math.PI / 2 + i * (Math.PI * 2 / domBtns.length);
+      var x = cx + rx * Math.cos(a), y = cy + ry * Math.sin(a);
+      b.style.left = x + 'px'; b.style.top = y + 'px';
+      lines.push('<line x1="' + cx + '" y1="' + cy + '" x2="' + x + '" y2="' + y + '"/>');
+    });
+    spokes.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    spokes.innerHTML = lines.join('');
+  }
+  window.addEventListener('resize', layout);
+
+  // ---- cluster (group focus) ----
+  var focused = null;
+  function renderCluster(g) {
+    var head = '<div class="map-cluster-head">' +
+      '<button class="map-back" type="button">&larr; Back to the map</button>' +
+      '<div class="map-cluster-title"><span class="map-cluster-count">' + g.nodes.length + ' systems</span>' +
+      '<h2>' + g.name + '</h2>' +
+      (g.desc ? '<p class="map-cluster-desc">' + g.desc + '</p>' : '') +
+      '</div></div>';
+    var cards = g.nodes.map(function (id) {
+      var a = NODE[id].article;
+      var card = a.getAttribute('data-card') || '';
+      return '<button class="map-part" type="button" data-part="' + id + '">' +
+        '<span class="map-part-title">' + a.getAttribute('data-title') + '</span>' +
+        (card ? '<span class="map-part-card">' + card + '</span>' : '') +
+        '</button>';
+    }).join('');
+    cluster.innerHTML = head + '<div class="map-cluster-grid">' + cards + '</div>';
+    cluster.querySelector('.map-back').addEventListener('click', function () { nav('#/'); });
+    cluster.querySelectorAll('.map-part').forEach(function (b) {
+      b.addEventListener('click', function () { nav('#/n/' + b.getAttribute('data-part')); });
+    });
+  }
+  function showGroup(g) {
+    // only re-render on a real group change: closing the modal returns focus to
+    // its card, and a needless innerHTML rebuild would throw that focus away
+    if (focused !== g) {
+      focused = g;
+      renderCluster(g);
+    }
+    stage.classList.add('focus');
+    document.title = g.name + ' | The platform map';
+  }
+  function showRest() {
+    focused = null;
+    stage.classList.remove('focus');
+    document.title = 'The platform map, Ryan Zegalia';
+  }
+
+  // ---- modal (centered over the map; a right-hand drawer through round 5) ----
+  var modalBody = modal.querySelector('.map-modal-body');
+  var closeBtn = modal.querySelector('.map-modal-close');
+  var openId = null;
+
+  function openModal(id) {
+    var n = NODE[id];
+    modal.querySelector('.map-modal-eyebrow').textContent = n.group.name;
+    modal.querySelector('.map-modal-title').textContent = n.article.getAttribute('data-title');
+    modalBody.innerHTML = n.article.querySelector('.map-node-body').innerHTML;
+    // a system with a screenshot earns the wide two-column body; text-only stays
+    // narrow, because 76vw of unbroken prose is an unreadable line length
+    modal.classList.toggle('map-modal-wide', !!modalBody.querySelector('.node-shot'));
+    openId = id;
+    modalWrap.hidden = false;
+    backdrop.hidden = false;
+    document.body.style.overflow = 'hidden';
+    modalBody.scrollTop = 0;
+    closeBtn.focus();
+  }
+  function closeModal() {
+    if (modalWrap.hidden) return;
+    modalWrap.hidden = true;
+    backdrop.hidden = true;
+    document.body.style.overflow = '';
+    // hand focus back to the card that opened it, so the keyboard does not
+    // restart at the top of the document on every close
+    var trigger = openId && cluster.querySelector('.map-part[data-part="' + openId + '"]');
+    if (trigger) trigger.focus();
+    openId = null;
+  }
+  // ---- screenshot lightbox ----
+  // In the modal a shot is proof at a glance; its detail is not readable at
+  // that size, so the full-resolution capture is one click away.
+  var lightbox = null;
+  function openShot(img) {
+    if (!lightbox) {
+      lightbox = document.createElement('div');
+      lightbox.className = 'map-lightbox';
+      lightbox.innerHTML = '<button class="map-lightbox-close" type="button" aria-label="Close">&times;</button><img alt="">';
+      lightbox.addEventListener('click', closeShot);
+      document.body.appendChild(lightbox);
+    }
+    var big = lightbox.querySelector('img');
+    big.src = img.src;
+    big.alt = img.alt;
+    lightbox.hidden = false;
+    lightbox.querySelector('.map-lightbox-close').focus();
+  }
+  function closeShot() {
+    if (!lightbox || lightbox.hidden) return;
+    lightbox.hidden = true;
+    closeBtn.focus();
+  }
+  modalBody.addEventListener('click', function (e) {
+    if (e.target.tagName === 'IMG' && e.target.closest('.node-shot')) openShot(e.target);
+  });
+
+  function dismiss() { nav(focused ? '#/d/' + focused.slug : '#/'); }
+  closeBtn.addEventListener('click', dismiss);
+  backdrop.addEventListener('click', dismiss);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      // innermost layer first, or Esc closes the modal out from under the shot
+      if (lightbox && !lightbox.hidden) { closeShot(); return; }
+      if (!modalWrap.hidden) dismiss();
+      else if (focused) nav('#/');
+      return;
+    }
+    // aria-modal states the intent; this is what actually keeps Tab inside
+    if (e.key !== 'Tab' || modalWrap.hidden) return;
+    var f = modal.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+  // ---- per-view beacon (base beacon fired once on load) ----
+  var lastBeacon = '';
+  function beacon(hash) {
+    if (!hash || hash === lastBeacon) return;
+    lastBeacon = hash;
+    try {
+      var payload = JSON.stringify({ p: location.pathname, h: hash, r: '', s: (sessionStorage.getItem('t:src') || '') });
+      if (navigator.sendBeacon) navigator.sendBeacon('/api/t', new Blob([payload], { type: 'application/json' }));
+    } catch (e) { /* never break the page */ }
+  }
+
+  // ---- routing ----
+  function nav(hash) {
+    if (location.hash === hash) { applyRoute(); return; }
+    try { history.pushState(null, '', hash); } catch (e) { location.hash = hash; return; }
+    applyRoute();
+  }
+  function bySlug(slug) {
+    for (var i = 0; i < GROUPS.length; i++) if (GROUPS[i].slug === slug) return GROUPS[i];
+    return null;
+  }
+  function applyRoute() {
+    var h = location.hash || '#/', m;
+    if (h === '#/read') {
+      closeModal(); showRest();
+      root.classList.add('map-reading');
+      document.title = 'The platform map, readable | Ryan Zegalia';
+      beacon('#/read');
+      return;
+    }
+    root.classList.remove('map-reading');
+    if ((m = h.match(/^#\/n\/([a-z0-9-]+)$/)) && NODE[m[1]]) {
+      showGroup(NODE[m[1]].group);
+      openModal(m[1]);
+      beacon(h);
+      return;
+    }
+    closeModal();
+    if ((m = h.match(/^#\/d\/([a-z-]+)$/)) && bySlug(m[1])) {
+      showGroup(bySlug(m[1]));
+      beacon(h);
+      return;
+    }
+    showRest();
+  }
+  window.addEventListener('popstate', applyRoute);
+  window.addEventListener('hashchange', applyRoute);
+
+  layout();
+  applyRoute();
+})();
+</script>
+{% endblock %}

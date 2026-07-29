@@ -1,0 +1,12 @@
+{
+ "id": "excel-sync",
+ "title": "Legacy Tooling Integration",
+ "card": "The brand's pricing workbook, live in the platform without anyone re-keying it.",
+ "what": "A sync I built to read the company's central pricing and mapping workbook off SharePoint and land it in the platform database.",
+ "problem_label": "The constraint",
+ "problem": "The numbers that drive pricing and product mapping for the main brand live in an Excel workbook on SharePoint, maintained by hand by the people who own them. Anything downstream either re-keys those numbers or runs on a stale copy, and both of those go wrong quietly. The people who own those numbers work in that workbook every day and were not going to move out of it.",
+ "result": "The workbook's rows land in the platform on their own, and the people who own those numbers keep working exactly the way they already work.",
+ "how": [
+  "The file is checked far more often than it changes, so the sync asks SharePoint whether the document has moved before it asks for the document. Most checks end at the response header without transferring the file; only a real change triggers a download and a parse. The credential it holds can read that one file and nothing else in the tenant."
+ ]
+}

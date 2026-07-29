@@ -41,3 +41,23 @@ logs/
 # Captured fallback screenshots are build artifacts — keep the dir, not the files
 static/fallback/*.png
 !static/fallback/.gitkeep
+# Capture working directories. cap.py writes the raw dashboard capture, a full
+# page-text dump and a gate report per target here. The audited images that
+# actually ship live in static/img/systems/; these are intermediates and have
+# no place in a public repo.
+scripts/shots/
+scripts/blocked/
+s3-media-backups/
+scripts/summary.json
+
+# The capture harness stays OUT of this repo. It is published to GitHub, and
+# cap.py / capture_scrub.js contain the live dashboard hostname, an internal
+# repo path, the banned-name list and 33 rename rules -- i.e. the complete
+# euphemism -> real-name key. Publishing it would undo the whole point of not
+# naming the employer on the site. Keep it local; back it up somewhere private.
+scripts/cap.py
+scripts/capture_scrub.js
+scripts/sim_defs.py
+scripts/build_platform_map.py
+audit-progress-*.md
+scripts/banned_terms.local

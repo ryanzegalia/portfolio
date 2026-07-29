@@ -1,0 +1,13 @@
+{
+ "id": "gpu",
+ "title": "The GPU scheduler and cost ledger for my home lab",
+ "body": [
+  "Every AI workload in my home lab shares one GPU on my workstation, and so many want it at the same time that I built a scheduler to decide who gets it. The scheduler is a proxy in front of the inference server, and it runs a priority lease queue so interactive requests do not wait behind long batch jobs. A job that needs the whole card takes an exclusive lease, which drains VRAM and stops the inference server. A job that only needs an answer from the model takes an advisory lease, so the server stays up. Behind the proxy is a 27B-parameter model, quantized to fit one consumer card and served by vLLM. One background caller alone has pushed 18,000 to 22,000 inference calls a day through that card while interactive work ran alongside it.",
+  "A cost ledger runs beside the scheduler. It rebuilds what each program spent from the raw request logs, so I can see the day's spend, the cache hit rate, and what the local GPU's work would have cost from a cloud model."
+ ],
+ "signals": [
+  "priority lease queue on a single GPU",
+  "18,000 to 22,000 inference calls per day from one background caller",
+  "per-program spend rebuilt from raw request logs"
+ ]
+}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Traffic{% endblock %}
+
+{# Private token-gated first-party traffic viewer. Reached only as
+   /traffic?k=<TRAFFIC_TOKEN>; the route 404s otherwise. #}
+
+{% block head_extra %}
+<style>
+  .traffic-wrap { max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
+  .traffic-wrap h1 { font-size: 20px; margin: 0 0 4px; }
+  .traffic-wrap .sub { color: var(--text-muted); font-size: 13px; margin: 0 0 24px; }
+  .traffic-wrap h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; margin: 28px 0 8px; }
+  .traffic-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .traffic-wrap th, .traffic-wrap td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--card-border); vertical-align: top; }
+  .traffic-wrap th.num, .traffic-wrap td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .traffic-wrap .mono { font-family: "JetBrains Mono", monospace; font-size: 12px; word-break: break-all; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="traffic-wrap">
+  <h1>First-party traffic</h1>
+  <p class="sub">Last {{ days }} days. Views are beacon hits; visitors are day-salted hash dedup (no raw IPs stored).</p>
+
+  <h2>By day</h2>
+  <table>
+    <tr><th>Day</th><th class="num">Views</th><th class="num">Visitors</th></tr>
+    {% for d, v, u in by_day %}<tr><td>{{ d }}</td><td class="num">{{ v }}</td><td class="num">{{ u }}</td></tr>{% endfor %}
+  </table>
+
+  <h2>By page</h2>
+  <table>
+    <tr><th>Path</th><th class="num">Views</th><th class="num">Visitors</th></tr>
+    {% for p, v, u in by_page %}<tr><td class="mono">{{ p }}</td><td class="num">{{ v }}</td><td class="num">{{ u }}</td></tr>{% endfor %}
+  </table>
+
+  <h2>By source tag</h2>
+  <table>
+    <tr><th>src</th><th class="num">Views</th><th class="num">Visitors</th></tr>
+    {% for s, v, u in by_src %}<tr><td class="mono">{{ s }}</td><td class="num">{{ v }}</td><td class="num">{{ u }}</td></tr>{% endfor %}
+  </table>
+
+  <h2>Platform map nodes read</h2>
+  <table>
+    <tr><th>Hash route</th><th class="num">Views</th></tr>
+    {% for h, v in by_node %}<tr><td class="mono">{{ h }}</td><td class="num">{{ v }}</td></tr>{% endfor %}
+  </table>
+
+  <h2>Recent</h2>
+  <table>
+    <tr><th>When (UTC)</th><th>Path</th><th>Hash</th><th>src</th><th>Referrer</th></tr>
+    {% for e in recent %}
+    <tr>
+      <td>{{ e.occurred_at.strftime("%m-%d %H:%M") if e.occurred_at else "" }}</td>
+      <td class="mono">{{ e.path }}</td>
+      <td class="mono">{{ e.hash_route or "" }}</td>
+      <td>{{ e.src or "" }}</td>
+      <td class="mono">{{ (e.referrer or "")[:80] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

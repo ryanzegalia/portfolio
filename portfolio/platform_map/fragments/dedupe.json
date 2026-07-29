@@ -1,0 +1,17 @@
+{
+  "id": "dedupe",
+  "title": "Deduplication and Address Quality",
+  "card": "16,705 duplicate groups found across 29,124 accounts.",
+  "what": "The pass I built to determine which accounts are duplicates of each other, and the pipeline that corrected the address data underneath them.",
+  "problem": "77% of contacts in the customer base shared an email address with another contact, and one address covered 165 separate records. Reporting on that base counts the same customer several times over, and nobody could say which accounts belonged together. The same records carried wrong residential and commercial address flags, and those flags decide how an order ships and what the shipping costs.",
+  "result": "16,705 duplicate groups covering 29,124 accounts, an average of 1.74 accounts per real customer, plus about 31,650 verified address-flag corrections across roughly 50,000 records.",
+  "how": [
+    "Grouping runs entirely in SQL over the mirrored tables and assigns every account a deterministic group id from normalized phone, email, and address keys. I kept it in pure SQL because grouping logic that lives in application code drifts depending on which path last touched a record, and the same data has to produce the same groups every time for anyone downstream to trust the result. Accounts whose keys disagree stay separate and pass to the identity engine.",
+    "On the address side I put the bulk classification on FedEx and reserved a second validator for the ambiguous cases only, which took a roughly five-hour run down to about fifteen minutes. Every flag is read back after the write to confirm the value took, so a silently rejected correction gets caught rather than counted as applied."
+  ],
+  "shot": {
+    "src": "dedupe.png",
+    "alt": "Bulk address verification over 118,190 ingested addresses, reporting 291 undeliverable and 16,705 duplicate groups. The Duplicates view lists each customer with the address on file and the carrier's residential or commercial verdict next to the flag the record currently carries.",
+    "caption": "Names and street lines are substituted, and the substitution is stable, so the two halves of a duplicate group still land on the same address here. City, state and postcode are unchanged."
+  }
+}

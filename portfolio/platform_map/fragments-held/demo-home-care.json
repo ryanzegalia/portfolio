@@ -1,0 +1,11 @@
+{
+ "id": "demo-home-care",
+ "title": "The home care demo",
+ "body": [
+  "In home care, the schedule, the authorized care plan, and the caregiver's own clock-in rarely agree about what happened during a visit. I built an operations environment for non-clinical private-pay agencies around that gap, and it runs live here on seeded data: every client, caregiver, and visit in it is invented. The reconciliation page takes a single visit where the Sandata EVV clock-in reads 8:14am, the WellSky schedule says 8:00 to 12:00, and the plan authorizes 4 hours. It prints the query in full, so a reader can see how the hours drift is computed per visit and then priced at the carrier's reimbursement rate. Other pages handle a 6am call-off and a care plan that has fallen behind the shift notes."
+ ],
+ "signals": [
+  "Three-way visit reconciliation",
+  "Seeded, fictional client data"
+ ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "marketing-sync",
+  "title": "Email and Marketing Infrastructure",
+  "card": "Email campaigns and trade show attendees, both readable in one place.",
+  "what": "Two services I built to pull the marketing side of the business into the platform: email campaigns, and trade show attendees.",
+  "problem_label": "The constraint",
+  "problem": "A campaign lives in two systems at once. The sending platform holds the campaign itself, and Monday.com holds the review workflow the marketing team already works in, so neither side knows the whole state of a send. The company's trade show runs on a ticketing platform with no public API, so the attendee list cannot be pulled on a schedule by any supported means.",
+  "result": "Campaigns from both systems merge into one record the platform can report on, and the attendee list arrives on its own every day instead of landing as a hand-exported spreadsheet.",
+  "how": [
+    "People rename campaigns on both sides, so the sync normalizes the names before it compares them; matching on the raw values would drift apart within a week. The sending platform does not always expose preheader text as a field, so the service reads it back out of the campaign HTML, which is what the platform's own preview then shows.",
+    "The ticketing platform gave me no API to work with, so the import signs in the way a person does and drives the export from a saved browser session, then parses the file into the database on a schedule."
+  ],
+  "shot": {
+    "src": "marketing-sync.png",
+    "alt": "Trade show tickets arriving in the platform: 635 in total, 603 active, 563 already pushed to the email platform and 40 still waiting. Every attendee row carries their ticket type, the add-ons they bought, whether the ticket is still active, and its sync state.",
+    "caption": "Attendee names, addresses and companies are substituted. Ticket types, add-ons and sync states are real, and the forty pending rows are what the next push sends."
+  }
+}

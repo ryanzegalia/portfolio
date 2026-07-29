@@ -1,0 +1,16 @@
+{
+  "id": "sales-trends",
+  "title": "Sales and Profitability Reporting",
+  "card": "Category down to SKU, with year-over-year and margin in the same view.",
+  "what": "The report I built to answer what sold and what it made, from category level down to the individual SKU, across product records the ERP had split apart.",
+  "problem": "When a product's configuration changes, the ERP does not update that product, it creates another one. A single physical product picks up several identities over the years and its sales history splits across all of them, so asking how a product had actually performed was a question the business could not answer. Product-level margin was not visible either.",
+  "result": "One view anyone can open, verified against about 72,000 rows of sales data, with cost coverage on 99.5% of trailing-year revenue.",
+  "how": [
+    "The report opens as a category matrix carrying a signed year-over-year delta and drills into individual SKUs, with the operator setting the range and the granularity. Some SKUs contain components that were never costed, and the profitability view leaves those out of margin entirely. Leadership acts on this report, so a margin built from partial costs would be acted on as though it were complete."
+  ],
+  "shot": {
+    "src": "sales-trends.png",
+    "alt": "Units sold by product category, every year from 2021 through June 2026 in one table, each year carrying its change against the year before. Above the table the same history is drawn as twelve-month curves, one line per year, and a pace figure projects the full year from what has shipped.",
+    "caption": "Everything on this page is counted in units. The 2026 column is marked partial because the year is half over, and the current month is excluded so a half-finished month cannot read as a decline."
+  }
+}

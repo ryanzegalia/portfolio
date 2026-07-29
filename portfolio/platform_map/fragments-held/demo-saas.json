@@ -1,0 +1,12 @@
+{
+ "id": "demo-saas",
+ "title": "The product-led SaaS demo",
+ "body": [
+  "There is no ERP anywhere in this one. The stack is HubSpot for the CRM, BigQuery for the warehouse, Stripe for billing, and Hightouch pushing warehouse data back into the CRM, which is what a product-led B2B SaaS company runs its go-to-market on. I built it to check whether the revenue-operations approach I use at work survives swapping out every system underneath it. It catches seat drift: the CRM records an 8-seat plan while the product database shows 23 active users in the last 30 days, so the usage above the paid seats never reaches an invoice. Every account, deal, and usage event in it is invented. The reconciliation SQL runs against a live Postgres database on this page."
+ ],
+ "signals": [
+  "No ERP in the stack: HubSpot, BigQuery, Stripe, Hightouch",
+  "Seat drift: an 8-seat plan against 23 active users",
+  "Seeded data on a live Postgres database"
+ ]
+}

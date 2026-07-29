@@ -1,0 +1,16 @@
+{
+  "id": "deal-watch",
+  "title": "Promotion Change Monitoring",
+  "card": "A change to a live deal surfaces within a day, on a system that logs nothing.",
+  "what": "I built a nightly check that reports when someone changes a promotional deal in the ERP.",
+  "problem": "Any employee with admin access can edit a live deal, and the ERP keeps no audit log and sends no notification when they do. Coupon codes have been blanked, discount amounts zeroed, and amount types flipped from percent to dollar, and nothing in the system told anyone it had happened.",
+  "result": "A change to any of 29 fields on a tracked deal now surfaces within a day, and the eight that decide whether a discount applies and how much it is come through at a higher severity.",
+  "how": [
+    "The ERP's REST API was the obvious source and turned out to be the wrong one: its deals endpoint returns the metadata but omits the coupon code, the discount amount, the amount type, and the order amount, which are exactly the fields that get corrupted. So the check signs in to the ERP's own backend, opens each deal's edit form, and reads the values a person would see there, then compares them field by field against the previous night's copy."
+  ],
+  "shot": {
+    "src": "deal-watch.png",
+    "alt": "Every promotion under watch: 264 deals with 92 of them active, sorted into groups that each carry their own on, off or archived state, from quantity and club discounts through dealer, warranty and regional pricing. The table lists each deal with its coupon code, whether it is live, and the group it belongs to.",
+    "caption": "Coupon codes are renamed here. The nightly check reads all of this out of a system that keeps no record of what changed."
+  }
+}

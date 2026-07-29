@@ -1,0 +1,17 @@
+{
+  "id": "cart",
+  "title": "Live Cart Telemetry",
+  "card": "A live view of every shopper on the storefront, on telemetry I built for a platform that offered none.",
+  "what": "I built the storefront's live presence tracking, and then a second half on top of it that lets a support rep change a shopper's cart with that shopper's consent.",
+  "problem": "The storefront runs on a legacy hosted platform that reported nothing about live shopper behavior, so nobody could see who was on the site or what was in a cart. A rep on the phone with a customer had no way to fix that customer's cart except to talk them through it click by click.",
+  "result": "A live dashboard showing the visitors, the page each one is on, and their cart contents, holding roughly 1,000 concurrent visitors at 5 to 8 percent CPU on the small server the storefront already sits on.",
+  "how": [
+    "I built the event pipeline the platform never had: a behavioral taxonomy feeding an ingestion API, a heartbeat that writes visitor presence, and a watchdog that closes a session when the heartbeat stops.",
+    "The editing half is built around consent, because a rep silently changing someone's cart is not something I was willing to ship. The rep stages the whole change as one action, the shopper's own browser renders a preview of it, and it executes through the storefront's native cart only after the shopper approves."
+  ],
+  "shot": {
+    "src": "cart.png",
+    "alt": "Live shoppers on the storefront. Five are on the site in the last ninety seconds, three of them holding items in a cart, against 1,709 page views and 13 checkout views so far today. Under the counters each shopper appears with the page they are on, whether they signed in, and what is in their cart, beside a traffic-by-hour curve and a feed of what each visit did.",
+    "caption": "Shoppers are identified by a rotating hash. The counters here exclude 36 employee and 207 bot visits."
+  }
+}

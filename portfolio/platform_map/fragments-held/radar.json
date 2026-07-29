@@ -1,0 +1,12 @@
+{
+ "id": "radar",
+ "title": "Job posting scraping and scoring",
+ "body": [
+  "I run six scrapers on my own machines that feed one archive of about 102,000 job listings, and a scoring pass ranks every posting against the work I actually do, so I only spend time on the ones that score high. Three of the scrapers watch specific companies' hiring boards; the rest run keyword searches across public remote-job boards.",
+  "Scoring runs in phases ordered by cost, because the local model is the expensive step and most postings do not need it. A title screen and a keyword pass reject anything scoring below 30 before the model is called, which is how the pipeline gets through hundreds of postings a day. What survives goes to qwen3.5:27b running locally under Ollama, which reads the full description against a structured profile of my experience and returns a 0 to 100 score with a rationale. If the workstation is off, the keyword score stands in. A score of 70 or higher sends me a Discord alert."
+ ],
+ "signals": [
+  "six scrapers into one archive of about 102,000 listings",
+  "local qwen3.5:27b scores what survives the filters"
+ ]
+}

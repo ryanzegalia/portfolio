@@ -1,0 +1,13 @@
+{
+ "id": "embedded",
+ "title": "Custom firmware for a dual-screen handheld",
+ "body": [
+  "I run a dual-screen Linux handheld on custom firmware, and my changes ride as an overlay on the upstream open-source project, so an over-the-air update does not wipe them. I had no measured number for how long a tap took to reach the screen, so I built a touch latency rig from scratch. An automated tap injector creates a uinput clone of the touch panel's hardware identity, so synthetic taps are kernel-timestamped the same way a real finger would be. A Wayland presentation-time hook written as a dlsym shim captures hardware frame-flip timestamps, and it isolated the compositor's own contribution at 24.4 ms. I A/B tested three compositor render-timing configurations at 30 automated taps each and shipped the one that dropped no frames, which cut measured end-to-end stylus latency from about 50 ms to about 45.5 ms mean.",
+  "I read the SoC device tree to ground the power work. Lid and power events route through my own sleep hooks, and a deep park feature covers a device left asleep on battery: after 24 hours by default it schedules a dark RTC wake, waits through a grace window, and powers itself fully off only if it is still unattended and off charger. I verified that path on the hardware, and found a boot-time script that was silently rewriting my sleep hook."
+ ],
+ "signals": [
+  "End-to-end stylus latency measured from about 50 ms down to about 45.5 ms mean",
+  "Compositor frame-flip contribution isolated at 24.4 ms",
+  "Deep park schedules a dark RTC wake and powers the handheld fully off after 24 hours asleep on battery"
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "id": "demo-sca",
+ "title": "The software supply chain compliance demo",
+ "body": [
+  "A customer on a 50-seat contract has 47 repositories in their GitHub organization, and three of them are connected and scanning, so the contract covers 6% of that codebase. That gap is one of the scenarios in a revenue-operations environment for software supply chain compliance. The SQL that computes the coverage ratio and the dollar-weighted expansion estimate runs live on this site, against a real Postgres schema holding data that is seeded and fictional. Another scenario watches fixed-date compliance events, because a PCI DSS 4.0 audit and the EU Cyber Resilience Act requirement for SBOM disclosure by December 2027 each open a buying window that no system monitors. I built the environment to show that the approach applies to data outside one company."
+ ],
+ "signals": [
+  "Seeded fictional data",
+  "Live Postgres schema and loaders",
+  "Modeled sources: Salesforce, GitHub, Crunchbase, CI/CD scan logs"
+ ]
+}

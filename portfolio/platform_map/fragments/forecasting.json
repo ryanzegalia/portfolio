@@ -1,0 +1,11 @@
+{
+ "id": "forecasting",
+ "title": "Demand Forecasting",
+ "card": "Seasonal curves reproduced at 0.97 against the buyer's hand-kept workbook.",
+ "what": "A per-SKU forecasting engine I built to reproduce and pressure-test how the company decides what to reorder.",
+ "problem": "Replenishment buying ran out of one Excel workbook the purchasing lead maintained by hand, with about 186,000 formulas in it. The buying logic was that person's judgment, written down nowhere else, and no statistical baseline existed to check it against or to carry it if they left.",
+ "result": "Seasonal indices I derived independently matched the lead's hand-kept curve at a 0.97 shape correlation.",
+ "how": [
+  "Each SKU is classified on how often it sells and how erratic that demand is, then routed to a model that suits it: seasonal series to AutoETS, intermittent ones to Croston's SBA, and the rest to a recent-mean estimator. A single model fitted across all SKUs over-smooths the intermittent ones and under-fits the seasonal ones, which is the failure I set out to avoid. Periods when a SKU was out of stock come out of a 37-month transaction ledger and enter the model as censored demand, because a stockout looks like zero sales and is really unmet demand."
+ ]
+}

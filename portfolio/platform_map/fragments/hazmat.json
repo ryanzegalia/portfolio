@@ -1,0 +1,11 @@
+{
+ "id": "hazmat",
+ "title": "Hazmat Shipping Declarations",
+ "card": "Scan the order, print a compliant dangerous goods declaration.",
+ "what": "The IATA dangerous goods declaration for an order, produced from a barcode scan by a service I built.",
+ "problem": "Every air shipment of dangerous goods needs an IATA Shipper's Declaration signed by an authorized signatory, and the company's hardware carries one fixed UN classification, so every one of those shipments needs the form. An error on it gets the shipment refused at the carrier counter. The operator was filling out a Word template, printing it, signing it, and scanning it, once per shipment.",
+ "result": "The declaration comes off a barcode scan and prints straight from the browser, and the classification and the signatory list are fixed in the system, so an operator cannot declare the wrong class by typing over a field.",
+ "how": [
+  "The regulator dictates the layout, so the official template is the base document and the order's data is drawn onto it. Redrawing that form myself would have put the company's compliance on my rendering of a legal document."
+ ]
+}

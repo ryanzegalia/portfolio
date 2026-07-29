@@ -1,0 +1,17 @@
+{
+  "id": "tax-recon",
+  "title": "Tax Reconciliation",
+  "card": "A week of month-end reconciliation, down to about a day across 38,000 transactions.",
+  "what": "The service I built to compare what tax was calculated, what was charged, and what was paid, across the tax engine, the ERP, and Stripe.",
+  "problem": "Every month the accounting team reconciled sales tax by hand. They exported a CSV out of each of the three systems, cleaned up the column names, and then chased every row where the three disagreed. The team lead put it at one full week of every month.",
+  "result": "Month end costs about a day of human work across roughly 38,000 transactions. The same data drives a registration-threshold dashboard covering all 50 states plus DC, which caught two states approaching their thresholds in time for finance to act on it.",
+  "how": [
+    "Both halves of a transaction have to arrive together, so the feed pulls each new tax record and enriches it from the ERP in the same pass. Reconciliation then reads one row instead of joining two systems at query time.",
+    "The fragile part of the manual process was the column names. Vendors rename fields without warning, and one renamed header breaks the match before a single number is compared. Every expected field resolves through four tiers: an exact match on the normalized header, a curated alias table, a fuzzy match, and a last tier that reads the cell values themselves to break a tie. Anything that clears no tier is left unmapped and sent to review; the service does not guess. The tax engine has renamed fields twice since launch and the resolver absorbed both. It also never writes a correction back, because a write-back decides which system was right, and that is a person's call to make."
+  ],
+  "shot": {
+    "src": "tax-recon.png",
+    "alt": "A month of tax reconciliation. 2,749 orders in view matching at 97.8 percent, with seven over the review tolerance, fifty-six that left the warehouse with no payment on record, and six charged no tax with no exemption certificate on file. Each exception opens its own section explaining what the nightly check does about it.",
+    "caption": "Dollar amounts are removed from this view. The counts, the match rate and the exception categories are what the month-end run actually produces."
+  }
+}

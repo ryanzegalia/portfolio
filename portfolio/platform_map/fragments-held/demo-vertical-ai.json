@@ -1,0 +1,12 @@
+{
+ "id": "demo-vertical-ai",
+ "title": "The dental vertical AI demo",
+ "body": [
+  "Nobody sells a contact database that says who owns a dental practice, so a sales team in that market has to reconstruct ownership from public signals. I built a go-to-market environment for a vertical AI vendor selling into dental practices. Dental groups are consolidating quickly, with more than 200 new affiliations reported in 2024, and a contact database can still list a practice as independent months after Florida corporate filings show it was acquired. Each prospect is read from ZoomInfo, Apollo, LinkedIn, and a website scrape, and when those four sources disagree an LLM reconciles them against Florida Sunbiz filings and scores a verdict on the parent company. The accounts are invented; the enrichment waterfall that processes them is real code running on this site."
+ ],
+ "signals": [
+  "Ownership reconstructed from ZoomInfo, Apollo, LinkedIn, and Florida Sunbiz",
+  "LLM arbitrates conflicting sources into a parent-company verdict",
+  "Seeded Postgres, running live on this site"
+ ]
+}

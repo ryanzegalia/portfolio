@@ -1,0 +1,18 @@
+{
+  "id": "shipping",
+  "title": "Shipment and Order Tracking",
+  "card": "Every open shipment kept current at half the carrier's daily call ceiling.",
+  "what": "A tracking pipeline I built to keep the status of every open shipment current, on carrier APIs that will not simply let you ask.",
+  "problem_label": "The constraint",
+  "problem": "Customers and reps ask where an order is, and the answer lives at FedEx and USPS. FedEx allows roughly 1,000 tracking calls a day, and USPS direct polling allowed 60 an hour. Polling every open shipment on a flat cadence runs past both ceilings, and once the account is throttled nobody gets an answer.",
+  "result": "Every open shipment stays current on about 492 FedEx calls a day against a ceiling near 1,000, and support reads one status vocabulary rather than two carriers' worth.",
+  "how": [
+    "The scheduler is the real work. It discovers open shipments from the ERP and spends a fixed call budget by urgency: a package out for delivery is worth checking constantly, one sitting in transit is not, and a delayed or exception shipment can wait longer still. Calls concentrate in the hours when deliveries actually happen, with one sweep overnight for late scans, which drops overnight usage by about 80%.",
+    "Underneath it, a normalizer collapses the carriers into one model the dashboard can render: more than 40 FedEx status codes and 11 USPS categories resolve onto 8 statuses. The pipeline picks its carrier client from the tracking number itself, because the carrier field on the order is not always right, and a later update can never overwrite a known delivery estimate with an empty one."
+  ],
+  "shot": {
+    "src": "shipping.png",
+    "alt": "Open shipments grouped by where they have got to: 57 with a label created, 14 picked up, 78 in transit, 12 out for delivery and 6 carrying delays or issues. Each row shows the carrier service, how old the shipment is, its current status and its estimated arrival, over a line reporting the carriers were last polled four minutes ago across 169 shipments.",
+    "caption": "Recipient names and tracking numbers are substituted. The statuses are the carriers' own, mapped into one vocabulary so support reads the same words for both of them."
+  }
+}

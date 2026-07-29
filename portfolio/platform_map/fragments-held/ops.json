@@ -1,0 +1,11 @@
+{
+ "id": "ops",
+ "title": "The home ops dashboard",
+ "body": [
+  "My family uses the services in my home lab every day. I built a page that puts all 14 of them on one screen. It reports whether each service is up, how the host machines are doing, what the GPU is working on, and whether the backups ran. I wrote it in plain JavaScript with Web Components, because a dashboard this size does not need a framework. Alerting is a separate job, and an uptime monitor handles it. The page runs on a private network in my house, so I show a screenshot of it here instead of a link. When something breaks, this is the first page I open."
+ ],
+ "signals": [
+  "14 services on one screen",
+  "vanilla JS and Web Components, no framework"
+ ]
+}

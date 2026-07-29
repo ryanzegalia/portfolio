@@ -1,0 +1,13 @@
+{
+ "id": "agents",
+ "title": "AI Agent Tool Layer",
+ "card": "An AI assistant that can read the whole platform and change nothing without approval.",
+ "what": "I built an MCP server that exposes the platform to a language model as a catalog of typed, purpose-built tools.",
+ "problem_label": "Why it exists",
+ "problem": "I develop this platform agentically: AI agents carry out engineering and data work under my direction, and that work constantly touches live business records. The agents have to reach those systems to be useful, and I was not willing to hand them database credentials.",
+ "result": "I can ask for a customer's order history, a reconciliation status, a pricing check, a shipment's position, or a batch correction in the conversation itself, and no tool can change production data without a person confirming the exact change first.",
+ "how": [
+  "The default environment is a daily snapshot replica, so an unexpected write lands on a copy of the data. Live SQL is held read-only at two independent layers: the tool refuses mutating statements and bounds the query before it ever leaves the process, and the database session itself is opened read-only, so getting past the first layer still yields nothing.",
+  "A write takes two calls. The first returns a preview of exactly what would change, plus a token; the second carries that token and executes. Reads carry no such risk and run unguarded. I maintain this platform alone, so every release also goes through a review gate I built to stand in for the second engineer I do not have."
+ ]
+}

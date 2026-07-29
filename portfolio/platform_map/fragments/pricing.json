@@ -1,0 +1,16 @@
+{
+  "id": "pricing",
+  "title": "Pricing Automation",
+  "card": "A sale that cost more than two days of manual work now takes about three hours.",
+  "what": "I built the service that runs a sale end to end: it pushes the new prices, proves each one took, and puts the originals back when the sale is over.",
+  "problem": "Running a sale meant editing more than 800 product option prices by hand in the ERP admin, then editing every one of them back at the end. Each sale cost more than two days of that work. The ERP also drops some edits silently, so a price that looked applied was not necessarily applied, and the way that surfaces is a customer being charged the wrong amount.",
+  "result": "A sale now takes about three hours, and most of that is the operator reading the proposed changes before approving them.",
+  "how": [
+    "Every price change carries three states: queued, applied, and verified. Verified exists as its own state because the service reads each price back after writing it and compares to the penny, and anything that fails that read-back is held for a person rather than counted as done. Every push, verify, and revert is recorded, so a sale can be put back exactly as it was found. Each product carries its own lock, so two people can run different sales at the same time without stepping on each other."
+  ],
+  "shot": {
+    "src": "pricing.png",
+    "alt": "Pricing sessions, each one recording whether it worked at product or SKU level, a note saying what it was for, and where it got to. Most read completed, and two of them exist only to correct a specific rule in an earlier session.",
+    "caption": "The notes are what the operator wrote at the time. Two of these sessions correct a previous one, and every session can be put back the way it was."
+  }
+}

@@ -1,0 +1,11 @@
+{
+ "id": "mirror",
+ "title": "Customer and Contact Mirror",
+ "card": "43,000 customers and 117,000 contacts, current every morning, in one place every other tool reads from.",
+ "what": "I built the mirror that keeps the ERP's customer and contact tables copied into PostgreSQL, so the rest of the platform has something it can actually query.",
+ "problem": "The customer base lived only inside the ERP. Every project that set out to improve it has to read the whole base at once, and read it again after every change: duplicate cleanup, address correction, identity resolution, reporting. A one-time export is stale the day it lands, so all of that work would have been running against an outdated copy of the customer base.",
+ "result": "The mirror holds 43,000+ customers and 117,000+ contacts as of July 2026, rebuilt nightly, and it is what every customer-facing tool on the platform reads from.",
+ "how": [
+  "A nightly enumeration re-walks the source and upserts what it finds, and it continues past transient ERP errors, because one flaky call partway through a walk that long would throw away the entire refresh. Re-walking the whole base is the deliberate choice: the copy corrects itself every night without anyone reconciling it by hand."
+ ]
+}

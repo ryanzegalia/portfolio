@@ -1,0 +1,13 @@
+{
+ "id": "cad",
+ "title": "Mesh to editable CAD solids",
+ "body": [
+  "I cannot draw CAD from scratch, but I can usually find a downloaded mesh that is close to the part I need. So I built a pipeline that turns that mesh into something I can edit: AI agents rebuild it as a real solid, and I take my changes from there, resizing it, drilling holes, adding a bracket. A mesh goes in, and STEP and 3MF come out. It runs live in a browser viewer.",
+  "Every rebuild is checked against the original mesh. On my own test parts the rebuilt solid matches the original 99.6%, where a published research method reaches 84.8%. One example is a 58-part rack assembly rebuilt from downloaded meshes, with every operation recorded in a log next to the model."
+ ],
+ "signals": [
+  "mesh in, STEP and 3MF out",
+  "agents drive the rebuild",
+  "live browser viewer"
+ ]
+}

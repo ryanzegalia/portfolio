@@ -1,0 +1,11 @@
+{
+ "id": "demo-distribution",
+ "title": "The wholesale distribution demo",
+ "body": [
+  "This one is a demonstration, not a production system. I built a working revenue-operations environment for wholesale distribution technology, an industry I do not work in, to show that the same approach works outside my own company. It covers three scenarios: detecting which ERP a prospect runs before the first call, quantifying proof-of-value trials, and catching the buying window that opens after a private-equity acquisition. The data is seeded and fictional. The Postgres schema, the pipelines, and the scoring code are real and run live on this site."
+ ],
+ "signals": [
+  "three worked scenarios",
+  "seeded Postgres"
+ ]
+}

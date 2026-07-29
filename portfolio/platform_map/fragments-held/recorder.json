@@ -1,0 +1,13 @@
+{
+ "id": "recorder",
+ "title": "The meeting recorder",
+ "body": [
+  "A headless daemon on my Windows machine records meetings, capturing my microphone and the system output together and encoding them to MP3. Transcription runs locally on the GPU with WhisperX, and a local Ollama model writes the summary. The GPU transcribes 52 seconds of audio in about 7 seconds. Finished recordings sync over WebSocket to a dashboard where I read and search them.",
+  "The second mode records campaign sessions in a video game. Windows WASAPI normally captures all system audio as one mixed stream, so the voice chat and the game audio arrive together in a single recording, and I wanted them as separate clean streams. I built the capture on the WASAPI process loopback API introduced in Windows 10 build 19041, which takes the audio output of one process by its PID. Those COM interfaces are not published in any type library, so I declared their vtable layouts by hand with comtypes. Discord spreads its audio across child processes, so the code tests every matching PID by attempting activation and keeps the one carrying an active audio session."
+ ],
+ "signals": [
+  "WhisperX transcription and Ollama summaries on a local GPU",
+  "WASAPI per-process audio capture by PID",
+  "52 seconds of audio transcribed in about 7 seconds"
+ ]
+}

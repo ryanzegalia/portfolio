@@ -1,0 +1,17 @@
+{
+  "id": "fulfillment",
+  "title": "Fulfillment and Label Generation",
+  "card": "Every order's shipping method resolved to the right carrier service and handling.",
+  "what": "I built the station warehouse staff use to produce the shipping label for an order.",
+  "problem_label": "Why it exists",
+  "problem": "The shipping method already sits on the order, in more than 40 different ERP values, and 16 of those are hazmat methods that carry different handling requirements. Somebody has to turn that value into the right carrier service on every single shipment, and the ways to get it wrong are a refused package or an overpaid rate.",
+  "result": "The service level and the handling now follow from the method already on the order, and the ERP stays the authoritative record of what shipped.",
+  "how": [
+    "The mapping from ERP shipping method to carrier service is the part that matters, so I made it explicit, including which methods are hazmat, and nothing about a label depends on a guess at the moment of printing. Label creation goes through the provider the platform already used for address validation and tracking fallback, which leaves one integration to maintain instead of one per carrier, and fulfillment state flows back to the ERP through the sync that already exists."
+  ],
+  "shot": {
+    "src": "fulfillment.png",
+    "alt": "Labels produced at the fulfillment station. Each row carries the carrier the order resolved to, the exact service level behind it, the recipient, the package weight and the date it printed, with the service varying by order down to a ground hazmat label.",
+    "caption": "Each row records the service the order resolved to. The carrier and the handling follow from the method already on the order, so nobody at the station picks them."
+  }
+}
