@@ -1,7 +1,7 @@
 {
   "id": "qc",
   "title": "Production Testing and QC",
-  "card": "More than 500 hours a year of paper data entry, gone.",
+  "card": "Testing every wireless unit moved off paper, which removed more than 500 hours a year of data entry.",
   "what": "The warehouse tests every wireless unit before it ships on a system I built, which also tracks what happens to the ones that fail.",
   "problem": "The warehouse tracked testing on paper. The standalone Android app a previous developer wrote was never updated after that developer left and eventually stopped working. Paper cost about three minutes of data entry per unit, the company tests more than 10,000 wireless units a year, and the manager still had no throughput trends and no way to trace a bad unit back to anything.",
   "result": "That removed more than 500 hours a year of data entry, and a unit that fails at a customer site can now be traced back to the test session that passed it and the person who ran it.",

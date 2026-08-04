@@ -35,8 +35,8 @@
   <p class="map-hero-sub">The revenue operations platform I built and run at
   work, drawn as a map. Twenty-six systems for a mid-size manufacturer,
   built and maintained alongside a full-time marketing role. The platform
-  behind them runs to more than 300 tables and about 975 routes, with dozens
-  of background services reporting in. Open a group, then a system, to read why
+  behind them runs to more than 300 tables and about 975 routes, with eighteen
+  background services reporting in. Open a group, then a system, to read why
   it exists and what it changed.</p>
 </section>
 
@@ -160,7 +160,7 @@
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-deal-watch" data-node="deal-watch" data-title="Promotion Change Monitoring" data-card="A change to a live deal surfaces within a day, on a system that logs nothing.">
+  <article class="map-node" id="n-deal-watch" data-node="deal-watch" data-title="Promotion Change Monitoring" data-card="The ERP keeps no audit log on live deals, so a nightly check reports any change within a day.">
     <h3 class="map-node-title">Promotion Change Monitoring</h3>
     <div class="map-node-body">
     <p class="node-what">I built a nightly check that reports when someone changes a promotional deal in the ERP.</p>
@@ -312,7 +312,7 @@
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-payment-recon" data-node="payment-recon" data-title="Payment Reconciliation" data-card="Every payment on every order, checked against the gateway that actually holds the money.">
+  <article class="map-node" id="n-payment-recon" data-node="payment-recon" data-title="Payment Reconciliation" data-card="Every payment on every order, checked against what the gateway settled rather than what the ERP recorded.">
     <h3 class="map-node-title">Payment Reconciliation</h3>
     <div class="map-node-body">
     <p class="node-what">I built the reconciliation engine that compares what the ERP says it collected against what the payment gateways actually settled, order by order.</p>
@@ -356,7 +356,7 @@
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-qc" data-node="qc" data-title="Production Testing and QC" data-card="More than 500 hours a year of paper data entry, gone.">
+  <article class="map-node" id="n-qc" data-node="qc" data-title="Production Testing and QC" data-card="Testing every wireless unit moved off paper, which removed more than 500 hours a year of data entry.">
     <h3 class="map-node-title">Production Testing and QC</h3>
     <div class="map-node-body">
     <p class="node-what">The warehouse tests every wireless unit before it ships on a system I built, which also tracks what happens to the ones that fail.</p>
@@ -426,7 +426,7 @@
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-hazmat" data-node="hazmat" data-title="Hazmat Shipping Declarations" data-card="The form an air shipment cannot fly without, generated from the order instead of typed.">
+  <article class="map-node" id="n-hazmat" data-node="hazmat" data-title="Hazmat Shipping Declarations" data-card="The IATA dangerous-goods declaration, filled from a barcode scan of the order instead of typed per shipment.">
     <h3 class="map-node-title">Hazmat Shipping Declarations</h3>
     <div class="map-node-body">
     <p class="node-what">The IATA dangerous goods declaration for an order, produced from a barcode scan by a service I built.</p>
@@ -490,7 +490,7 @@
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-analytics" data-node="analytics" data-title="Storefront Analytics and Attribution" data-card="Storefront measurement built from nothing, down to the order each session became.">
+  <article class="map-node" id="n-analytics" data-node="analytics" data-title="Storefront Analytics and Attribution" data-card="Storefront analytics built in-house: live visitors, the view-to-order funnel, and which session became which order.">
     <h3 class="map-node-title">Storefront Analytics and Attribution</h3>
     <div class="map-node-body">
     <p class="node-what">I built the storefront&#x27;s analytics: the telemetry that records what visitors do, and the console that reads it back. The site measured nothing about itself before this.</p>
@@ -552,7 +552,7 @@
     <div class="node-detail">
     <div class="node-block">
       <h4 class="node-block-head">Why it exists</h4>
-      <p>The platform grew one system at a time, and each system brought its own background services with it: syncs, watchers, nightly rebuilds. Dozens of them report in now, too many to check by hand each morning.</p>
+      <p>The platform grew one system at a time, and each system brought its own background services with it: syncs, watchers, nightly rebuilds. Eighteen of them report in now, too many to check by hand each morning.</p>
     </div>
     <div class="node-block">
       <h4 class="node-block-head">The result</h4>
@@ -571,7 +571,7 @@
 <section class="reader-domain" data-group="platform-agents" data-group-name="Platform and Agents" data-group-desc="What keeps everything else running, plus the layer an AI assistant works through.">
   <h2 class="reader-domain-head">Platform and Agents</h2>
   <p class="reader-domain-desc">What keeps everything else running, plus the layer an AI assistant works through.</p>
-  <article class="map-node" id="n-agents" data-node="agents" data-title="AI Agent Tool Layer" data-card="An AI assistant that can read the whole platform and change nothing without approval.">
+  <article class="map-node" id="n-agents" data-node="agents" data-title="AI Agent Tool Layer" data-card="An AI assistant that can read the whole platform and needs a person&#x27;s confirmation before it changes anything.">
     <h3 class="map-node-title">AI Agent Tool Layer</h3>
     <div class="map-node-body">
     <p class="node-what">I built an MCP server that exposes the platform to a language model as a catalog of typed, purpose-built tools.</p>

@@ -1,7 +1,7 @@
 {
   "id": "deal-watch",
   "title": "Promotion Change Monitoring",
-  "card": "A change to a live deal surfaces within a day, on a system that logs nothing.",
+  "card": "The ERP keeps no audit log on live deals, so a nightly check reports any change within a day.",
   "what": "I built a nightly check that reports when someone changes a promotional deal in the ERP.",
   "problem": "Any employee with admin access can edit a live deal, and the ERP keeps no audit log and sends no notification when they do. Coupon codes have been blanked, discount amounts zeroed, and amount types flipped from percent to dollar, and nothing in the system told anyone it had happened.",
   "result": "A change to any of 29 fields on a tracked deal now surfaces within a day, and the eight that decide whether a discount applies and how much it is come through at a higher severity.",

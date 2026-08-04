@@ -1,7 +1,7 @@
 {
   "id": "analytics",
   "title": "Storefront Analytics and Attribution",
-  "card": "Storefront measurement built from nothing, down to the order each session became.",
+  "card": "Storefront analytics built in-house: live visitors, the view-to-order funnel, and which session became which order.",
   "what": "I built the storefront's analytics: the telemetry that records what visitors do, and the console that reads it back. The site measured nothing about itself before this.",
   "problem": "The storefront ran for years without reporting a single thing about its own traffic. Nobody could say how many visits became orders, which products people looked at, or where the buyers came from, and decisions about the site and the product line were being made without that information.",
   "result": "Five views covering live visitors, the view-to-order funnel, acquisition, product behavior, and on-site search, and every aggregate number drills down to the individual sessions that produced it.",

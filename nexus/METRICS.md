@@ -13,6 +13,7 @@
 | ERP SKUs tracked | **760+** | live DB count, 2026-08-03 |
 | Production PostgreSQL tables | **~320** | schema introspection, 2026-08-03 |
 | MCP tools exposed to AI agents | **118** | grep-verified, 2026-08-03 |
+| Background heartbeat services | **18** | [heartbeat-services.md](components/heartbeat-services.md), August 2026 |
 | External HTTP integrations | **15** | enumerated in [TECH_STACK.md](architecture/TECH_STACK.md) |
 
 ## Code size (re-measured 2026-08-03, April 2026 methodology)

@@ -1,7 +1,7 @@
 {
   "id": "payment-recon",
   "title": "Payment Reconciliation",
-  "card": "Every payment on every order, checked against the gateway that actually holds the money.",
+  "card": "Every payment on every order, checked against what the gateway settled rather than what the ERP recorded.",
   "what": "I built the reconciliation engine that compares what the ERP says it collected against what the payment gateways actually settled, order by order.",
   "problem_label": "The problem",
   "problem": "The ERP records a payment when its own checkout tells it to, and nothing after that ever confirms the money arrived. The payments live in the ERP, the settlements live at the card gateway, and the two were never compared, so whether an order had genuinely been paid for was not a question anyone could answer from either system alone.",

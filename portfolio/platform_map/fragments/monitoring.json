@@ -4,7 +4,7 @@
   "card": "Every automated action on the platform, graded and written in plain sentences.",
   "what": "A reporting layer I built to turn everything the platform did overnight into something a person can read in a minute.",
   "problem_label": "Why it exists",
-  "problem": "The platform grew one system at a time, and each system brought its own background services with it: syncs, watchers, nightly rebuilds. Dozens of them report in now, too many to check by hand each morning.",
+  "problem": "The platform grew one system at a time, and each system brought its own background services with it: syncs, watchers, nightly rebuilds. Eighteen of them report in now, too many to check by hand each morning.",
   "result": "A digest lands every morning with last night's outcome for every service, including the ones that failed and recovered on their own. A page goes out only when a person has to act. A second machine watches the platform from outside and emails if it goes quiet, and the platform pages if that watcher dies.",
   "how": [
     "Two kinds of record back it: what a service did and how many records it touched, and the field-level before and after of every change it made. The grading rules live in the reporting layer and not in the jobs themselves, so changing what counts as notable is one edit and never a re-run of anything.",

@@ -1,7 +1,7 @@
 {
   "id": "hazmat",
   "title": "Hazmat Shipping Declarations",
-  "card": "The form an air shipment cannot fly without, generated from the order instead of typed.",
+  "card": "The IATA dangerous-goods declaration, filled from a barcode scan of the order instead of typed per shipment.",
   "what": "The IATA dangerous goods declaration for an order, produced from a barcode scan by a service I built.",
   "problem": "Every air shipment of dangerous goods needs an IATA Shipper's Declaration signed by an authorized signatory, and the company's hardware carries one fixed UN classification, so every one of those shipments needs the form. An error on it gets the shipment refused at the carrier counter. The operator was filling out a Word template by hand, printing it, signing it, and scanning it, once per shipment.",
   "how": [

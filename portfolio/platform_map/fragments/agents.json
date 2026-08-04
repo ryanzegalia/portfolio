@@ -1,7 +1,7 @@
 {
   "id": "agents",
   "title": "AI Agent Tool Layer",
-  "card": "An AI assistant that can read the whole platform and change nothing without approval.",
+  "card": "An AI assistant that can read the whole platform and needs a person's confirmation before it changes anything.",
   "what": "I built an MCP server that exposes the platform to a language model as a catalog of typed, purpose-built tools.",
   "problem_label": "Why it exists",
   "problem": "I develop this platform agentically: AI agents carry out engineering and data work under my direction, and that work constantly touches live business records. The agents have to reach those systems to be useful, and I was not willing to hand them database credentials.",
