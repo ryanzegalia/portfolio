@@ -5019,7 +5019,10 @@ html.js-scroll-reveal [data-reveal].is-in-view {
    generic scroll-cue fade behind it; the border-top carries the boundary. */
 .map-modal-body .hub-ctas {
   position: sticky;
-  bottom: -1px;
+  /* the body's bottom padding sits inside the sticky constraint rect, so a
+     plain bottom: 0 pins the row a padding's height above the visual edge
+     with prose scrolling under it; sink it by that padding to sit flush */
+  bottom: calc(-1px - var(--space-5));
   z-index: 1;
   background: #fff;
   margin: 0 calc(-1 * var(--space-5));
