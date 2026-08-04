@@ -142,7 +142,7 @@ landing:
                 accumulate to medium confidence.
                 """
                 weights = {
-                    "job_posting_keyword":  0.45,
+                    "job_posting_keyword":  0.65,
                     "vendor_directory":     0.30,
                     "trade_show_exhibitor": 0.15,
                     "technographic_match":  0.10,
@@ -159,6 +159,7 @@ landing:
 
                 if not erp_scores:
                     return {
+                        "prospect_id": prospect_id,
                         "erp": None,
                         "confidence": 0,
                         "route": "manual_qualification",

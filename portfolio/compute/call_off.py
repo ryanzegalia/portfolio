@@ -81,8 +81,8 @@ def _generate_verdict(top_cg: Entity, ranked: list[Entity], client_name: str) ->
 
     return (
         f"{top_cg.canonical_name} has the strongest match "
-        f"({prior} prior shifts, {dist}mi, no overlap with her "
-        f"Tuesday morning shift). Auto-fanout sequenced: {sequence}, "
+        f"({prior} prior shifts, {dist}mi, no schedule overlap). "
+        f"Auto-fanout sequenced: {sequence}, "
         f"90s between sends, first reply wins."
     )
 

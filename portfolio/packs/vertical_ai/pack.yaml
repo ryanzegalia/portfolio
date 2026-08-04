@@ -162,11 +162,12 @@ landing:
                 """Reconcile ZoomInfo / Apollo / LinkedIn / Sunbiz / web
                 scrape into a confidence-scored DSO-parent verdict.
 
-                Returns None when no source has an opinion, so the caller
-                can decide whether to skip the practice or route it as
+                When no source has an opinion, returns a verdict with
+                parent=None and confidence 0.0, so the caller can decide
+                whether to skip the practice or route it as
                 'independent, low confidence'.
                 """
-                sources: list[SourceSignal] = [
+                sources: list[SourceSignal | None] = [
                     zoominfo.lookup(practice),
                     apollo.lookup(practice),
                     linkedin.office_manager_history(practice),
@@ -177,7 +178,8 @@ landing:
                 # Drop sources that didn't return anything actionable
                 signals = [s for s in sources if s is not None]
                 if not signals:
-                    return ParentVerdict(parent=None, confidence=0.0, signals=[])
+                    return ParentVerdict(parent=None, confidence=0.0,
+                                         signals=[], warm_path=[])
 
                 # LLM arbitrates the disagreement, anchored on Sunbiz as
                 # the ground-truth legal filing when present

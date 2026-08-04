@@ -2638,6 +2638,23 @@ body[data-pack="radar"] {
   --brand-accent-soft: #f7fee7;
 }
 
+/* On the personal-system pages the stat pill is a status chip ("scoring
+   continuously"), not a drift alarm. Follow the page accent there; the
+   red drift token stays for the pack demos, where it means drift. */
+body[data-pack="radar"] .pill-status-drift,
+body[data-pack="ai-stack"] .pill-status-drift,
+body[data-pack="genome"] .pill-status-drift,
+body[data-pack="cad"] .pill-status-drift {
+  background: var(--brand-accent-soft);
+  color: var(--brand-accent);
+}
+body[data-pack="radar"] .status-dot--drift,
+body[data-pack="ai-stack"] .status-dot--drift,
+body[data-pack="genome"] .status-dot--drift,
+body[data-pack="cad"] .status-dot--drift {
+  background: var(--brand-accent);
+}
+
 /* Title rhythm continues down the third shelf (shorter title, more
    weight -- same rule as the packs above). The depth-pass titles are
    longer than the ones they replaced, so radar and genome compress. */
@@ -4295,7 +4312,18 @@ html.js-scroll-reveal [data-reveal].is-in-view {
     flex-wrap: wrap;
     row-gap: 2px;
   }
+  /* Stack the quote under the achievement name. flex-basis must carry the
+     break: `flex: 1` (basis 0%) outranks width, so width:100% alone never
+     wrapped and the quote rendered one word per line at phone widths. */
+  .demo-module--extraction .xt-name {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .demo-module--extraction .xt-indicator { order: 2; }
   .demo-module--extraction .xt-detail {
+    order: 3;
+    flex: 1 1 100%;
     width: 100%;
   }
 }
@@ -4734,9 +4762,15 @@ html.js-scroll-reveal [data-reveal].is-in-view {
   color: var(--text-muted);
 }
 
+/* While a group is open the rest layer hides completely (the faded ghost
+   map read as clutter behind the cluster text) and the stage collapses to
+   the cluster's own height instead of holding the map's full height as
+   blank space below it. */
 .map-stage.focus .map-hub-wrap,
-.map-stage.focus .map-dom { opacity: 0.08; pointer-events: none; }
-.map-stage.focus .map-spokes { opacity: 0.15; }
+.map-stage.focus .map-dom { opacity: 0; visibility: hidden; pointer-events: none; }
+.map-stage.focus .map-spokes { opacity: 0; visibility: hidden; }
+.map-stage.focus { height: auto; min-height: 0; }
+.map-stage.focus .map-cluster { position: static; }
 
 .map-rest-hint {
   position: absolute;
@@ -5114,6 +5148,20 @@ html.js-scroll-reveal [data-reveal].is-in-view {
 }
 
 .map-modal-body p { margin: 0 0 var(--space-3); }
+
+/* Scroll cue: on overlay-scrollbar platforms the body clips mid-paragraph
+   with nothing saying "more below". The sticky fade carries that signal and
+   sits flush against the end padding once the reader gets there. */
+.map-modal-body::after {
+  content: "";
+  position: sticky;
+  bottom: -1px;
+  display: block;
+  height: 32px;
+  margin-top: -32px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+  pointer-events: none;
+}
 
 /* cap the measure so a wide panel never produces a 110-character line */
 .map-modal-body > .node-what,

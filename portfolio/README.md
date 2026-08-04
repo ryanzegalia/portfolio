@@ -2,7 +2,7 @@
 
 | Stack | Verticals | Demos | Tests | Compute modules | Reconciler modules |
 |-------|-----------|-------|-------|-----------------|--------------------|
-| FastAPI + Postgres + Jinja | 5 | 15 | 66 | 12 | 4 |
+| FastAPI + Postgres + Jinja | 5 | 15 | 71 | 11 | 4 |
 
 A portfolio project by [Ryan Zegalia](https://www.linkedin.com/in/ryan-zegalia-6bbb90217/). Fifteen operator scenarios across five B2B verticals, each with a worked example running against seeded Postgres data. Each one starts from a specific operator problem, and the matching component is a real server-rendered UI over real SQL.
 
@@ -90,8 +90,8 @@ Returns 200 when both the seeder and the background stuck-detector are running. 
 | [packs/loader.py](packs/loader.py) | YAML-driven pack system with entity/source/seed/scenario validation |
 | [reconciler/matcher.py](reconciler/matcher.py) | Entity resolution: natural-key fast path with rapidfuzz fallback |
 | [reconciler/drift.py](reconciler/drift.py) | Pairwise field-level drift detection, idempotent drift events |
-| [compute/](compute/) | 12 request-time computation modules (one per scenario demo) |
-| [tests/](tests/) | 66 tests covering compute math, reconciler round-trips, pack loading, route smoke |
+| [compute/](compute/) | 11 request-time computation modules (one per scenario demo) |
+| [tests/](tests/) | 71 tests covering compute math, reconciler round-trips, pack loading, route smoke |
 
 ## Tests
 
@@ -100,4 +100,4 @@ pip install -r requirements-dev.txt
 DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB} pytest -q
 ```
 
-66 tests covering compute math, reconciler round-trips, pack loading, and route smoke. The full suite requires Postgres (reconciler round-trips use SAVEPOINT-based fixtures). Compute and pack tests run without a database if you only want a quick sanity check.
+71 tests covering compute math, reconciler round-trips, pack loading, and route smoke. The full suite requires Postgres (reconciler round-trips use SAVEPOINT-based fixtures). Compute and pack tests run without a database if you only want a quick sanity check.

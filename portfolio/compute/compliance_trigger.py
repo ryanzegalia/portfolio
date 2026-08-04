@@ -25,15 +25,15 @@ def _compute_decay(event_type: str, days_since: int, months_to_deadline: int | N
       relevance over time). Half-life ~46 days.
     - Deadline events (cra_deadline, pci_dss): linear urgency that increases
       as the deadline approaches. A deadline 5 months out scores ~0.58;
-      a deadline 1 month out scores ~0.93.
+      a deadline 1 month out scores ~0.92.
     """
     if event_type in ("cra_deadline", "pci_dss") and months_to_deadline:
-        # Urgency increases as deadline approaches (invert the timeline)
-        # At 12 months: 0.33, at 6 months: 0.50, at 3 months: 0.75, at 1 month: 0.92
+        # Urgency increases as deadline approaches (invert the timeline).
+        # At 12 months: floor 0.25, at 6 months: 0.50, at 3 months: 0.75,
+        # at 1 month: 0.92. The floor keeps distant deadlines on the board.
         deadline_days = months_to_deadline * 30
-        urgency = max(0.0, 1.0 - (deadline_days / (12 * 30)))
-        # Blend with a minimum floor so even distant deadlines register
-        return max(0.25, min(1.0, urgency + 0.25))
+        urgency = 1.0 - (deadline_days / (12 * 30))
+        return max(0.25, min(1.0, urgency))
     else:
         return math.exp(-SIGNAL_DECAY_LAMBDA * days_since)
 

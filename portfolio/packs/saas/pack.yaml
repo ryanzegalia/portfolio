@@ -148,8 +148,8 @@ landing:
           code: |
             -- one row per account where the billed seats and last-30d
             -- active users disagree. Assumes hubspot_companies and
-            -- product_events are landed in the warehouse nightly by a
-            -- Hightouch reverse-ETL sync (or similar).
+            -- product_events are landed in the warehouse by a nightly
+            -- ETL sync (Fivetran, Airbyte, or similar).
             WITH active_users AS (
               SELECT
                 account_id,
@@ -168,7 +168,9 @@ landing:
                  * h.contract_per_seat_rate)               AS dollar_impact
             FROM hubspot_companies h
             LEFT JOIN active_users a USING (account_id)
-            WHERE COALESCE(a.active_user_count_30d, 0) > h.billed_seats
+            -- <> keeps drift in both directions: overage AND seats billed
+            -- with no activity at all (the LEFT JOIN's zero-usage rows)
+            WHERE COALESCE(a.active_user_count_30d, 0) <> h.billed_seats
             ORDER BY dollar_impact DESC;
       cta:
         label: "See the full drift table"

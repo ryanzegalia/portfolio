@@ -24,6 +24,7 @@ from connectors import Seeder
 from reconciler import schedule_stuck_detector
 from routes.root import router as root_router
 from routes.pack_demo import router as pack_demo_router
+from routes.systems import router as systems_router
 from routes.api import router as api_router
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -223,6 +224,10 @@ app.state.templates = templates
 
 app.include_router(root_router)
 app.include_router(pack_demo_router)
+# Registration order is not load-bearing here: the pack routes are single-
+# segment bare slugs (/saas) and these are two-segment (/systems/genome), so
+# the two can never match the same path.
+app.include_router(systems_router)
 app.include_router(api_router)
 
 

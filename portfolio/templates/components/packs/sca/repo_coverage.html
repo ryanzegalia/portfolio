@@ -35,7 +35,7 @@
   <div class="repo-grid">
     {% for repo in acct.repos %}
     <div class="repo-tile {% if repo.scanned %}repo-tile--scanned{% elif repo.last_commit %}repo-tile--active{% else %}repo-tile--inactive{% endif %}"
-         title="{{ repo.name }}{% if repo.language %} ({{ repo.language }}){% endif %}{% if repo.scanned %} — scanned, {{ repo.dependencies }} deps{% elif repo.last_commit %} — active, not scanned{% else %} — inactive{% endif %}">
+         title="{{ repo.name }}{% if repo.language %} ({{ repo.language }}){% endif %}{% if repo.scanned %} - scanned, {{ repo.dependencies }} deps{% elif repo.last_commit %} - active, not scanned{% else %} - inactive{% endif %}">
       {% if repo.scanned %}
       <span class="repo-tile-name">{{ repo.name.split('/')[-1] }}</span>
       {% endif %}

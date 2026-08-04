@@ -88,8 +88,10 @@
         </span>
       </summary>
       <figure class="vl-code-artifact">
-        {% if section.narrative.code_artifact.caption %}
-        <figcaption class="vl-code-caption">{{ section.narrative.code_artifact.caption }}</figcaption>
+        {# The <summary> above already renders the caption; repeat only the
+           source note here, mirroring system_landing.html's .source split. #}
+        {% if section.narrative.code_artifact.source %}
+        <figcaption class="vl-code-caption">{{ section.narrative.code_artifact.source }}</figcaption>
         {% endif %}
         {{ section.narrative.code_artifact.code | highlight_code(section.narrative.code_artifact.language or 'text') }}
       </figure>

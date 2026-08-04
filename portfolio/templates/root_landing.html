@@ -33,6 +33,8 @@
         I'm Ryan Zegalia. 13 years in operations at a mid-size B2C/B2B
         manufacturer, progressing through warehouse fulfillment, purchasing,
         e-commerce, marketing, and into the systems and automation I build now.
+        I was the company's first employee, and I built and still operate its
+        integration layer solo.
       </p>
       <p>
         Below: what I build and run at work, what I run at home, and five
@@ -53,108 +55,91 @@
      codenames on the page. The card sells the platform, not the map of
      it. The CTA landed with the platform map at /platform (built by
      scripts/build_platform_map.py). #}
+  {# 2026-08-03: the map thumbnail was pulled with the rest of the home-page
+     imagery. Every shelf is now text only and the images live on the page
+     each card opens, where they can be read at full size. #}
   <a class="root-tile" data-pack="revops" href="/platform" data-reveal>
     <span class="root-tile-eyebrow">Production system</span>
     <h2 class="root-tile-title">The revenue operations platform I built and run</h2>
-    {# The map screenshot lands at static/img/platform-map.png once it is
-       captured from /platform; onerror keeps the card clean until then. #}
-    <img class="root-tile-thumb" src="/static/img/platform-map.png"
-         alt="Map of the revenue operations platform: five groups around a central core"
-         loading="lazy" onerror="this.style.display='none'">
     <p class="root-tile-scenarios">I kept finding the same problem at work: systems that didn't talk, and people bridging them by hand. Accounting lost a week every month to a manual tax reconciliation. 77% of customer contacts shared an email address with another record. So I built the platform that closes those gaps: the tax reconciliation runs itself now, and ~17K duplicate account groups resolve to the real customer behind them. It's run in production since February 2026, built and maintained alongside a full-time marketing role.</p>
-    <p class="root-tile-signals">268 tables &middot; ~850 routes &middot; 117 agent-callable tools</p>
+    <p class="root-tile-signals">more than 300 tables &middot; about 975 routes &middot; 118 agent-callable tools</p>
     <span class="root-tile-cta">Open the platform map &rarr;</span>
   </a>
-
-  <a class="root-tile" data-pack="ghdocs" href="https://github.com/ryanzegalia/portfolio/tree/main/nexus" target="_blank" rel="noopener" data-reveal>
-    <span class="root-tile-eyebrow">Documentation</span>
-    <h2 class="root-tile-title">48 decision records and 9 case studies from building it</h2>
-    <p class="root-tile-scenarios">Why each piece works the way it does, what broke on the way there, and where the numbers come from.</p>
-    <p class="root-tile-signals">decision records &middot; case studies &middot; architecture notes</p>
-    <span class="root-tile-cta">Read on GitHub &rarr;</span>
-  </a>
 </nav>
+
+{# 2026-08-03: the Documentation card folded into this note (audit item:
+   a card-sized surface for what is one link). The same link repeats at the
+   bottom of /platform, where a reader finishes the map. #}
+<section class="root-shelf container" data-reveal>
+  <p class="root-shelf-sub">Why each piece works the way it does, what broke
+    on the way there, and where the numbers come from:
+    <a href="https://github.com/ryanzegalia/portfolio/tree/main/nexus" target="_blank" rel="noopener">48
+    decision records and 9 case studies on GitHub</a>.</p>
+</section>
 
 {#
   2026-07-27 third shelf: the personal production environment.
   Not demos and not work systems: real services Ryan operates at home.
-  Blocks are <article>, not <a> -- the click-throughs are the screenshots
-  themselves (buttons opening the shared lightbox at the bottom of this
-  template). Copy rules: every number chapter-verified, stated once
-  page-wide; no internal project names; screenshots pre-scrubbed at
-  capture time (session/plan chips, work callers, pipeline counts).
+  Copy rules: every number chapter-verified, stated once page-wide; no
+  internal project names; screenshots pre-scrubbed at capture time
+  (session/plan chips, work callers, pipeline counts).
+
+  2026-08-03. The depth pass earlier today put the full constraint /
+  where-it-stands / how-it-works treatment inline on these tiles, which
+  buried the rest of the page under it. That prose moved to a page per
+  system at /systems/<slug>, built on the same scrollytelling layout the
+  industry explorations use, and these went back to the five-layer card
+  grammar the rest of the page already speaks: eyebrow, title, preview,
+  signals, CTA. Every image on this page came out in the same pass. The
+  screenshots read better full size on the page they belong to, and the
+  home page is an index again.
+
+  Order is JobRadar, GPU, genome, CAD: most job-relevant first. The
+  ops-board tile was cut. A status dashboard is the least differentiated
+  thing on the shelf and its one real idea (no framework) did not carry
+  a tile.
+
+  Register: matches the Canals cover letter, not the site's older prose.
+  No em dashes, no sentence whose only job is to interpret the sentence
+  before it. Numbers are floor claims that stay true as the counts grow.
 #}
 <section class="root-shelf container" data-reveal>
   <h2 class="root-shelf-head">Personal production environment</h2>
-  <p class="root-shelf-sub">Three machines in my house running real services my family uses every day. They page me when something breaks. They're on a private network, so I've shown screenshots instead of links.</p>
+  <p class="root-shelf-sub">Systems I built and run at home on my own hardware. Nobody else is on call for them, so I've had to make the same calls I make at work about cost, uptime, and what's worth automating. They're on a private network, so each one opens onto screenshots and a walkthrough instead of a live link.</p>
 </section>
 
 <section class="root-tiles container" aria-label="Personal production environment">
-  <article class="root-tile personal-tile" data-pack="ai-stack" data-reveal>
+  <a class="root-tile" data-pack="radar" href="/systems/job-pipeline" data-reveal>
+    <span class="root-tile-eyebrow">Data pipeline</span>
+    <h2 class="root-tile-title">A scoring pipeline over more than 108,000 job postings, built to reject fast and score slow</h2>
+    <p class="root-tile-scenarios">Six scrapers pull postings into one archive, and a scoring pass ranks each one against the work I actually do. The cheap checks run first, so most postings never reach the model at all.</p>
+    <p class="root-tile-signals">six sources &middot; reject fast, score slow &middot; local model makes the final call</p>
+    <span class="root-tile-cta">Read how it works &rarr;</span>
+  </a>
+
+  <a class="root-tile" data-pack="ai-stack" href="/systems/gpu" data-reveal>
     <span class="root-tile-eyebrow">Self-hosted AI</span>
     <h2 class="root-tile-title">A scheduler and cost ledger for the one GPU my whole home lab shares</h2>
-    <p class="root-tile-scenarios">All of the AI in my home lab runs through the one GPU on my workstation, and so many different things want it at the same time that I built a scheduler to manage who gets it. A cost dashboard rebuilds what each program spent from the raw request logs. There's also an agent that watches the machines and investigates problems on its own. It uses local models first and only calls a paid model when it gets stuck.</p>
-    <div class="personal-thumbs">
-      <button class="personal-thumb" type="button"
-              data-full="/static/img/personal/scheduler.png"
-              data-caption="The scheduler, live. It shows which program has priority, what's on the GPU right now, and how long each one waited.">
-        <img src="/static/img/personal/thumb-scheduler.jpg" alt="GPU scheduler dashboard: program priority table, model health, live dispatches, recent activity" loading="lazy" width="549" height="360">
-      </button>
-      <button class="personal-thumb" type="button"
-              data-full="/static/img/personal/cost-board.png"
-              data-caption="The cost board. It totals today's spend, cache hits, and what the local work would have cost from a cloud model.">
-        <img src="/static/img/personal/thumb-cost-board.jpg" alt="Usage cost dashboard: total cost, API calls, sessions, cache hit rate, local GPU equivalent" loading="lazy" width="985" height="360">
-      </button>
-    </div>
-    <p class="root-tile-signals">priority scheduler &middot; per-program spend ledger &middot; paid models only as a fallback</p>
-  </article>
+    <p class="root-tile-scenarios">Every AI job in the house runs on one card, so I built the scheduler that decides who gets it, the lease that hands the whole card to one job at a time, and the ledger that rebuilds what each program spent.</p>
+    <p class="root-tile-signals">priority dispatch &middot; time-limited GPU leases &middot; per-program spend ledger</p>
+    <span class="root-tile-cta">Read how it works &rarr;</span>
+  </a>
 
-  <article class="root-tile personal-tile" data-pack="ops-board" data-reveal>
-    <span class="root-tile-eyebrow">Operations</span>
-    <h2 class="root-tile-title">14 services, one screen</h2>
-    <p class="root-tile-scenarios">Every service in my home lab reports its status to one page I built: whether it's up, how the host machines are doing, what the GPU is working on, and whether the backups ran. I wrote it in plain JavaScript with Web Components because a dashboard this size doesn't need a framework. When something breaks, this is the first place I look.</p>
-    <div class="personal-thumbs">
-      <button class="personal-thumb" type="button"
-              data-full="/static/img/personal/ops-board.png"
-              data-caption="The overview page. It shows every service's health, with per-host vitals below.">
-        <img src="/static/img/personal/thumb-ops-board.jpg" alt="Operator dashboard: grid of service cards with health badges and host vitals panels" loading="lazy" width="549" height="360">
-      </button>
-    </div>
-    <p class="root-tile-signals">vanilla JS &middot; Web Components &middot; Chart.js</p>
-  </article>
+  <a class="root-tile" data-pack="genome" href="/systems/genome" data-reveal>
+    <span class="root-tile-eyebrow">Structured extraction</span>
+    <h2 class="root-tile-title">A pipeline that turns community game guides into data a handheld can browse offline</h2>
+    <p class="root-tile-scenarios">The model reads the guides and picks out the facts, but it isn't allowed to write any of them. Every line on the device is copied from a real guide, and anything it can't ground it skips.</p>
+    <p class="root-tile-signals">every line verified against its source &middot; abstains rather than guess &middot; runs offline</p>
+    <span class="root-tile-cta">Read how it works &rarr;</span>
+  </a>
 
-  <article class="root-tile personal-tile" data-pack="cad" data-reveal>
+  <a class="root-tile" data-pack="cad" href="/systems/cad" data-reveal>
     <span class="root-tile-eyebrow">Computational design</span>
     <h2 class="root-tile-title">An agent pipeline that rebuilds 3D meshes into editable CAD solids</h2>
-    <p class="root-tile-scenarios">I can't draw CAD from scratch, but I can usually find a downloaded mesh close to what I need. So I built a pipeline where AI agents rebuild that mesh into a real editable solid, and I make my changes from there: resize it, drill holes, add a bracket. It runs live in the browser, and every rebuild gets checked against the original shape. On my test parts it matches 99.6%, where a published research method reaches 84.8%.</p>
-    <div class="personal-thumbs">
-      <button class="personal-thumb" type="button"
-              data-full="/static/img/personal/cad-assembly.png"
-              data-caption="A 58-part rack assembly rebuilt from downloaded meshes, with the log of every operation on the right.">
-        <img src="/static/img/personal/thumb-cad-assembly.jpg" alt="Rack assembly in the CAD workspace with parts list and operation log" loading="lazy" width="490" height="360">
-      </button>
-      <button class="personal-thumb" type="button"
-              data-full="/static/img/personal/cad-tray.png"
-              data-caption="A device tray mid-session, with three housings seated on the patterned base.">
-        <img src="/static/img/personal/thumb-cad-tray.jpg" alt="Device tray with three seated housings in the CAD workspace" loading="lazy" width="490" height="360">
-      </button>
-    </div>
+    <p class="root-tile-scenarios">I start from a downloaded mesh, agents rebuild it into a real editable solid, and I make my changes from there. Every rebuild is checked against the original shape before it's accepted.</p>
     <p class="root-tile-signals">mesh in, STEP/3MF out &middot; agents drive the rebuild &middot; live viewer</p>
-  </article>
-
-  <article class="root-tile personal-tile" data-pack="radar" data-reveal>
-    <span class="root-tile-eyebrow">Data pipeline</span>
-    <h2 class="root-tile-title">A scoring pipeline over ~102K scraped job listings</h2>
-    <p class="root-tile-scenarios">Six scrapers pull job listings into one archive, and a scoring pass reads every description and ranks it against the work I actually do, so I only spend time on the ones that score high.</p>
-    <div class="personal-thumbs">
-      <button class="personal-thumb" type="button"
-              data-full="/static/img/personal/job-radar.png"
-              data-caption="Full-text search over the archive. Every posting carries its fit score, best first.">
-        <img src="/static/img/personal/thumb-job-radar.jpg" alt="Job search tool: full-text results for ERP integration ranked by fit score" loading="lazy" width="549" height="360">
-      </button>
-    </div>
-    <p class="root-tile-signals">full-text search over every description &middot; keyboard-first triage</p>
-  </article>
+    <span class="root-tile-cta">Read how it works &rarr;</span>
+  </a>
 </section>
 
 <section class="root-shelf container" data-reveal>
@@ -208,70 +193,4 @@
   </div>
 </section>
 
-{# Shared lightbox for the personal-shelf screenshot click-throughs.
-   Vanilla, no dependencies; arrows navigate within one tile's group. #}
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer" hidden>
-  <button class="lightbox-close" type="button" aria-label="Close">&times;</button>
-  <button class="lightbox-prev" type="button" aria-label="Previous screenshot">&larr;</button>
-  <img class="lightbox-img" src="" alt="">
-  <button class="lightbox-next" type="button" aria-label="Next screenshot">&rarr;</button>
-  <p class="lightbox-caption"></p>
-</div>
-
-<script>
-(function () {
-  var tiles = document.querySelectorAll('.personal-tile');
-  var box = document.getElementById('lightbox');
-  if (!box || !tiles.length) return;
-  var img = box.querySelector('.lightbox-img');
-  var cap = box.querySelector('.lightbox-caption');
-  var group = [], idx = 0, opener = null;
-
-  function show(i) {
-    idx = (i + group.length) % group.length;
-    var b = group[idx];
-    img.src = b.getAttribute('data-full');
-    img.alt = b.querySelector('img').alt;
-    cap.textContent = b.getAttribute('data-caption') || '';
-    box.classList.toggle('lightbox-single', group.length < 2);
-  }
-  function open(list, i, btn) {
-    group = list; opener = btn;
-    box.hidden = false;
-    document.body.style.overflow = 'hidden';
-    show(i);
-    box.querySelector('.lightbox-close').focus();
-  }
-  function close() {
-    box.hidden = true;
-    img.src = '';
-    document.body.style.overflow = '';
-    if (opener) opener.focus();
-  }
-
-  tiles.forEach(function (tile) {
-    var thumbs = Array.prototype.slice.call(tile.querySelectorAll('.personal-thumb'));
-    thumbs.forEach(function (b, i) {
-      b.addEventListener('click', function () { open(thumbs, i, b); });
-    });
-  });
-  box.addEventListener('click', function (e) { if (e.target === box) close(); });
-  box.querySelector('.lightbox-close').addEventListener('click', close);
-  box.querySelector('.lightbox-prev').addEventListener('click', function () { show(idx - 1); });
-  box.querySelector('.lightbox-next').addEventListener('click', function () { show(idx + 1); });
-  document.addEventListener('keydown', function (e) {
-    if (box.hidden) return;
-    if (e.key === 'Escape') close();
-    else if (e.key === 'ArrowLeft') show(idx - 1);
-    else if (e.key === 'ArrowRight') show(idx + 1);
-    else if (e.key === 'Tab') {
-      var f = [box.querySelector('.lightbox-close')];
-      if (group.length > 1) f.push(box.querySelector('.lightbox-prev'), box.querySelector('.lightbox-next'));
-      var at = f.indexOf(document.activeElement);
-      e.preventDefault();
-      f[e.shiftKey ? (at <= 0 ? f.length - 1 : at - 1) : (at + 1) % f.length].focus();
-    }
-  });
-})();
-</script>
 {% endblock %}

@@ -44,8 +44,10 @@ def _detect_erp(signals: list[dict]) -> str | None:
     if not found_signals:
         return None
 
-    # Sort by weight descending, take the top one
-    top = max(found_signals, key=lambda s: s.get("weight", 0))
+    # Take the highest-weight found signal. Weights live in SIGNAL_WEIGHTS,
+    # keyed by source; the raw seed signals don't carry one.
+    top = max(found_signals,
+              key=lambda s: SIGNAL_WEIGHTS.get(s.get("source", ""), 0.0))
     detail = top.get("detail", "")
 
     # Extract ERP name from signal detail (common patterns)

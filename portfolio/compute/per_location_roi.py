@@ -47,10 +47,14 @@ def build_per_location_roi(db: Session, pack) -> dict[str, Any]:
         lift = round(current - baseline, 1)
         status = lf.get("status", "ok")
 
-        # Extract location name from canonical_name (format: "Health River — Tampa Main")
+        # Extract location name from canonical_name. The seeder writes
+        # "Health River - Tampa Main" (ASCII hyphen); accept an em dash
+        # too in case seed data is ever authored with one.
         loc_name = loc.canonical_name
-        if " \u2014 " in loc_name:
-            loc_name = loc_name.split(" \u2014 ", 1)[1]
+        for sep in (" - ", " \u2014 "):
+            if sep in loc_name:
+                loc_name = loc_name.split(sep, 1)[1]
+                break
 
         annual_production = lf.get("annual_production", 0)
 

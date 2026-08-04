@@ -42,8 +42,10 @@ def build_repo_coverage(db: Session, pack) -> dict[str, Any]:
         )
 
         per_repo_rate = hf.get("per_repo_rate", 950)
-        coverage_ratio = round(scanned_repos / active_repos, 2) if active_repos > 0 else 0.0
-        expansion_arr = (active_repos - scanned_repos) * per_repo_rate
+        # A scanned-but-inactive repo would otherwise push coverage past 1.0
+        # and expansion negative; cap both at the sensible bound.
+        coverage_ratio = round(min(scanned_repos / active_repos, 1.0), 2) if active_repos > 0 else 0.0
+        expansion_arr = max(active_repos - scanned_repos, 0) * per_repo_rate
 
         # Build repo list for the grid
         repo_list = []
@@ -91,8 +93,8 @@ def build_repo_coverage(db: Session, pack) -> dict[str, Any]:
         scanned = sum(1 for r in repos if (r.fields or {}).get("scanned", False))
         active = sum(1 for r in repos if (r.fields or {}).get("last_commit") is not None)
         rate = ff.get("per_repo_rate", 950)
-        cov = round(scanned / active, 2) if active > 0 else 0.0
-        expansion = (active - scanned) * rate
+        cov = round(min(scanned / active, 1.0), 2) if active > 0 else 0.0
+        expansion = max(active - scanned, 0) * rate
 
         filler_accounts.append({
             "company": ff.get("company", fe.canonical_name),

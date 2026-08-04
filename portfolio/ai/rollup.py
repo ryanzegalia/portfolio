@@ -32,9 +32,8 @@ def _mock_rollup(pack, rollup_name: str) -> str:
 
 def _live_rollup(pack, rollup_name: str) -> str:
     """
-    Local-only Claude rollup. Stub for now — would call anthropic SDK with the
-    pack context and the entity rollup data. Falls back to mock if anthropic
-    isn't available.
+    Live rollup mode is not implemented: this always returns the mock rollup
+    authored in the pack YAML, and logs that it did so.
     """
     log.warning("rollup: LIVE_AI=true requested but live mode is dev-only; falling back to mock")
     return _mock_rollup(pack, rollup_name)

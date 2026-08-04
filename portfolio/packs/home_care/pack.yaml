@@ -190,7 +190,7 @@ landing:
                   (s.scheduled_end - s.scheduled_start)) / 3600.0, 2
                 )                             AS hours_scheduled,
                 a.authorized_hours_per_day    AS hours_authorized,
-                c.carrier_id
+                a.carrier_id
               FROM visits v
               JOIN evv_clockins e             USING (visit_id)
               JOIN scheduled_shifts s         USING (visit_id)
@@ -217,8 +217,9 @@ landing:
             JOIN caregivers cg  USING (caregiver_id)
             JOIN carrier_reimbursement_rates r
               ON r.carrier_id = vh.carrier_id
-            WHERE ABS(vh.hours_actual
-                      - vh.hours_scheduled) > 0.1
+            WHERE ABS(vh.hours_actual - LEAST(
+                    vh.hours_scheduled, vh.hours_authorized
+                  )) > 0.1
             ORDER BY dollar_drift DESC;
       cta:
         label: "Walk through one reconciled visit"

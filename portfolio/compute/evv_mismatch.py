@@ -30,7 +30,9 @@ def _categorize_mismatch(visit: Visit) -> str:
     elif clocked_hours < scheduled_hours - 0.08:
         return "caregiver hours < scheduled hours"
     else:
-        return "EVV record missing entirely (paper)"
+        # Hours agree within tolerance, but the visit still carries mismatch
+        # flags (task or authorization level).
+        return "hours agree, tasks or authorization mismatch"
 
 
 def _mismatch_dollars(visit: Visit) -> float:
@@ -85,6 +87,7 @@ def build_evv_mismatch(db: Session, pack) -> dict[str, Any]:
         }
         for bucket in ["caregiver hours > authorized hours",
                        "caregiver hours < scheduled hours",
+                       "hours agree, tasks or authorization mismatch",
                        "EVV record missing entirely (paper)"]
         if bucket_visits[bucket] > 0
     ]
