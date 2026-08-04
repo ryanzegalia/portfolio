@@ -13,7 +13,7 @@ The platform is organized as four layers:
 - **Ingestion.** Checkpoint-based incremental sync with nightly full-refresh safety nets pulls from ERP, e-commerce, and shipping sources into a governed Postgres mirror.
 - **Customer data foundation.** Probabilistic identity resolution and deduplication collapse fragmented accounts (households, shared emails, guest checkouts) into a person spine, with owner-scoped merge edges and non-overridable cannot-link invariants guarding against over-merge.
 - **Intelligence.** Forecasting (built and backtested, not yet activated), sales-trend analysis, product knowledge, and live cart telemetry turn the mirror into operational signal for the teams that use it.
-- **AI-agent tool layer.** A Model Context Protocol server exposes the platform to LLM agents as 117 typed tools under a read-broad, write-gated contract, with mutations held behind preview-then-confirm gates and SQL kept read-only at two independent layers.
+- **AI-agent tool layer.** A Model Context Protocol server exposes the platform to LLM agents as 118 typed tools under a read-broad, write-gated contract, with mutations held behind preview-then-confirm gates and SQL kept read-only at two independent layers.
 
 Flagship case studies: [Identity Resolution](nexus/case-studies/identity-resolution.md), [AI Agent Tool Layer](nexus/case-studies/mcp-agent-layer.md), and [Pricing Automation](nexus/case-studies/pricing-automation.md). Full breakdown and engineering decisions: [nexus/README.md](nexus/README.md).
 

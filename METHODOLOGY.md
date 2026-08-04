@@ -8,7 +8,7 @@ Ryan designed and configured every layer described below. Claude Code is the too
 
 ## The Problem It Solves
 
-A codebase with 58 services, 145 database tables, and 15 external integrations has too much context for any single conversation. The Python 2.7 bridge has different rules than the Python 3 API. The tax engine integration has gotchas that cost a day to rediscover. The legacy ERP has undocumented behaviors you learn once and can't afford to forget.
+A codebase with ~260 service modules, ~320 database tables, and 15 external integrations has too much context for any single conversation. The Python 2.7 bridge has different rules than the Python 3 API. The tax engine integration has gotchas that cost a day to rediscover. The legacy ERP has undocumented behaviors you learn once and can't afford to forget.
 
 The system's job is to make every conversation start with the right context already loaded, without special prompting or manual setup.
 
@@ -20,15 +20,15 @@ A request like "fix the button on my sales tax page" triggers a six-layer contex
 
 **2. Memory files** persist across conversations. An index (`MEMORY.md`) points to topic files covering lessons learned, vendor quirks, deployment patterns, and past bugs. Things like "the ERP silently rejects some price edits" or "the Python 2.7 bridge has a max of 3 callbacks per batch" are written down once and available in every future conversation.
 
-**3. prompt_context.py** is a UserPromptSubmit hook that runs on every message. It scans the prompt for keywords, matches them against a rules file (`memory-rules.json`), and injects relevant documentation into the conversation. The word "tax" matches the `tax-avalara` rule, which loads `AVALARA-API-GUIDE.md` and the critical rules for that area. The word "bridge" loads the Python 2.7 bridge technical reference and pairing mechanism docs.
+**3. prompt_context.py** is a UserPromptSubmit hook that runs on every message. It scans the prompt for keywords, matches them against a rules file (`memory-rules.json`), and injects relevant documentation into the conversation. The word "tax" matches the tax rule, which loads the tax-engine integration guide and the critical rules for that area. The word "bridge" loads the Python 2.7 bridge technical reference and pairing mechanism docs.
 
 The keyword matching includes fuzzy matching for typos (edit distance ~1 for words longer than 4 characters) and alias support ("py27", "py2", "python2" all trigger the bridge rules).
 
-17 rules cover: bridge/connector, deployment, email, ERP sync, product data, connector publishing, Cloudflare caching, the ERP sessions, dashboard UI, RF scaling, versioning, the ERP REST API, product architecture, tracking/shipping, tax/the tax engine, connector architecture, and bridge guide.
+170 rules cover areas from the bridge/connector and deployment through email, ERP sync, product data, caching, tracking/shipping, dashboard UI, and the tax engine -- each mapping keywords to the reference docs for that area.
 
 **4. Agents** are dispatched when Claude needs live project state. A code-agent reads source files. A data-agent runs SQL queries. A build-agent executes implementation plans. A review-agent audits changes. A git-agent handles version control. Each is a specialized subprocess with its own prompt defining scope and constraints.
 
-23 agent definitions cover both the engineering workflow (code, data, plan, build, review, git) and operational tasks (the PM tool, email campaigns, design requests, deployment).
+Over 30 agent definitions across the orchestrator and project layers cover both the engineering workflow (code, data, plan, build, review, git) and operational tasks (the PM tool, email campaigns, design requests, deployment).
 
 **5. Skills** are repeatable audit commands triggered by keyword or explicitly. The skill-rules system maps prompts to checks:
 
@@ -67,7 +67,7 @@ Non-trivial changes go through the full sequence. The build-agent executes the a
 
 Memory is split into two tiers:
 
-**Always loaded** -- `CLAUDE.md` (project architecture, <120 lines) and `MEMORY.md` (topic index, <120 lines). These are in every conversation regardless of topic.
+**Always loaded** -- `CLAUDE.md` (project architecture) and `MEMORY.md` (topic index, kept under 120 lines by a write-guard hook). These are in every conversation regardless of topic.
 
 **On demand** -- Topic files loaded by the hook when keywords match. Each topic file covers one area: bridge technical details, deployment patterns, email infrastructure, product architecture, etc. A conversation about tax reconciliation loads the tax engine guide. A conversation about the connector loads the bridge reference. Conversations that don't touch those areas don't pay the context cost.
 
