@@ -5013,6 +5013,19 @@ html.js-scroll-reveal [data-reveal].is-in-view {
   padding-top: var(--space-3);
 }
 
+/* In the modal the CTA row pins to the bottom of the scroll area instead of
+   scrolling with the prose: a half-clipped button reads as broken, and these
+   two links are the modal's whole point. The solid background hides the
+   generic scroll-cue fade behind it; the border-top carries the boundary. */
+.map-modal-body .hub-ctas {
+  position: sticky;
+  bottom: -1px;
+  z-index: 1;
+  background: #fff;
+  margin: 0 calc(-1 * var(--space-5));
+  padding: var(--space-3) var(--space-5) var(--space-3);
+}
+
 .hub-cta {
   display: inline-block;
   padding: 9px 15px;
