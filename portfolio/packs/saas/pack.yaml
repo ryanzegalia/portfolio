@@ -52,36 +52,6 @@ terminology:
   scoreable_lead: PQL
   scoreable_lead_plural: PQLs
 
-dashboard_cards:
-  - id: revenue_at_risk
-    title: Revenue at Risk
-    subtitle: "Phantom seats and unbilled expansion"
-    metric_field: aggregate_drift_dollars
-    icon: ph-currency-circle-dollar
-    href: /saas/revenue
-  - id: stale_pql
-    title: PQL Decay
-    subtitle: "Decayed PQLs without AE follow-up"
-    metric_field: decayed_pql_count
-    icon: ph-flag
-    href: /saas/pql
-  - id: forecast_variance
-    title: Forecast Health
-    subtitle: "Coverage, AE pipeline hygiene, commission audit"
-    metric_field: forecast_coverage_ratio
-    icon: ph-chart-line
-    href: /saas/forecast
-  - id: drift_events
-    title: Open Drift Events
-    subtitle: "Cross-source disagreements awaiting resolution"
-    metric_field: open_drift_count
-    icon: ph-warning
-    href: /saas/agents
-
-# Scrollytelling landing page config — consumed by templates/vertical_landing.html
-# via pack_operations(). Each section's `loader` must exist as a key in
-# SECTION_CONTEXT_LOADERS in routes/pack_demo.py. The narrative text is
-# copied verbatim from 2026-04-10-opslayer-final-build-plan.md lines 364-492.
 landing:
   # Root page 3-card preview uses this. Surfaced as a caption row above the CTA.
   signals: "HubSpot · BigQuery · Stripe · Hightouch"
@@ -143,7 +113,7 @@ landing:
           the bill or opening an expansion.
         production_example:
           url: "https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/heartbeat-services.md"
-          label: "Nine scheduled reconciliation services with checkpoint sync and circuit breakers"
+          label: "Nine scheduled services that check one system against another and report what disagrees"
         code_artifact:
           language: sql
           caption: "The shape of the seat-drift query"

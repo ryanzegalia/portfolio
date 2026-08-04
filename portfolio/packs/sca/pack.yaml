@@ -4,6 +4,8 @@ vertical_label: "Software Supply Chain Compliance"
 
 glossary:
   SCA: "Software Composition Analysis, tools that scan codebases for open-source dependencies, detect licenses, and flag vulnerabilities."
+  AE: "Account Executive. The closing sales role that owns opportunities in the pipeline."
+  CSM: "Customer Success Manager. The post-sale role that owns customer retention and usage."
   SBOM: "Software Bill of Materials, a structured inventory of every component in a software product. Increasingly required by regulation."
   copyleft: "License type (GPL, AGPL) requiring derivative works to carry the same license. The compliance exposure that drives legal team involvement in SCA evaluations."
   SPDX: "Standard SBOM format maintained by the Linux Foundation. One of two common interchange formats alongside CycloneDX."
@@ -42,26 +44,6 @@ terminology:
   agent: Agent
   scoreable_lead: Trigger
   scoreable_lead_plural: Triggers
-
-dashboard_cards:
-  - id: multi_thread_deal
-    title: Thread-Gap Deals
-    subtitle: "Multi-stakeholder deals with stalled evaluation threads"
-    metric_field: stalled_deal_count
-    icon: ph-git-branch
-    href: /sca/deals
-  - id: compliance_trigger
-    title: Event Triggers
-    subtitle: "Time-sensitive compliance buying windows"
-    metric_field: active_trigger_count
-    icon: ph-bell-ringing
-    href: /sca/triggers
-  - id: repo_coverage
-    title: Coverage Gaps
-    subtitle: "Customers scanning a fraction of their codebase"
-    metric_field: underscanned_account_count
-    icon: ph-code
-    href: /sca/coverage
 
 landing:
   signals: "Salesforce · GitHub · Crunchbase · CI/CD Scan Logs"
@@ -145,7 +127,7 @@ landing:
           attached.
         production_example:
           url: "https://github.com/ryanzegalia/portfolio/blob/main/jobradar/src/scoring_orchestrator.py"
-          label: "Multi-source progressive scoring pipeline with fast filtering and LLM gatekeeper"
+          label: "A pipeline that rejects the obvious misses cheaply, so only promising candidates reach the expensive model"
       cta:
         label: "See the trigger queue"
         href: /sca/triggers

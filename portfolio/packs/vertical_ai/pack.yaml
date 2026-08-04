@@ -65,34 +65,6 @@ terminology:
   scoreable_lead: Prospect
   scoreable_lead_plural: Prospects
 
-dashboard_cards:
-  - id: account_hierarchy
-    title: Account Hierarchy
-    subtitle: "Prospects reclassified as DSO-owned"
-    metric_field: dso_reclassified_count
-    icon: ph-tree-structure
-    href: /vertical-ai/enrichment
-  - id: sor_detection
-    title: PMS Detection
-    subtitle: "Prospects auto-tagged with their PMS"
-    metric_field: sor_high_confidence_count
-    icon: ph-detective
-    href: /vertical-ai/enrichment/sor-detection
-  - id: customer_roi
-    title: Customer ROI
-    subtitle: "Per-location case acceptance lift"
-    metric_field: roi_top_account_dollars
-    icon: ph-chart-line-up
-    href: /vertical-ai/customers
-  - id: open_drift_events
-    title: Open Drift Events
-    subtitle: "Cross-source disagreements awaiting resolution"
-    metric_field: open_drift_count
-    icon: ph-warning
-    href: /vertical-ai/agents
-
-# Scrollytelling landing page config — consumed by templates/vertical_landing.html
-# Verbatim narrative text from 2026-04-10-opslayer-final-build-plan.md lines 671-828.
 landing:
   signals: "ZoomInfo · Apollo · LinkedIn · FL Sunbiz"
 

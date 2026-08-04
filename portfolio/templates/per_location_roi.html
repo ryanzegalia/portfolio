@@ -12,7 +12,7 @@
   </div>
 
   <section class="rollup">
-    <p class="rollup-narrative">{{ rollup_markdown }}</p>
+    <p class="rollup-narrative">{{ rollup_markdown | markup_terms(pack.glossary) }}</p>
   </section>
 
   {% include "components/packs/vertical_ai/per_location_roi.html" %}

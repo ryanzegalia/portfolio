@@ -4,6 +4,9 @@ vertical_label: "Wholesale Distribution Technology"
 
 glossary:
   ERP: "Enterprise Resource Planning, the core transactional system a distributor runs on. Determines every technology integration path."
+  AE: "Account Executive. The closing sales role that owns opportunities in the pipeline."
+  SDR: "Sales Development Rep. The role that qualifies a prospect before an AE takes the call."
+  PE: "Private equity. In distribution, PE firms buy independent distributors into roll-ups; the ownership change usually reopens the software decision."
   Prophet 21: "Epicor's distribution-specific ERP, widely adopted in mid-market electrical, plumbing, and HVAC distribution."
   Epicor: "Major ERP vendor for distribution. Parent of Prophet 21 and Eclipse product lines."
   POV: "Proof of Value, a trial period where the distributor tests automation on their own orders before committing to a contract."
@@ -48,26 +51,6 @@ terminology:
   agent: Agent
   scoreable_lead: Trigger
   scoreable_lead_plural: Triggers
-
-dashboard_cards:
-  - id: erp_detection
-    title: ERP Detection
-    subtitle: "Prospect ERP identification for demo routing"
-    metric_field: detected_prospect_count
-    icon: ph-database
-    href: /distribution/erp-detection
-  - id: pov_pipeline
-    title: POV Pipeline
-    subtitle: "Active proof-of-value trials with live metrics"
-    metric_field: active_pov_count
-    icon: ph-chart-bar
-    href: /distribution/pov
-  - id: pe_trigger
-    title: PE Triggers
-    subtitle: "Acquisition-driven buying windows"
-    metric_field: active_pe_trigger_count
-    icon: ph-building-office
-    href: /distribution/pe-triggers
 
 landing:
   signals: "Epicor P21 · NetSuite · Crunchbase · HubSpot"
@@ -128,7 +111,7 @@ landing:
           qualification instead of wasting an AE's call.
         production_example:
           url: "https://github.com/ryanzegalia/portfolio/blob/main/jobradar/src/keyword_scorer.py"
-          label: "528-line weighted multi-factor scoring engine with section-based evidence accumulation"
+          label: "The scorer that reads a job posting section by section and weighs every signal before calling it relevant"
         code_artifact:
           language: python
           caption: "The shape of the ERP confidence scorer"

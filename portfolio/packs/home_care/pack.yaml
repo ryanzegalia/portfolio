@@ -57,34 +57,6 @@ terminology:
   scoreable_lead: Inquiry
   scoreable_lead_plural: Inquiries
 
-dashboard_cards:
-  - id: critical_shifts
-    title: Critical Shifts
-    subtitle: "Unfilled in the next 4 hours"
-    metric_field: critical_shift_count
-    icon: ph-alarm
-    href: /home-care/shifts/critical
-  - id: evv_reconciliation
-    title: EVV Reconciliation
-    subtitle: "Sandata vs. WellSky vs. care plan mismatches"
-    metric_field: monthly_evv_mismatch_dollars
-    icon: ph-clock-counter-clockwise
-    href: /home-care/reconciliation/evv
-  - id: care_plan_drift
-    title: Care Plan Drift
-    subtitle: "Acuity drift detected from shift notes"
-    metric_field: care_plan_drift_count
-    icon: ph-stethoscope
-    href: /home-care/care-plans/drift
-  - id: open_drift_events
-    title: Open Drift Events
-    subtitle: "Cross-system disagreements awaiting resolution"
-    metric_field: open_drift_count
-    icon: ph-warning
-    href: /home-care/agents
-
-# Scrollytelling landing page config — consumed by templates/vertical_landing.html
-# Verbatim narrative text from 2026-04-10-opslayer-final-build-plan.md lines 507-654.
 landing:
   signals: "Sandata EVV · WellSky · Viventium · LTC carriers"
 

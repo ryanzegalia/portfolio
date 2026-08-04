@@ -8,7 +8,7 @@
   </div>
 
   <section class="rollup">
-    <p class="rollup-narrative">{{ rollup_markdown }}</p>
+    <p class="rollup-narrative">{{ rollup_markdown | markup_terms(pack.glossary) }}</p>
   </section>
 
   {% include "components/packs/sca/multi_thread_deal.html" %}

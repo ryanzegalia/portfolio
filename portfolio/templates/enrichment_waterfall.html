@@ -14,7 +14,7 @@
   </div>
 
   <section class="rollup">
-    <p class="rollup-narrative">{{ rollup_markdown }}</p>
+    <p class="rollup-narrative">{{ rollup_markdown | markup_terms(pack.glossary) }}</p>
     <p class="rollup-narrative">The DSOs named on this page are real companies, used as
       concrete examples because their acquisitions are public record. Every relationship,
       count, and contact shown here is seeded scenario data, not client work.</p>
