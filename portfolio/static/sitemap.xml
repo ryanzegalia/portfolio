@@ -84,4 +84,24 @@
     <loc>https://ryanzegalia.com/distribution</loc>
     <changefreq>weekly</changefreq>
   </url>
+  <url>
+    <loc>https://ryanzegalia.com/platform</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanzegalia.com/systems/job-pipeline</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanzegalia.com/systems/gpu</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanzegalia.com/systems/genome</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://ryanzegalia.com/systems/cad</loc>
+    <changefreq>weekly</changefreq>
+  </url>
 </urlset>

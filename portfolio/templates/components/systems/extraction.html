@@ -1,0 +1,74 @@
+{#
+  Grounded-extraction card for the genome pipeline.
+
+  Built as a component, not a drawing, same reasoning as pipeline.html. This
+  one borrows the ERP detection module's grammar even more directly: topline
+  stat, then one card for a single real game, with one row per achievement
+  showing the verbatim quote the model returned and whether the grounding
+  check kept it.
+
+  Every row is a real row out of genome.sqlite. The dropped rows matter as
+  much as the kept ones: a dash is the system declining to write a line it
+  could not prove.
+
+  ctx = {
+    "stat":  {"label", "value", "caption", "pill"},
+    "game":  {"name", "sub"},
+    "verdict": {"label", "value"},
+    "rows":  [{"name", "detail", "kept"}, ...],
+    "note":  str | None   -- mono footnote under the rows
+    "footer": {"fill_pct", "pill"}
+  }
+#}
+<div class="demo-module demo-module--extraction">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">{{ ctx.stat.label }}</p>
+      <p class="metric-headline num">{{ ctx.stat.value }}</p>
+      <p class="caption">{{ ctx.stat.caption }}</p>
+    </div>
+    {% if ctx.stat.pill %}
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      {{ ctx.stat.pill }}
+    </span>
+    {% endif %}
+  </header>
+
+  <div class="xt-card">
+    <div class="xt-card-header">
+      <div class="xt-card-what">
+        <span class="xt-card-title">{{ ctx.game.name }}</span>
+        <span class="xt-card-sub">{{ ctx.game.sub }}</span>
+      </div>
+      {% if ctx.verdict %}
+      <div class="xt-card-verdict">
+        <span class="xt-verdict-name">{{ ctx.verdict.label }}</span>
+        <span class="xt-verdict-value">{{ ctx.verdict.value }}</span>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="xt-rows">
+      {% for r in ctx.rows %}
+      <div class="xt-row">
+        <span class="xt-name">{{ r.name }}</span>
+        <span class="xt-detail{% if r.kept %} is-quote{% endif %}">{{ r.detail }}</span>
+        <span class="xt-indicator {% if r.kept %}xt-indicator--kept{% else %}xt-indicator--dropped{% endif %}">
+          {% if r.kept %}&#10003;{% else %}&ndash;{% endif %}
+        </span>
+      </div>
+      {% endfor %}
+      {% if ctx.note %}
+      <p class="xt-note">{{ ctx.note }}</p>
+      {% endif %}
+    </div>
+
+    <div class="xt-card-footer">
+      <div class="xt-bar">
+        <div class="xt-fill" style="width: {{ ctx.footer.fill_pct }}%"></div>
+      </div>
+      <span class="pill-routing pill-routing--demo_track">{{ ctx.footer.pill }}</span>
+    </div>
+  </div>
+</div>

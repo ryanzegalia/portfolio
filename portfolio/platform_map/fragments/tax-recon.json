@@ -12,7 +12,7 @@
   "shot": {
     "src": "tax-recon.png",
     "alt": "A month of tax reconciliation. 659 orders in view matching at 94.5 percent, with ten over the review tolerance, fifty-three that left the warehouse with no payment on record, and six charged no tax with no exemption certificate on file. Each exception opens its own section explaining what the nightly check does about it.",
-    "caption": "Dollar amounts are removed from this view. The counts, the match rate and the exception categories are what the month-end run actually produces."
+    "caption": "Dollar amounts are stripped out of this view. The counts, the match rate and the exception categories are what the month-end run actually produces."
   },
   "github": "tax-reconciliation"
 }

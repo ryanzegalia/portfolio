@@ -1,0 +1,74 @@
+{#
+  Gate ladder for a scoring pipeline.
+
+  Built as a component, not a drawing. The industry-exploration demos read as
+  real because they are rendered rows of concrete evidence rather than an
+  illustration of some rows, and a hand-drawn chart next to them reads as a
+  picture of a claim. This borrows their grammar exactly: topline stat, then
+  one row per gate with a label, what it checks, and an outcome.
+
+  Counts appear ONLY on the gates where the archive can actually prove one.
+  The three cheap gates share a single bracketed total because the schema
+  records them under one `fit_decision`, and splitting that into per-gate
+  numbers would mean inventing them.
+
+  ctx = {
+    "stat":   {"label", "value", "caption", "pill"},
+    "title":  str,
+    "subtitle": str,
+    "verdict": {"label", "value"},
+    "gates":  [{"name", "checks", "note"?, "grouped"?, "pass"?}, ...],
+    "bracket": str | None   -- label for the grouped run of gates
+    "footer": {"fill_pct", "pill"}
+  }
+#}
+<div class="demo-module demo-module--pipeline">
+  <header class="demo-module-topline">
+    <div class="demo-module-stat">
+      <p class="data-label">{{ ctx.stat.label }}</p>
+      <p class="metric-headline num">{{ ctx.stat.value }}</p>
+      <p class="caption">{{ ctx.stat.caption }}</p>
+    </div>
+    {% if ctx.stat.pill %}
+    <span class="pill-status-drift">
+      <span class="status-dot status-dot--drift"></span>
+      {{ ctx.stat.pill }}
+    </span>
+    {% endif %}
+  </header>
+
+  <div class="gate-card">
+    <div class="gate-card-header">
+      <div class="gate-card-what">
+        <span class="gate-card-title">{{ ctx.title }}</span>
+        <span class="gate-card-sub">{{ ctx.subtitle }}</span>
+      </div>
+      {% if ctx.verdict %}
+      <div class="gate-card-verdict">
+        <span class="gate-verdict-name">{{ ctx.verdict.label }}</span>
+        <span class="gate-verdict-value">{{ ctx.verdict.value }}</span>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="gate-rows">
+      {% for g in ctx.gates %}
+      <div class="gate-row{% if g.grouped %} is-grouped{% endif %}">
+        <span class="gate-name">{{ g.name }}</span>
+        <span class="gate-checks">{{ g.checks }}</span>
+        <span class="gate-note{% if g.note %} has-note{% endif %}">{{ g.note or '' }}</span>
+      </div>
+      {% endfor %}
+      {% if ctx.bracket %}
+      <p class="gate-bracket">{{ ctx.bracket }}</p>
+      {% endif %}
+    </div>
+
+    <div class="gate-card-footer">
+      <div class="gate-bar">
+        <div class="gate-fill" style="width: {{ ctx.footer.fill_pct }}%"></div>
+      </div>
+      <span class="pill-routing pill-routing--demo_track">{{ ctx.footer.pill }}</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}{{ system.name }}{% endblock %}
+{% block og_title %}{{ system.name }}{% endblock %}
+{% block og_description %}{{ system.hero.standfirst or system.hero.problem }}{% endblock %}
+
+{#
+  One personal system, told on the same scrollytelling layout the industry
+  explorations use (see vertical_landing.html). Deliberately the same
+  vl-* classes: the two shelves should read as one site, and reusing the
+  layout means no new CSS for the grid, the sticky behaviour, or the mobile
+  collapse.
+
+  The one substitution is the right-hand column. A pack section runs a loader
+  against seeded Postgres and includes a live demo partial. A system section
+  has no database behind it, so it renders either a screenshot (opening the
+  shared lightbox) or a hand-drawn SVG diagram. Both are optional: a section
+  with figure=None is narrative only and the column stays empty, which the
+  sticky layout handles without help.
+
+  Content is static, in systems/__init__.py. Nothing here queries anything.
+#}
+
+{% block content %}
+<section class="vl-hero" data-reveal>
+  <div class="container">
+    <p class="vl-eyebrow">{{ system.eyebrow }}</p>
+    <h1 class="vl-problem">{{ system.hero.problem }}</h1>
+    {% if system.hero.standfirst %}
+    <p class="sys-standfirst">{{ system.hero.standfirst }}</p>
+    {% endif %}
+  </div>
+</section>
+
+<div class="vl-sections container">
+  {% for section in system.sections %}
+  <section class="vl-section" id="sec-{{ section.id }}">
+    <div class="vl-narrative-col">
+      <div class="vl-narrative" data-reveal>
+        {% if section.eyebrow %}
+        <p class="vl-section-eyebrow">{{ section.eyebrow }}</p>
+        {% endif %}
+        <h2 class="vl-section-title">{{ section.title }}</h2>
+        <div class="vl-problem-text">
+          {% for para in section.problem.split('\n\n') %}
+          <p>{{ para.strip() }}</p>
+          {% endfor %}
+        </div>
+        <div class="vl-solution-text">
+          {% for para in section.solution.split('\n\n') %}
+          <p>{{ para.strip() }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="vl-demo-col">
+      {% if section.figure %}
+      <div class="vl-demo-sticky">
+        {% if section.figure.kind == 'shot' %}
+        {# Reuses .personal-thumb so the shared lightbox picks it up; the
+           .sys-shots wrapper is what widens it out of thumbnail size. #}
+        <figure class="sys-figure sys-shots">
+          <button class="personal-thumb" type="button"
+                  data-full="{{ section.figure.src }}"
+                  data-caption="{{ section.figure.caption }}">
+            <img src="{{ section.figure.thumb }}" alt="{{ section.figure.alt }}"
+                 loading="lazy"
+                 onerror="this.closest('.sys-figure').style.display='none'">
+          </button>
+          <figcaption>{{ section.figure.caption }}</figcaption>
+        </figure>
+        {% elif section.figure.kind == 'diagram' %}
+        <figure class="sys-figure sys-diagram">
+          {% with ctx = section.figure.ctx %}
+            {% include section.figure.partial %}
+          {% endwith %}
+          <figcaption>{{ section.figure.caption }}</figcaption>
+        </figure>
+        {% elif section.figure.kind == 'component' %}
+        {# A rendered component, not a drawing. Carries its own frame the way
+           the pack demos do, so no .sys-diagram panel around it. #}
+        <figure class="sys-figure sys-component">
+          {% with ctx = section.figure.ctx %}
+            {% include section.figure.partial %}
+          {% endwith %}
+          <figcaption>{{ section.figure.caption }}</figcaption>
+        </figure>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+
+    {# Same collapsible code artifact the industry explorations use, so a
+       system proves itself the way a vertical does: with the code that
+       actually does the work, not a picture of the idea. #}
+    {% if section.code_artifact %}
+    <details class="vl-code-artifact-details">
+      <summary>
+        <span class="vl-code-artifact-summary">
+          {{ section.code_artifact.caption or 'Code artifact' }}
+          <span class="vl-code-artifact-meta">
+            ({{ (section.code_artifact.language or 'code') | upper }},
+             {{ section.code_artifact.code.strip().count('\n') + 1 }} lines)
+          </span>
+        </span>
+      </summary>
+      <figure class="vl-code-artifact">
+        {% if section.code_artifact.source %}
+        <figcaption class="vl-code-caption">{{ section.code_artifact.source }}</figcaption>
+        {% endif %}
+        {{ section.code_artifact.code | highlight_code(section.code_artifact.language or 'text') }}
+      </figure>
+    </details>
+    {% endif %}
+  </section>
+  {% endfor %}
+</div>
+
+{# The honest closer. Every system page ends the same way, in the present
+   tense, saying what is running today and what is still filling. #}
+<section class="sys-status-wrap container" data-reveal>
+  <div class="sys-status">
+    <p class="sys-status-head">Where it stands</p>
+    <p class="sys-status-body">{{ system.status }}</p>
+    {% if system.signals %}
+    <p class="sys-status-signals">{{ system.signals | safe }}</p>
+    {% endif %}
+  </div>
+  {% if system.github %}
+  <p class="sys-back"><a href="{{ system.github }}" target="_blank" rel="noopener">Browse the source and docs on GitHub &rarr;</a></p>
+  {% endif %}
+  <p class="sys-back"><a href="/">&larr; Back to everything else</a></p>
+</section>
+
+<section class="vl-footer-cta container" data-reveal>
+  <div class="vl-footer-links">
+    <a href="https://www.linkedin.com/in/ryan-zegalia-6bbb90217/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+    <a href="mailto:ryanzegalia@gmail.com" aria-label="Email"><i class="ph ph-envelope-simple"></i></a>
+    <a href="https://github.com/ryanzegalia/portfolio" target="_blank" rel="noopener" aria-label="GitHub portfolio"><i class="ph ph-github-logo"></i></a>
+  </div>
+</section>
+
+{% include "partials/lightbox.html" %}
+{% endblock %}
+
+{# Same as vertical_landing.html: this template carries its own contact
+   panel, so the base site-footer would be a duplicate. #}
+{% block footer %}{% endblock %}

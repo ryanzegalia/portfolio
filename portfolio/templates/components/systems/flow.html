@@ -1,0 +1,66 @@
+{#
+  Linear flow with one decision that branches to two terminal outcomes. Used
+  for the genome verification path, where the whole point is that there are
+  only two exits and neither of them is "write something plausible".
+
+  ctx = {
+    "title": str,
+    "nodes": [{"label", "note", "decision"?, "ok"?}, ...]
+  }
+
+  Nodes run top to bottom until one is marked `decision`. Everything after the
+  decision is a terminal outcome, laid out side by side, styled by `ok`.
+#}
+{% set nodes = ctx.nodes %}
+{% set stem = nodes | rejectattr('ok', 'defined') | list %}
+{% set outcomes = nodes | selectattr('ok', 'defined') | list %}
+{% set box_h = 40 %}
+{% set gap = 26 %}
+{% set top = 32 %}
+{% set stem_h = stem | length * (box_h + gap) %}
+<svg class="sys-svg sys-flow" viewBox="0 0 460 {{ top + stem_h + box_h + 30 }}"
+     role="img" aria-label="{{ ctx.title }}: {{ stem | map(attribute='label') | join(', then ') }}, ending in either {{ outcomes | map(attribute='label') | join(' or ') }}.">
+  <title>{{ ctx.title }}</title>
+
+  <text class="sys-svg-title" x="0" y="14">{{ ctx.title | upper }}</text>
+
+  {% for node in stem %}
+  {% set y = top + loop.index0 * (box_h + gap) %}
+  <rect class="sys-flow-box{% if node.decision %} is-decision{% endif %}"
+        x="118" y="{{ y }}" width="224" height="{{ box_h }}" rx="4"></rect>
+  <text class="sys-svg-label" x="230" y="{{ y + 17 }}" text-anchor="middle">{{ node.label }}</text>
+  {% if node.note %}
+  <text class="sys-svg-note" x="230" y="{{ y + 31 }}" text-anchor="middle">{{ node.note }}</text>
+  {% endif %}
+
+  {% if not loop.last %}
+  <line class="sys-flow-link" x1="230" y1="{{ y + box_h }}" x2="230" y2="{{ y + box_h + gap }}"
+        marker-end="url(#sys-flow-head)"></line>
+  {% endif %}
+  {% endfor %}
+
+  {# The branch: one elbow to each outcome. #}
+  {% set by = top + stem_h %}
+  {% set split = by - gap + 12 %}
+  <path class="sys-flow-link" d="M 230 {{ by - gap }} V {{ split }} H 110 V {{ by }}"
+        marker-end="url(#sys-flow-head)"></path>
+  <path class="sys-flow-link" d="M 230 {{ by - gap }} V {{ split }} H 350 V {{ by }}"
+        marker-end="url(#sys-flow-head)"></path>
+
+  {% for node in outcomes %}
+  {% set x = 110 if node.ok else 350 %}
+  <rect class="sys-flow-box {{ 'is-ok' if node.ok else 'is-skip' }}"
+        x="{{ x - 96 }}" y="{{ by }}" width="192" height="{{ box_h }}" rx="4"></rect>
+  <text class="sys-svg-label" x="{{ x }}" y="{{ by + 17 }}" text-anchor="middle">{{ node.label }}</text>
+  {% if node.note %}
+  <text class="sys-svg-note" x="{{ x }}" y="{{ by + 31 }}" text-anchor="middle">{{ node.note }}</text>
+  {% endif %}
+  {% endfor %}
+
+  <defs>
+    <marker id="sys-flow-head" viewBox="0 0 8 8" refX="7" refY="4"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="sys-seq-head" d="M 0 0 L 8 4 L 0 8 z"></path>
+    </marker>
+  </defs>
+</svg>

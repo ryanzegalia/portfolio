@@ -1,0 +1,62 @@
+{#
+  Sequence diagram. The GPU lease is the one thing on the site that is
+  genuinely sequence-shaped: distinct actors passing messages over time, with
+  the interesting behaviour (expiry) being a message nobody sends.
+
+  ctx = {
+    "title":  str,
+    "actors": [str, ...],
+    "steps":  [{"from": int, "to": int, "label": str}, ...]
+  }
+
+  A step where from == to is drawn as a self-call bracket on that actor's own
+  lifeline rather than an arrow to nowhere.
+#}
+{% set actors = ctx.actors %}
+{% set na = actors | length %}
+{% set steps = ctx.steps %}
+{% set ns = steps | length %}
+{% set col_w = 150 %}
+{% set left = 46 %}
+{% set top = 52 %}
+{% set row_h = 36 %}
+{% set height = top + ns * row_h + 24 %}
+<svg class="sys-svg sys-sequence" viewBox="0 0 {{ left + (na - 1) * col_w + 90 }} {{ height }}"
+     role="img" aria-label="{{ ctx.title }}. {{ steps | map(attribute='label') | join('. Then ') }}.">
+  <title>{{ ctx.title }}</title>
+
+  <text class="sys-svg-title" x="0" y="14">{{ ctx.title | upper }}</text>
+
+  {# Lifelines #}
+  {% for actor in actors %}
+  {% set x = left + loop.index0 * col_w %}
+  <text class="sys-svg-actor" x="{{ x }}" y="{{ top - 18 }}" text-anchor="middle">{{ actor }}</text>
+  <line class="sys-seq-lifeline" x1="{{ x }}" y1="{{ top - 10 }}" x2="{{ x }}" y2="{{ height - 12 }}"></line>
+  {% endfor %}
+
+  {# Messages #}
+  {% for step in steps %}
+  {% set y = top + loop.index0 * row_h %}
+  {% set x1 = left + step['from'] * col_w %}
+  {% set x2 = left + step['to'] * col_w %}
+
+  {% if step['from'] == step['to'] %}
+  {# Self-call: a bracket out and back on the same lifeline. #}
+  <path class="sys-seq-arrow is-self"
+        d="M {{ x1 }} {{ y }} h 26 v 14 h -26"
+        marker-end="url(#sys-seq-head)"></path>
+  <text class="sys-svg-note" x="{{ x1 + 34 }}" y="{{ y + 12 }}">{{ step.label }}</text>
+  {% else %}
+  <line class="sys-seq-arrow" x1="{{ x1 }}" y1="{{ y }}" x2="{{ x2 }}" y2="{{ y }}"
+        marker-end="url(#sys-seq-head)"></line>
+  <text class="sys-svg-note" x="{{ (x1 + x2) / 2 }}" y="{{ y - 7 }}" text-anchor="middle">{{ step.label }}</text>
+  {% endif %}
+  {% endfor %}
+
+  <defs>
+    <marker id="sys-seq-head" viewBox="0 0 8 8" refX="7" refY="4"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="sys-seq-head" d="M 0 0 L 8 4 L 0 8 z"></path>
+    </marker>
+  </defs>
+</svg>

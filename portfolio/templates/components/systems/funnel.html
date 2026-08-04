@@ -1,0 +1,47 @@
+{#
+  Stage funnel. Hand-drawn SVG rather than a charting library or mermaid:
+  three diagrams on the whole site did not justify a dependency, and this one
+  needs exact control of the bar taper anyway.
+
+  ctx = {"title": str, "stages": [{"label", "note", "count"?}, ...]}
+
+  `count` is optional throughout. The diagram reads correctly without any
+  counts (the taper carries the argument on its own) and reads better with
+  them, so real numbers can be dropped into systems/__init__.py later without
+  touching this file.
+
+  Colours come from the page's own custom properties, so the diagram follows
+  the pack accent it is rendered under.
+#}
+{% set n = ctx.stages | length %}
+{% set bar_max = 300 %}
+{% set row_h = 46 %}
+{% set top = 34 %}
+<svg class="sys-svg sys-funnel" viewBox="0 0 520 {{ top + n * row_h + 8 }}"
+     role="img" aria-label="{{ ctx.title }}: {{ ctx.stages | map(attribute='label') | join(', then ') }}">
+  <title>{{ ctx.title }}</title>
+
+  <text class="sys-svg-title" x="0" y="14">{{ ctx.title | upper }}</text>
+
+  {% for stage in ctx.stages %}
+  {% set ratio = 1.0 - (loop.index0 / (n - 1)) * 0.82 %}
+  {% set w = (bar_max * ratio) | round(1) %}
+  {% set y = top + loop.index0 * row_h %}
+
+  <rect class="sys-funnel-bar{% if loop.last %} is-last{% endif %}"
+        x="0" y="{{ y }}" width="{{ w }}" height="26" rx="3"></rect>
+
+  <text class="sys-svg-label" x="{{ bar_max + 18 }}" y="{{ y + 12 }}">{{ stage.label }}</text>
+  {% if stage.note %}
+  <text class="sys-svg-note" x="{{ bar_max + 18 }}" y="{{ y + 25 }}">{{ stage.note }}</text>
+  {% endif %}
+
+  {% if stage.count %}
+  <text class="sys-svg-count" x="{{ w - 8 }}" y="{{ y + 18 }}" text-anchor="end">{{ stage.count }}</text>
+  {% endif %}
+
+  {% if not loop.last %}
+  <line class="sys-funnel-rule" x1="0" y1="{{ y + 36 }}" x2="{{ bar_max }}" y2="{{ y + 36 }}"></line>
+  {% endif %}
+  {% endfor %}
+</svg>
