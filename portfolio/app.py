@@ -44,6 +44,11 @@ log = logging.getLogger("portfolio")
 # registered (we still only publish these in the sitemap, not /api/*).
 CANONICAL_ROUTES = [
     "/",
+    "/platform",
+    "/systems/job-pipeline",
+    "/systems/gpu",
+    "/systems/genome",
+    "/systems/cad",
     "/saas",
     "/saas/revenue",
     "/saas/pql",
