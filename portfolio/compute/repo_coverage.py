@@ -100,6 +100,11 @@ def build_repo_coverage(db: Session, pack) -> dict[str, Any]:
             "company": ff.get("company", fe.canonical_name),
             "contract_arr": ff.get("contract_arr", 0),
             "total_repos": total,
+            # Coverage and expansion are both computed against ACTIVE repos, so
+            # the table has to be able to show that denominator. Without it a
+            # reader divides scanned by total, gets a different percentage than
+            # the one on screen, and concludes the page is wrong.
+            "active_repos": active,
             "scanned_repos": scanned,
             "coverage_ratio": cov,
             "expansion_arr": expansion,

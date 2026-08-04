@@ -60,6 +60,7 @@
       <tr>
         <th>Account</th>
         <th class="num">Repos</th>
+        <th class="num">Active</th>
         <th class="num">Scanned</th>
         <th class="num">Coverage</th>
         <th class="num">Expansion ARR</th>
@@ -70,6 +71,7 @@
       <tr>
         <td data-col="Account">{{ row.company }}</td>
         <td data-col="Repos" class="num">{{ row.total_repos }}</td>
+        <td data-col="Active" class="num">{{ row.active_repos }}</td>
         <td data-col="Scanned" class="num">{{ row.scanned_repos }}</td>
         <td data-col="Coverage" class="num">{{ (row.coverage_ratio * 100)|int }}%</td>
         <td data-col="Expansion ARR" class="num">${{ '{:,}'.format(row.expansion_arr) }}</td>
