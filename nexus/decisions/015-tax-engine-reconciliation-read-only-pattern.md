@@ -36,7 +36,7 @@ If Nexus wrote back to the tax engine, it would be "correcting" one side of the 
 
 **Good:**
 - The accounting team lead's month-end process dropped from approximately one week to approximately one day. Four manual CSV exports replaced by two automated sources.
-- Zero risk of Nexus accidentally corrupting the tax engine's tax ledger. There is no write path to corrupt.
+- There is no write path to the tax engine's tax ledger, so there is nothing for Nexus to corrupt.
 - The free-reads economics mean there is no reason to cache or coalesce -- poll as often as the heartbeat pattern requires.
 - The reconciliation view is always live. Reading from `tax_recon_records` gives the current state of both sides of every transaction.
 

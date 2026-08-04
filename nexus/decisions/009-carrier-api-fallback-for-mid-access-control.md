@@ -33,7 +33,7 @@ Phased rollout:
 
 ## Consequences
 
-Tracking coverage survived April 1 with zero operational downtime. Hundreds of active shipments kept their tracking visibility through the cutover.
+Tracking coverage survived April 1 with no observed downtime. Hundreds of active shipments kept their tracking visibility through the cutover.
 
 The shipping API's rate limits are far more generous than USPS's direct API: USPS direct was capped at 60 calls/hour, while the shipping API's GET endpoint allows 4,000 calls/minute in live mode. The polling path is now less constrained than it was before the switch.
 

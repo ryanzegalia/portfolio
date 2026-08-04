@@ -69,3 +69,7 @@ scripts/sanitize_cases.mjs
 audit-progress-*.md
 scripts/banned_terms.local
 _preview.html
+# Internal working docs -- audit notes and session handoffs carry internal
+# hostnames/IPs and have no place in a public repo.
+AUDIT-*.md
+HANDOFF-*.md

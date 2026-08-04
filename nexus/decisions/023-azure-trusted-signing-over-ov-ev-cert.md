@@ -36,7 +36,7 @@ Code signing is wired into the build pipeline as a post-build step. `signtool` (
 ## Consequences
 
 **Good:**
-- Azure Trusted Signing provides instant SmartScreen reputation. Customers download the signed Nexus Connector and get no warning. Support call volume drops to zero for this specific problem.
+- Azure Trusted Signing provides instant SmartScreen reputation. Customers download the signed Nexus Connector and get no warning. Support call volume for this specific problem drops to effectively zero.
 - The signing service is managed -- no hardware token to lose, no HSM to maintain, no certificate renewal ceremony. Private key lives in Azure.
 - Total cost is $219/year for both Windows and macOS. Cheaper than the OV+EV alternative.
 - The build pipeline becomes authoritative. Every release gets signed as part of the build script -- no "oops, forgot to sign" releases.

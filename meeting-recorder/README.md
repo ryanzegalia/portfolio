@@ -67,7 +67,7 @@ Each pass saves results to the database incrementally. If the pipeline crashes o
 
 Uses bettercam (DXGI Desktop Duplication API) instead of mss (GDI BitBlt). GDI-based capture (used by mss) returns stale or cached frames for fullscreen DirectX games. DXGI captures the actual GPU framebuffer.
 
-The BG3 window is located via `EnumWindows` + `GetWindowThreadProcessId` with process name matching process name matching. Window bounds use `DwmGetWindowAttribute(DWMWA_EXTENDED_FRAME_BOUNDS)` for accurate dimensions in borderless mode, falling back to `GetWindowRect` for windowed mode.
+The BG3 window is located via `EnumWindows` + `GetWindowThreadProcessId` with process name matching. Window bounds use `DwmGetWindowAttribute(DWMWA_EXTENDED_FRAME_BOUNDS)` for accurate dimensions in borderless mode, falling back to `GetWindowRect` for windowed mode.
 
 Duplicate frame detection uses hash-based duplicate detection to skip screenshots when the screen hasn't changed -- common during dialogue or inventory screens.
 

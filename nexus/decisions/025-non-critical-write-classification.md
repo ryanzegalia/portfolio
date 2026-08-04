@@ -34,7 +34,7 @@ The distinction is encoded at the write site, not via a global policy. Every dev
 ## Consequences
 
 **Good:**
-- User requests never hang on activity tracking. The 30-second-hang failure mode from the SQLite era cannot recur even if activity tracking gets slow again.
+- User requests do not wait on activity tracking. The 30-second-hang failure mode from the SQLite era is structurally prevented even if activity tracking gets slow again.
 - New developers (or Claude Code sessions) have a clear mental model for "should this block the user?" -- three tiers, explicit at the write site.
 - Failures in non-critical writes are still visible. They are logged, they show up in `api_health_log`, the operator can investigate if the failure rate spikes. Silent failure is not silent at the monitoring level.
 - Activity analytics are honest about their failure rate. If 0.5% of pageviews fail to log, the dashboard shows 0.5% lower numbers rather than 0.5% of users seeing error pages.

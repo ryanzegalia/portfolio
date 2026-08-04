@@ -22,11 +22,11 @@ Size appears only on this page. It is supporting detail; the capability numbers 
 
 | Metric | August 2026 | April 2026 | Verification |
 |---|---|---|---|
-| Python lines (API tier) | **~215,000** | 79,388 | `find api -name '*.py' \| xargs wc -l` |
+| Python lines (API tier) | **~215,000** | ~79,000 | `find api -name '*.py' \| xargs wc -l` |
 | Service modules in `api/services/` | **~260** | 58 | `ls api/services/*.py` (excluding `__init__.py`) |
 | Flask route decorators | **~975** | 596 | grep `@bp.(route\|get\|post\|put\|delete\|patch)` across `api/routes/` |
 
-The growth from April to August (79,388 to ~215,000 Python lines, 58 to ~260 service modules, 596 to ~975 routes) reflects the four-layer build out: the customer data foundation, the intelligence layer, and the MCP agent layer were all added after the April snapshot.
+The growth from April to August (~79,000 to ~215,000 Python lines, 58 to ~260 service modules, 596 to ~975 routes) reflects the four-layer build out: the customer data foundation, the intelligence layer, and the MCP agent layer were all added after the April snapshot.
 
 ## Customer data foundation (identity and dedupe)
 

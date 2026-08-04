@@ -4,7 +4,7 @@
 
 Every sale at the company used to be a multi-day manual process. With **800+ configurable product options** across the catalog, running a sale meant logging into the ERP's admin backend and clicking through every product, every option, every price field -- updating each one by hand, verifying each one by hand.
 
-Price change history was limited to the login session -- no field-level change log, no rollback capability. Reverting prices at the end of a sale meant clicking through the same 800 options again, in reverse. The operational cost was **2+ days per sale cycle**. The pricing automation service eliminates that entire class of manual error.
+Price change history was limited to the login session -- no field-level change log, no rollback capability. Reverting prices at the end of a sale meant clicking through the same 800 options again, in reverse. The operational cost was **2+ days per sale cycle**. The pricing automation service removes that class of manual work and the errors that rode along with it.
 
 ## Approach
 

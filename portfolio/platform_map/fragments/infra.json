@@ -12,7 +12,7 @@
   "github": "components/infrastructure",
   "shot": {
     "src": "infra.png",
-    "alt": "The deployment record. Ninety releases, every one of them successful, each tagged with the version that went out, the commit it was built from, whether it was a full or partial deploy, and the size of the snapshot taken before it shipped. The current release is named at the top against its commit, and five snapshots are held on disk so any of them can be rolled back to.",
+    "alt": "The deployment record. Ninety releases with none failed, each tagged with the version that went out, the commit it was built from, whether it was a full or partial deploy, and the size of the snapshot taken before it shipped. The current release is named at the top against its commit, and five snapshots are held on disk so any of them can be rolled back to.",
     "caption": "A snapshot is taken before every release, which is what makes a rollback a decision rather than a rebuild."
   }
 }
