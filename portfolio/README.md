@@ -1,10 +1,24 @@
-# GTM Scenarios
+# ryanzegalia.com -- Site Source
+
+A portfolio project by [Ryan Zegalia](https://www.linkedin.com/in/ryan-zegalia-6bbb90217/). This directory is the source for [ryanzegalia.com](https://ryanzegalia.com) -- one FastAPI + Postgres + Jinja application serving the personal landing page, the Nexus platform map, fifteen GTM operator scenarios across five B2B verticals, and write-ups of selected personal systems.
+
+| Surface | Routes | What it serves |
+|---------|--------|----------------|
+| Landing | `/` | Entry point to everything below |
+| Nexus platform map | `/platform` | An interactive atlas of the 26 production systems on the [Nexus](../nexus/) platform -- each card summarizes one system in business terms, most carry a sanitized live dashboard screenshot, and nearly every card deep-links to its matching document in [`../nexus/`](../nexus/) |
+| GTM scenarios | `/saas` · `/home-care` · `/vertical-ai` · `/sca` · `/distribution` | Fifteen operator scenarios against seeded Postgres data (detailed below) |
+| Personal systems | `/systems/<slug>` | Write-ups of selected personal production systems |
+| Health | `/api/health` | Machine-readable startup state (see Liveness below) |
+
+The platform map page is generated, not hand-edited: [`scripts/build_platform_map.py`](scripts/build_platform_map.py) assembles it from per-system JSON fragments in [`platform_map/fragments/`](platform_map/fragments/), and the build fails if a card's documentation link has no target file. Screenshots on the map show structure, volume, and state -- never customer identity or content.
+
+## GTM Scenarios
 
 | Stack | Verticals | Demos | Tests | Compute modules | Reconciler modules |
 |-------|-----------|-------|-------|-----------------|--------------------|
 | FastAPI + Postgres + Jinja | 5 | 15 | 71 | 11 | 4 |
 
-A portfolio project by [Ryan Zegalia](https://www.linkedin.com/in/ryan-zegalia-6bbb90217/). Fifteen operator scenarios across five B2B verticals, each with a worked example running against seeded Postgres data. Each one starts from a specific operator problem, and the matching component is a real server-rendered UI over real SQL.
+Fifteen operator scenarios across five B2B verticals, each with a worked example running against seeded Postgres data. Each one starts from a specific operator problem, and the matching component is a real server-rendered UI over real SQL.
 
 ## The five verticals
 

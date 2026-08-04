@@ -19,7 +19,7 @@ Flagship case studies: [Identity Resolution](nexus/case-studies/identity-resolut
 
 ## [GTM Scenarios](portfolio/) · [ryanzegalia.com](https://ryanzegalia.com)
 
-Operator scenarios across five B2B verticals, each with a worked example running against seeded Postgres data. The scenarios are grounded in named industry research; the data is deterministic seed, the SQL and computation are real.
+Operator scenarios across five B2B verticals, each with a worked example running against seeded Postgres data. The scenarios are grounded in named industry research; the data is deterministic seed, the SQL and computation are real. The same application is the source for ryanzegalia.com itself, including the interactive Nexus platform map that fronts the documentation in [nexus/](nexus/).
 
 ## [Embedded Linux (dual-screen handheld firmware)](embedded-linux/)
 
