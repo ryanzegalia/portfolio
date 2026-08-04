@@ -1,0 +1,1 @@
+Vericode pays $142,000 a year and scans 3 of its 12 active repositories. The nine that go unscanned include api-gateway, auth-service, and web-client. At $950 a repository that is $8,550 of expansion sitting inside an account that is already closed, and the table below runs the same count for every customer, so the number comes off repository records instead of a rep's estimate.
