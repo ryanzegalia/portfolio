@@ -725,10 +725,11 @@ CAD = {
                 "the tier. The bench scores two different things: how close the "
                 "solid is to the mesh it was rebuilt from, and, for the parts "
                 "where a real STEP solid exists to check against, how close it "
-                "is to that. On my test parts the rebuilt solid matches the "
-                "original to 99.6%. Running a published neural rebuild, "
-                "CAD-Recode, over the same parts topped out at 84.8%, and it "
-                "scored 30.2% on the part my pipeline rebuilds to 99.6%."
+                "is to that. On a four-part test bench, the strongest rebuild "
+                "matches its source mesh to 99.6%. Running a published neural "
+                "rebuild, CAD-Recode, over the same four parts topped out at "
+                "84.8%, and it scored 30.2% on the part my pipeline rebuilds "
+                "to 99.6%."
             ),
             "figure": {
                 "kind": "component",
@@ -826,9 +827,9 @@ CAD = {
         },
     ],
     "status": (
-        "Runs live in the browser. On my test parts the rebuilt solid matches "
-        "the original to 99.6%. Running a published neural rebuild, CAD-Recode, "
-        "over the same parts topped out at 84.8%."
+        "Runs live in the browser. On a four-part test bench, the strongest "
+        "rebuild matches its source mesh to 99.6%. Running a published neural "
+        "rebuild, CAD-Recode, over the same four parts topped out at 84.8%."
     ),
     "signals": "mesh in, STEP/3MF out &middot; agents drive the rebuild &middot; live viewer",
 }
