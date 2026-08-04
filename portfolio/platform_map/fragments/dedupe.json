@@ -1,7 +1,7 @@
 {
   "id": "dedupe",
   "title": "Deduplication and Address Quality",
-  "card": "Found the duplication that made reports count one customer several times over: 16,705 duplicate groups across 29,124 accounts, plus about 31,650 corrected address flags that decide what shipping costs.",
+  "card": "Found the duplication behind double-counted customers: 16,705 groups across 29,124 accounts, plus about 31,650 corrected address flags.",
   "what": "The pass I built to determine which accounts are duplicates of each other, and the pipeline that corrected the address data underneath them.",
   "problem": "77% of contacts in the customer base shared an email address with another contact, and one address covered 165 separate records. Reporting on that base counts the same customer several times over, and nobody could say which accounts belonged together. The same records carried wrong residential and commercial address flags, and those flags decide how an order ships and what the shipping costs.",
   "result": "16,705 duplicate groups covering 29,124 accounts, an average of 1.74 accounts per real customer, plus about 31,650 verified address-flag corrections across roughly 50,000 records.",
