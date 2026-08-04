@@ -11,7 +11,7 @@
   "shot": {
     "src": "sales-trends.png",
     "alt": "Units sold by product category, every year from 2021 through July 2026 in one table, each year carrying its change against the year before. Above the table the same history is drawn as twelve-month curves, one line per year, and a pace figure projects the full year from what has shipped.",
-    "caption": "Everything on this page is counted in units. The 2026 column is marked partial because the year is half over, and the current month is excluded so a half-finished month cannot read as a decline."
+    "caption": "Category totals down to SKU, every year side by side, with a pace line projecting the full year from what has already shipped. The current month is left out because half a month always looks like a decline."
   },
   "github": "components/sales-trends"
 }

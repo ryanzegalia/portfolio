@@ -11,7 +11,7 @@
   "shot": {
     "src": "identity.png",
     "alt": "The customer console. Facets across the top count 30,138 customers by brand, spend band, recency, state, support history and subscription, and a confidence row sorts them by how each identity was established, from externally verified down to probabilistic and flagged. Below that, resolved customers with their order counts, last order dates and how many raw accounts each one absorbed.",
-    "caption": "Names and addresses here are substituted. Every customer carries the reason its identity was believed, and the accounts column counts the raw records each one absorbed."
+    "caption": "Each customer row shows why the system believes the identity, and the accounts column counts the raw records that merged into it."
   },
   "github": "identity-resolution"
 }

@@ -13,7 +13,7 @@
   "shot": {
     "src": "payment-recon.png",
     "alt": "The shipped-without-payment review. Fifty-six orders left the warehouse with no payment on record, split into forty whose payment was voided as unverifiable and sixteen that reached this state on their own. Each row carries a billing check run against the ERP's own billing page, and every one of these came back confirmed unpaid.",
-    "caption": "Dollar amounts are removed from this view. The order numbers, the split and the billing verdicts are what the nightly check actually produces."
+    "caption": "The order numbers, the split and the billing verdicts are what the nightly check actually produces. Each row's billing check ran against the ERP's own billing page."
   },
   "github": "components/payment-reconciliation"
 }

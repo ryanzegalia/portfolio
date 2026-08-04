@@ -13,7 +13,7 @@
   "shot": {
     "src": "shipping.png",
     "alt": "Open shipments grouped by where they have got to: 71 with a label created, 11 picked up, 63 in transit, 10 out for delivery and 4 carrying delays or issues. Each row shows the carrier service, how old the shipment is, its current status and its estimated arrival, over a line reporting the carriers were last polled four minutes ago.",
-    "caption": "Recipient names and tracking numbers are substituted. The statuses are the carriers' own, mapped into one vocabulary so support reads the same words for both of them."
+    "caption": "Support works this board instead of pasting tracking numbers into carrier sites. Anything delayed or stuck sits in its own bucket instead of buried in the list."
   },
   "github": "components/shipment-tracking"
 }

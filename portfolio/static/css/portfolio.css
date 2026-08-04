@@ -5223,6 +5223,14 @@ html.js-scroll-reveal [data-reveal].is-in-view {
   background: var(--surface-2, #f7f8fa);
 }
 
+.node-shot-note {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
 .node-shot figcaption {
   font-size: 12.5px;
   line-height: 1.5;

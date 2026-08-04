@@ -11,7 +11,7 @@
   "shot": {
     "src": "qc.png",
     "alt": "Aggregate results from the wireless module tester: 7,947 modules tested over 8,083 sessions at a 98.2 percent pass rate, run by six testers. A thirty-day trend charts the daily volume in pass and fail, and the registry underneath lists each module by serial and radio address with how many times it has been tested and how it last came out.",
-    "caption": "Every module holds its own row, so a unit that fails in the field resolves to the session that passed it and the person who ran it. Radio addresses are substituted."
+    "caption": "Every module is in here by serial number with every test it has been through. When a unit fails in the field, the lookup starts here instead of on paper."
   },
   "github": "qc-tracking"
 }

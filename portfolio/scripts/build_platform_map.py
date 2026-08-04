@@ -407,10 +407,14 @@ def shot_html(shot: dict | None) -> str:
     if shot["size"]:
         dims = f' width="{shot["size"][0]}" height="{shot["size"][1]}"'
     cap = f'\n      <figcaption>{e(shot["caption"])}</figcaption>' if shot["caption"] else ""
+    # One uniform fine-print line replaces the per-card substitution
+    # disclosures (Ryan, 2026-08-04): captions carry context, this carries
+    # the privacy note, once, small, everywhere.
+    note = '\n      <p class="node-shot-note">Live production view; identifying details substituted.</p>'
     return (f'    <figure class="node-shot">\n'
             f'      <img src="{SHOT_URL}{shot["src"]}?v={shot["v"]}" '
             f'alt="{e(shot["alt"])}"{dims} loading="lazy" decoding="async">'
-            f'{cap}\n'
+            f'{cap}{note}\n'
             f'    </figure>\n')
 
 

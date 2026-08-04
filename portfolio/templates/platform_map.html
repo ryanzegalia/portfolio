@@ -77,6 +77,7 @@
     <figure class="node-shot">
       <img src="/static/img/systems/erp-sync.png?v=16d65c314c" alt="Ingestion reporting in. Across the top, five stored credentials with the days left before each expires. Below them one tile per sync job, carrying what it changed in the last day, how many times it ran, how many of those runs errored, and when it last finished." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Run count and error count sit on the same tile, so a job that runs often and fails often is visible without opening it.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -98,7 +99,8 @@
     <p class="node-what">A tracking pipeline I built to keep the status of every open shipment current, on carrier APIs that will not simply let you ask.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/shipping.png?v=ed701ec0f7" alt="Open shipments grouped by where they have got to: 71 with a label created, 11 picked up, 63 in transit, 10 out for delivery and 4 carrying delays or issues. Each row shows the carrier service, how old the shipment is, its current status and its estimated arrival, over a line reporting the carriers were last polled four minutes ago." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Recipient names and tracking numbers are substituted. The statuses are the carriers&#x27; own, mapped into one vocabulary so support reads the same words for both of them.</figcaption>
+      <figcaption>Support works this board instead of pasting tracking numbers into carrier sites. Anything delayed or stuck sits in its own bucket instead of buried in the list.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -140,8 +142,9 @@
     <div class="map-node-body">
     <p class="node-what">Two services I built to pull the marketing side of the business into the platform: email campaigns, and trade show attendees.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/marketing-sync.png?v=aa01ea3f57" alt="The email board: nine campaigns across four brands and a broadcast list, each row carrying its subject line, brand, send state and its link into the campaign tracker -- sale countdowns, a product launch, two firmware release notes, a maintenance notice and two show announcements. Across the top the board reports its last sync two minutes back and 29 campaigns not yet linked to the tracker, three of them flagged to review." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Campaign and partner names are substituted and the brand labels are stand-ins. The subjects&#x27; shape, the statuses, the per-row tracker links and the 29-unlinked counter are what the board actually showed.</figcaption>
+      <img src="/static/img/systems/marketing-sync.png?v=935863960d" alt="The email board: nine campaigns across four brands and a broadcast list, each row carrying its subject line, brand, send state and its link into the campaign tracker -- sale countdowns, a product launch, two firmware release notes, a maintenance notice and two show announcements. Across the top the board reports its last sync a minute back." width="1600" height="1000" loading="lazy" decoding="async">
+      <figcaption>Campaign content syncs straight from the email platform, so the board is always live, and a preview of any campaign can be shared from here before it sends. Each row ties the campaign to its item on the project tracker.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -167,7 +170,8 @@
     <p class="node-what">I built a nightly check that reports when someone changes a promotional deal in the ERP.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/deal-watch.png?v=06f1afffd6" alt="Every promotion under watch: 265 deals with 93 of them active, sorted into groups that each carry their own on, off or archived state, from quantity and club discounts through dealer, warranty and regional pricing. The table lists each deal with its coupon code, whether it is live, and the group it belongs to." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Coupon codes are renamed here. The nightly check reads all of this out of a system that keeps no record of what changed.</figcaption>
+      <figcaption>Each group carries its own on, off or archived state, and the nightly check reads all of it out of a system that keeps no record of what changed.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -213,7 +217,8 @@
     <p class="node-what">An engine I built to decide which of the ERP&#x27;s customer accounts are the same human being.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/identity.png?v=eb30eb0a1a" alt="The customer console. Facets across the top count 30,138 customers by brand, spend band, recency, state, support history and subscription, and a confidence row sorts them by how each identity was established, from externally verified down to probabilistic and flagged. Below that, resolved customers with their order counts, last order dates and how many raw accounts each one absorbed." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Names and addresses here are substituted. Every customer carries the reason its identity was believed, and the accounts column counts the raw records each one absorbed.</figcaption>
+      <figcaption>Each customer row shows why the system believes the identity, and the accounts column counts the raw records that merged into it.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -239,6 +244,7 @@
     <figure class="node-shot">
       <img src="/static/img/systems/dedupe.png?v=c57e9cf7dc" alt="Bulk address verification over 118,946 ingested addresses, reporting 291 undeliverable and 16,705 duplicate groups. The Duplicates view lists each customer with the address on file and the carrier&#x27;s residential or commercial verdict next to the flag the record currently carries." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Names and street lines are substituted, and the substitution is stable, so the two halves of a duplicate group still land on the same address here. City, state and postcode are unchanged.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -269,6 +275,7 @@
     <figure class="node-shot">
       <img src="/static/img/systems/pricing.png?v=da44f926cc" alt="Pricing sessions, each one recording whether it worked at product or SKU level, a note saying what it was for, and where it got to. Most read completed, and two of them exist only to correct a specific rule in an earlier session." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>The notes are what the operator wrote at the time. Two of these sessions correct a previous one, and every session can be put back the way it was.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -293,7 +300,8 @@
     <p class="node-what">The service I built to compare what tax was calculated, what was charged, and what was paid, across the tax engine, the ERP, and Stripe.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/tax-recon.png?v=802d907de8" alt="A month of tax reconciliation. 659 orders in view matching at 94.5 percent, with ten over the review tolerance, fifty-three that left the warehouse with no payment on record, and six charged no tax with no exemption certificate on file. Each exception opens its own section explaining what the nightly check does about it." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Dollar amounts are stripped out of this view. The counts, the match rate and the exception categories are what the month-end run actually produces.</figcaption>
+      <figcaption>The month-end reconciliation runs nightly here. Every order either matches or lands in an exception pile, and each pile is a different kind of problem for accounting to clear.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -319,7 +327,8 @@
     <p class="node-what">I built the reconciliation engine that compares what the ERP says it collected against what the payment gateways actually settled, order by order.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/payment-recon.png?v=0e01c54a98" alt="The shipped-without-payment review. Fifty-six orders left the warehouse with no payment on record, split into forty whose payment was voided as unverifiable and sixteen that reached this state on their own. Each row carries a billing check run against the ERP&#x27;s own billing page, and every one of these came back confirmed unpaid." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Dollar amounts are removed from this view. The order numbers, the split and the billing verdicts are what the nightly check actually produces.</figcaption>
+      <figcaption>The order numbers, the split and the billing verdicts are what the nightly check actually produces. Each row&#x27;s billing check ran against the ERP&#x27;s own billing page.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -363,7 +372,8 @@
     <p class="node-what">The warehouse tests every wireless unit before it ships on a system I built, which also tracks what happens to the ones that fail.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/qc.png?v=5863655b08" alt="Aggregate results from the wireless module tester: 7,947 modules tested over 8,083 sessions at a 98.2 percent pass rate, run by six testers. A thirty-day trend charts the daily volume in pass and fail, and the registry underneath lists each module by serial and radio address with how many times it has been tested and how it last came out." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Every module holds its own row, so a unit that fails in the field resolves to the session that passed it and the person who ran it. Radio addresses are substituted.</figcaption>
+      <figcaption>Every module is in here by serial number with every test it has been through. When a unit fails in the field, the lookup starts here instead of on paper.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -389,6 +399,7 @@
     <figure class="node-shot">
       <img src="/static/img/systems/fulfillment.png?v=7ae407a1bb" alt="Labels produced at the fulfillment station. Each row carries the carrier the order resolved to, the exact service level behind it, the recipient, the package weight and the date it printed, with the service varying by order down to a ground hazmat label." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Each row records the service the order resolved to. The carrier and the handling follow from the method already on the order, so nobody at the station picks them.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -472,7 +483,8 @@
     <p class="node-what">The report I built to answer what sold and what it made, from category level down to the individual SKU, across product records the ERP had split apart.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/sales-trends.png?v=695c429d62" alt="Units sold by product category, every year from 2021 through July 2026 in one table, each year carrying its change against the year before. Above the table the same history is drawn as twelve-month curves, one line per year, and a pace figure projects the full year from what has shipped." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Everything on this page is counted in units. The 2026 column is marked partial because the year is half over, and the current month is excluded so a half-finished month cannot read as a decline.</figcaption>
+      <figcaption>Category totals down to SKU, every year side by side, with a pace line projecting the full year from what has already shipped. The current month is left out because half a month always looks like a decline.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -498,6 +510,7 @@
     <figure class="node-shot">
       <img src="/static/img/systems/analytics.png?v=dcbc4eb026" alt="The storefront funnel. Sixty-six orders against four thousand visits, a 0.9 percent order conversion, and every stage between the two counted in turn: arrived, viewed a page, opened the product builder, added to cart. Each stage carries its own count and its share of visits, so the drop between any two of them is readable." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Phone and office orders appear in the order count but have no visit behind them, so the funnel counts only what the site itself saw. That is also why the conversion tile reads lower than dividing orders by visits.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -523,6 +536,7 @@
     <figure class="node-shot">
       <img src="/static/img/systems/cart.png?v=b62b0fcbdd" alt="Live shoppers on the storefront. Two are on the site in the last ninety seconds, one of them holding items in a cart, against 987 page views and 16 checkout views so far today. Under the counters each shopper appears with the page they are on, how long they have been there, whether they are signed in, and where they are." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Shoppers are identified by a rotating hash. The counters here exclude 11 employee and 631 bot visits.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -549,6 +563,7 @@
     <figure class="node-shot">
       <img src="/static/img/systems/monitoring.png?v=365fa594d1" alt="Service controls for the platform&#x27;s background work. Each named service reports whether it is running and can be stopped from its own row: the tax sync, the deal drift monitor, the inventory and order heartbeats, the restock and email campaign syncs, the document store shipment sync, and the nightly full sync." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Each row names the outside system it depends on, and all of them report into the same morning digest.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -620,7 +635,8 @@
     <p class="node-what">The sign-in and permission model I built for a dashboard that holds customer data and tools that write to production.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/auth.png?v=e4f0552ffd" alt="User management for the dashboard. Twenty-six people, each with a role, the groups they belong to, a count of the pages they can open, and an active state. Every row carries a Pages button that opens that person&#x27;s individual page grants." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Names and email addresses are substituted here. The page counts are real, and the rows reading zero are people who have been created but granted nothing yet.</figcaption>
+      <figcaption>Nobody gets access by default. Departments, teams and individuals are granted access as needed for each tool, and groups cover the common sets in one grant.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -641,7 +657,8 @@
     <p class="node-what">The operational patterns I built into every background service on the platform, so it runs without anyone watching it.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/infra.png?v=ee1d04caeb" alt="The deployment record. Ninety releases, each tagged with the version that went out, the commit it was built from, whether it was a full or partial deploy, and the size of the snapshot taken before it shipped. The current release is named at the top against its commit, and five snapshots are held on disk so any of them can be rolled back to." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>A snapshot is taken before every release, which is what makes a rollback a decision rather than a rebuild.</figcaption>
+      <figcaption>A snapshot is taken before every release, so a bad deploy can be rolled straight back.</figcaption>
+      <p class="node-shot-note">Live production view; identifying details substituted.</p>
     </figure>
     <div class="node-detail">
     <div class="node-block">
