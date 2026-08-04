@@ -12,7 +12,7 @@
   "shot": {
     "src": "cart.png",
     "alt": "Live shoppers on the storefront. Two are on the site in the last ninety seconds, one of them holding items in a cart, against 987 page views and 16 checkout views so far today. Under the counters each shopper appears with the page they are on, how long they have been there, whether they are signed in, and where they are.",
-    "caption": "Shoppers are identified by a rotating hash. The counters here exclude 36 employee and 207 bot visits."
+    "caption": "Shoppers are identified by a rotating hash. The counters here exclude 11 employee and 631 bot visits."
   },
   "github": "cart-telemetry-consent-editing"
 }

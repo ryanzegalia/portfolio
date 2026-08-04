@@ -11,7 +11,7 @@
   "shot": {
     "src": "analytics.png",
     "alt": "The storefront funnel. Sixty-six orders against four thousand visits, a 0.9 percent order conversion, and every stage between the two counted in turn: arrived, viewed a page, opened the product builder, added to cart. Each stage carries its own count and its share of visits, so the drop between any two of them is readable.",
-    "caption": "Phone and office orders appear in the order count but have no visit behind them, so the funnel counts only what the site itself saw."
+    "caption": "Phone and office orders appear in the order count but have no visit behind them, so the funnel counts only what the site itself saw. That is also why the conversion tile reads lower than dividing orders by visits."
   },
   "github": "storefront-analytics-attribution"
 }

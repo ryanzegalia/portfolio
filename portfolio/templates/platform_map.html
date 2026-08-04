@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 {% block title %}The platform map, Ryan Zegalia{% endblock %}
 {% block og_title %}The platform map{% endblock %}
-{% block og_description %}The revenue operations platform I built and run, mapped: five groups around one core. Open any system to read the problem it solves and what it changed.{% endblock %}
+{% block og_description %}The revenue operations platform I built and run, mapped: five groups around one core. Open a group, then a system, to read why it exists and what it changed.{% endblock %}
 {# the map itself, not the site icon: this is the page most likely to be shared #}
 {% block og_image %}https://ryanzegalia.com/static/img/platform-map.png{% endblock %}
 
@@ -97,7 +97,7 @@
     <div class="map-node-body">
     <p class="node-what">A tracking pipeline I built to keep the status of every open shipment current, on carrier APIs that will not simply let you ask.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/shipping.png?v=ed701ec0f7" alt="Open shipments grouped by where they have got to: 57 with a label created, 14 picked up, 78 in transit, 12 out for delivery and 6 carrying delays or issues. Each row shows the carrier service, how old the shipment is, its current status and its estimated arrival, over a line reporting the carriers were last polled four minutes ago across 169 shipments." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/shipping.png?v=ed701ec0f7" alt="Open shipments grouped by where they have got to: 71 with a label created, 11 picked up, 63 in transit, 10 out for delivery and 4 carrying delays or issues. Each row shows the carrier service, how old the shipment is, its current status and its estimated arrival, over a line reporting the carriers were last polled four minutes ago." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Recipient names and tracking numbers are substituted. The statuses are the carriers&#x27; own, mapped into one vocabulary so support reads the same words for both of them.</figcaption>
     </figure>
     <div class="node-detail">
@@ -497,7 +497,7 @@
     <p class="node-what">I built the storefront&#x27;s analytics: the telemetry that records what visitors do, and the console that reads it back. The site measured nothing about itself before this.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/analytics.png?v=dcbc4eb026" alt="The storefront funnel. Sixty-six orders against four thousand visits, a 0.9 percent order conversion, and every stage between the two counted in turn: arrived, viewed a page, opened the product builder, added to cart. Each stage carries its own count and its share of visits, so the drop between any two of them is readable." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Phone and office orders appear in the order count but have no visit behind them, so the funnel counts only what the site itself saw.</figcaption>
+      <figcaption>Phone and office orders appear in the order count but have no visit behind them, so the funnel counts only what the site itself saw. That is also why the conversion tile reads lower than dividing orders by visits.</figcaption>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -522,7 +522,7 @@
     <p class="node-what">I built the storefront&#x27;s live presence tracking, and then a second half on top of it that lets a support rep change a shopper&#x27;s cart with that shopper&#x27;s consent.</p>
     <figure class="node-shot">
       <img src="/static/img/systems/cart.png?v=b62b0fcbdd" alt="Live shoppers on the storefront. Two are on the site in the last ninety seconds, one of them holding items in a cart, against 987 page views and 16 checkout views so far today. Under the counters each shopper appears with the page they are on, how long they have been there, whether they are signed in, and where they are." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>Shoppers are identified by a rotating hash. The counters here exclude 36 employee and 207 bot visits.</figcaption>
+      <figcaption>Shoppers are identified by a rotating hash. The counters here exclude 11 employee and 631 bot visits.</figcaption>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -640,7 +640,7 @@
     <div class="map-node-body">
     <p class="node-what">The operational patterns I built into every background service on the platform, so it runs without anyone watching it.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/infra.png?v=ee1d04caeb" alt="The deployment record. Ninety releases with none failed, each tagged with the version that went out, the commit it was built from, whether it was a full or partial deploy, and the size of the snapshot taken before it shipped. The current release is named at the top against its commit, and five snapshots are held on disk so any of them can be rolled back to." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/infra.png?v=ee1d04caeb" alt="The deployment record. Ninety releases, each tagged with the version that went out, the commit it was built from, whether it was a full or partial deploy, and the size of the snapshot taken before it shipped. The current release is named at the top against its commit, and five snapshots are held on disk so any of them can be rolled back to." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>A snapshot is taken before every release, which is what makes a rollback a decision rather than a rebuild.</figcaption>
     </figure>
     <div class="node-detail">
