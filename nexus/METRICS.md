@@ -1,6 +1,6 @@
 # Nexus: Verified Metrics
 
-> This is the canonical home for every Nexus number. Case studies carry their own headline number once; everywhere else links here. Values were verified against code, git history, or the running system. The live snapshot is dated 2026-08-03. Size metrics were re-measured 2026-08-03 using the April 2026 methodology. Rows that a newer measure supersedes are marked. Approximations are used except where the exact count is the verified headline. Business-scale counts (customers, contacts, orders, fulfillments, persons) are deliberately published as conservative floors -- the live figures run higher, and exact numbers are available on request in an interview setting.
+> This is the canonical home for every Nexus number. Case studies carry their own headline number once; everywhere else links here. Values were verified against code, git history, or the running system. The live snapshot is dated 2026-08-03. Size metrics were re-measured 2026-08-03 using the April 2026 methodology. Approximations are used except where the exact count is the verified headline. Business-scale counts (customers, contacts, orders, fulfillments, persons) are deliberately published as conservative floors -- the live figures run higher, and exact numbers are available on request in an interview setting.
 
 ## Platform scale (as of 2026-08-03)
 
@@ -11,7 +11,7 @@
 | Orders ingested from the hosted ERP | **110,000+** | live DB count, 2026-08-03 (floor) |
 | Fulfillments ingested | **700,000+** | live DB count, 2026-08-03 (floor) |
 | ERP SKUs tracked | **760+** | live DB count, 2026-08-03 |
-| Production PostgreSQL tables | **~320** | schema introspection, 2026-08-03 (supersedes July's 268 and April's 145) |
+| Production PostgreSQL tables | **~320** | schema introspection, 2026-08-03 |
 | MCP tools exposed to AI agents | **118** | grep-verified, 2026-08-03 |
 | External HTTP integrations | **15** | enumerated in [TECH_STACK.md](architecture/TECH_STACK.md) |
 
@@ -98,16 +98,3 @@ Not re-measured in July. Preserved as the April snapshot.
 | Per-entity operation locks | `pricing_service._operation_locks` | 500-entry LRU, non-blocking acquire |
 | Thundering-herd stagger | all heartbeats | randomized offset on the first tick |
 
-## Superseded and corrected numbers
-
-August 2026 re-measurement, with the values each one replaces:
-
-- PostgreSQL tables: **~320** (2026-08-03), supersedes 268 (July 2026) and 145 (April 2026)
-- Service modules: **~260** (2026-08-03), supersedes ~160 (July 2026) and 58 (April 2026)
-- Flask route decorators: **~975** (2026-08-03), supersedes ~850 (July 2026) and 596 (April 2026)
-- Python lines (API tier): **~215,000** (2026-08-03), supersedes ~150,000 (July 2026) and 79,388 (April 2026)
-- Compatibility coverage: the July 2026 sheet carried "57% to 99.6% across product lines" -- a range across product families that later documents misquoted as a before-and-after improvement. Superseded by the derived-edge counts above: 139 interface declarations deriving 860 links, 93% of sellable products covered (2026-08-03).
-- QC volume: "10,000+ units per year, live count across the QC tracking tables" was mis-sourced. The live count belongs to the module tester (~7,900 units, February through July 2026); the annual figure is warehouse-reported throughput and is labeled as such above.
-- Products in the catalog: **500+** (2026-08-03), supersedes 330+ (April 2026). Product option rows: **11,000+** (2026-08-03), supersedes 800+ (April 2026).
-
-Numbers that appear in older documentation and are incorrect: "60+ services", "10+ heartbeats", "60+ tables", "200+ routes", and "SQLite" (migrated to PostgreSQL with PgBouncer on 2026-03-01, see [ADR-002](decisions/002-postgresql-migration-with-sqlite3-compat-shim.md)). Older docs predated the 2026-03-01 database migration and the later four-layer build out. They are preserved as historical artifacts and should not be cited as current.

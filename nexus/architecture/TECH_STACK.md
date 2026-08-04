@@ -1,6 +1,6 @@
 # Nexus Technology Stack
 
-> Every technology listed here was verified against `api/requirements.txt`, `api/config.py`, `api/utils/db.py`, `connector/requirements.txt`, or import statements in service files during a July 2026 review. The platform began in late December 2025 and has run in production since February 2026. Older documentation says SQLite; that is out of date. The migration to PostgreSQL happened on 2026-03-01 (see [ADR-002](../decisions/002-postgresql-migration-with-sqlite3-compat-shim.md)). PostgreSQL via PgBouncer remains the base of the stack.
+> Every technology listed here was verified against `api/requirements.txt`, `api/config.py`, `api/utils/db.py`, `connector/requirements.txt`, or import statements in service files during a July 2026 review. The platform began in late December 2025 and has run in production since February 2026. The platform migrated from SQLite to PostgreSQL on 2026-03-01 (see [ADR-002](../decisions/002-postgresql-migration-with-sqlite3-compat-shim.md)); PostgreSQL via PgBouncer is the base of the stack.
 
 ~260 service modules / ~975 routes / ~215K lines of Python (August 2026 re-measure), see METRICS.md.
 
