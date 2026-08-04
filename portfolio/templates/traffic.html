@@ -2,61 +2,242 @@
 {% block title %}Traffic{% endblock %}
 
 {# Private token-gated first-party traffic viewer. Reached only as
-   /traffic?k=<TRAFFIC_TOKEN>; the route 404s otherwise. #}
+   /traffic?k=<TRAFFIC_TOKEN>; the route 404s otherwise. Bot vs human is
+   decided at view time in traffic.py from the stored user agent. #}
+
+{% macro qs(new_days, new_who) -%}
+/traffic?k={{ token }}&days={{ new_days }}&who={{ new_who }}
+{%- endmacro %}
 
 {% block head_extra %}
 <style>
-  .traffic-wrap { max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
+  .traffic-wrap { max-width: 1040px; margin: 0 auto; padding: 24px 16px 64px; }
   .traffic-wrap h1 { font-size: 20px; margin: 0 0 4px; }
-  .traffic-wrap .sub { color: var(--text-muted); font-size: 13px; margin: 0 0 24px; }
-  .traffic-wrap h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; margin: 28px 0 8px; }
+  .traffic-wrap .sub { color: var(--text-muted); font-size: 13px; margin: 0 0 20px; max-width: 70ch; }
+  .traffic-wrap h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; margin: 32px 0 4px; }
+  .traffic-wrap h2 + .note { color: var(--text-muted); font-size: 12px; margin: 0 0 8px; max-width: 70ch; }
   .traffic-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .traffic-wrap th, .traffic-wrap td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--card-border); vertical-align: top; }
+  .traffic-wrap th { font-weight: 600; color: var(--text-muted); font-size: 12px; }
   .traffic-wrap th.num, .traffic-wrap td.num { text-align: right; font-variant-numeric: tabular-nums; }
   .traffic-wrap .mono { font-family: "JetBrains Mono", monospace; font-size: 12px; word-break: break-all; }
+  .traffic-wrap .empty { color: var(--text-muted); font-size: 13px; padding: 8px 0; }
+
+  /* Headline counters */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--card-border); border: 1px solid var(--card-border); margin: 0 0 20px; }
+  .stat { background: var(--card-bg); padding: 12px 14px; }
+  .stat .n { font-size: 24px; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .stat .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-top: 4px; }
+  .stat.live .n { color: var(--status-healthy); }
+  .stat.bots .n { color: var(--text-muted); }
+
+  /* Filter bar */
+  .controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: baseline; margin: 0 0 8px; font-size: 12px; }
+  .controls .group { display: flex; gap: 6px; align-items: baseline; }
+  .controls .glabel { color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .controls a { padding: 2px 8px; border: 1px solid var(--card-border); text-decoration: none; color: var(--text-primary); }
+  .controls a.on { background: var(--brand-accent); border-color: var(--brand-accent); color: #fff; }
+
+  /* Visit rows */
+  .trail { color: var(--text-muted); font-size: 12px; font-family: "JetBrains Mono", monospace; margin-top: 3px; word-break: break-all; }
+  .tag { display: inline-block; padding: 1px 6px; border: 1px solid var(--card-border); background: var(--brand-accent-soft); font-size: 11px; }
+  .fam { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .warn { background: var(--status-warning-bg); border: 1px solid var(--status-warning); padding: 8px 10px; font-size: 12px; margin: 0 0 16px; }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="traffic-wrap">
   <h1>First-party traffic</h1>
-  <p class="sub">Last {{ days }} days. Views are beacon hits; visitors are day-salted hash dedup (no raw IPs stored).</p>
+  <p class="sub">
+    Last {{ days }} days, times in {{ tz_label }}. Views are beacon hits from the page script.
+    Visitors are a day-salted hash, so the same person reading on two days counts twice and no
+    IP is stored. Human and bot are decided from the user agent when this page renders.
+  </p>
+
+  {% if truncated %}
+  <p class="warn">
+    Showing the most recent {{ event_cap }} events only. Narrow the window with a smaller day count
+    to see a complete picture.
+  </p>
+  {% endif %}
+
+  <div class="stats">
+    <div class="stat{% if summary.active_now %} live{% endif %}">
+      <div class="n">{{ summary.active_now }}</div>
+      <div class="l">On site now</div>
+    </div>
+    <div class="stat">
+      <div class="n">{{ summary.human_visitors }}</div>
+      <div class="l">People</div>
+    </div>
+    <div class="stat">
+      <div class="n">{{ summary.human_visits }}</div>
+      <div class="l">Visits</div>
+    </div>
+    <div class="stat">
+      <div class="n">{{ summary.human_views }}</div>
+      <div class="l">Pages read</div>
+    </div>
+    <div class="stat bots">
+      <div class="n">{{ summary.bot_views }}</div>
+      <div class="l">Bot hits</div>
+    </div>
+  </div>
+
+  <p class="sub">
+    {% if summary.last_human %}
+      Last person here: {{ to_local(summary.last_human).strftime("%a %b %d, %H:%M") }} {{ tz_label }}.
+    {% else %}
+      No human traffic in this window.
+    {% endif %}
+    On site now counts people whose last beacon landed within 15 minutes.
+  </p>
+
+  <div class="controls">
+    <div class="group">
+      <span class="glabel">Show</span>
+      <a href="{{ qs(days, 'humans') }}" class="{{ 'on' if who == 'humans' }}">People</a>
+      <a href="{{ qs(days, 'bots') }}" class="{{ 'on' if who == 'bots' }}">Bots</a>
+      <a href="{{ qs(days, 'all') }}" class="{{ 'on' if who == 'all' }}">Everything</a>
+    </div>
+    <div class="group">
+      <span class="glabel">Window</span>
+      {% for d in [1, 7, 14, 30, 90] %}
+      <a href="{{ qs(d, who) }}" class="{{ 'on' if days == d }}">{{ d }}d</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <h2>Recent visits</h2>
+  <p class="note">
+    One row per continuous run of pages from the same visitor hash, split after 30 quiet minutes.
+    The trail is the order the pages were read in.
+  </p>
+  <table>
+    <tr>
+      <th>Started ({{ tz_label }})</th><th>Time on site</th><th>Client</th>
+      <th>Came from</th><th>Read</th>
+    </tr>
+    {% for v in visits[:60] %}
+    <tr>
+      <td>{{ to_local(v.started_at).strftime("%b %d, %H:%M") }}</td>
+      <td>{{ v.duration_label }}</td>
+      <td>
+        {{ v.client.label }}
+        {% if v.client.kind == 'bot' %}<div class="fam">{{ v.client.family }} bot</div>
+        {% elif v.client.device %}<div class="fam">{{ v.client.device }}</div>{% endif %}
+      </td>
+      <td>
+        {{ v.referrer or "" }}
+        {% if v.src %}<div><span class="tag">src: {{ v.src }}</span></div>{% endif %}
+      </td>
+      <td>
+        <strong>{{ v.page_count }}</strong> page{{ "" if v.page_count == 1 else "s" }},
+        {{ v.views }} view{{ "" if v.views == 1 else "s" }}
+        <div class="trail">{{ v.paths | join(" > ") }}</div>
+        {% if v.nodes %}<div class="trail">map: {{ v.nodes | join(" ") }}</div>{% endif %}
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="empty">Nothing in this window.</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>Where they came from</h2>
+  <p class="note">
+    Referring host. Direct covers a typed URL, a bookmark, a click out of an email client or a PDF,
+    and any link sent with a strict referrer policy. It does not mean nobody linked the page.
+  </p>
+  <table>
+    <tr>
+      <th>Referrer</th><th class="num">Visits</th>
+      <th class="num">Pages read</th><th class="num">Visitors</th>
+    </tr>
+    {% for r in by_referrer %}
+    <tr>
+      <td class="mono">{{ r.key }}</td><td class="num">{{ r.visits }}</td>
+      <td class="num">{{ r.views }}</td><td class="num">{{ r.visitors }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4" class="empty">Nothing in this window.</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>Source tags</h2>
+  <p class="note">
+    The <span class="mono">?src=</span> tag on a link, carried across the visit in sessionStorage.
+    Put a different one on each cover letter and this table says which one got read.
+  </p>
+  <table>
+    <tr>
+      <th>src</th><th class="num">Visits</th>
+      <th class="num">Pages read</th><th class="num">Visitors</th>
+    </tr>
+    {% for s in by_src %}
+    <tr>
+      <td class="mono">{{ s.key }}</td><td class="num">{{ s.visits }}</td>
+      <td class="num">{{ s.views }}</td><td class="num">{{ s.visitors }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="4" class="empty">No tagged links have been opened yet.</td></tr>
+    {% endfor %}
+  </table>
 
   <h2>By day</h2>
+  <p class="note">Both columns regardless of the filter above, so a crawler wave stays visible.</p>
   <table>
-    <tr><th>Day</th><th class="num">Views</th><th class="num">Visitors</th></tr>
-    {% for d, v, u in by_day %}<tr><td>{{ d }}</td><td class="num">{{ v }}</td><td class="num">{{ u }}</td></tr>{% endfor %}
+    <tr>
+      <th>Day</th>
+      <th class="num">People</th><th class="num">Their views</th>
+      <th class="num">Bots</th><th class="num">Bot hits</th>
+    </tr>
+    {% for d in by_day %}
+    <tr>
+      <td>{{ d.day }}</td>
+      <td class="num">{{ d.human_visitors }}</td><td class="num">{{ d.human_views }}</td>
+      <td class="num">{{ d.bot_visitors }}</td><td class="num">{{ d.bot_views }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="empty">Nothing in this window.</td></tr>
+    {% endfor %}
   </table>
 
   <h2>By page</h2>
   <table>
     <tr><th>Path</th><th class="num">Views</th><th class="num">Visitors</th></tr>
-    {% for p, v, u in by_page %}<tr><td class="mono">{{ p }}</td><td class="num">{{ v }}</td><td class="num">{{ u }}</td></tr>{% endfor %}
-  </table>
-
-  <h2>By source tag</h2>
-  <table>
-    <tr><th>src</th><th class="num">Views</th><th class="num">Visitors</th></tr>
-    {% for s, v, u in by_src %}<tr><td class="mono">{{ s }}</td><td class="num">{{ v }}</td><td class="num">{{ u }}</td></tr>{% endfor %}
+    {% for p in by_page[:40] %}
+    <tr><td class="mono">{{ p.key }}</td><td class="num">{{ p.views }}</td><td class="num">{{ p.visitors }}</td></tr>
+    {% else %}
+    <tr><td colspan="3" class="empty">Nothing in this window.</td></tr>
+    {% endfor %}
   </table>
 
   <h2>Platform map nodes read</h2>
   <table>
-    <tr><th>Hash route</th><th class="num">Views</th></tr>
-    {% for h, v in by_node %}<tr><td class="mono">{{ h }}</td><td class="num">{{ v }}</td></tr>{% endfor %}
+    <tr><th>Hash route</th><th class="num">Views</th><th class="num">Visitors</th></tr>
+    {% for n in by_node[:40] %}
+    <tr><td class="mono">{{ n.key }}</td><td class="num">{{ n.views }}</td><td class="num">{{ n.visitors }}</td></tr>
+    {% else %}
+    <tr><td colspan="3" class="empty">No map nodes opened in this window.</td></tr>
+    {% endfor %}
   </table>
 
-  <h2>Recent</h2>
+  <h2>Clients</h2>
+  <p class="note">
+    What the user agent says. The beacon is JavaScript, so a crawler only lands here if it runs
+    scripts. Plain HTML fetchers hit the server and never reach this table.
+  </p>
   <table>
-    <tr><th>When (UTC)</th><th>Path</th><th>Hash</th><th>src</th><th>Referrer</th></tr>
-    {% for e in recent %}
+    <tr><th>Client</th><th>Kind</th><th class="num">Views</th><th class="num">Visitors</th></tr>
+    {% for c in by_client[:40] %}
     <tr>
-      <td>{{ e.occurred_at.strftime("%m-%d %H:%M") if e.occurred_at else "" }}</td>
-      <td class="mono">{{ e.path }}</td>
-      <td class="mono">{{ e.hash_route or "" }}</td>
-      <td>{{ e.src or "" }}</td>
-      <td class="mono">{{ (e.referrer or "")[:80] }}</td>
+      <td>{{ c.key }}</td>
+      <td class="fam">{{ c.family }}</td>
+      <td class="num">{{ c.views }}</td><td class="num">{{ c.visitors }}</td>
     </tr>
+    {% else %}
+    <tr><td colspan="4" class="empty">Nothing in this window.</td></tr>
     {% endfor %}
   </table>
 </div>
