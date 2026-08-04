@@ -1,7 +1,7 @@
 {
   "id": "mirror",
   "title": "Customer and Contact Mirror",
-  "card": "More than 40,000 customers and 115,000 contacts, rebuilt every night, in the one place every other tool reads.",
+  "card": "Every customer-facing tool on the platform answers from the same copy of the customer base: 40,000+ customers and 115,000+ contacts, rebuilt nightly.",
   "what": "I built the mirror that keeps the ERP's customer and contact records copied into PostgreSQL, so the rest of the platform has something it can actually query.",
   "result": "The mirror holds more than 40,000 customers and 115,000 contacts as of August 2026, rebuilt nightly, and it is what every customer-facing tool on the platform reads from.",
   "how": [

@@ -79,9 +79,11 @@ landing:
       Engineering, security, and legal each judge the same tool on different
       criteria, and the three answers live in systems that never meet.
     card_preview: >
-      Three scenarios: The Multi-Threaded Deal, The Compliance Event Trigger,
-      and The Repo Coverage Gap. Real seeded Postgres, with a SQL
-      repo-coverage expansion query rendered inline.
+      Three problems worked: a buying committee where engineering,
+      security, and legal each judge on different criteria, compliance
+      events that open a sales window nobody is watching, and customers
+      scanning only a fraction of their code. Built with a real
+      database and a SQL query that maps the coverage gap.
     intro_paragraph: >
       Multi-stakeholder deals where engineering and legal evaluate on different
       axes, compliance events that create time-sensitive windows nobody is

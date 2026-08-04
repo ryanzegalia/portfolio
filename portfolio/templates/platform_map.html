@@ -67,10 +67,10 @@
     </div>
   </div>
 </article>
-<section class="reader-domain" data-group="data-in" data-group-name="Data Ingestion" data-group-desc="The services that pull records out of the ERP and the other systems the business runs on.">
+<section class="reader-domain" data-group="data-in" data-group-name="Data Ingestion" data-group-desc="The services that pull records out of the ERP and the other systems the business runs on, so current data arrives on a schedule instead of by hand.">
   <h2 class="reader-domain-head">Data Ingestion</h2>
-  <p class="reader-domain-desc">The services that pull records out of the ERP and the other systems the business runs on.</p>
-  <article class="map-node" id="n-erp-sync" data-node="erp-sync" data-title="Order, Inventory, and Product Ingestion" data-card="Orders, inventory, and product changes land locally within five minutes.">
+  <p class="reader-domain-desc">The services that pull records out of the ERP and the other systems the business runs on, so current data arrives on a schedule instead of by hand.</p>
+  <article class="map-node" id="n-erp-sync" data-node="erp-sync" data-title="Order, Inventory, and Product Ingestion" data-card="Everything else on this map works from current data: orders, inventory, and product changes land from the ERP within five minutes.">
     <h3 class="map-node-title">Order, Inventory, and Product Ingestion</h3>
     <div class="map-node-body">
     <p class="node-what">I built three services that pull changed records out of the ERP continuously, so every other tool on the platform works from current data.</p>
@@ -93,7 +93,7 @@
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-shipping" data-node="shipping" data-title="Shipment and Order Tracking" data-card="Every open shipment kept current at half the carrier&#x27;s daily call ceiling.">
+  <article class="map-node" id="n-shipping" data-node="shipping" data-title="Shipment and Order Tracking" data-card="&quot;Where is my order&quot; has one answer in one vocabulary, instead of two carriers&#x27; worth: every open shipment kept current inside rate limits that punish asking directly.">
     <h3 class="map-node-title">Shipment and Order Tracking</h3>
     <div class="map-node-body">
     <p class="node-what">A tracking pipeline I built to keep the status of every open shipment current, on carrier APIs that will not simply let you ask.</p>
@@ -137,7 +137,7 @@
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-marketing-sync" data-node="marketing-sync" data-title="Email and Marketing Infrastructure" data-card="Email campaigns and trade show attendees, both readable in one place.">
+  <article class="map-node" id="n-marketing-sync" data-node="marketing-sync" data-title="Email and Marketing Infrastructure" data-card="Campaign results and trade show attendees arrive on their own instead of as hand-exported spreadsheets, merged into one record the platform can report on.">
     <h3 class="map-node-title">Email and Marketing Infrastructure</h3>
     <div class="map-node-body">
     <p class="node-what">Two services I built to pull the marketing side of the business into the platform: email campaigns, and trade show attendees.</p>
@@ -191,10 +191,10 @@
     </div>
   </article>
 </section>
-<section class="reader-domain" data-group="customer-foundation" data-group-name="Customer Foundation" data-group-desc="One current copy of the customer base, resolved down to the real people behind it.">
+<section class="reader-domain" data-group="customer-foundation" data-group-name="Customer Foundation" data-group-desc="One current copy of the customer base, resolved down to the real people behind it, so the whole platform answers about the same customer.">
   <h2 class="reader-domain-head">Customer Foundation</h2>
-  <p class="reader-domain-desc">One current copy of the customer base, resolved down to the real people behind it.</p>
-  <article class="map-node" id="n-mirror" data-node="mirror" data-title="Customer and Contact Mirror" data-card="More than 40,000 customers and 115,000 contacts, rebuilt every night, in the one place every other tool reads.">
+  <p class="reader-domain-desc">One current copy of the customer base, resolved down to the real people behind it, so the whole platform answers about the same customer.</p>
+  <article class="map-node" id="n-mirror" data-node="mirror" data-title="Customer and Contact Mirror" data-card="Every customer-facing tool on the platform answers from the same copy of the customer base: 40,000+ customers and 115,000+ contacts, rebuilt nightly.">
     <h3 class="map-node-title">Customer and Contact Mirror</h3>
     <div class="map-node-body">
     <p class="node-what">I built the mirror that keeps the ERP&#x27;s customer and contact records copied into PostgreSQL, so the rest of the platform has something it can actually query.</p>
@@ -211,7 +211,7 @@
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-identity" data-node="identity" data-title="Identity Resolution" data-card="More than 40,000 accounts resolved into about 30,000 real people.">
+  <article class="map-node" id="n-identity" data-node="identity" data-title="Identity Resolution" data-card="A question about a customer now gets the whole customer instead of one fragment: more than 40,000 accounts resolved into about 30,000 real people.">
     <h3 class="map-node-title">Identity Resolution</h3>
     <div class="map-node-body">
     <p class="node-what">An engine I built to decide which of the ERP&#x27;s customer accounts are the same human being.</p>
@@ -237,7 +237,7 @@
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-dedupe" data-node="dedupe" data-title="Deduplication and Address Quality" data-card="16,705 duplicate groups found across 29,124 accounts.">
+  <article class="map-node" id="n-dedupe" data-node="dedupe" data-title="Deduplication and Address Quality" data-card="Found the duplication that made reports count one customer several times over: 16,705 duplicate groups across 29,124 accounts, plus about 31,650 corrected address flags that decide what shipping costs.">
     <h3 class="map-node-title">Deduplication and Address Quality</h3>
     <div class="map-node-body">
     <p class="node-what">The pass I built to determine which accounts are duplicates of each other, and the pipeline that corrected the address data underneath them.</p>
@@ -460,7 +460,7 @@
 <section class="reader-domain" data-group="intelligence" data-group-name="Intelligence and Reporting" data-group-desc="What the business can see once its data is collected in one place.">
   <h2 class="reader-domain-head">Intelligence and Reporting</h2>
   <p class="reader-domain-desc">What the business can see once its data is collected in one place.</p>
-  <article class="map-node" id="n-forecasting" data-node="forecasting" data-title="Demand Forecasting" data-card="Seasonal curves reproduced independently at 0.97 against the buyer&#x27;s hand-kept workbook.">
+  <article class="map-node" id="n-forecasting" data-node="forecasting" data-title="Demand Forecasting" data-card="The buying judgment that lived in one person&#x27;s workbook now exists as a system that can check it: seasonal curves reproduced at 0.97 against the hand-kept original.">
     <h3 class="map-node-title">Demand Forecasting</h3>
     <div class="map-node-body">
     <p class="node-what">A per-SKU forecasting engine I built to reproduce and pressure-test how the company decides what to reorder.</p>
@@ -556,7 +556,7 @@
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-monitoring" data-node="monitoring" data-title="System Health and Audit Reporting" data-card="Every automated action on the platform, graded and written in plain sentences.">
+  <article class="map-node" id="n-monitoring" data-node="monitoring" data-title="System Health and Audit Reporting" data-card="Eighteen background services report to one morning digest a person can read in a minute, and a page goes out only when someone has to act.">
     <h3 class="map-node-title">System Health and Audit Reporting</h3>
     <div class="map-node-body">
     <p class="node-what">A reporting layer I built to turn everything the platform did overnight into something a person can read in a minute.</p>

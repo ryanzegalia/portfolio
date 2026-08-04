@@ -1,7 +1,7 @@
 {
   "id": "monitoring",
   "title": "System Health and Audit Reporting",
-  "card": "Every automated action on the platform, graded and written in plain sentences.",
+  "card": "Eighteen background services report to one morning digest a person can read in a minute, and a page goes out only when someone has to act.",
   "what": "A reporting layer I built to turn everything the platform did overnight into something a person can read in a minute.",
   "problem_label": "Why it exists",
   "problem": "The platform grew one system at a time, and each system brought its own background services with it: syncs, watchers, nightly rebuilds. Eighteen of them report in now, too many to check by hand each morning.",

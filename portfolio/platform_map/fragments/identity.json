@@ -1,7 +1,7 @@
 {
   "id": "identity",
   "title": "Identity Resolution",
-  "card": "More than 40,000 accounts resolved into about 30,000 real people.",
+  "card": "A question about a customer now gets the whole customer instead of one fragment: more than 40,000 accounts resolved into about 30,000 real people.",
   "what": "An engine I built to decide which of the ERP's customer accounts are the same human being.",
   "problem": "The ERP holds more than 40,000 accounts, and many of them are one person showing up more than once: households, shared email addresses, repeat guest checkouts, dealer staff. Exact matching cannot collapse those, so anyone asking a question about a customer is really asking about one fragment of that customer.",
   "result": "The spine resolves those accounts into about 30,000 people across 8,200 household clusters, at a measured 0.48% false-merge rate on the build certified for production.",

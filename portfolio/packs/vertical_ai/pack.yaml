@@ -117,9 +117,11 @@ landing:
     # vertical AI scenarios inline and calls out the artifact specific to
     # this vertical. Added 2026-04-11 root tile card pass.
     card_preview: >
-      Three scenarios: Account Hierarchy Resolver, System-of-Record
-      Detection, and Per-Location ROI. Real seeded Postgres, with a
-      30-line Python enrichment-waterfall function rendered inline.
+      Three problems worked: which offices belong to which parent
+      company, which software each practice actually runs, and what
+      the product returns location by location. Built with a real
+      database and a Python function that checks sources one at a
+      time until one answers.
     # hero.thesis dropped.
     intro_paragraph: >
       Account hierarchies where the parent matters more than the contact,

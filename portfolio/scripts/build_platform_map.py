@@ -69,10 +69,10 @@ GH_FOLDERS = {"components": (COMP_DIR, COMP_URL), "connector": (CONN_DIR, CONN_U
 # (slug, name, one-line descriptor, [system ids])
 ROSTER = [
     ("data-in", "Data Ingestion",
-     "The services that pull records out of the ERP and the other systems the business runs on.",
+     "The services that pull records out of the ERP and the other systems the business runs on, so current data arrives on a schedule instead of by hand.",
      ["erp-sync", "shipping", "excel-sync", "marketing-sync", "deal-watch"]),
     ("customer-foundation", "Customer Foundation",
-     "One current copy of the customer base, resolved down to the real people behind it.",
+     "One current copy of the customer base, resolved down to the real people behind it, so the whole platform answers about the same customer.",
      ["mirror", "identity", "dedupe"]),
     ("operations-tools", "Operations Tools",
      "What the warehouse, accounting, and marketing teams open to get their work done.",

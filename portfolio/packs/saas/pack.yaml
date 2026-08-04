@@ -106,9 +106,11 @@ landing:
     # SaaS scenarios inline and calls out the artifact specific to this
     # vertical. Added 2026-04-11 root tile card pass.
     card_preview: >
-      Three scenarios: Phantom Seats, Stale PQL, and Forecast Variance.
-      Real seeded Postgres, with a 22-line SQL seat-drift reconciliation
-      artifact rendered inline.
+      Three problems worked: seats in use that nobody is billing, hot
+      leads that went cold in a queue nobody watches, and a forecast
+      that misses for reasons the pipeline view can't show. Built with
+      a real database and a short SQL query that catches seat counts
+      drifting from what's billed.
     # hero.thesis dropped.
     intro_paragraph: >
       Phantom seats nobody's billing, PQL signals decaying in a queue

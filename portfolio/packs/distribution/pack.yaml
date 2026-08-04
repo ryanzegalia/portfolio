@@ -85,9 +85,11 @@ landing:
       Nobody selling into a distributor can tell which ERP the prospect is
       running, and the answer changes the whole pitch.
     card_preview: >
-      Three scenarios: The ERP Detection Problem, The Proof-of-Value Pipeline,
-      and The PE Trigger Window. Real seeded Postgres, with a Python ERP
-      confidence scoring function rendered inline.
+      Three problems worked: telling which business software a prospect
+      runs before the first call, proving the product pays for itself
+      during the trial, and catching the buying window that opens when
+      private equity acquires a distributor. Built with a real database
+      and a Python function that scores how sure the software guess is.
     intro_paragraph: >
       Knowing which ERP a prospect runs before the first call, quantifying
       trial outcomes so the business case writes itself, and catching the

@@ -110,9 +110,11 @@ landing:
     # and calls out the artifact specific to this vertical. Added
     # 2026-04-11 root tile card pass.
     card_preview: >
-      Three scenarios: The 6am Call-Off, The EVV Triple Mismatch, and
-      The Stale Care Plan. Real seeded Postgres, with a 24-line SQL
-      three-way reconciliation artifact rendered inline.
+      Three problems worked: a caregiver calling out at 6am, three
+      systems that disagree about what happened on a visit, and a care
+      plan that has quietly fallen behind the client's real condition.
+      Built with a real database and a 24-line SQL query that reads
+      all three records side by side.
     # hero.thesis dropped — was "Three operator pains, one underlying
     # disconnect", templated language identical across all three packs.
     intro_paragraph: >

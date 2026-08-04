@@ -1,7 +1,7 @@
 {
   "id": "forecasting",
   "title": "Demand Forecasting",
-  "card": "Seasonal curves reproduced independently at 0.97 against the buyer's hand-kept workbook.",
+  "card": "The buying judgment that lived in one person's workbook now exists as a system that can check it: seasonal curves reproduced at 0.97 against the hand-kept original.",
   "what": "A per-SKU forecasting engine I built to reproduce and pressure-test how the company decides what to reorder.",
   "problem": "Replenishment buying ran out of one Excel workbook the purchasing lead maintained by hand, with about 186,000 formulas in it. The buying logic was that person's judgment, written down nowhere else, and no statistical baseline existed to check it against or to carry it if they left.",
   "how": [

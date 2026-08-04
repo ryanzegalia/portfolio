@@ -1,7 +1,7 @@
 {
   "id": "shipping",
   "title": "Shipment and Order Tracking",
-  "card": "Every open shipment kept current at half the carrier's daily call ceiling.",
+  "card": "\"Where is my order\" has one answer in one vocabulary, instead of two carriers' worth: every open shipment kept current inside rate limits that punish asking directly.",
   "what": "A tracking pipeline I built to keep the status of every open shipment current, on carrier APIs that will not simply let you ask.",
   "problem_label": "The constraint",
   "problem": "Customers and reps ask where an order is, and the answer lives at FedEx and USPS. FedEx allows roughly 1,000 tracking calls a day, and USPS direct polling allowed 60 an hour. Polling every open shipment on a flat cadence runs past both ceilings, and once the account is throttled nobody gets an answer.",

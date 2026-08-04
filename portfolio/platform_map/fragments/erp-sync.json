@@ -1,7 +1,7 @@
 {
   "id": "erp-sync",
   "title": "Order, Inventory, and Product Ingestion",
-  "card": "Orders, inventory, and product changes land locally within five minutes.",
+  "card": "Everything else on this map works from current data: orders, inventory, and product changes land from the ERP within five minutes.",
   "what": "I built three services that pull changed records out of the ERP continuously, so every other tool on the platform works from current data.",
   "problem_label": "The constraint",
   "problem": "Orders, inventory, and product records live in the hosted ERP, and everything I built has to read them. Reading product detail out of the ERP's own backend consumes one of the company's paid license seats, so a sync that opens that backend for every product competes with the people who need those seats to do their jobs.",
