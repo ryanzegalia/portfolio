@@ -2420,6 +2420,29 @@ body[data-pack="distribution"] {
   transition: border-color var(--t-base), background var(--t-base), transform var(--t-base);
 }
 
+/* 2026-08-04: one thin Phosphor glyph per tile, tinted with the tile's own
+   accent. It gives the empty right half a subject without claiming imagery
+   the tile can't back. Text keeps clear of it via the padding bump; both
+   collapse together at narrow widths, where the text needs the room. */
+.root-tile.has-icon { padding-right: 200px; }
+.root-tile-icon {
+  position: absolute;
+  right: 38px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 112px;
+  line-height: 1;
+  color: var(--brand-accent);
+  opacity: 0.16;
+  pointer-events: none;
+  transition: opacity var(--t-base);
+}
+.root-tile:hover .root-tile-icon { opacity: 0.3; }
+@media (max-width: 860px) {
+  .root-tile.has-icon { padding-right: var(--space-6); }
+  .root-tile-icon { display: none; }
+}
+
 .root-tile:hover {
   border-color: var(--brand-accent);
   background: var(--brand-accent-soft);

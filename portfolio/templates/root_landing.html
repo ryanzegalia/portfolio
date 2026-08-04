@@ -58,7 +58,8 @@
   {# 2026-08-03: the map thumbnail was pulled with the rest of the home-page
      imagery. Every shelf is now text only and the images live on the page
      each card opens, where they can be read at full size. #}
-  <a class="root-tile" data-pack="revops" href="/platform" data-reveal>
+  <a class="root-tile has-icon" data-pack="revops" href="/platform" data-reveal>
+    <i class="root-tile-icon ph-thin ph-tree-structure" aria-hidden="true"></i>
     <span class="root-tile-eyebrow">Production system</span>
     <h2 class="root-tile-title">The revenue operations platform I built and run</h2>
     <p class="root-tile-scenarios">The company runs on an ERP that was never built to talk to anything else, and people moved data between the tools by hand. This is the layer that connects them: the tax reconciliation that cost accounting a week every month runs nightly, and ~17K duplicate account groups resolve to the real customer behind them. It has run in production since February 2026, built and maintained alongside a full-time marketing role.</p>
@@ -109,7 +110,8 @@
 </section>
 
 <section class="root-tiles container" aria-label="Personal production environment">
-  <a class="root-tile" data-pack="radar" href="/systems/job-pipeline" data-reveal>
+  <a class="root-tile has-icon" data-pack="radar" href="/systems/job-pipeline" data-reveal>
+    <i class="root-tile-icon ph-thin ph-funnel" aria-hidden="true"></i>
     <span class="root-tile-eyebrow">Data pipeline</span>
     <h2 class="root-tile-title">A scoring pipeline over more than 108,000 job postings, built to reject fast and score slow</h2>
     <p class="root-tile-scenarios">Six scrapers pull postings into one archive, and a scoring pass ranks each one against the work I actually do. The cheap checks run first, so most postings never reach the model at all.</p>
@@ -117,7 +119,8 @@
     <span class="root-tile-cta">Read how it works &rarr;</span>
   </a>
 
-  <a class="root-tile" data-pack="ai-stack" href="/systems/gpu" data-reveal>
+  <a class="root-tile has-icon" data-pack="ai-stack" href="/systems/gpu" data-reveal>
+    <i class="root-tile-icon ph-thin ph-graphics-card" aria-hidden="true"></i>
     <span class="root-tile-eyebrow">Self-hosted AI</span>
     <h2 class="root-tile-title">A scheduler and cost ledger for the one GPU my whole home lab shares</h2>
     <p class="root-tile-scenarios">Every AI job in the house runs on one card, so I built the scheduler that decides who gets it, the lease that hands the whole card to one job at a time, and the ledger that rebuilds what each program spent.</p>
@@ -125,7 +128,8 @@
     <span class="root-tile-cta">Read how it works &rarr;</span>
   </a>
 
-  <a class="root-tile" data-pack="genome" href="/systems/genome" data-reveal>
+  <a class="root-tile has-icon" data-pack="genome" href="/systems/genome" data-reveal>
+    <i class="root-tile-icon ph-thin ph-quotes" aria-hidden="true"></i>
     <span class="root-tile-eyebrow">Structured extraction</span>
     <h2 class="root-tile-title">A pipeline that turns community game guides into data a handheld can browse offline</h2>
     <p class="root-tile-scenarios">The model reads the guides and picks out the facts, but it isn't allowed to write any of them. Every line on the device is copied from a real guide, and anything it can't ground it skips.</p>
@@ -133,7 +137,8 @@
     <span class="root-tile-cta">Read how it works &rarr;</span>
   </a>
 
-  <a class="root-tile" data-pack="cad" href="/systems/cad" data-reveal>
+  <a class="root-tile has-icon" data-pack="cad" href="/systems/cad" data-reveal>
+    <i class="root-tile-icon ph-thin ph-cube" aria-hidden="true"></i>
     <span class="root-tile-eyebrow">Computational design</span>
     <h2 class="root-tile-title">An agent pipeline that rebuilds 3D meshes into editable CAD solids</h2>
     <p class="root-tile-scenarios">I start from a downloaded mesh, agents rebuild it into a real editable solid, and I make my changes from there. Every rebuild is checked against the original shape before it's accepted.</p>
@@ -148,8 +153,12 @@
 </section>
 
 <nav class="root-tiles container" aria-label="Industry explorations">
+  {% set pack_icons = {'saas': 'ph-chart-line-up', 'home-care': 'ph-heartbeat',
+                       'vertical-ai': 'ph-tooth', 'sca': 'ph-shield-check',
+                       'distribution': 'ph-truck'} %}
   {% for p in packs %}
-  <a class="root-tile" data-pack="{{ p.id }}" href="/{{ p.id }}" data-reveal>
+  <a class="root-tile has-icon" data-pack="{{ p.id }}" href="/{{ p.id }}" data-reveal>
+    <i class="root-tile-icon ph-thin {{ pack_icons.get(p.id, 'ph-squares-four') }}" aria-hidden="true"></i>
     {#
       5-layer card (2026-04-11):
       1. eyebrow         - vertical label (reuses .root-tile-eyebrow)
