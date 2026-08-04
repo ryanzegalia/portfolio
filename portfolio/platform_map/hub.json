@@ -1,0 +1,14 @@
+{
+  "title": "One platform",
+  "eyebrow": "The platform",
+  "lede": "One platform. __GROUP_COUNT_WORD__ groups, __SYSTEM_COUNT__ systems.",
+  "body": [
+    "The company runs on an ERP that was never built to talk to anything else. Orders, inventory, customers, shipping, tax, and marketing each lived in their own tool, and people moved data between them by hand.",
+    "This is the layer that connects them. Orders and inventory arrive from the ERP on a schedule and stay current. Customer records that arrived fragmented, where 77% of contacts shared an email address with another record, resolve to the real customer behind them. The tax reconciliation that cost accounting a week every month runs nightly and reports its own exceptions. Payments are checked against what the gateway actually settled, not what the ERP recorded. The warehouse gets the labels the ERP will not print. The storefront gets pricing, promotions, and availability that match what is actually in stock.",
+    "It has run in production since February 2026. One person built it and maintains it alongside a full-time marketing role."
+  ],
+  "ctas": [
+    {"label": "Open the platform map", "href": "#/"},
+    {"label": "See the case studies", "href": "https://github.com/ryanzegalia/portfolio/tree/main/nexus/case-studies"}
+  ]
+}

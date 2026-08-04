@@ -9,7 +9,7 @@ An internal quality control tracking system for equipment testing, built to repl
 
 A complete lifecycle tracking system for hardware QC: equipment registration by serial number, test session management, per-test PASS/FAIL/SKIP result storage, running inventory ledger of tested-and-passed units, triage queue for failed units, and manager-assigned work targets with auto-completion.
 
-Handles 10,000+ units per year with a bounded schema (11 tables) and zero external API dependencies -- fully self-contained.
+Built for the company's testing volume (warehouse-reported at 10,000+ units a year) with a bounded schema (11 tables) and zero external API dependencies -- fully self-contained. The path the warehouse runs daily today is the wireless module tester feeding `testing_service.py` from the Connector, ~7,900 modules across ~8,100 sessions from February through July 2026; the `qc_service.py` lifecycle (intake, ledger, triage, assignments) is live code on production, seeded with SKU definitions, and is not yet the warehouse's daily path.
 
 ## Files
 
@@ -21,11 +21,12 @@ Handles 10,000+ units per year with a bounded schema (11 tables) and zero extern
 
 ## Scale
 
-- **10,000+ units** processed per year
+- **~7,900 modules across ~8,100 test sessions** through the live module-tester path (live count, February through July 2026)
+- **10,000+ units a year** is the warehouse-reported throughput the savings figure derives from
 - **11 QC-specific database tables**: `qc_equipment`, `qc_test_definitions`, `qc_test_sessions`, `qc_test_results`, `qc_tested_inventory`, `qc_sku_counts`, `qc_triage`, `qc_assignments`, `qc_notes`, `qc_prep_counts`, `qc_tracked_skus`
 - **17 indexes** created at schema init for serial, MAC, SKU, status, session, and date columns
 - **11 SKU variants** across 2 product lines seeded at init time with their test definitions
-- **500+ hours/year** labor savings (derived: 3 min saved per unit x 10,000+ units / 60)
+- **500+ hours/year** labor savings (derived: 3 min saved per unit x the warehouse-reported 10,000+ units / 60)
 
 ## Key Decisions
 

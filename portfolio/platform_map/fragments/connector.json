@@ -10,9 +10,5 @@
     "The application runs as two processes. The modern half owns the interface and everything the customer touches. The legacy half does nothing but drive the radio, and the two talk over a channel that never leaves the machine. The modern side supervises the legacy one and restarts it when it dies, and the radio process keeps its own store of module state, so the dashboard can still show the last known state while it is down.",
     "Distribution was its own problem. An unsigned installer draws the maximum-severity warning on Windows, and on machines with Smart App Control it is blocked outright with no way for the customer to override it, which turns every install into a support call. Signing is part of the build now, so every release a customer downloads is trusted on arrival."
   ],
-  "shot": {
-    "src": "connector.png",
-    "alt": "The connector fleet as the platform sees it. Nineteen installations, one online and eighteen offline, each tile naming the Windows host, the build it is running, how many hardware modules it can see, and whether its bridge process is running or stopped.",
-    "caption": "The bridge named on every tile is the quarantined component, and it is the only part of the application that touches the obsolete runtime. Host names that carried the company name are renamed."
-  }
+  "github": "connector/README"
 }

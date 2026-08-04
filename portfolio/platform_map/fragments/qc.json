@@ -6,11 +6,12 @@
   "problem": "The warehouse tracked testing on paper. The standalone Android app a previous developer wrote was never updated after that developer left and eventually stopped working. Paper cost about three minutes of data entry per unit, the company tests more than 10,000 wireless units a year, and the manager still had no throughput trends and no way to trace a bad unit back to anything.",
   "result": "That removed more than 500 hours a year of data entry, and a unit that fails at a customer site can now be traced back to the test session that passed it and the person who ran it.",
   "how": [
-    "A tester connects to the unit over BLE, runs the sequence, and taps pass or fail. Each unit is registered by serial number and tested against a definition specific to its SKU. A pass writes straight into the tested-inventory ledger, so the warehouse reads tested-and-ready counts per SKU without anyone running a report. A fail opens a triage entry owned by a named person, with a disposition of retest, repair, or scrap and a lifecycle it has to move through."
+    "A tester connects to the unit over BLE, runs the sequence, and taps pass or fail. Each unit is registered by serial number and tested against a definition specific to its SKU, and every result lands in the module registry as it happens. A pass is built to feed a tested-inventory ledger the warehouse reads per SKU without running a report, and a fail to open a triage entry owned by a named person with a disposition of retest, repair, or scrap; the warehouse's daily path today is the tester itself, and that fuller lifecycle is seeded and waiting on adoption."
   ],
   "shot": {
     "src": "qc.png",
     "alt": "Aggregate results from the wireless module tester: 7,947 modules tested over 8,083 sessions at a 98.2 percent pass rate, run by six testers. A thirty-day trend charts the daily volume in pass and fail, and the registry underneath lists each module by serial and radio address with how many times it has been tested and how it last came out.",
     "caption": "Every module holds its own row, so a unit that fails in the field resolves to the session that passed it and the person who ran it. Radio addresses are substituted."
-  }
+  },
+  "github": "qc-tracking"
 }

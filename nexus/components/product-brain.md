@@ -15,7 +15,7 @@ This component models every sellable product as a graph rather than the flat des
 
 - **Spec vocabulary of 61 canonical definitions across 9 groups**, with **145 provenance-tracked spec values seeded to production across 7 products** (as of 2026-06-23).
 - **Baseline content tables in production:** approximately 313 product descriptions, approximately 239 features, and approximately 1,114 compatibility relations (as of 2026-06-18).
-- **Compatibility coverage raised from 57% to 99.6% of products** via 491 derived edges, with an adversarial verification pass over those derived edges catching 19 incorrect ones (antenna-cable class mismatches) before they could reach recommendations (as of 2026-06-19).
+- **Interface-derived compatibility live in production:** 139 interface declarations derive 860 compatibility links, and 93% of sellable products carry at least one (live counts, 2026-08-03). An adversarial verification pass over derived edges caught 19 incorrect ones (antenna-cable class mismatches) before they could reach recommendations (2026-06-19).
 - **Interface-derived compatibility pilot:** 824 fitment edges generated from 36 seeded interface rows, run on an isolated staging clone (as of 2026-06-25).
 
 ## Content Review Console

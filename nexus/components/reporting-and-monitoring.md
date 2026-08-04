@@ -7,7 +7,7 @@ Three services turn raw sync events into human-readable activity feeds and syste
 
 ## What it is
 
-The observability layer -- not infrastructure monitoring (that is handled by external tools and the dashboard system.html page), but the business-event reporting that shows operators what happened across all 9 heartbeats, all 596 routes, and every long-running operation.
+The observability layer -- not infrastructure monitoring (that is handled by external tools and the dashboard system.html page), but the business-event reporting that shows operators what happened across all 18 heartbeats, all ~975 routes, and every long-running operation.
 
 ## Files
 
@@ -24,7 +24,7 @@ The observability layer -- not infrastructure monitoring (that is handled by ext
 - **`activity_summary.py` is 1,436 lines of NLG** -- turning structured data into natural sentences like Order #12345: 3 items (a standard connector product x1, Case x2) -- 1 backordered
 - **4 severity tiers** in `sync_report_service`: CRITICAL, NOTABLE, ROUTINE, SILENT
 - **90-day heatmap** on the system health page for service trend visualization
-- **No dedicated alerting service** -- critical events are logged to `api_health_log` and surfaced in the system health page; pager-style alerting is not in scope
+- **Alerting is narrow by design** -- a morning digest reports every service's overnight outcome, and a page goes out only on conditions where a person has to act. A second machine watches the platform from outside and emails if it goes quiet, and the platform pages if that outside watcher dies. There is no general pager integration beyond that.
 
 ## Key Decisions
 
@@ -47,3 +47,4 @@ The observability layer -- not infrastructure monitoring (that is handled by ext
 - Sync Log page (filtered changelog viewer)
 - System Health page (admin-only)
 - Analytics page (admin-only)
+- Morning digest email (severity-graded overnight outcomes, delivered daily)

@@ -1,10 +1,10 @@
 # Nexus System Architecture
 
-> A map of what Nexus is, what it connects to, and how the pieces communicate. The platform began in late December 2025 and has run in production since February 2026. Every component named here exists in the code as of a July 2026 review. This document describes the live architecture, not a planned one.
+> A map of what Nexus is, what it connects to, and how the pieces communicate. The platform began in late December 2025 and has run in production since February 2026. Every component named here exists in the code as of an August 2026 review. This document describes the live architecture, not a planned one.
 
 ## The one-paragraph summary
 
-Nexus is a Python 3 / Flask / PostgreSQL operations platform for a multi-brand B2B/B2C hardware manufacturer. It connects the company's hosted ERP, tax platform (Avalara), shipping carriers (FedEx, USPS, Shippo), email marketing (Moosend), project management (Monday.com), a first-party storefront event stream, and a custom Windows desktop connector that manages wireless hardware modules. It runs on one small production VPS behind a CDN, with a companion dedicated worker VPS for heavier background jobs. A July 2026 re-measure puts the codebase at roughly 160 service modules, roughly 850 routes, and roughly 150K lines of Python; the canonical, method-cited counts live in [METRICS.md](../METRICS.md).
+Nexus is a Python 3 / Flask / PostgreSQL operations platform for a multi-brand B2B/B2C hardware manufacturer. It connects the company's hosted ERP, tax platform (Avalara), shipping carriers (FedEx, USPS, Shippo), email marketing (Moosend), project management (Monday.com), a first-party storefront event stream, and a custom Windows desktop connector that manages wireless hardware modules. It runs on one small production VPS behind a CDN, with a companion dedicated worker VPS for heavier background jobs. An August 2026 re-measure puts the codebase at roughly 260 service modules, roughly 975 routes, and roughly 215K lines of Python; the canonical, method-cited counts live in [METRICS.md](../METRICS.md).
 
 ## The four-layer platform
 
@@ -13,7 +13,7 @@ Nexus is organized as four layers, and this is the spine of the whole system. Da
 ```mermaid
 flowchart TB
     subgraph L4["Layer 4: AI-agent tool layer"]
-        MCP["MCP server (117 tools)<br/>read-only SQL, preview-then-confirm writes"]
+        MCP["MCP server (118 tools)<br/>read-only SQL, preview-then-confirm writes"]
     end
     subgraph L3["Layer 3: Intelligence"]
         Forecast["Demand forecasting<br/>(built + backtested, not activated)"]
@@ -26,7 +26,7 @@ flowchart TB
         Zones["Three-zone ERP model"]
     end
     subgraph L1["Layer 1: Ingestion"]
-        Heartbeats["9 background heartbeats"]
+        Heartbeats["18 background heartbeats"]
         Nightly["Nightly full-refresh"]
         Telemetry["Storefront telemetry"]
     end
@@ -41,7 +41,7 @@ flowchart TB
 
 ### Layer 1: Ingestion
 
-Ingestion is the boundary between external systems of record and Nexus. Nine background heartbeat services poll the ERP (products, SKUs, options, inventory, orders), Avalara (tax transactions), Monday.com (restock dates and campaign status), Moosend (campaign delivery), and a SharePoint-hosted Excel workbook (via Microsoft Graph). A nightly full-refresh pipeline full-scans every record regardless of change stamp, which is the safety net for silent ERP edits that do not bump a modification timestamp. Two things that the ERP REST API does not expose, deal configurations and purchase-order line items, are read from the ERP's office backend through authenticated HTML parsing. A first-party storefront event stream is the newest ingestion source: a small event taxonomy captures on-site behavior directly rather than depending on a third-party analytics vendor, so the data stays owned and joinable to the rest of the platform. Ingestion never lets a downstream failure block an upstream poll: each heartbeat carries its own circuit breaker and checkpoint. See [heartbeat services](../components/heartbeat-services.md), [ADR-005](../decisions/005-circuit-breakers-on-external-apis.md), [ADR-006](../decisions/006-checkpoint-based-incremental-sync.md), and [ADR-003](../decisions/003-nightly-full-refresh-alongside-delta-sync.md).
+Ingestion is the boundary between external systems of record and Nexus. Eighteen background heartbeat services poll the ERP (products, SKUs, options, inventory, orders), Avalara (tax transactions), the payment providers (card, wallet, and gateway transaction feeds), Monday.com (restock dates and campaign status), Moosend (campaign delivery), and a SharePoint-hosted Excel workbook (via Microsoft Graph). A nightly full-refresh pipeline full-scans every record regardless of change stamp, which is the safety net for silent ERP edits that do not bump a modification timestamp. Two things that the ERP REST API does not expose, deal configurations and purchase-order line items, are read from the ERP's office backend through authenticated HTML parsing. A first-party storefront event stream is the newest ingestion source: a small event taxonomy captures on-site behavior directly rather than depending on a third-party analytics vendor, so the data stays owned and joinable to the rest of the platform. Ingestion never lets a downstream failure block an upstream poll: each heartbeat carries its own circuit breaker and checkpoint. See [heartbeat services](../components/heartbeat-services.md), [ADR-005](../decisions/005-circuit-breakers-on-external-apis.md), [ADR-006](../decisions/006-checkpoint-based-incremental-sync.md), and [ADR-003](../decisions/003-nightly-full-refresh-alongside-delta-sync.md).
 
 ### Layer 2: Customer data foundation
 
@@ -49,9 +49,9 @@ The foundation is where ingested records become a governed, deduplicated, identi
 
 The database is partitioned into three write-discipline zones (detailed below): an ERP zone written only by heartbeats, a Relations zone for user-triggered edits, and a small Portal zone synced from an external portal instance.
 
-On top of the ERP zone sits a **customer contact catalog**: a governed PostgreSQL mirror of the company's customers and contacts, 43,000+ customers and 117,000+ contacts as of July 2026. A nightly self-healing enumeration re-walks the source so the mirror repairs its own drift rather than depending on a one-time import. Duplicate detection runs as deterministic pure-SQL grouping, which produced 16,705 duplicate groups; deterministic grouping was chosen for this stage because exact and near-exact duplicates should resolve the same way every run, with no model variance to explain to a stakeholder. Corrections do not write blindly: a staged verified-write remediation applied roughly 31,650 corrections, each staged and checked before commit, and that pass completed in June 2026.
+On top of the ERP zone sits a **customer contact catalog**: a governed PostgreSQL mirror of the company's customers and contacts, 40,000+ customers and 115,000+ contacts as of August 2026 (published as floors). A nightly self-healing enumeration re-walks the source so the mirror repairs its own drift rather than depending on a one-time import. Duplicate detection runs as deterministic pure-SQL grouping, which produced 16,705 duplicate groups; deterministic grouping was chosen for this stage because exact and near-exact duplicates should resolve the same way every run, with no model variance to explain to a stakeholder. Corrections do not write blindly: a staged verified-write remediation applied roughly 31,650 corrections, each staged and checked before commit, and that pass completed in June 2026.
 
-Above deterministic grouping sits an **identity resolution engine** for the harder problem of collapsing many contacts into one real person. It uses Splink for probabilistic record linkage. Deterministic rules alone miss fuzzy matches (a shortened name, a changed address, a typo), and probabilistic linkage scores those pairs instead of dropping them. The certified build resolved ~27,900 persons with a measured false-merge rate of 0.48% and 86.8% held-out recall, deployed June 22, 2026; the current spine holds ~29,500 persons. Cannot-link invariants keep known-distinct people from ever merging even when their attributes look similar, a belt-and-suspenders guard against the one class of error that is expensive to undo. A nightly rebuild worker keeps the spine current, and its automatic runs are gated behind exclusion-flag completion: the rebuild only runs unattended once the exclusion review for that cycle is finished, which is an honest operational gate rather than a claim that the rebuild is safe to run at any time.
+Above deterministic grouping sits an **identity resolution engine** for the harder problem of collapsing many contacts into one real person. It uses Splink for probabilistic record linkage. Deterministic rules alone miss fuzzy matches (a shortened name, a changed address, a typo), and probabilistic linkage scores those pairs instead of dropping them. The certified build resolved ~27,900 persons with a measured false-merge rate of 0.48% and 86.8% held-out recall, deployed June 22, 2026; the current spine holds ~30,000 persons (August 2026). Cannot-link invariants keep known-distinct people from ever merging even when their attributes look similar, a belt-and-suspenders guard against the one class of error that is expensive to undo. A nightly rebuild worker keeps the spine current, and its automatic runs are gated behind exclusion-flag completion: the rebuild only runs unattended once the exclusion review for that cycle is finished, which is an honest operational gate rather than a claim that the rebuild is safe to run at any time.
 
 ### Layer 3: Intelligence
 
@@ -61,11 +61,11 @@ The intelligence layer reads the foundation and produces forecasts and reporting
 
 **Sales trends reporting** is in production as of July 6, 2026. It is a category-to-SKU drill-down matrix with signed year-over-year deltas, date-range and granularity controls, and CSV export, verified against roughly 72K rows of history. Its companion profitability view intentionally excludes SKUs that have uncosted components rather than showing a margin the data cannot support; a missing number is safer for a purchasing decision than a confidently wrong one.
 
-**The product knowledge system** turns a catalog of multi-option products into structured, queryable knowledge. It decomposes each product's option graph down to the component SKUs that a given configuration actually consumes, harvests specifications with provenance tracking so every value carries where it came from (61 specification definitions and 145 values), and derives compatibility from interface data rather than hand-maintained lists (coverage ranges from 57% to 99.6% across product families, with 19 bad edges caught by adversarial verification before they shipped). A single content-review console, live since June 26, 2026, is where a reviewer approves harvested content, and a one-fetch public product-page aggregate endpoint returns the assembled view in roughly 300ms. See the [product catalog component](../components/product-catalog.md).
+**The product knowledge system** turns a catalog of multi-option products into structured, queryable knowledge. It decomposes each product's option graph down to the component SKUs that a given configuration actually consumes, harvests specifications with provenance tracking so every value carries where it came from (61 specification definitions and 145 values), and derives compatibility from interface data rather than hand-maintained lists (139 interface declarations derive 860 compatibility links, 93% of sellable products carry at least one, and adversarial verification caught 19 bad edges before they shipped). A single content-review console, live since June 26, 2026, is where a reviewer approves harvested content, and a one-fetch public product-page aggregate endpoint returns the assembled view in roughly 300ms. See the [product catalog component](../components/product-catalog.md).
 
 ### Layer 4: AI-agent tool layer
 
-The top layer exposes Nexus to AI agents through a Model Context Protocol server: 117 tools as verified in July 2026. Reads go through a dual-layer read-only SQL guard so a generated query cannot mutate data. Writes are never silent: every write is preview-then-confirm, so the agent proposes a change, the change is shown, and it applies only on explicit confirmation. Before any of this reaches production it passes a three-phase pre-deployment security gate, the same gate that catches injection and access findings in the validation pass rather than in the field. See [ADR-021](../decisions/021-pre-deployment-security-audit-pattern.md).
+The top layer exposes Nexus to AI agents through a Model Context Protocol server: 118 tools as verified in August 2026. Reads go through a dual-layer read-only SQL guard so a generated query cannot mutate data. Writes are never silent: every write is preview-then-confirm, so the agent proposes a change, the change is shown, and it applies only on explicit confirmation. Before any of this reaches production it passes a three-phase pre-deployment security gate, the same gate that catches injection and access findings in the validation pass rather than in the field. See [ADR-021](../decisions/021-pre-deployment-security-audit-pattern.md).
 
 ## The context diagram (live traffic)
 
@@ -84,7 +84,7 @@ flowchart TB
         Flask["Flask API"]
         Postgres[("PostgreSQL")]
         Redis[("Redis<br/>rate limits + shared session")]
-        Heartbeats["9 background heartbeats<br/>(threaded intervals)"]
+        Heartbeats["18 background heartbeats<br/>(threaded intervals)"]
 
         Nginx --> Gunicorn
         Gunicorn --> Flask
@@ -100,7 +100,7 @@ flowchart TB
     end
 
     subgraph Agents["AI-agent tool layer"]
-        MCP["MCP server (117 tools)"]
+        MCP["MCP server (118 tools)"]
     end
 
     subgraph Storefront["Public storefront"]
@@ -166,9 +166,9 @@ flowchart TB
 
 The database is deliberately partitioned into three zones, each with different write semantics. This partition is what makes the customer data foundation trustworthy: reads know which zone they touch, and writes cannot cross into a zone they are not allowed to change.
 
-- **ERP Zone** (~35 tables): products, SKUs, options, inventory, orders, and sync-audit tables. The write path is exclusively the 9 heartbeat services. Routes read this zone; they do not write it. Every change is logged to `sync_changelog` with the triggering service and the field-level diff.
-- **Relations Zone** (16 tables, `rel_*` prefix): portal-editable entity taxonomy, option groups, bundled credits, and link-group logic. User-triggered writes are expected here and nowhere else in the schema. It sits on top of the ERP zone and is the layer operators edit through the dashboard.
-- **Portal Zone** (1 table, `portal_sku_metadata`): SKU-level display overrides synced from an external portal instance. Intentionally minimal; most portal data flows through the REST API rather than being mirrored locally.
+- **ERP Zone** (~35 tables): products, SKUs, options, inventory, orders, and sync-audit tables. The write path is exclusively the heartbeat services. Routes read this zone; they do not write it. Every change is logged to `sync_changelog` with the triggering service and the field-level diff.
+- **Relations Zone** (20+ tables, `rel_*` prefix): portal-editable entity taxonomy, option groups, bundled credits, and link-group logic. User-triggered writes are expected here and nowhere else in the schema. It sits on top of the ERP zone and is the layer operators edit through the dashboard.
+- **Portal Zone** (a small set of `portal_*` tables): SKU-level display overrides and mappings synced from an external portal instance. Intentionally minimal; most portal data flows through the REST API rather than being mirrored locally.
 
 Every read path in the application knows which zone it is reading from and applies the matching access controls. Public reads (catalog, feeds) touch only the ERP zone, authenticated user writes touch only the Relations zone, and system-triggered writes happen only inside heartbeat services.
 
@@ -231,4 +231,4 @@ The Nexus Connector is architecturally distinct from the main API. It is a Windo
 - Internal ticket tracking (lives in Monday.com, not Nexus).
 - Separate personal projects unrelated to this platform.
 
-Every component on the diagram is live, except the Forecast backtests job: it runs on schedule to validate the model, but its output does not feed any live purchasing decision (see Layer 3: Intelligence). Every other arrow represents traffic flowing in production as of a July 2026 review.
+Every component on the diagram is live, except the Forecast backtests job: it runs on schedule to validate the model, but its output does not feed any live purchasing decision (see Layer 3: Intelligence). Every other arrow represents traffic flowing in production as of an August 2026 review.

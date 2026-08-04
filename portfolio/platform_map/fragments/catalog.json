@@ -1,13 +1,15 @@
 {
- "id": "catalog",
- "title": "Product Catalog and Knowledge Graph",
- "card": "Compatibility coverage across the catalog raised from 57% to 99.6% of products.",
- "what": "I built the layer that turns the ERP's product model into what the public website shows, and the knowledge graph that answers which parts work together.",
- "problem_label": "The constraint",
- "problem": "The ERP stores option names as raw internal strings and versions a product by duplicating its record, so nothing in it is shaped like a product page. Customers also ask which accessory fits which unit, and that answer lived in support articles and in the heads of the people who have been there longest.",
- "result": "The website renders from a model covering more than 56 product types, and compatibility coverage went from 57% of products to 99.6%.",
- "how": [
-  "Five services read the product model out of PostgreSQL and emit what the storefront expects, with raw option names mapped into categories a customer can actually read. A product page composes from nine independent fragments in roughly 300ms, and each fragment is isolated, so one slow section degrades itself and not the page.",
-  "The knowledge system models a sellable product as a graph, so an option a customer picks resolves into the component SKUs that choice actually adds. Spec values are harvested from support articles and every value keeps a pointer back to the article it came from, so a reviewer can check a number against its source. Each product declares its connector interfaces, and compatibility is computed from those declarations across 491 derived relationships."
- ]
+  "id": "catalog",
+  "title": "Product Catalog and Knowledge Graph",
+  "card": "What each product is, and what it works with, derived instead of typed in.",
+  "what": "I built the layer that decides what a product is, and the knowledge graph that answers which parts actually work together.",
+  "problem_label": "The constraint",
+  "problem": "The ERP stores option names as raw internal strings and versions a product by duplicating its record, so nothing in it is shaped like a product page. Compatibility was not just unshaped, it was unwritten: which accessory fits which unit lived in support articles and in the heads of the people who have been there longest.",
+  "result": "The website renders from a model covering more than 56 product types, and 139 interface declarations derive 860 compatibility links across the catalog, with 93% of sellable products carrying at least one.",
+  "how": [
+    "Five services read the product model out of PostgreSQL and emit what the storefront expects, with raw option names mapped into categories a customer can actually read. A product page composes from nine independent fragments in roughly 300ms, and each fragment is isolated, so one slow section degrades itself and not the page.",
+    "The graph does not store which products go together. Each product declares the interfaces it exposes and the ones it accepts, on three axes: the connector it plugs into, the termination its firing cues need, and the chassis it physically fits. Compatibility is derived from those declarations every night. Eighteen antennas are eighteen small declarations rather than the 306 pairs they imply, and adding a nineteenth connects it to all of them without anyone editing a pair.",
+    "An option a customer picks resolves into the component SKUs that choice actually adds, so the graph describes a configured product and not just a catalog entry. Specification values are harvested from support articles and every value keeps a pointer back to the article it came from, so a reviewer can check a number against its source."
+  ],
+  "github": "components/product-catalog"
 }

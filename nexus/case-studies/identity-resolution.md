@@ -18,7 +18,7 @@ The engine uses Splink probabilistic record linkage over the governed Postgres m
 
 ## Outcome
 
-Before the engine, exact-match dedup could not collapse these duplicate accounts, fragmenting each customer's view across internal systems. The certified build (2026-06-22) collapsed roughly 43,000 accounts into ~27,900 persons at a measured 0.48% false-merge rate, with 88.8% of persons definitively known. As the underlying contact mirror grew, a rebuild verified on 2026-07-09 produced a current spine of ~29,500 persons, ~8,200 clusters, ~24,800 cluster members, and ~1,300 hierarchy accounts. Because false merges are the expensive error, the two-tier defense of owner-scoped edges plus non-overridable cannot-link invariants is the load-bearing result: the over-merge that review caught once is now caught automatically by both the matcher and an independent structural guard.
+Before the engine, exact-match dedup could not collapse these duplicate accounts, fragmenting each customer's view across internal systems. The certified build (2026-06-22) collapsed roughly 43,000 accounts into ~27,900 persons at a measured 0.48% false-merge rate, with 88.8% of persons definitively known. As the underlying contact mirror grew, later rebuilds kept pace: a rebuild verified on 2026-07-09 produced ~29,500 persons across ~8,200 clusters (~24,800 cluster members, ~1,300 hierarchy accounts), and the spine stood at ~30,000 persons as of August 2026. Because false merges are the expensive error, the two-tier defense of owner-scoped edges plus non-overridable cannot-link invariants is the load-bearing result: the over-merge that review caught once is now caught automatically by both the matcher and an independent structural guard.
 
 ## Limitations
 

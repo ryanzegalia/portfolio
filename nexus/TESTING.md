@@ -42,4 +42,4 @@ See: [ADR-020](decisions/020-sync-changelog-as-cross-cutting-activity-feed.md)
 
 ## The Trade-off
 
-A test suite would catch regressions in internal logic. The mechanisms above catch failures at system boundaries where the actual risk lives. Both approaches have blind spots. Given the constraint of a solo developer maintaining 58 services against 15 external integrations, the investment went into runtime correctness rather than offline test coverage.
+A test suite would catch regressions in internal logic. The mechanisms above catch failures at system boundaries where the actual risk lives. Both approaches have blind spots. Given the constraint of a solo developer maintaining roughly 260 service modules against 15 external integrations, the investment went into runtime correctness rather than offline test coverage.

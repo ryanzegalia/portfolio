@@ -2,6 +2,10 @@
 
 The generated template is NEVER edited by hand. Sources of truth:
   - platform_map/template.html          the page shell (Jinja, extends base)
+  - platform_map/hub.json               the center node's modal (business
+        register, no counts of tables/routes/tools -- those live as the
+        homepage card's footnote). Ryan, 2026-08-03: "this isn't a technical
+        walk through."
   - platform_map/fragments/<id>.json    one system each, business-first
         (Ryan, round 3): {id, title, card, what, problem, result,
         how: [paragraphs]}. "card" is the single outcome line the cluster
@@ -9,7 +13,18 @@ The generated template is NEVER edited by hand. Sources of truth:
         Optional "shot": {src, alt, caption?} -- a screenshot of the running
         system. src is a bare filename under static/img/systems/. A system
         without one is normal; several of these have no UI to photograph.
-  - ROSTER below                        the map: 5 groups, 23 systems
+        Optional "github": a deep link to this system's SPECIFIC document.
+        A bare stem targets nexus/case-studies/<stem>.md (the original nine,
+        Ryan 2026-08-03); "components/<stem>" targets nexus/components/
+        (approved 2026-08-03 for twelve more). Cards with neither carry
+        nothing, because a generic "see GitHub" teaches a reader the link is
+        not worth a click. The target file must exist or the build fails.
+  - ROSTER below                        the map: the groups and their systems
+
+System and group COUNTS are never typed into copy. The hero and the hub lede
+carry __SYSTEM_COUNT__ / __GROUP_COUNT_WORD__ placeholders that this script
+fills from ROSTER, because the hero shipped "Twenty-three systems" for three
+days after the roster reached 26.
 
 The page is the SPOKE MAP of the revenue operations platform ONLY (Ryan,
 2026-07-27): hub + five groups around it, in the site's light theme. Personal
@@ -34,9 +49,21 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 FRAG_DIR = REPO / "platform_map" / "fragments"
 TEMPLATE = REPO / "platform_map" / "template.html"
+HUB_FILE = REPO / "platform_map" / "hub.json"
 SHOT_DIR = REPO / "static" / "img" / "systems"
 SHOT_URL = "/static/img/systems/"
 OUT = REPO / "templates" / "platform_map.html"
+
+# Deep links land on a file in the sibling nexus/ tree, so a broken one is a
+# build failure rather than a 404 a reader finds first. Bare stems are
+# case studies; a "components/" prefix targets the component catalog.
+CASE_DIR = REPO.parent / "nexus" / "case-studies"
+CASE_URL = "https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/"
+COMP_DIR = REPO.parent / "nexus" / "components"
+COMP_URL = "https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/"
+CONN_DIR = REPO.parent / "nexus" / "connector"
+CONN_URL = "https://github.com/ryanzegalia/portfolio/blob/main/nexus/connector/"
+GH_FOLDERS = {"components": (COMP_DIR, COMP_URL), "connector": (CONN_DIR, CONN_URL)}
 
 # The map: five groups around the hub, in spoke order (12 o'clock, clockwise).
 # (slug, name, one-line descriptor, [system ids])
@@ -49,13 +76,14 @@ ROSTER = [
      ["mirror", "identity", "dedupe"]),
     ("operations-tools", "Operations Tools",
      "What the warehouse, accounting, and marketing teams open to get their work done.",
-     ["pricing", "tax-recon", "qc", "fulfillment", "catalog", "hazmat"]),
+     ["pricing", "tax-recon", "payment-recon", "order-desk", "qc", "fulfillment",
+      "catalog", "hazmat"]),
     ("intelligence", "Intelligence and Reporting",
      "What the business can see once its data is collected in one place.",
      ["forecasting", "sales-trends", "analytics", "cart", "monitoring"]),
     ("platform-agents", "Platform and Agents",
      "What keeps everything else running, plus the layer an AI assistant works through.",
-     ["agents", "auth", "infra", "connector"]),
+     ["agents", "write-safety", "auth", "infra", "connector"]),
 ]
 
 # Fragment schema, round 3 (business-first). Order here is render order.
@@ -115,6 +143,32 @@ BANNED_RE = (re.compile(r"\b(" + "|".join(_term_pattern(t) for t in BANNED) + r"
 # (the personal-project word family moved into the local term list as "<name>*")
 JINJA_RE = re.compile(r"\{\{|\{%|%\}|\}\}")
 SHOT_NAME_RE = re.compile(r"^[a-z0-9][a-z0-9._-]*\.(png|jpg|jpeg|webp)$")
+CASE_NAME_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+
+# Counts appear in copy as words, in the register's own style ("Twenty-three
+# systems"), so the substitution has to produce the word and not a numeral.
+NUMBER_WORDS = {
+    1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six",
+    7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve",
+    13: "Thirteen", 14: "Fourteen", 15: "Fifteen", 16: "Sixteen",
+    17: "Seventeen", 18: "Eighteen", 19: "Nineteen", 20: "Twenty",
+    21: "Twenty-one", 22: "Twenty-two", 23: "Twenty-three",
+    24: "Twenty-four", 25: "Twenty-five", 26: "Twenty-six",
+    27: "Twenty-seven", 28: "Twenty-eight", 29: "Twenty-nine", 30: "Thirty",
+}
+
+
+def number_word(n: int) -> str:
+    """The count as a word, or the numeral if the map outgrows the table."""
+    return NUMBER_WORDS.get(n, str(n))
+
+
+def fill_counts(text: str, n_systems: int, n_groups: int) -> str:
+    return (text
+            .replace("__SYSTEM_COUNT_WORD__", number_word(n_systems))
+            .replace("__SYSTEM_COUNT__", str(n_systems))
+            .replace("__GROUP_COUNT_WORD__", number_word(n_groups))
+            .replace("__GROUP_COUNT__", str(n_groups)))
 
 
 def asset_version(path: Path) -> str:
@@ -173,6 +227,32 @@ def lint_shot(node_id: str, shot: object, errors: list) -> dict | None:
         "v": asset_version(path),
         "size": png_size(path),
     }
+
+
+def lint_github(node_id: str, stem: object, errors: list) -> str:
+    """Validate an optional deep link. Returns the cleaned value.
+
+    A bare stem is a case study; a "components/<stem>" value is a component
+    doc. The document has to exist. A card that promises a specific writeup
+    and lands on a 404 costs more than the links buy, and the reader who
+    clicks it is the one most worth keeping.
+    """
+    if not isinstance(stem, str):
+        errors.append(f"{node_id}.json: github must be a string (got {stem!r})")
+        return ""
+    folder, name = (stem.split("/", 1) + [""])[:2] if "/" in stem else ("case-studies", stem)
+    valid_folder = folder == "case-studies" or folder in GH_FOLDERS
+    valid_name = re.match(r"^[A-Za-z0-9][A-Za-z0-9-]*$", name) is not None
+    if not (valid_folder and valid_name):
+        errors.append(f"{node_id}.json: github must be a filename stem, "
+                      f"components/<stem>, or connector/<stem> (got {stem!r})")
+        return ""
+    target_dir = GH_FOLDERS[folder][0] if folder in GH_FOLDERS else CASE_DIR
+    if not (target_dir / f"{name}.md").is_file():
+        errors.append(f"{node_id}.json: github target not on disk: "
+                      f"{target_dir / (name + '.md')}")
+        return ""
+    return stem
 
 
 def lint_text(node_id: str, field: str, text: str, errors: list) -> None:
@@ -254,6 +334,7 @@ def load_fragments() -> tuple[dict, list]:
         for i, p in enumerate(how):
             lint_text(nid, f"how[{i}]", p, errors)
         shot = lint_shot(nid, f["shot"], errors) if f.get("shot") is not None else None
+        gh = lint_github(nid, f["github"], errors) if f.get("github") is not None else ""
         frags[nid] = {
             "title": f["title"].strip(),
             "card": f["card"].strip(),
@@ -263,8 +344,56 @@ def load_fragments() -> tuple[dict, list]:
             "result": f["result"].strip() if f.get("result") else "",
             "how": [p.strip() for p in how],
             "shot": shot,
+            "github": gh,
         }
     return frags, errors
+
+
+def load_hub(n_systems: int, n_groups: int) -> tuple[dict, list]:
+    """The center node's modal copy. Same ASCII / banned-identifier floor.
+
+    It is not a fragment: it has no roster slot, no screenshot and no
+    problem/result shape, and it is deliberately in the business register
+    while every system card carries first-person authorship.
+    """
+    errors = []
+    try:
+        h = json.loads(HUB_FILE.read_text(encoding="ascii"))
+    except UnicodeDecodeError:
+        return {}, [f"{HUB_FILE.name}: non-ASCII bytes"]
+    except json.JSONDecodeError as e:
+        return {}, [f"{HUB_FILE.name}: bad JSON ({e})"]
+
+    for field in ("title", "eyebrow", "lede"):
+        if not isinstance(h.get(field), str) or not h[field].strip():
+            errors.append(f"hub.json: missing {field}")
+    v = h.get("body")
+    if not isinstance(v, list) or not v or not all(isinstance(p, str) and p.strip() for p in v):
+        errors.append("hub.json: body must be a non-empty list of strings")
+    ctas = h.get("ctas")
+    if not isinstance(ctas, list) or not ctas:
+        errors.append("hub.json: ctas must be a non-empty list of {label, href}")
+        ctas = []
+    for i, c in enumerate(ctas):
+        if not isinstance(c, dict) or not c.get("label") or not c.get("href"):
+            errors.append(f"hub.json: ctas[{i}] must be {{label, href}}")
+    if errors:
+        return {}, errors
+
+    hub = {
+        "title": fill_counts(h["title"].strip(), n_systems, n_groups),
+        "eyebrow": h["eyebrow"].strip(),
+        "lede": fill_counts(h["lede"].strip(), n_systems, n_groups),
+        "body": [fill_counts(p.strip(), n_systems, n_groups) for p in h["body"]],
+        "ctas": [{"label": c["label"].strip(), "href": c["href"].strip()} for c in ctas],
+    }
+    for field in ("title", "eyebrow", "lede"):
+        lint_text("hub", field, hub[field], errors)
+    for i, p in enumerate(hub["body"]):
+        lint_text("hub", f"body[{i}]", p, errors)
+    for i, c in enumerate(hub["ctas"]):
+        lint_text("hub", f"ctas[{i}].label", c["label"], errors)
+    return hub, errors
 
 
 def shot_html(shot: dict | None) -> str:
@@ -285,7 +414,54 @@ def shot_html(shot: dict | None) -> str:
             f'    </figure>\n')
 
 
-def build(frags: dict) -> str:
+def github_html(stem: str) -> str:
+    """The deep link to this system's document, or nothing.
+
+    Emitted inside .map-node-body so the modal, the no-JS reader and the
+    crawlable DOM all get it from one place, same as the screenshot.
+    Case studies keep their approved link text; component docs get their own.
+    """
+    if not stem:
+        return ""
+    if "/" in stem:
+        folder, name = stem.split("/", 1)
+        url = GH_FOLDERS[folder][1]
+        return (f'    <p class="node-source">'
+                f'<a href="{url}{name}.md" rel="noopener">'
+                f'Read the full writeup on GitHub</a></p>\n')
+    return (f'    <p class="node-source">'
+            f'<a href="{CASE_URL}{stem}.md" rel="noopener">'
+            f'Read the case study on GitHub</a></p>\n')
+
+
+def hub_html(hub: dict) -> str:
+    """The center node's reader article. The map JS opens it as a modal.
+
+    Outside the .reader-domain sections on purpose: the hub belongs to no
+    group, and the JS derives GROUPS by walking those sections.
+    """
+    e = html.escape
+    body = "\n".join(f"      <p>{e(p)}</p>" for p in hub["body"])
+    ctas = "\n".join(
+        f'      <a class="hub-cta" href="{e(c["href"])}">{e(c["label"])}</a>'
+        for c in hub["ctas"])
+    return f"""<article class="map-node map-hub-node" id="n-hub" data-node="hub" data-title="{e(hub["title"])}" data-eyebrow="{e(hub["eyebrow"])}">
+  <h2 class="map-node-title">{e(hub["title"])}</h2>
+  <div class="map-node-body">
+    <p class="node-what hub-lede">{e(hub["lede"])}</p>
+    <div class="node-detail">
+    <div class="node-block">
+{body}
+    </div>
+    <div class="node-block hub-ctas">
+{ctas}
+    </div>
+    </div>
+  </div>
+</article>"""
+
+
+def build(frags: dict, hub: dict) -> str:
     """Emit the reader DOM: one section per group, one article per system.
 
     This is the crawlable, no-JS-readable truth. The map JS in the template
@@ -293,7 +469,7 @@ def build(frags: dict) -> str:
     drawer copies .map-node-body verbatim.
     """
     e = html.escape
-    out = []
+    out = [hub_html(hub)]
     for slug, gname, gdesc, ids in ROSTER:
         out.append(f'<section class="reader-domain" data-group="{slug}" '
                    f'data-group-name="{e(gname)}" data-group-desc="{e(gdesc)}">')
@@ -325,7 +501,7 @@ def build(frags: dict) -> str:
     <p class="node-what">{e(frag["what"])}</p>
 {shot_html(frag["shot"])}    <div class="node-detail">
 {body}
-    </div>
+{github_html(frag["github"])}    </div>
     </div>
   </article>""")
         out.append("</section>")
@@ -334,6 +510,9 @@ def build(frags: dict) -> str:
 
 def main() -> int:
     frags, errors = load_fragments()
+    n_systems = sum(len(ids) for _, _, _, ids in ROSTER)
+    hub, hub_errors = load_hub(n_systems, len(ROSTER))
+    errors = errors + hub_errors
     if errors:
         for err in errors:
             print(f"BLOCK: {err}", file=sys.stderr)
@@ -344,7 +523,8 @@ def main() -> int:
         print(f"BLOCK: placeholder must appear exactly once in {TEMPLATE.name} "
               f"(found {shell.count('__MAP_CONTENT__')})", file=sys.stderr)
         return 1
-    content = build(frags)
+    shell = fill_counts(shell, n_systems, len(ROSTER))
+    content = build(frags, hub)
     banner = ("{# GENERATED by scripts/build_platform_map.py -- edit "
               "platform_map/template.html and platform_map/fragments/, "
               "then rebuild. Never edit this file. #}\n")
@@ -352,13 +532,20 @@ def main() -> int:
     if "__MAP_CONTENT__" in page:
         print("BLOCK: placeholder still present after render", file=sys.stderr)
         return 1
+    leftover = re.search(r"__(SYSTEM|GROUP)_COUNT(_WORD)?__", page)
+    if leftover:
+        print(f"BLOCK: count placeholder survived render: {leftover.group(0)}",
+              file=sys.stderr)
+        return 1
     page.encode("ascii")  # hard guarantee: the artifact is pure ASCII
     OUT.write_text(page, encoding="ascii")
 
-    per = ", ".join(f"{g}: {len(ids)}" for _, g, _, ids in ROSTER)
+    per =", ".join(f"{g}: {len(ids)}" for _, g, _, ids in ROSTER)
     shots = sum(1 for f in frags.values() if f["shot"])
+    links = sum(1 for f in frags.values() if f["github"])
     print(f"built {OUT.relative_to(REPO)} -- {len(frags)} systems ({per})")
     print(f"screenshots: {shots}/{len(frags)}")
+    print(f"deep links: {links}/{len(frags)}")
     return 0
 
 

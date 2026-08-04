@@ -11,7 +11,8 @@
   ],
   "shot": {
     "src": "dedupe.png",
-    "alt": "Bulk address verification over 118,190 ingested addresses, reporting 291 undeliverable and 16,705 duplicate groups. The Duplicates view lists each customer with the address on file and the carrier's residential or commercial verdict next to the flag the record currently carries.",
+    "alt": "Bulk address verification over 118,946 ingested addresses, reporting 291 undeliverable and 16,705 duplicate groups. The Duplicates view lists each customer with the address on file and the carrier's residential or commercial verdict next to the flag the record currently carries.",
     "caption": "Names and street lines are substituted, and the substitution is stable, so the two halves of a duplicate group still land on the same address here. City, state and postcode are unchanged."
-  }
+  },
+  "github": "customer-catalog-dedupe"
 }

@@ -8,7 +8,7 @@ The standard Flask answer is "use Redis for sessions, use Flask-Session." But Fl
 
 What Redis IS used for:
 
-1. **Rate limit counters** (Flask-Limiter uses Redis as its storage backend). 596 routes with various rate limits -- the counters have to be consistent across workers or a user could burst past the limit by hitting different workers.
+1. **Rate limit counters** (Flask-Limiter uses Redis as its storage backend). Hundreds of routes carry rate limits (596 routes at the time of this decision) -- the counters have to be consistent across workers or a user could burst past the limit by hitting different workers.
 2. **The ERP license seat session sharing.** The auth service maintains a single authenticated session against the ERP's office backend (RSA-encrypted login, cookie-based). Each the ERP login consumes a license seat. Having every worker log in independently would consume all available seats. Redis holds the current valid session cookies so every worker can reuse them.
 3. **Occasional small cache entries** for cross-worker consistency.
 

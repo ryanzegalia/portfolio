@@ -2,7 +2,7 @@
 
 > Every technology listed here was verified against `api/requirements.txt`, `api/config.py`, `api/utils/db.py`, `connector/requirements.txt`, or import statements in service files during a July 2026 review. The platform began in late December 2025 and has run in production since February 2026. Older documentation says SQLite; that is out of date. The migration to PostgreSQL happened on 2026-03-01 (see [ADR-002](../decisions/002-postgresql-migration-with-sqlite3-compat-shim.md)). PostgreSQL via PgBouncer remains the base of the stack.
 
-~160 service modules / ~850 routes / ~150K lines of Python (July 2026 re-measure), see METRICS.md.
+~260 service modules / ~975 routes / ~215K lines of Python (August 2026 re-measure), see METRICS.md.
 
 ## Main Nexus API (runs on the production VPS)
 
@@ -75,7 +75,7 @@ These run on a dedicated worker VPS so heavier batch jobs do not compete with re
 
 | Component | Choice | Why |
 |---|---|---|
-| Agent interface | Model Context Protocol server runtime | Exposes 117 tools (verified July 2026) that let an AI agent operate the platform. A dual-layer read-only SQL guard keeps generated queries from mutating data, and every write is preview-then-confirm so nothing applies without explicit approval. A three-phase pre-deployment security gate runs before release. See [ADR-021](../decisions/021-pre-deployment-security-audit-pattern.md). |
+| Agent interface | Model Context Protocol server runtime | Exposes 118 tools (verified August 2026) that let an AI agent operate the platform. A dual-layer read-only SQL guard keeps generated queries from mutating data, and every write is preview-then-confirm so nothing applies without explicit approval. A three-phase pre-deployment security gate runs before release. See [ADR-021](../decisions/021-pre-deployment-security-audit-pattern.md). |
 
 ### Cloud services
 

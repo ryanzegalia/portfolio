@@ -1,0 +1,13 @@
+{
+  "id": "order-desk",
+  "title": "The Order Desk",
+  "card": "One screen for a rep taking an order, instead of three.",
+  "what": "Sales reps work an order on a desk I built for them, from finding the customer through pricing the freight and placing it.",
+  "problem_label": "Why it exists",
+  "problem": "Taking an order over the phone on the legacy path was slow. Its quote builder did not work, so a rep could not send a customer a price and pick it back up later, and there was no way to edit the cart of a customer already on the site. The rep worked across three separate pages, moved between them mid-call, and looked the same customer up again in each one.",
+  "how": [
+    "The desk is one page with the customer pinned to the left and three tabs across it: shoppers on the site right now, the order being built, and quotes saved earlier. A rep searches for a person. The ERP records the same customer as several separate accounts, and the identity work underneath is what collapses those into one result, so a rep can move between that person's accounts without losing the order in progress.",
+    "Everything the desk writes goes into the ERP through the same interface the ERP's own order screen uses, so a desk order and a hand-keyed order are the same kind of record and nothing downstream has to know which was which. Lines carry their own stock rollup, the ship-to and live carrier rates resolve in the same screen, freight can be overridden when the rate table does not cover what is shipping, and a part-built order can be saved, shared with another rep, or duplicated."
+  ],
+  "github": "components/order-desk"
+}

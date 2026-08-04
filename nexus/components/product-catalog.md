@@ -7,7 +7,7 @@ Five services turn the ERP's raw product data into a website-ready catalog.
 
 ## What it is
 
-The transformation layer between the ERP's ERP data model (which uses duplication-based versioning and raw option names) and the public website's JSON catalog (which expects human-friendly names, stable URLs, and computed option pricing). Also handles historical product version resolution and change ripple analysis.
+The transformation layer between the ERP's data model (which uses duplication-based versioning and raw option names) and the public website's JSON catalog (which expects human-friendly names, stable URLs, and computed option pricing). Also handles historical product version resolution and change ripple analysis.
 
 ## Files
 

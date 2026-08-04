@@ -14,5 +14,6 @@
     "src": "marketing-sync.png",
     "alt": "Trade show tickets arriving in the platform: 635 in total, 603 active, 563 already pushed to the email platform and 40 still waiting. Every attendee row carries their ticket type, the add-ons they bought, whether the ticket is still active, and its sync state.",
     "caption": "Attendee names, addresses and companies are substituted. Ticket types, add-ons and sync states are real, and the forty pending rows are what the next push sends."
-  }
+  },
+  "github": "components/email-marketing"
 }

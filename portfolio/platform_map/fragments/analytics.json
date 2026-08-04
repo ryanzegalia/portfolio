@@ -1,16 +1,17 @@
 {
- "id": "analytics",
- "title": "Storefront Analytics and Attribution",
- "card": "Storefront measurement built from nothing, down to the order each session became.",
- "what": "I built the storefront's analytics: the telemetry that records what visitors do, and the console that reads it back. The site measured nothing about itself before this.",
- "problem": "The storefront ran for years without reporting a single thing about its own traffic. Nobody could say how many visits became orders, which products people looked at, or where the buyers came from, and decisions about the site and the product line were being made without that information.",
- "result": "Five views covering live visitors, the view-to-order funnel, acquisition, product behavior, and on-site search, and every aggregate number drills down to the individual sessions that produced it.",
- "how": [
-  "Attribution was the hard part. The pipeline is anonymous by design, with no cross-site identity and no personal data in the event stream, so a session cannot simply be joined to an order. The bridge I built matches sessions to orders on timing at checkout, and the matches land inside 15-second windows; sessions recorded before the bridge existed were matched retroactively. A session that does not match stays unattributed, and the console reports how many did not match. Money figures come off the authoritative order record and join through the bridge, so the console never invents its own revenue number."
- ],
- "shot": {
-  "src": "analytics.png",
-  "alt": "The funnel view of the storefront console. It reports 9,849 visits and 71 orders for the period, then breaks the product builder into its own stages, each with a count and a share of visits.",
-  "caption": "I count the product builder separately from the real conversion above it, because most shoppers buy without ever opening it."
- }
+  "id": "analytics",
+  "title": "Storefront Analytics and Attribution",
+  "card": "Storefront measurement built from nothing, down to the order each session became.",
+  "what": "I built the storefront's analytics: the telemetry that records what visitors do, and the console that reads it back. The site measured nothing about itself before this.",
+  "problem": "The storefront ran for years without reporting a single thing about its own traffic. Nobody could say how many visits became orders, which products people looked at, or where the buyers came from, and decisions about the site and the product line were being made without that information.",
+  "result": "Five views covering live visitors, the view-to-order funnel, acquisition, product behavior, and on-site search, and every aggregate number drills down to the individual sessions that produced it.",
+  "how": [
+    "Attribution was the hard part. The pipeline is anonymous by design, with no cross-site identity and no personal data in the event stream, so a session cannot simply be joined to an order. The bridge I built matches sessions to orders on timing at checkout, and the matches land inside 15-second windows; sessions recorded before the bridge existed were matched retroactively. A session that does not match stays unattributed, and the console reports how many did not match. Money figures come off the authoritative order record and join through the bridge, so the console never invents its own revenue number."
+  ],
+  "shot": {
+    "src": "analytics.png",
+    "alt": "The storefront funnel. Sixty-six orders against four thousand visits, a 0.9 percent order conversion, and every stage between the two counted in turn: arrived, viewed a page, opened the product builder, added to cart. Each stage carries its own count and its share of visits, so the drop between any two of them is readable.",
+    "caption": "Phone and office orders appear in the order count but have no visit behind them, so the funnel counts only what the site itself saw."
+  },
+  "github": "storefront-analytics-attribution"
 }

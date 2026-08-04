@@ -1,16 +1,17 @@
 {
- "id": "identity",
- "title": "Identity Resolution",
- "card": "43,000 accounts resolved into about 29,500 real people.",
- "what": "An engine I built to decide which of the ERP's customer accounts are the same human being.",
- "problem": "The ERP holds about 43,000 accounts, and many of them are one person showing up more than once: households, shared email addresses, repeat guest checkouts, dealer staff. Exact matching cannot collapse those, so anyone asking a question about a customer is really asking about one fragment of that customer.",
- "result": "The spine resolves those accounts into about 29,500 people across 8,200 household clusters, at a measured 0.48% false-merge rate on the build certified for production.",
- "how": [
-  "It runs on Splink probabilistic record linkage, tuned for precision over recall, because a wrong merge puts one customer's orders and history into another customer's view. People known to be distinct carry cannot-link rules that no later stage of the pipeline is allowed to override. The nightly rebuild waits on a human review step before it runs, because the rebuild replaces the live spine."
- ],
- "shot": {
-  "src": "identity.png",
-  "alt": "The customer console. Facets across the top count 30,090 customers by brand, spend band, recency, state, support history and subscription, and a confidence row sorts them by how each identity was established, from externally verified down to probabilistic and flagged. Below that, resolved customers with their order counts, last order dates and how many raw accounts each one absorbed.",
-  "caption": "Names and addresses here are substituted. Every customer carries the reason its identity was believed, and the accounts column counts the raw records each one absorbed."
- }
+  "id": "identity",
+  "title": "Identity Resolution",
+  "card": "More than 40,000 accounts resolved into about 30,000 real people.",
+  "what": "An engine I built to decide which of the ERP's customer accounts are the same human being.",
+  "problem": "The ERP holds more than 40,000 accounts, and many of them are one person showing up more than once: households, shared email addresses, repeat guest checkouts, dealer staff. Exact matching cannot collapse those, so anyone asking a question about a customer is really asking about one fragment of that customer.",
+  "result": "The spine resolves those accounts into about 30,000 people across 8,200 household clusters, at a measured 0.48% false-merge rate on the build certified for production.",
+  "how": [
+    "It runs on Splink probabilistic record linkage, tuned for precision over recall, because a wrong merge puts one customer's orders and history into another customer's view. People known to be distinct carry cannot-link rules that no later stage of the pipeline is allowed to override. The nightly rebuild waits on a human review step before it runs, because the rebuild replaces the live spine."
+  ],
+  "shot": {
+    "src": "identity.png",
+    "alt": "The customer console. Facets across the top count 30,138 customers by brand, spend band, recency, state, support history and subscription, and a confidence row sorts them by how each identity was established, from externally verified down to probabilistic and flagged. Below that, resolved customers with their order counts, last order dates and how many raw accounts each one absorbed.",
+    "caption": "Names and addresses here are substituted. Every customer carries the reason its identity was believed, and the accounts column counts the raw records each one absorbed."
+  },
+  "github": "identity-resolution"
 }

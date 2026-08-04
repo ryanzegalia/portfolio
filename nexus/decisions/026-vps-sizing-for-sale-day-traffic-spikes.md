@@ -1,7 +1,7 @@
 # ADR-026: VPS Sizing and Swap for Sale-Day Traffic Spikes
 ## Context
 
-Nexus runs on a small production VPS (2 vCPUs, 1.9GB RAM, no swap). For steady-state operation this is generous. Nexus is not a high-throughput service -- it is an internal operations platform with a few hundred operator requests per day, plus 9 background heartbeats making a handful of API calls per minute.
+Nexus runs on a small production VPS (2 vCPUs, 1.9GB RAM, no swap). For steady-state operation this is generous. Nexus is not a high-throughput service -- it is an internal operations platform with a few hundred operator requests per day, plus the background heartbeats (9 at the time of this decision) making a handful of API calls per minute.
 
 Sale-day traffic spikes revealed that the VPS configuration (single-threaded sync workers, no swap, default file descriptor limits) couldn't handle concurrent load when a long-running background task coincided with peak customer traffic.
 

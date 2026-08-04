@@ -7,7 +7,7 @@ Workflow tools exist for this category of work but weren't evaluated formally. T
 
 ## Decision
 
-Nexus automations are custom Python code. `erp_rest_client.py` talks to the ERP directly via `requests.Session`. `pricing_service.py` implements its own concurrency control. `tax_recon_service.py` has its own four-tier column resolver. `deal_heartbeat.py` scrapes HTML with BeautifulSoup. The 9 heartbeat services are `threading.Thread` loops that can be modified without waiting on a vendor.
+Nexus automations are custom Python code. `erp_rest_client.py` talks to the ERP directly via `requests.Session`. `pricing_service.py` implements its own concurrency control. `tax_recon_service.py` has its own four-tier column resolver. `deal_heartbeat.py` scrapes HTML with BeautifulSoup. The heartbeat services (9 at the time of this decision, 18 by August 2026) are `threading.Thread` loops that can be modified without waiting on a vendor.
 
 This is the foundational decision the other ADRs in this set build on. Circuit breakers, checkpoint sync, SSE + POST dual paths, per-entity operation locks, idempotent schema migrations -- these are patterns that emerged from building in an environment where arbitrary code could be written.
 

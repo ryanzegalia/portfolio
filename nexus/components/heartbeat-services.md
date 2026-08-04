@@ -1,16 +1,16 @@
 ﻿# Background Heartbeat Services
 > Part of the Nexus production automation platform
 
-Nine background threads that run continuously inside the Gunicorn API process -- the engine that makes Nexus feel live.
+Eighteen background threads that run continuously inside the Gunicorn API process -- the engine that makes Nexus feel live.
 
 
 ## What they are
 
-Nine background threads that run continuously inside the Gunicorn API process, each polling a different external data source on a different cadence, writing delta updates to the local Postgres and `sync_changelog` audit table. Every heartbeat shares the same resilience scaffolding -- circuit breakers, thundering-herd stagger, hydration on restart -- and together they cover the operational surface of the entire platform.
+Eighteen background threads (as of August 2026) run continuously inside the Gunicorn API process, each polling a different external data source on a different cadence, writing delta updates to the local Postgres and `sync_changelog` audit table. Every heartbeat shares the same resilience scaffolding -- circuit breakers, thundering-herd stagger, hydration on restart -- and together they cover the operational surface of the entire platform.
 
-See [SYSTEMS_OVERVIEW.md](../architecture/SYSTEMS_OVERVIEW.md#the-9-background-heartbeat-services) for the table with cadences, purposes, and write targets.
+See [SYSTEMS_OVERVIEW.md](../architecture/SYSTEMS_OVERVIEW.md#layer-1-the-background-heartbeat-services) for the table with cadences, purposes, and write targets.
 
-## The 9 services
+## The original nine, in detail
 
 | Service | Cadence | Purpose |
 |---|---|---|
@@ -23,6 +23,8 @@ See [SYSTEMS_OVERVIEW.md](../architecture/SYSTEMS_OVERVIEW.md#the-9-background-h
 | `msgraph_excel_heartbeat.py` (294 lines) | 15 min | ETag-aware Excel change detection |
 | `deal_heartbeat.py` (779 lines) | 24 hr | Deal drift detection -- see [deal-drift-detection.md](deal-drift-detection.md) |
 | `expo_fetch_heartbeat.py` (469 lines) | 24 hr | Playwright-driven expo ticket fetch |
+
+Nine more heartbeats joined on the same scaffolding after the original core: five read-only settlement mirrors on the payment rails (`erp_payments`, `card_gateway_payments`, `pos_payments`, `paypal_transactions`, `gateway_transactions` -- see [payment-reconciliation.md](payment-reconciliation.md)), the payment reconciliation verdict engine (`payment_recon_heartbeat`), tax-reconciliation ingest, shipping-method sync, and portal token upkeep.
 
 Plus **`nightly_sync.py`** (1,366 lines) -- not a heartbeat but the orchestrator that runs a 7-step full-refresh pipeline at 1:30 AM UTC.
 
@@ -47,7 +49,7 @@ Every heartbeat inherits the same boot sequence:
 - **[ADR-007: Startup recovery for background services](../decisions/007-startup-recovery-for-background-services.md)** -- replay failed services within 2 hours of restart, in dependency order.
 - **[ADR-013: Heartbeat cadence selection](../decisions/013-heartbeat-cadence-selection.md)** -- the four-tier cadence model (5 min / 15 min / hourly / nightly).
 - **[ADR-003: Nightly full-refresh alongside delta sync](../decisions/003-nightly-full-refresh-alongside-delta-sync.md)** -- the safety net that catches anything the heartbeat delta misses.
-- **[ADR-020: sync_changelog as cross-cutting activity feed](../decisions/020-sync-changelog-as-cross-cutting-activity-feed.md)** -- every heartbeat writes here, so the operator sees a unified event timeline across all nine services.
+- **[ADR-020: sync_changelog as cross-cutting activity feed](../decisions/020-sync-changelog-as-cross-cutting-activity-feed.md)** -- every heartbeat writes here, so the operator sees a unified event timeline across all eighteen services.
 
 ## Cross-cutting patterns
 

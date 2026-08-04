@@ -34,6 +34,12 @@ The order ingestion path -- new orders arrive from the ERP every 5 minutes via t
 - **Fulfillment DB is a separate read replica.** `fulfillment_db.py` connects to an AWS RDS MySQL instance (not the main PostgreSQL), using `pymysql` with `DictCursor`. It's the only MySQL connection in the codebase. Used exclusively for hazmat PDF generation to look up order line items and shipping addresses.
 - **Editorial sync pattern for PO shipments.** `po_shipment_sync.py` never bulk deletes -- it marks records `is_stale` when they disappear from the source, then self-heals when they reappear. Prevents data loss from transient Excel file issues.
 
+## Platform-side label generation (July 2026)
+
+The fulfillment station gives warehouse staff one place to produce every label for an order, built for the shipments the ERP prints incompletely: a multi-box shipment gets one label from the ERP, and the hazmat orders that need the rest most are the ones the legacy second system never covered. The station makes the mapping from ERP shipping method to carrier service explicit -- more than 40 method values, 16 of them hazmat methods with their own handling requirements -- so nothing about a label depends on a guess at the moment of printing. Labels are minted through the shipping provider the platform already uses for address validation and tracking, which leaves one integration to maintain instead of one per carrier. See [ADR-048](../decisions/048-platform-side-shipping-label-generation.md).
+
+The station is built to hand fulfillment state back to the ERP through the sync that already exists. That return path is not connected yet, so a label printed at the station is not written onto the order in the ERP today.
+
 ## Inputs and outputs
 
 **Reads from:**

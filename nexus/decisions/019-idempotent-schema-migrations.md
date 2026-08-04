@@ -1,7 +1,7 @@
 # ADR-019: Idempotent Schema Migrations With `ADD COLUMN IF NOT EXISTS`
 ## Context
 
-Nexus has 145 tables across 58 services. Each service owns its own tables and runs its own inline `CREATE TABLE IF NOT EXISTS` and `ALTER TABLE ADD COLUMN IF NOT EXISTS` at startup. No separate migration tool, no versioned migration files, no "run this command before deploying." The code that uses a table is also the code that creates and evolves it.
+At the time of this decision, Nexus had 145 tables across 58 services (the schema has roughly doubled since; see [METRICS.md](../METRICS.md)). Each service owns its own tables and runs its own inline `CREATE TABLE IF NOT EXISTS` and `ALTER TABLE ADD COLUMN IF NOT EXISTS` at startup. No separate migration tool, no versioned migration files, no "run this command before deploying." The code that uses a table is also the code that creates and evolves it.
 
 This worked until 2026-03-10, when two Gunicorn workers both ran `_run_startup_maintenance()` simultaneously and PostgreSQL threw a `pg_type_typname_nsp_index` duplicate key error because both workers were racing to create the same table. Root cause: PostgreSQL's `CREATE TABLE IF NOT EXISTS` is not fully concurrency-safe -- it can throw duplicate key errors when two connections race to create the same table. A second problem compounded it: migration failures were hard to diagnose because error handling was too coarse-grained.
 

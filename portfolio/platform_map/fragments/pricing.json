@@ -12,5 +12,6 @@
     "src": "pricing.png",
     "alt": "Pricing sessions, each one recording whether it worked at product or SKU level, a note saying what it was for, and where it got to. Most read completed, and two of them exist only to correct a specific rule in an earlier session.",
     "caption": "The notes are what the operator wrote at the time. Two of these sessions correct a previous one, and every session can be put back the way it was."
-  }
+  },
+  "github": "pricing-automation"
 }

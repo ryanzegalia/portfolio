@@ -1,0 +1,19 @@
+{
+  "id": "payment-recon",
+  "title": "Payment Reconciliation",
+  "card": "Every payment on every order, checked against the gateway that actually holds the money.",
+  "what": "I built the reconciliation engine that compares what the ERP says it collected against what the payment gateways actually settled, order by order.",
+  "problem_label": "The problem",
+  "problem": "The ERP records a payment when its own checkout tells it to, and nothing after that ever confirms the money arrived. The payments live in the ERP, the settlements live at the card gateway, and the two were never compared, so whether an order had genuinely been paid for was not a question anyone could answer from either system alone.",
+  "result": "Both payment rails are mirrored read-only and joined into a per-order verdict, so any order can be asked whether it is verified, partly verified, still pending, or shipped with nothing behind it. The first run surfaced 92 orders that had shipped against payments the gateway never received: the ERP's checkout had been marking orders paid through a third-party card SDK that the payment provider was winding down, and 91 of the 92 had no transaction at the gateway.",
+  "how": [
+    "Card payments join on the exact transaction reference the gateway issues. PayPal does not, because the ERP stores a third identifier that appears on neither side, so those reconcile on amount, brand, and a three-day window. An order the rails cannot settle either way gets its own verdict and is never assumed paid.",
+    "Nothing reverses on its own. A flagged order is put in front of a person with both sides shown, and if the payment is voided the order is deliberately left unlocked, because a locked order cannot accept a payment and the money still needs collecting."
+  ],
+  "shot": {
+    "src": "payment-recon.png",
+    "alt": "The shipped-without-payment review. Fifty-six orders left the warehouse with no payment on record, split into forty whose payment was voided as unverifiable and sixteen that reached this state on their own. Each row carries a billing check run against the ERP's own billing page, and every one of these came back confirmed unpaid.",
+    "caption": "Dollar amounts are removed from this view. The order numbers, the split and the billing verdicts are what the nightly check actually produces."
+  },
+  "github": "components/payment-reconciliation"
+}

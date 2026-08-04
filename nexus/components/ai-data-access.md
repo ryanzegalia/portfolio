@@ -1,12 +1,12 @@
 # Conversational Data Access (Internal MCP Server)
 > Part of the Nexus production automation platform
 
-An internal MCP server that exposes the platform's data and operational surface as 117 tools (verified July 2026). Internal users -- and the dev environment itself -- issue natural-language questions and get answers grounded in live (or near-live) data, instead of writing SQL or clicking through admin UIs.
+An internal MCP server that exposes the platform's data and operational surface as 118 tools (verified August 2026). Internal users -- and the dev environment itself -- issue natural-language questions and get answers grounded in live (or near-live) data, instead of writing SQL or clicking through admin UIs.
 
 
 ## What it is
 
-A 1,675-line Python MCP server fronting the platform's own data warehouse plus three connected third-party systems (a helpdesk, a marketing-automation platform, and a vendor data feed). 117 tools (verified July 2026), organized into ~37 module files grouped by business domain, grown from 20 tools in mid-April 2026 as the platform expanded.
+A Python MCP server fronting the platform's own data warehouse plus three connected third-party systems (a helpdesk, a marketing-automation platform, and a vendor data feed). 118 tools (verified August 2026), organized by business domain, grown from 20 tools in mid-April 2026 as the platform expanded.
 
 | Domain | What's in it |
 |---|---|

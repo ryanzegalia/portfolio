@@ -7,20 +7,20 @@ The platform is organized as four layers, each independently defensible:
 1. **Ingestion and integration.** 15 external HTTP integrations sync the hosted ERP (orders, fulfillments, inventory, purchase orders, catalog), the support desk, Moosend email marketing, FedEx, USPS and Shippo shipping, Avalara tax, and Monday.com, plus a custom Windows desktop connector.
 2. **Customer data foundation.** A governed PostgreSQL mirror of every customer and contact, with probabilistic identity resolution (Splink) and deduplication.
 3. **Intelligence.** Customer-360 and order-360 views, a product knowledge system, demand forecasting (built and backtested, not yet activated in production), sales-trends and profitability reporting, live cart telemetry with visitor presence, and a storefront analytics console with session-to-order revenue attribution.
-4. **AI-agent tool layer.** 117 MCP tools that expose every layer above to LLM agents, with read-only SQL enforced at two layers and writes gated behind explicit approval.
+4. **AI-agent tool layer.** 118 MCP tools that expose every layer above to LLM agents, with read-only SQL enforced at two layers and writes gated behind explicit approval.
 
 ## By the numbers
 
-All numbers are code-verified or live-DB-verified in [METRICS.md](METRICS.md), as of 2026-07-09:
+All numbers are code-verified or live-DB-verified in [METRICS.md](METRICS.md), as of 2026-08-03. Business-scale counts are published as conservative floors:
 
-- **43,000+ customers** and **117,000+ contacts** in the governed mirror
-- **109,000+ orders** and **719,000+ fulfillments** ingested from the ERP
-- **268 PostgreSQL tables** across the ingestion, foundation, and intelligence layers
-- **117 MCP tools**, read-only SQL enforced at two layers
-- An **identity spine** resolving contacts to **~29,500 persons** across **~8,200 household clusters**
+- **40,000+ customers** and **115,000+ contacts** in the governed mirror
+- **110,000+ orders** and **700,000+ fulfillments** ingested from the ERP
+- **~320 PostgreSQL tables** across the ingestion, foundation, and intelligence layers
+- **118 MCP tools**, read-only SQL enforced at two layers
+- An **identity spine** resolving contacts to **~30,000 persons** across **~8,200 household clusters**
 - **15 external HTTP integrations** across ERP, shipping, tax, email, and project management
 
-As supporting detail, the API tier is about **150,000 lines of Python** across roughly **160 service modules** and **~850 route decorators**, re-measured 2026-07-09. Each service is a distinct integration or operational domain: Nexus replaces 15 disconnected systems and the manual work that used to bridge them.
+As supporting detail, the API tier is about **215,000 lines of Python** across roughly **260 service modules** and **~975 route decorators**, re-measured 2026-08-03. Each service is a distinct integration or operational domain: Nexus replaces 15 disconnected systems and the manual work that used to bridge them.
 
 ## Documentation map
 

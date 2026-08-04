@@ -5,14 +5,14 @@
   "what": "I built three services that pull changed records out of the ERP continuously, so every other tool on the platform works from current data.",
   "problem_label": "The constraint",
   "problem": "Orders, inventory, and product records live in the hosted ERP, and everything I built has to read them. Reading product detail out of the ERP's own backend consumes one of the company's paid license seats, so a sync that opens that backend for every product competes with the people who need those seats to do their jobs.",
-  "result": "Changes land locally within five minutes, and the sync spends a license seat only on the products that actually changed. A nightly full pass keeps the local copy from ever being more than a day out of agreement with the ERP.",
   "how": [
     "The product sync runs in two phases. The first upserts everything the free REST API returns. The second opens the licensed backend reader only for the products the first phase flagged as changed. All three services write field-level diffs into one shared changelog, so a question about what changed has a single place to look.",
-    "Delta polling on its own would not be enough. The ERP sometimes corrects a record without bumping its modification stamp, and a stamp-based query never sees that edit, so a nightly pass re-scans every record regardless of stamp. Each service also holds its checkpoint until the last record of a batch is committed, so an interrupted run resumes where it actually left off."
+    "Delta polling on its own would not be enough. The ERP sometimes corrects a record without bumping its modification stamp, and a stamp-based query never sees that edit, so a nightly pass re-scans every record regardless of stamp. Each service also holds its checkpoint until the last record of a batch is committed, so an interrupted run resumes where it actually left off. The local copy is never more than a day out of agreement with the ERP."
   ],
   "shot": {
     "src": "erp-sync.png",
     "alt": "Ingestion reporting in. Across the top, five stored credentials with the days left before each expires. Below them one tile per sync job, carrying what it changed in the last day, how many times it ran, how many of those runs errored, and when it last finished.",
     "caption": "Run count and error count sit on the same tile, so a job that runs often and fails often is visible without opening it."
-  }
+  },
+  "github": "components/erp-integration"
 }

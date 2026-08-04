@@ -14,9 +14,11 @@ The solution has two parts:
 
 **QC Tracking Service (Nexus)** -- `qc_service.py` -- the server-side system that manages the full lifecycle: serial-number-tracked equipment intake, test session management with configurable per-SKU test definitions, pass/fail/skip result storage with a running inventory ledger, triage queue for failed units, and manager-assigned work targets with auto-completion. It also provides the forecasting dashboard that shows what needs testing based on incoming inventory, current stock levels, and historical throughput.
 
+Of the two parts, the BLE tester is the path the warehouse runs daily -- ~7,900 modules across ~8,100 test sessions from February through July 2026, synced in from the Connector through `testing_service.py`. The `qc_service.py` lifecycle is live code on production, seeded with per-SKU test definitions, and the full intake-to-triage flow is not yet the warehouse's daily path.
+
 All database access goes through the service class -- no raw SQL in route handlers. The **11 interrelated tables** have evolved multiple times (columns added, indexes added, new relationship tables introduced), and not a single route file has changed to accommodate schema changes.
 
-The tested inventory ledger is maintained incrementally, not recomputed. Every pass result increments `qc_sku_counts` via `ON CONFLICT DO UPDATE`. Every fail creates a triage entry automatically. The ledger is live -- no batch job rebuilds it.
+The tested inventory ledger is maintained incrementally by design, never recomputed. Every pass result increments `qc_sku_counts` via `ON CONFLICT DO UPDATE`. Every fail creates a triage entry automatically. No batch job rebuilds the ledger.
 
 Session management handles the "operator forgot to close the session" case. `start_session()` resumes an existing open session if it's less than 24 hours old and belongs to the same user. Sessions older than 24 hours are auto-abandoned with `overall_result='ABANDONED'` before a new one is created, preventing ghost sessions from contaminating throughput stats.
 
@@ -37,8 +39,8 @@ Every session completion writes to `sync_changelog` with `entity_type='qc_event'
 
 ## Outcome
 
-**10,000+ units** tracked per year through the full lifecycle. **500+ hours per year saved** (3 minutes saved per unit across 10,000+ units). Before the system, each unit involved manual data entry -- serial number, test result, notes, disposition -- on paper. After, the operator connects via BLE, runs the test sequence, and taps pass/fail; the system handles the rest.
+**~7,900 units across ~8,100 test sessions** tracked through the live tester path from February through July 2026, a pace that annualizes past the company's warehouse-reported 10,000 units a year. **500+ hours per year saved** against paper (3 minutes of data entry per unit, using that reported throughput). Before the system, each unit involved manual data entry -- serial number, test result, notes, disposition -- on paper. After, the operator connects via BLE, runs the test sequence, and taps pass/fail; the result, the unit's registry row, and the per-tester trace land in the database as they happen. A unit that fails at a customer site resolves to the session that passed it and the person who ran it.
 
-The failed unit triage queue is now actionable. Every failed unit has a disposition (retest, repair, scrap) tracked in the database, assigned to a specific person, with a status lifecycle. Manager assignment targets update themselves as testing happens -- managers see progress in real time instead of asking at end of day. The tested inventory ledger is live, so the warehouse team can see tested-and-ready unit counts per SKU without running a report.
+The lifecycle half is built and seeded, and the full intake-to-triage flow is not yet the warehouse's daily path: a failed unit is designed to open a triage entry with a disposition (retest, repair, scrap) owned by a named person; manager assignment targets update themselves as tests fire; and the tested-inventory ledger gives per-SKU tested-and-ready counts without a report. What the company feels today is the tester itself, the module registry behind it, and the field-failure trace.
 
 See also: [ADR-019: Idempotent schema migrations](../decisions/019-idempotent-schema-migrations.md), [ADR-020: sync_changelog as cross-cutting activity feed](../decisions/020-sync-changelog-as-cross-cutting-activity-feed.md).

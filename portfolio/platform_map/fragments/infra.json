@@ -5,14 +5,14 @@
   "what": "The operational patterns I built into every background service on the platform, so it runs without anyone watching it.",
   "problem_label": "Why it exists",
   "problem": "The hosted ERP has bad stretches where every request comes back as a server error. A service polling on a five-minute timer keeps calling right through a stretch like that: the calls accomplish nothing, and they add load to a system that is already struggling.",
-  "result": "Every background service throttles itself when an upstream goes bad, the platform brings itself back in the right order after a reboot, and deploying is restarting the workers.",
   "how": [
     "Each service counts its own consecutive failures, backs off early, and disables itself outright if the upstream stays broken, writing that state where every worker can see it and where it survives a restart. Clearing it is deliberately manual, because only a person can tell whether the other end is actually fixed.",
-    "On boot, a recovery pass re-triggers whatever stopped mid-run, in dependency order, and skips anything that had disabled itself. Schema lives with the service that owns it: each one applies its own definitions at startup, written so they can run repeatedly without effect, and guarded so that only one worker does the work while the rest keep serving traffic. That is 145 tables that come up on their own, with no migration step for anyone to forget."
+    "On boot, a recovery pass re-triggers whatever stopped mid-run, in dependency order, and skips anything that had disabled itself. Schema lives with the service that owns it: each one applies its own definitions at startup, written so they can run repeatedly without effect, and guarded so that only one worker does the work while the rest keep serving traffic. That is more than 300 tables that come up on their own, with no migration step for anyone to forget."
   ],
+  "github": "components/infrastructure",
   "shot": {
     "src": "infra.png",
-    "alt": "Current health of the platform: database integrity, disk, memory, the age and size of the last backup, uptime since the most recent restart, and log volume. Below that sits the emergency brake, which blocks writes to twenty-two protected tables and serves the last good snapshot to six public feeds, shown here in its normal state with writes flowing.",
-    "caption": "The brake is read-only from this screen. It also lists the two public endpoints it cannot cover, because those recompute live and have no snapshot to fall back to."
+    "alt": "The deployment record. Ninety releases, every one of them successful, each tagged with the version that went out, the commit it was built from, whether it was a full or partial deploy, and the size of the snapshot taken before it shipped. The current release is named at the top against its commit, and five snapshots are held on disk so any of them can be rolled back to.",
+    "caption": "A snapshot is taken before every release, which is what makes a rollback a decision rather than a rebuild."
   }
 }

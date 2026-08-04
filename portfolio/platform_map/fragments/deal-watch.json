@@ -10,7 +10,8 @@
   ],
   "shot": {
     "src": "deal-watch.png",
-    "alt": "Every promotion under watch: 264 deals with 92 of them active, sorted into groups that each carry their own on, off or archived state, from quantity and club discounts through dealer, warranty and regional pricing. The table lists each deal with its coupon code, whether it is live, and the group it belongs to.",
+    "alt": "Every promotion under watch: 265 deals with 93 of them active, sorted into groups that each carry their own on, off or archived state, from quantity and club discounts through dealer, warranty and regional pricing. The table lists each deal with its coupon code, whether it is live, and the group it belongs to.",
     "caption": "Coupon codes are renamed here. The nightly check reads all of this out of a system that keeps no record of what changed."
-  }
+  },
+  "github": "components/deal-drift-detection"
 }

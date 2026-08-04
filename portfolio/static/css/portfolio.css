@@ -1084,6 +1084,214 @@ textarea:focus {
   transform: translateY(-1px);
 }
 
+/* ---------------------------------------------------------------------------
+   Personal system pages (/systems/<slug>)
+
+   These ride the vl-* scrollytelling layout above: same grid, same sticky
+   column, same mobile collapse. Everything below is only the parts a system
+   page has and a pack page doesn't, which is a hero standfirst, a right
+   column that holds a screenshot or an SVG instead of a live demo, and the
+   closing status block.
+   --------------------------------------------------------------------------- */
+
+.sys-standfirst {
+  font-size: 16px;
+  line-height: 1.62;
+  color: var(--text-muted);
+  margin: var(--space-3) 0 0;
+  max-width: 720px;
+}
+
+.sys-figure {
+  margin: 0;
+}
+
+.sys-figure figcaption {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+/* The shared lightbox button is sized for the home page's thumbnail strip.
+   Here it is the section's main artwork, so it fills the column. */
+.sys-shots .personal-thumb {
+  height: auto;
+  width: 100%;
+  display: block;
+}
+
+.sys-shots .personal-thumb img {
+  width: 100%;
+  height: auto;
+}
+
+.sys-diagram {
+  padding: var(--space-4);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+
+.sys-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.sys-svg-title {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  fill: var(--text-muted);
+}
+
+.sys-svg-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  fill: var(--text-primary);
+}
+
+.sys-svg-note {
+  font-size: 11px;
+  fill: var(--text-muted);
+}
+
+.sys-svg-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  fill: #fff;
+}
+
+.sys-svg-actor {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  fill: var(--text-primary);
+}
+
+/* Funnel: the accent carries the taper, so the last bar is the survivor. */
+.sys-funnel-bar {
+  fill: var(--brand-accent);
+  opacity: 0.82;
+}
+
+.sys-funnel-bar.is-last {
+  opacity: 1;
+}
+
+.sys-funnel-rule {
+  stroke: var(--card-border);
+  stroke-width: 1;
+}
+
+.sys-seq-lifeline {
+  stroke: var(--card-border);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+}
+
+.sys-seq-arrow {
+  stroke: var(--brand-accent);
+  stroke-width: 1.4;
+  fill: none;
+}
+
+.sys-seq-arrow.is-self {
+  stroke-dasharray: 3 3;
+}
+
+.sys-seq-head {
+  fill: var(--brand-accent);
+}
+
+.sys-flow-box {
+  fill: var(--brand-accent-soft);
+  stroke: var(--brand-accent);
+  stroke-width: 1;
+}
+
+.sys-flow-box.is-decision {
+  stroke-width: 1.8;
+}
+
+.sys-flow-box.is-skip {
+  fill: #fff;
+  stroke: var(--card-border);
+  stroke-dasharray: 4 3;
+}
+
+.sys-flow-link {
+  stroke: var(--brand-accent);
+  stroke-width: 1.4;
+  fill: none;
+}
+
+/* Closing status block. Same slot on every system page: present tense, what
+   is running today, what is still filling. */
+.sys-status-wrap {
+  padding: var(--space-5) var(--space-4) 0;
+}
+
+.sys-status {
+  padding: var(--space-5) var(--space-6);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+
+.sys-status-head {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 8px;
+}
+
+.sys-status-body {
+  font-size: 15px;
+  line-height: 1.62;
+  color: var(--text-primary);
+  margin: 0;
+  max-width: 760px;
+}
+
+.sys-status-signals {
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  margin: var(--space-3) 0 0;
+}
+
+.sys-back {
+  margin: var(--space-4) 0 0;
+  font-size: 13px;
+}
+
+.sys-back a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.sys-back a:hover {
+  color: var(--brand-accent);
+}
+
+@media (max-width: 900px) {
+  .sys-standfirst { font-size: 15px; }
+  .sys-status { padding: var(--space-4) var(--space-5); }
+  .sys-status-body { font-size: 14px; }
+  .sys-diagram { padding: var(--space-3); }
+}
+
 /* Mobile collapse — single column, no sticky, generous vertical rhythm */
 @media (max-width: 900px) {
   .vl-hero {
@@ -2399,33 +2607,44 @@ body[data-pack="distribution"] {
   transform: none;
 }
 
-.root-tile[data-pack="ai-stack"] {
+/* Each accent is declared for both the home-page card and the <body> of the
+   system's own page (base.html sets data-pack from `page_pack`), so a system
+   keeps its colour when you click through to it. */
+.root-tile[data-pack="ai-stack"],
+body[data-pack="ai-stack"] {
   --brand-accent: #c2410c;
   --brand-accent-hover: #9a3412;
   --brand-accent-soft: #fff7ed;
 }
-.root-tile[data-pack="ops-board"] {
+/* Deep cyan, inherited from the cut ops-board tile. Already vetted
+   against the pack accents and far enough down the page from sca's
+   teal to read as its own. */
+.root-tile[data-pack="genome"],
+body[data-pack="genome"] {
   --brand-accent: #155e75;
   --brand-accent-hover: #164e63;
   --brand-accent-soft: #ecfeff;
 }
-.root-tile[data-pack="cad"] {
+.root-tile[data-pack="cad"],
+body[data-pack="cad"] {
   --brand-accent: #991b1b;
   --brand-accent-hover: #7f1d1d;
   --brand-accent-soft: #fef2f2;
 }
-.root-tile[data-pack="radar"] {
+.root-tile[data-pack="radar"],
+body[data-pack="radar"] {
   --brand-accent: #4d7c0f;
   --brand-accent-hover: #3f6212;
   --brand-accent-soft: #f7fee7;
 }
 
 /* Title rhythm continues down the third shelf (shorter title, more
-   weight -- same rule as the packs above). */
+   weight -- same rule as the packs above). The depth-pass titles are
+   longer than the ones they replaced, so radar and genome compress. */
+.root-tile[data-pack="radar"] .root-tile-title { font-size: 19px; }
 .root-tile[data-pack="ai-stack"] .root-tile-title { font-size: 20px; }
-.root-tile[data-pack="ops-board"] .root-tile-title { font-size: 23px; }
+.root-tile[data-pack="genome"] .root-tile-title { font-size: 19px; }
 .root-tile[data-pack="cad"] .root-tile-title { font-size: 19px; }
-.root-tile[data-pack="radar"] .root-tile-title { font-size: 21px; }
 
 /* The thumb strip: dark screenshots inside the light card, echoing the
    platform-map card's dark-thumbnail motif. Buttons, not links. */
@@ -2572,10 +2791,10 @@ body[data-pack="distribution"] {
   .root-tile[data-pack="sca"] .root-tile-title { font-size: 16px; }
   .root-tile[data-pack="revops"] .root-tile-title { font-size: 19px; }
   .root-tile[data-pack="ghdocs"] .root-tile-title { font-size: 16px; }
+  .root-tile[data-pack="radar"] .root-tile-title { font-size: 17px; }
   .root-tile[data-pack="ai-stack"] .root-tile-title { font-size: 18px; }
-  .root-tile[data-pack="ops-board"] .root-tile-title { font-size: 20px; }
+  .root-tile[data-pack="genome"] .root-tile-title { font-size: 17px; }
   .root-tile[data-pack="cad"] .root-tile-title { font-size: 17px; }
-  .root-tile[data-pack="radar"] .root-tile-title { font-size: 19px; }
 
   .personal-thumb { height: 104px; }
 
@@ -3781,6 +4000,306 @@ html.js-scroll-reveal [data-reveal].is-in-view {
 
 /* Reuse .pill-routing from SCA trigger styles */
 
+/* ===========================================================================
+   Systems: gate ladder (/systems/<slug>)
+   ---------------------------------------------------------------------------
+   Deliberately built from the same tokens and the same metrics as the ERP
+   detection module above, so a personal-system explainer sits next to an
+   industry demo without either looking imported. Same card padding, same
+   12px row type, same 6px progress bar. No dashed strokes anywhere: the
+   explorations do not use them and they were what made the earlier hand-drawn
+   diagrams read as illustration rather than instrument.
+   --------------------------------------------------------------------------- */
+.demo-module--pipeline .gate-card {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  margin-top: var(--space-4);
+  background: var(--card-bg);
+}
+
+.demo-module--pipeline .gate-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.demo-module--pipeline .gate-card-what {
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-module--pipeline .gate-card-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.demo-module--pipeline .gate-card-sub {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.demo-module--pipeline .gate-card-verdict {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.demo-module--pipeline .gate-verdict-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--brand-accent);
+}
+
+.demo-module--pipeline .gate-verdict-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.demo-module--pipeline .gate-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+}
+
+.demo-module--pipeline .gate-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  font-size: 12px;
+}
+
+/* The run of cheap gates the archive can only account for as one total. The
+   rail groups them so the single bracketed count below reads as covering all
+   three, instead of looking like it belongs to the last one. */
+.demo-module--pipeline .gate-row.is-grouped {
+  border-left: 2px solid var(--brand-accent);
+  padding-left: var(--space-3);
+  margin-left: 1px;
+}
+
+.demo-module--pipeline .gate-name {
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 124px;
+  flex-shrink: 0;
+}
+
+.demo-module--pipeline .gate-checks {
+  flex: 1;
+  color: var(--text-tertiary);
+  min-width: 0;
+}
+
+.demo-module--pipeline .gate-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  text-align: right;
+  min-width: 118px;
+}
+
+.demo-module--pipeline .gate-note.has-note {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.demo-module--pipeline .gate-bracket {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin: 2px 0 0;
+  padding-left: var(--space-3);
+  border-left: 2px solid transparent;
+}
+
+.demo-module--pipeline .gate-card-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--card-border);
+}
+
+.demo-module--pipeline .gate-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--card-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.demo-module--pipeline .gate-fill {
+  height: 100%;
+  background: var(--brand-accent);
+  border-radius: 3px;
+}
+
+@media (max-width: 900px) {
+  .demo-module--pipeline .gate-row {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+  .demo-module--pipeline .gate-note {
+    text-align: left;
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* ===========================================================================
+   Systems: grounded extraction card (/systems/genome)
+   ---------------------------------------------------------------------------
+   Same reasoning as the gate ladder above, and an even closer sibling of the
+   ERP detection module: one card per subject, one row per signal, a check or
+   a dash on the right. Same card padding, same 12px row type, same 6px bar.
+   --------------------------------------------------------------------------- */
+.demo-module--extraction .xt-card {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  margin-top: var(--space-4);
+  background: var(--card-bg);
+}
+
+.demo-module--extraction .xt-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.demo-module--extraction .xt-card-what {
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-module--extraction .xt-card-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.demo-module--extraction .xt-card-sub {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.demo-module--extraction .xt-card-verdict {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.demo-module--extraction .xt-verdict-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--brand-accent);
+}
+
+.demo-module--extraction .xt-verdict-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.demo-module--extraction .xt-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+}
+
+.demo-module--extraction .xt-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  font-size: 12px;
+}
+
+.demo-module--extraction .xt-name {
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 148px;
+  flex-shrink: 0;
+}
+
+.demo-module--extraction .xt-detail {
+  flex: 1;
+  color: var(--text-tertiary);
+  min-width: 0;
+}
+
+/* A kept row's detail IS the fact that ships: the located quote itself. */
+.demo-module--extraction .xt-detail.is-quote {
+  color: var(--text-primary);
+}
+
+.demo-module--extraction .xt-indicator {
+  flex-shrink: 0;
+  min-width: 16px;
+  text-align: right;
+  font-weight: 700;
+}
+
+.demo-module--extraction .xt-indicator--kept {
+  color: var(--brand-accent);
+}
+
+.demo-module--extraction .xt-indicator--dropped {
+  color: var(--text-tertiary);
+}
+
+.demo-module--extraction .xt-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin: 2px 0 0;
+}
+
+.demo-module--extraction .xt-card-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--card-border);
+}
+
+.demo-module--extraction .xt-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--card-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.demo-module--extraction .xt-fill {
+  height: 100%;
+  background: var(--brand-accent);
+  border-radius: 3px;
+}
+
+@media (max-width: 900px) {
+  .demo-module--extraction .xt-row {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+  .demo-module--extraction .xt-detail {
+    width: 100%;
+  }
+}
+
 
 /* ===========================================================================
    Distribution: POV Pipeline (Demo 5.2)
@@ -4125,11 +4644,14 @@ html.js-scroll-reveal [data-reveal].is-in-view {
   transition: opacity 300ms ease;
 }
 
+/* The hub opens the platform's own modal. It was the one dead element on the
+   map through 2026-08-03, and it is the first thing a reader clicks. */
 .map-hub {
   width: 128px;
   height: 128px;
   background: #16181d; /* the revops ink accent from the homepage card */
   color: #fff;
+  border: 0;
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
@@ -4137,7 +4659,22 @@ html.js-scroll-reveal [data-reveal].is-in-view {
   justify-content: center;
   gap: 4px;
   text-align: center;
+  font: inherit;
+  cursor: pointer;
+  transition: transform var(--t-base), box-shadow var(--t-base);
 }
+
+.map-hub:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(10, 15, 28, 0.28);
+}
+
+.map-hub:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 3px;
+}
+
+.map-hub[disabled] { cursor: default; transform: none; box-shadow: none; }
 
 .map-hub-k {
   font-family: var(--font-mono);
@@ -4404,6 +4941,59 @@ html.js-scroll-reveal [data-reveal].is-in-view {
   color: var(--text-muted);
   margin: 0 0 6px;
 }
+
+/* ---- the case-study deep link (nine systems carry one) ---- */
+.node-source {
+  margin: var(--space-4) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--card-border);
+}
+
+.node-source a {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 2px;
+}
+
+.node-source a:hover { border-bottom-color: var(--brand-accent); }
+
+/* ---- the hub modal (the platform itself) ----
+   Business register, not technical: no table/route/tool counts here. They are
+   a footnote on the homepage card, where a technical reader wants them. */
+.hub-lede {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.hub-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-top: 1px solid var(--card-border);
+  padding-top: var(--space-3);
+}
+
+.hub-cta {
+  display: inline-block;
+  padding: 9px 15px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: border-color var(--t-base), background var(--t-base);
+}
+
+.hub-cta:first-child { background: #16181d; border-color: #16181d; color: #fff; }
+.hub-cta:first-child:hover { background: #24272e; border-color: #24272e; }
+.hub-cta:hover { border-color: var(--brand-accent); background: var(--brand-accent-soft); }
 
 /* how it works reads last and quieter: it is the supporting detail */
 .node-how {

@@ -5,7 +5,7 @@ The customer-side companion app that ships as a signed Windows executable.
 
 ## What it is
 
-The Nexus Connector is a **Windows desktop application** that runs on customer PCs and manages wireless modules over 802.15.4 radio. It bridges the gap between the Nexus cloud API (which lives on the production VPS) and the USB radio dongle dongle (which must be plugged into the customer's PC). Without the connector, there's no way for operators in the field to manage modules remotely.
+The Nexus Connector is a **Windows desktop application** that runs on customer PCs and manages wireless modules over 802.15.4 radio. It bridges the gap between the Nexus cloud API (which lives on the production VPS) and the USB radio dongle (which must be plugged into the customer's PC). Without the connector, there's no way for operators in the field to manage modules remotely.
 
 The connector is a **two-process application**: a Python 3 Flask web UI on port 9100 (the main app -- handles OAuth, BLE, system tray, dashboard rendering) paired with a Python 2.7 Tornado bridge subprocess on port 9101 (uses the radio library for 802.15.4 communication). The two processes communicate over localhost HTTP. The version split isn't a preference -- it's a hard constraint, because the radio library is Python 2.7 and has never been ported.
 
@@ -30,7 +30,7 @@ The connector is a **two-process application**: a Python 3 Flask web UI on port 
 - **SQLite for local persistence**: `bridge_events.db` (bridge event log + session registry + module identity cache), `test_records.db` (the wireless line test sessions), local module DB with tier queue state.
 - **BLE via `bleak`** on a dedicated asyncio background thread, isolated from the Flask WSGI request thread.
 - **System tray** via `pystray + Pillow` for the Windows tray icon.
-- **Distribution** via PyInstaller single-folder build. Planned code signing via Azure Trusted Signing (Windows) + Apple Developer ID (macOS) for ~$220/year total.
+- **Distribution** via PyInstaller single-folder build, signed via Azure Trusted Signing so releases install without SmartScreen warnings. See [ADR-023](../decisions/023-azure-trusted-signing-over-ov-ev-cert.md).
 - **Outbox sync** to the Nexus API every 30 seconds with exponential backoff and UUID-based dedup.
 - **Dual-layer recovery** for bridge zombie states: Python watchdog + batch script restart loop.
 

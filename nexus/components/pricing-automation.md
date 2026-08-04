@@ -19,7 +19,7 @@ A verify-on-write pricing engine that applies sale prices, permanent markdowns, 
 
 ## Scale and verified numbers
 
-- **800+ product options** tracked across the catalog (verified from internal catalog records)
+- **11,000+ product option rows** tracked across the catalog (live count in the option tables, 2026-08-03; the April 2026 measure was 800+)
 - **2-3 days of manual work** -> **~3 hours** with automation (pre/post time tracking)
 - **Per-product operation locks** cap at 500 concurrent entries in an LRU cache
 - **3-state queue**: `queued -> applied -> verified` per option; session-level: `draft -> in_progress -> completed -> reverted`

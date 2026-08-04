@@ -8,14 +8,14 @@ Nexus is organized as four layers, and the sections below map to them. Ingestion
 
 | Layer | What runs here | Cadence |
 |---|---|---|
-| Ingestion | 9 heartbeats, nightly full-refresh, office-backend reads, storefront telemetry | 5 min to 24 hr, plus on-event |
+| Ingestion | 18 heartbeats, nightly full-refresh, office-backend reads, storefront telemetry | 5 min to 24 hr, plus on-event |
 | Customer data foundation | Contact catalog mirror, identity resolution spine, three-zone ERP model | nightly rebuilds |
 | Intelligence | Demand forecasting (built, not activated), sales trends reporting, product knowledge system | on-demand and batch |
-| AI-agent tool layer | MCP server, 117 tools, read-only SQL, gated writes | on-request |
+| AI-agent tool layer | MCP server, 118 tools, read-only SQL, gated writes | on-request |
 
-## Layer 1: the 9 background heartbeat services
+## Layer 1: the background heartbeat services
 
-These are the services that make Nexus feel live. Each is a daemon thread with its own cadence, its own circuit breaker, and its own write path into the database. Running 9 of these concurrently is how the platform keeps a second-by-second view of the operational database current.
+These are the services that make Nexus feel live. Each is a daemon thread with its own cadence, its own circuit breaker, and its own write path into the database. The fleet stands at 18 heartbeats as of August 2026; running them concurrently is how the platform keeps a second-by-second view of the operational database current. The table below details the original core nine. Nine more have joined since on the same pattern, covering the payment providers' transaction feeds (card, wallet, and gateway), payment reconciliation, tax-reconciliation ingest, shipping-method sync, and portal token upkeep.
 
 | Service | Cadence | What it does | What it writes |
 |---|---|---|---|
@@ -45,8 +45,8 @@ Documented in [ARCHITECTURE.md](ARCHITECTURE.md#three-zone-data-model). Summary:
 | Zone | Tables | Write path |
 |---|---|---|
 | **ERP Zone** | ~35 | Heartbeats only, never routes |
-| **Relations Zone** (`rel_*`) | 16 | User writes through the dashboard |
-| **Portal Zone** (`portal_*`) | 1 | Sync from an external portal instance |
+| **Relations Zone** (`rel_*`) | 20+ | User writes through the dashboard |
+| **Portal Zone** (`portal_*`) | a small set | Sync from an external portal instance |
 
 ### The contact catalog and identity spine
 
@@ -69,15 +69,15 @@ Detail and metrics live in [ARCHITECTURE.md](ARCHITECTURE.md#layer-3-intelligenc
 
 ## Layer 4: the AI-agent tool layer
 
-An MCP server exposes 117 tools as verified in July 2026. Reads pass a dual-layer read-only SQL guard; writes are preview-then-confirm; a three-phase pre-deployment security gate runs before release. See [ARCHITECTURE.md](ARCHITECTURE.md#layer-4-ai-agent-tool-layer) and [ADR-021](../decisions/021-pre-deployment-security-audit-pattern.md).
+An MCP server exposes 118 tools as verified in August 2026. Reads pass a dual-layer read-only SQL guard; writes are preview-then-confirm; a three-phase pre-deployment security gate runs before release. See [ARCHITECTURE.md](ARCHITECTURE.md#layer-4-ai-agent-tool-layer) and [ADR-021](../decisions/021-pre-deployment-security-audit-pattern.md).
 
 ## The service cluster map
 
-A July 2026 re-measure counts roughly 160 service modules across the platform (see [METRICS.md](../METRICS.md)). The table below groups the original operational core by responsibility; the four-layer additions above extend it.
+An August 2026 re-measure counts roughly 260 service modules across the platform (see [METRICS.md](../METRICS.md)). The table below groups the original operational core by responsibility; the four-layer additions above extend it.
 
 | Cluster | Notable files |
 |---|---|
-| Data pipeline / sync | 9 heartbeats plus `nightly_sync` |
+| Data pipeline / sync | 18 heartbeats plus `nightly_sync` |
 | ERP low-level | `erp_rest_client.py` (872 lines), `erp_auth_service.py` (2,917, the second largest) |
 | Pricing & sales | `pricing_service.py` (1,848) |
 | Tax & compliance | `tax_recon_service.py` (3,906, the largest service in the core) |

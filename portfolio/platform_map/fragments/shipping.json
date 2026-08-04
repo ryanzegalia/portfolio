@@ -14,5 +14,6 @@
     "src": "shipping.png",
     "alt": "Open shipments grouped by where they have got to: 57 with a label created, 14 picked up, 78 in transit, 12 out for delivery and 6 carrying delays or issues. Each row shows the carrier service, how old the shipment is, its current status and its estimated arrival, over a line reporting the carriers were last polled four minutes ago across 169 shipments.",
     "caption": "Recipient names and tracking numbers are substituted. The statuses are the carriers' own, mapped into one vocabulary so support reads the same words for both of them."
-  }
+  },
+  "github": "components/shipment-tracking"
 }

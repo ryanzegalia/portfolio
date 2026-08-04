@@ -1,31 +1,31 @@
 # Nexus: Verified Metrics
 
-> This is the canonical home for every Nexus number. Case studies carry their own headline number once; everywhere else links here. Values were verified against code, git history, or the running system. The live snapshot is dated 2026-07-09. Size metrics were re-measured 2026-07-09 using the April 2026 methodology. April 2026 rows that a July number supersedes are marked. Approximations are used except where the exact count is the verified headline. Business-scale counts (customers, contacts, orders, fulfillments, persons) are deliberately rounded in public documentation; exact figures are available on request in an interview setting.
+> This is the canonical home for every Nexus number. Case studies carry their own headline number once; everywhere else links here. Values were verified against code, git history, or the running system. The live snapshot is dated 2026-08-03. Size metrics were re-measured 2026-08-03 using the April 2026 methodology. Rows that a newer measure supersedes are marked. Approximations are used except where the exact count is the verified headline. Business-scale counts (customers, contacts, orders, fulfillments, persons) are deliberately published as conservative floors -- the live figures run higher, and exact numbers are available on request in an interview setting.
 
-## Platform scale (as of 2026-07-09)
+## Platform scale (as of 2026-08-03)
 
 | Metric | Value | As-of / verification |
 |---|---|---|
-| Customers in the governed mirror | **43,000+** | live DB count, 2026-07-09 |
-| Contacts in the governed mirror | **117,000+** | live DB count, 2026-07-09 |
-| Orders ingested from the hosted ERP | **109,000+** | live DB count, 2026-07-09 |
-| Fulfillments ingested | **719,000+** | live DB count, 2026-07-09 |
-| ERP SKUs tracked | **760** | live DB count, 2026-07-09 |
-| Production PostgreSQL tables | **268** | schema introspection, 2026-07-09 (supersedes April's 145) |
-| MCP tools exposed to AI agents | **117** | grep-verified, 2026-07-09 |
+| Customers in the governed mirror | **40,000+** | live DB count, 2026-08-03 (floor) |
+| Contacts in the governed mirror | **115,000+** | live DB count, 2026-08-03 (floor) |
+| Orders ingested from the hosted ERP | **110,000+** | live DB count, 2026-08-03 (floor) |
+| Fulfillments ingested | **700,000+** | live DB count, 2026-08-03 (floor) |
+| ERP SKUs tracked | **760+** | live DB count, 2026-08-03 |
+| Production PostgreSQL tables | **~320** | schema introspection, 2026-08-03 (supersedes July's 268 and April's 145) |
+| MCP tools exposed to AI agents | **118** | grep-verified, 2026-08-03 |
 | External HTTP integrations | **15** | enumerated in [TECH_STACK.md](architecture/TECH_STACK.md) |
 
-## Code size (re-measured 2026-07-09, April 2026 methodology)
+## Code size (re-measured 2026-08-03, April 2026 methodology)
 
 Size appears only on this page. It is supporting detail; the capability numbers above are the headline.
 
-| Metric | July 2026 | April 2026 | Verification |
+| Metric | August 2026 | April 2026 | Verification |
 |---|---|---|---|
-| Python lines (API tier) | **~150,000** | 79,388 | `find api -name '*.py' \| xargs wc -l` |
-| Service modules in `api/services/` | **~160** | 58 | `ls api/services/*.py` (excluding `__init__.py`) |
-| Flask route decorators | **~850** | 596 | grep `@bp.(route\|get\|post\|put\|delete\|patch)` across `api/routes/` |
+| Python lines (API tier) | **~215,000** | 79,388 | `find api -name '*.py' \| xargs wc -l` |
+| Service modules in `api/services/` | **~260** | 58 | `ls api/services/*.py` (excluding `__init__.py`) |
+| Flask route decorators | **~975** | 596 | grep `@bp.(route\|get\|post\|put\|delete\|patch)` across `api/routes/` |
 
-The growth from April to July (79,388 to ~150,000 Python lines, 58 to ~160 service modules, 596 to ~850 routes) reflects the four-layer build out: the customer data foundation, the intelligence layer, and the MCP agent layer were all added after the April snapshot.
+The growth from April to August (79,388 to ~215,000 Python lines, 58 to ~260 service modules, 596 to ~975 routes) reflects the four-layer build out: the customer data foundation, the intelligence layer, and the MCP agent layer were all added after the April snapshot.
 
 ## Customer data foundation (identity and dedupe)
 
@@ -33,7 +33,7 @@ The growth from April to July (79,388 to ~150,000 Python lines, 58 to ~160 servi
 |---|---|---|
 | Duplicate groups identified | **16,705** | dedupe metric computed 2026-06-15 |
 | Address-flag corrections applied | **~31,650** | correction project completed 2026-06-08 |
-| Persons resolved (current spine) | **~29,500** | live spine build, 2026-07-09 |
+| Persons resolved (current spine) | **~30,000** | live spine count, 2026-08-03 |
 | Household clusters (current spine) | **~8,200** | live spine build, 2026-07-09 |
 
 ### Identity spine certification (2026-06-22 build)
@@ -57,9 +57,9 @@ The spine uses Splink probabilistic record linkage because customer records arri
 | Live presence capacity | ~1,000 concurrent visitors at 5-8% CPU | capacity analysis, 2026-07-09 |
 | Storefront analytics console | 5 tabs over the telemetry store, session-to-order bridge matching inside sub-15-second windows | Phase 1 shipped and audited, 2026-07 |
 | Order-tracking API for support automation | verified against 11,000+ live shipment rows, 100% sales-channel coverage | live in production, 2026-07 |
-| Product knowledge: spec definitions | 61 | as of 2026-07-09 |
-| Product knowledge: provenance-tracked values | 145 | as of 2026-07-09 |
-| Product knowledge: compatibility coverage | 57% to 99.6% across product lines | as of 2026-07-09 |
+| Product knowledge: spec definitions | 61 | live count, 2026-08-03 |
+| Product knowledge: provenance-tracked values | 145 | live count, 2026-08-03 |
+| Product knowledge: derived compatibility | 139 interface declarations deriving 860 links, with 93% of sellable products carrying at least one | live counts, 2026-08-03 |
 
 ## Business metrics (from running systems)
 
@@ -67,12 +67,13 @@ These come from live databases and operational dashboards. An interviewer who as
 
 | Metric | Value | Source |
 |---|---|---|
-| Avalara tax transactions reconciled | 37,847 | live count in the reconciliation ledger, April 2026 |
-| Units processed through QC tracking (annual) | 10,000+ | live count across the QC tracking tables |
-| Product options managed by pricing automation | 800+ | live count in the product options table |
-| Products in the e-commerce catalog (active) | 330+ | live count in the products table |
+| Avalara tax transactions reconciled | 38,000+ | live count in the reconciliation ledger, 2026-08-03 |
+| Units through the wireless module tester | ~7,900 across ~8,100 test sessions | live count in the module test tables, February through July 2026 |
+| Annual testing throughput (basis for the savings figure) | 10,000+ | warehouse-reported throughput, not independently verified |
+| Product option rows under management | 11,000+ | live count in the option tables, 2026-08-03 |
+| Products in the e-commerce catalog (active) | 500+ | live count in the products table, 2026-08-03 |
 | Major campaign launches coordinated per year | 12-13 | Monday.com marketing board history |
-| Annual labor savings from QC tracking | 500+ hours | derivation: 3 min saved per unit times 10,000+ units, divided by 60 |
+| Annual labor savings from QC tracking | 500+ hours | derivation: 3 min saved per unit times the warehouse-reported 10,000+ units, divided by 60 |
 | Annual labor savings from tax reconciliation | ~1 week per month | stakeholder-reported from the accounting team, not independently verified |
 
 ## Git activity (April 2026 snapshot)
@@ -99,11 +100,14 @@ Not re-measured in July. Preserved as the April snapshot.
 
 ## Superseded and corrected numbers
 
-July 2026 re-measurement, with the April 2026 value each one replaces:
+August 2026 re-measurement, with the values each one replaces:
 
-- PostgreSQL tables: **268** (2026-07-09), supersedes 145 (April 2026)
-- Service modules: **~160** (2026-07-09), supersedes 58 (April 2026)
-- Flask route decorators: **~850** (2026-07-09), supersedes 596 (April 2026)
-- Python lines (API tier): **~150,000** (2026-07-09), supersedes 79,388 (April 2026)
+- PostgreSQL tables: **~320** (2026-08-03), supersedes 268 (July 2026) and 145 (April 2026)
+- Service modules: **~260** (2026-08-03), supersedes ~160 (July 2026) and 58 (April 2026)
+- Flask route decorators: **~975** (2026-08-03), supersedes ~850 (July 2026) and 596 (April 2026)
+- Python lines (API tier): **~215,000** (2026-08-03), supersedes ~150,000 (July 2026) and 79,388 (April 2026)
+- Compatibility coverage: the July 2026 sheet carried "57% to 99.6% across product lines" -- a range across product families that later documents misquoted as a before-and-after improvement. Superseded by the derived-edge counts above: 139 interface declarations deriving 860 links, 93% of sellable products covered (2026-08-03).
+- QC volume: "10,000+ units per year, live count across the QC tracking tables" was mis-sourced. The live count belongs to the module tester (~7,900 units, February through July 2026); the annual figure is warehouse-reported throughput and is labeled as such above.
+- Products in the catalog: **500+** (2026-08-03), supersedes 330+ (April 2026). Product option rows: **11,000+** (2026-08-03), supersedes 800+ (April 2026).
 
 Numbers that appear in older documentation and are incorrect: "60+ services", "10+ heartbeats", "60+ tables", "200+ routes", and "SQLite" (migrated to PostgreSQL with PgBouncer on 2026-03-01, see [ADR-002](decisions/002-postgresql-migration-with-sqlite3-compat-shim.md)). Older docs predated the 2026-03-01 database migration and the later four-layer build out. They are preserved as historical artifacts and should not be cited as current.

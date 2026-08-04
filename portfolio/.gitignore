@@ -58,5 +58,14 @@ scripts/summary.json
 scripts/cap.py
 scripts/capture_scrub.js
 scripts/sim_defs.py
+# money_cases.mjs is the pre-capture regression gate. It reads the money rules
+# straight out of cap.py, so it is useless without it, and its case list quotes
+# real figures the redaction contract puts in the confidential class.
+scripts/money_cases.mjs
+# sanitize_cases.mjs is the same kind of gate for the sanitization law. It
+# evaluates the harness body straight out of cap.py, so it is useless without
+# it, and it names the internal vendor stack the law exists to keep off the map.
+scripts/sanitize_cases.mjs
 audit-progress-*.md
 scripts/banned_terms.local
+_preview.html

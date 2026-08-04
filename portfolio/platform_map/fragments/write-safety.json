@@ -1,0 +1,15 @@
+{
+  "id": "write-safety",
+  "title": "Production Write Safety",
+  "card": "Every change to a live business record previews first and proves itself by reading back.",
+  "what": "The write path I built sits between every tool on this platform and any record it changes in a live business system.",
+  "problem_label": "The constraint",
+  "problem": "The ERP keeps no audit log of what changed it and offers no undo, and its staging environment points at the same live data as production, so there is no copy of the business safe to practise on. Every write any tool makes lands on the real records on the first attempt.",
+  "how": [
+    "A write that changes anything is a two-call tool. The first call previews the change and returns a token; nothing moves until a second call comes back carrying that token, so the confirmation is a separate deliberate act.",
+    "Whether a write worked is decided by reading the record back out of the system of record and comparing it against what was intended. The HTTP response is a hint. A write gets exactly one attempt and no automatic retry, because a lost response and a rejected write look identical from the caller's side, so re-sending on that ambiguity can execute the same money change twice.",
+    "The read-back asserts the invariant the change was meant to produce. Asserting the exact value written would be wrong here: an order status is a field the ERP advances on its own within minutes, so checking that it still equals the number just written would report a good write as drift. The assertion is that the order is out of the shipping states.",
+    "Unknown is a real outcome here, separate from worked and from failed. When the read-back cannot settle the question the tool says so and stops, and a person checks by hand."
+  ],
+  "github": "components/write-safety"
+}

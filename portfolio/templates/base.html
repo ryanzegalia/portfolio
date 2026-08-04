@@ -9,7 +9,10 @@
   <!-- Open Graph -->
   <meta property="og:title" content="{% block og_title %}{% if active_pack %}{{ active_pack.landing.hero.problem if active_pack.landing else active_pack.name }}{% else %}Ryan Zegalia, operations engineering portfolio{% endif %}{% endblock %}">
   <meta property="og:description" content="{% block og_description %}Ryan Zegalia, 13 years in operations. The revenue operations platform I built and run at work, the systems I run at home, and five industry explorations.{% endblock %}">
-  <meta property="og:image" content="{% block og_image %}/static/img/icon-512.png{% endblock %}">
+  {# og:image must be ABSOLUTE. A path-only value is resolved against og:url by
+     some crawlers and dropped by the rest, so a share card falls back to no
+     image at all. #}
+  <meta property="og:image" content="{% block og_image %}https://ryanzegalia.com/static/img/icon-512.png{% endblock %}">
   <meta property="og:type" content="website">
 
   <!-- Fonts -->
@@ -68,8 +71,12 @@
   colors) per vertical via `body[data-pack="saas"] { --brand-accent: ... }`.
   The root page and non-pack pages leave it blank and fall back to the
   default slate brand.
+
+  2026-08-03: `page_pack` is the same hook for pages that carry an accent
+  without being a pack. The system pages at /systems/<slug> set it so a
+  system's colour follows through from its home-page card onto its own page.
 #}
-<body{% if active_pack %} data-pack="{{ active_pack.id }}"{% endif %}>
+<body{% if active_pack %} data-pack="{{ active_pack.id }}"{% elif page_pack %} data-pack="{{ page_pack }}"{% endif %}>
   {% include "partials/topnav.html" %}
   <main class="site-main">
     {% block content %}{% endblock %}

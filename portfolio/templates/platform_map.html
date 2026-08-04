@@ -3,6 +3,8 @@
 {% block title %}The platform map, Ryan Zegalia{% endblock %}
 {% block og_title %}The platform map{% endblock %}
 {% block og_description %}The revenue operations platform I built and run, mapped: five groups around one core. Open any system to read the problem it solves and what it changed.{% endblock %}
+{# the map itself, not the site icon: this is the page most likely to be shared #}
+{% block og_image %}https://ryanzegalia.com/static/img/platform-map.png{% endblock %}
 
 {#
   BUILD TEMPLATE -- scripts/build_platform_map.py renders this file into
@@ -17,18 +19,25 @@
 
   Views (hash-routed, back button works):
     #/            rest map (hub + groups)
+    #/hub         the platform itself, centered modal over the rest map
     #/d/<slug>    group cluster
     #/n/<id>      system detail, centered modal over its group cluster
     #/read        the whole map as one readable page
+
+  The system count in the hero is a placeholder the build fills from ROSTER.
+  Do not type it: the hero read "Twenty-three systems" for three days after
+  the roster reached 26.
 #}
 
 {% block content %}
 <section class="map-hero container" data-reveal>
   <h1 class="map-hero-title">The platform map</h1>
   <p class="map-hero-sub">The revenue operations platform I built and run at
-  work, drawn as a map. Twenty-three systems for a mid-size manufacturer,
-  built and maintained alongside a full-time marketing role. Open a group,
-  then a system, to read why it exists and what it changed.</p>
+  work, drawn as a map. Twenty-six systems for a mid-size manufacturer,
+  built and maintained alongside a full-time marketing role. The platform
+  behind them runs to more than 300 tables and about 975 routes, with dozens
+  of background services reporting in. Open a group, then a system, to read why
+  it exists and what it changed.</p>
 </section>
 
 <section class="map-stage" id="map-stage" aria-label="Platform map">
@@ -40,6 +49,23 @@
 
 <div class="map-reader container" id="map-reader">
 <p class="reader-back-row"><a class="map-back-link" href="#/">&larr; Back to the map</a></p>
+<article class="map-node map-hub-node" id="n-hub" data-node="hub" data-title="One platform" data-eyebrow="The platform">
+  <h2 class="map-node-title">One platform</h2>
+  <div class="map-node-body">
+    <p class="node-what hub-lede">One platform. Five groups, 26 systems.</p>
+    <div class="node-detail">
+    <div class="node-block">
+      <p>The company runs on an ERP that was never built to talk to anything else. Orders, inventory, customers, shipping, tax, and marketing each lived in their own tool, and people moved data between them by hand.</p>
+      <p>This is the layer that connects them. Orders and inventory arrive from the ERP on a schedule and stay current. Customer records that arrived fragmented, where 77% of contacts shared an email address with another record, resolve to the real customer behind them. The tax reconciliation that cost accounting a week every month runs nightly and reports its own exceptions. Payments are checked against what the gateway actually settled, not what the ERP recorded. The warehouse gets the labels the ERP will not print. The storefront gets pricing, promotions, and availability that match what is actually in stock.</p>
+      <p>It has run in production since February 2026. One person built it and maintains it alongside a full-time marketing role.</p>
+    </div>
+    <div class="node-block hub-ctas">
+      <a class="hub-cta" href="#/">Open the platform map</a>
+      <a class="hub-cta" href="https://github.com/ryanzegalia/portfolio/tree/main/nexus/case-studies">See the case studies</a>
+    </div>
+    </div>
+  </div>
+</article>
 <section class="reader-domain" data-group="data-in" data-group-name="Data Ingestion" data-group-desc="The services that pull records out of the ERP and the other systems the business runs on.">
   <h2 class="reader-domain-head">Data Ingestion</h2>
   <p class="reader-domain-desc">The services that pull records out of the ERP and the other systems the business runs on.</p>
@@ -48,7 +74,7 @@
     <div class="map-node-body">
     <p class="node-what">I built three services that pull changed records out of the ERP continuously, so every other tool on the platform works from current data.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/erp-sync.png?v=179cc520a9" alt="Ingestion reporting in. Across the top, five stored credentials with the days left before each expires. Below them one tile per sync job, carrying what it changed in the last day, how many times it ran, how many of those runs errored, and when it last finished." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/erp-sync.png?v=16d65c314c" alt="Ingestion reporting in. Across the top, five stored credentials with the days left before each expires. Below them one tile per sync job, carrying what it changed in the last day, how many times it ran, how many of those runs errored, and when it last finished." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Run count and error count sit on the same tile, so a job that runs often and fails often is visible without opening it.</figcaption>
     </figure>
     <div class="node-detail">
@@ -56,15 +82,12 @@
       <h4 class="node-block-head">The constraint</h4>
       <p>Orders, inventory, and product records live in the hosted ERP, and everything I built has to read them. Reading product detail out of the ERP&#x27;s own backend consumes one of the company&#x27;s paid license seats, so a sync that opens that backend for every product competes with the people who need those seats to do their jobs.</p>
     </div>
-    <div class="node-block">
-      <h4 class="node-block-head">The result</h4>
-      <p>Changes land locally within five minutes, and the sync spends a license seat only on the products that actually changed. A nightly full pass keeps the local copy from ever being more than a day out of agreement with the ERP.</p>
-    </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
       <p>The product sync runs in two phases. The first upserts everything the free REST API returns. The second opens the licensed backend reader only for the products the first phase flagged as changed. All three services write field-level diffs into one shared changelog, so a question about what changed has a single place to look.</p>
-      <p>Delta polling on its own would not be enough. The ERP sometimes corrects a record without bumping its modification stamp, and a stamp-based query never sees that edit, so a nightly pass re-scans every record regardless of stamp. Each service also holds its checkpoint until the last record of a batch is committed, so an interrupted run resumes where it actually left off.</p>
+      <p>Delta polling on its own would not be enough. The ERP sometimes corrects a record without bumping its modification stamp, and a stamp-based query never sees that edit, so a nightly pass re-scans every record regardless of stamp. Each service also holds its checkpoint until the last record of a batch is committed, so an interrupted run resumes where it actually left off. The local copy is never more than a day out of agreement with the ERP.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/erp-integration.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -73,7 +96,7 @@
     <div class="map-node-body">
     <p class="node-what">A tracking pipeline I built to keep the status of every open shipment current, on carrier APIs that will not simply let you ask.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/shipping.png?v=0efbeb6be7" alt="Open shipments grouped by where they have got to: 57 with a label created, 14 picked up, 78 in transit, 12 out for delivery and 6 carrying delays or issues. Each row shows the carrier service, how old the shipment is, its current status and its estimated arrival, over a line reporting the carriers were last polled four minutes ago across 169 shipments." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/shipping.png?v=ed701ec0f7" alt="Open shipments grouped by where they have got to: 57 with a label created, 14 picked up, 78 in transit, 12 out for delivery and 6 carrying delays or issues. Each row shows the carrier service, how old the shipment is, its current status and its estimated arrival, over a line reporting the carriers were last polled four minutes ago across 169 shipments." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Recipient names and tracking numbers are substituted. The statuses are the carriers&#x27; own, mapped into one vocabulary so support reads the same words for both of them.</figcaption>
     </figure>
     <div class="node-detail">
@@ -90,6 +113,7 @@
       <p>The scheduler is the real work. It discovers open shipments from the ERP and spends a fixed call budget by urgency: a package out for delivery is worth checking constantly, one sitting in transit is not, and a delayed or exception shipment can wait longer still. Calls concentrate in the hours when deliveries actually happen, with one sweep overnight for late scans, which drops overnight usage by about 80%.</p>
       <p>Underneath it, a normalizer collapses the carriers into one model the dashboard can render: more than 40 FedEx status codes and 11 USPS categories resolve onto 8 statuses. The pipeline picks its carrier client from the tracking number itself, because the carrier field on the order is not always right, and a later update can never overwrite a known delivery estimate with an empty one.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/shipment-tracking.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -100,16 +124,13 @@
     <div class="node-detail">
     <div class="node-block">
       <h4 class="node-block-head">The constraint</h4>
-      <p>The numbers that drive pricing and product mapping for the main brand live in an Excel workbook on SharePoint, maintained by hand by the people who own them. Anything downstream either re-keys those numbers or runs on a stale copy, and both of those go wrong quietly. The people who own those numbers work in that workbook every day and were not going to move out of it.</p>
-    </div>
-    <div class="node-block">
-      <h4 class="node-block-head">The result</h4>
-      <p>The workbook&#x27;s rows land in the platform on their own, and the people who own those numbers keep working exactly the way they already work.</p>
+      <p>The numbers that drive pricing and product mapping for the main brand live in an Excel workbook on SharePoint, maintained by hand by the people who own them. Anything downstream either re-keys those numbers or runs on a stale copy. The people who own those numbers work in that workbook every day and were not going to move out of it.</p>
     </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
-      <p>The file is checked far more often than it changes, so the sync asks SharePoint whether the document has moved before it asks for the document. Most checks end at the response header without transferring the file; only a real change triggers a download and a parse. The credential it holds can read that one file and nothing else in the tenant.</p>
+      <p>The file is checked far more often than it changes, so the sync asks SharePoint whether the document has moved before it asks for the document. Most checks end at the response header without transferring the file; only a real change triggers a download and a parse. The credential it holds is read-only, so the sync can never write back to the workbook; the write direction does not exist in the code.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/microsoft-graph-excel-sync.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -118,7 +139,7 @@
     <div class="map-node-body">
     <p class="node-what">Two services I built to pull the marketing side of the business into the platform: email campaigns, and trade show attendees.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/marketing-sync.png?v=4577c1576e" alt="Trade show tickets arriving in the platform: 635 in total, 603 active, 563 already pushed to the email platform and 40 still waiting. Every attendee row carries their ticket type, the add-ons they bought, whether the ticket is still active, and its sync state." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/marketing-sync.png?v=a0cd55f5af" alt="Trade show tickets arriving in the platform: 635 in total, 603 active, 563 already pushed to the email platform and 40 still waiting. Every attendee row carries their ticket type, the add-ons they bought, whether the ticket is still active, and its sync state." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Attendee names, addresses and companies are substituted. Ticket types, add-ons and sync states are real, and the forty pending rows are what the next push sends.</figcaption>
     </figure>
     <div class="node-detail">
@@ -135,6 +156,7 @@
       <p>People rename campaigns on both sides, so the sync normalizes the names before it compares them; matching on the raw values would drift apart within a week. The sending platform does not always expose preheader text as a field, so the service reads it back out of the campaign HTML, which is what the platform&#x27;s own preview then shows.</p>
       <p>The ticketing platform gave me no API to work with, so the import signs in the way a person does and drives the export from a saved browser session, then parses the file into the database on a schedule.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/email-marketing.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -143,7 +165,7 @@
     <div class="map-node-body">
     <p class="node-what">I built a nightly check that reports when someone changes a promotional deal in the ERP.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/deal-watch.png?v=367fb327ed" alt="Every promotion under watch: 264 deals with 92 of them active, sorted into groups that each carry their own on, off or archived state, from quantity and club discounts through dealer, warranty and regional pricing. The table lists each deal with its coupon code, whether it is live, and the group it belongs to." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/deal-watch.png?v=06f1afffd6" alt="Every promotion under watch: 265 deals with 93 of them active, sorted into groups that each carry their own on, off or archived state, from quantity and club discounts through dealer, warranty and regional pricing. The table lists each deal with its coupon code, whether it is live, and the group it belongs to." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Coupon codes are renamed here. The nightly check reads all of this out of a system that keeps no record of what changed.</figcaption>
     </figure>
     <div class="node-detail">
@@ -159,6 +181,7 @@
       <h4 class="node-block-head">How it works</h4>
       <p>The ERP&#x27;s REST API was the obvious source and turned out to be the wrong one: its deals endpoint returns the metadata but omits the coupon code, the discount amount, the amount type, and the order amount, which are exactly the fields that get corrupted. So the check signs in to the ERP&#x27;s own backend, opens each deal&#x27;s edit form, and reads the values a person would see there, then compares them field by field against the previous night&#x27;s copy.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/deal-drift-detection.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -166,47 +189,45 @@
 <section class="reader-domain" data-group="customer-foundation" data-group-name="Customer Foundation" data-group-desc="One current copy of the customer base, resolved down to the real people behind it.">
   <h2 class="reader-domain-head">Customer Foundation</h2>
   <p class="reader-domain-desc">One current copy of the customer base, resolved down to the real people behind it.</p>
-  <article class="map-node" id="n-mirror" data-node="mirror" data-title="Customer and Contact Mirror" data-card="43,000 customers and 117,000 contacts, current every morning, in one place every other tool reads from.">
+  <article class="map-node" id="n-mirror" data-node="mirror" data-title="Customer and Contact Mirror" data-card="More than 40,000 customers and 115,000 contacts, rebuilt every night, in the one place every other tool reads.">
     <h3 class="map-node-title">Customer and Contact Mirror</h3>
     <div class="map-node-body">
-    <p class="node-what">I built the mirror that keeps the ERP&#x27;s customer and contact tables copied into PostgreSQL, so the rest of the platform has something it can actually query.</p>
+    <p class="node-what">I built the mirror that keeps the ERP&#x27;s customer and contact records copied into PostgreSQL, so the rest of the platform has something it can actually query.</p>
     <div class="node-detail">
     <div class="node-block">
-      <h4 class="node-block-head">The problem</h4>
-      <p>The customer base lived only inside the ERP. Every project that set out to improve it has to read the whole base at once, and read it again after every change: duplicate cleanup, address correction, identity resolution, reporting. A one-time export is stale the day it lands, so all of that work would have been running against an outdated copy of the customer base.</p>
-    </div>
-    <div class="node-block">
       <h4 class="node-block-head">The result</h4>
-      <p>The mirror holds 43,000+ customers and 117,000+ contacts as of July 2026, rebuilt nightly, and it is what every customer-facing tool on the platform reads from.</p>
+      <p>The mirror holds more than 40,000 customers and 115,000 contacts as of August 2026, rebuilt nightly, and it is what every customer-facing tool on the platform reads from.</p>
     </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
-      <p>A nightly enumeration re-walks the source and upserts what it finds, and it continues past transient ERP errors, because one flaky call partway through a walk that long would throw away the entire refresh. Re-walking the whole base is the deliberate choice: the copy corrects itself every night without anyone reconciling it by hand.</p>
+      <p>A nightly enumeration re-walks the whole source and upserts what it finds, roughly 470 paged requests, and it continues past transient errors, because one flaky call partway through a walk that long would throw away the entire refresh. Re-walking everything rather than tracking changes is the deliberate choice: the copy corrects itself every night, and the worst staleness anything downstream can read is 24 hours by construction.</p>
+      <p>Customers and contacts are two separate resources in the ERP, and which contact is the billing or shipping default is recorded on the customer rather than on the contact. A refresh that walked only contacts would leave those defaults pointing at contacts that had since been deactivated, so the sweep takes contacts first and customers second, then derives every default flag from the fresh copy in one set-based update. A separate nightly control re-checks that the flags still point at live contacts, instead of assuming the derivation held.</p>
     </div>
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-identity" data-node="identity" data-title="Identity Resolution" data-card="43,000 accounts resolved into about 29,500 real people.">
+  <article class="map-node" id="n-identity" data-node="identity" data-title="Identity Resolution" data-card="More than 40,000 accounts resolved into about 30,000 real people.">
     <h3 class="map-node-title">Identity Resolution</h3>
     <div class="map-node-body">
     <p class="node-what">An engine I built to decide which of the ERP&#x27;s customer accounts are the same human being.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/identity.png?v=df6e7ac2a3" alt="The customer console. Facets across the top count 30,090 customers by brand, spend band, recency, state, support history and subscription, and a confidence row sorts them by how each identity was established, from externally verified down to probabilistic and flagged. Below that, resolved customers with their order counts, last order dates and how many raw accounts each one absorbed." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/identity.png?v=eb30eb0a1a" alt="The customer console. Facets across the top count 30,138 customers by brand, spend band, recency, state, support history and subscription, and a confidence row sorts them by how each identity was established, from externally verified down to probabilistic and flagged. Below that, resolved customers with their order counts, last order dates and how many raw accounts each one absorbed." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Names and addresses here are substituted. Every customer carries the reason its identity was believed, and the accounts column counts the raw records each one absorbed.</figcaption>
     </figure>
     <div class="node-detail">
     <div class="node-block">
       <h4 class="node-block-head">The problem</h4>
-      <p>The ERP holds about 43,000 accounts, and many of them are one person showing up more than once: households, shared email addresses, repeat guest checkouts, dealer staff. Exact matching cannot collapse those, so anyone asking a question about a customer is really asking about one fragment of that customer.</p>
+      <p>The ERP holds more than 40,000 accounts, and many of them are one person showing up more than once: households, shared email addresses, repeat guest checkouts, dealer staff. Exact matching cannot collapse those, so anyone asking a question about a customer is really asking about one fragment of that customer.</p>
     </div>
     <div class="node-block">
       <h4 class="node-block-head">The result</h4>
-      <p>The spine resolves those accounts into about 29,500 people across 8,200 household clusters, at a measured 0.48% false-merge rate on the build certified for production.</p>
+      <p>The spine resolves those accounts into about 30,000 people across 8,200 household clusters, at a measured 0.48% false-merge rate on the build certified for production.</p>
     </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
       <p>It runs on Splink probabilistic record linkage, tuned for precision over recall, because a wrong merge puts one customer&#x27;s orders and history into another customer&#x27;s view. People known to be distinct carry cannot-link rules that no later stage of the pipeline is allowed to override. The nightly rebuild waits on a human review step before it runs, because the rebuild replaces the live spine.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/identity-resolution.md" rel="noopener">Read the case study on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -215,7 +236,7 @@
     <div class="map-node-body">
     <p class="node-what">The pass I built to determine which accounts are duplicates of each other, and the pipeline that corrected the address data underneath them.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/dedupe.png?v=04bb5da097" alt="Bulk address verification over 118,190 ingested addresses, reporting 291 undeliverable and 16,705 duplicate groups. The Duplicates view lists each customer with the address on file and the carrier&#x27;s residential or commercial verdict next to the flag the record currently carries." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/dedupe.png?v=c57e9cf7dc" alt="Bulk address verification over 118,946 ingested addresses, reporting 291 undeliverable and 16,705 duplicate groups. The Duplicates view lists each customer with the address on file and the carrier&#x27;s residential or commercial verdict next to the flag the record currently carries." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Names and street lines are substituted, and the substitution is stable, so the two halves of a duplicate group still land on the same address here. City, state and postcode are unchanged.</figcaption>
     </figure>
     <div class="node-detail">
@@ -232,6 +253,7 @@
       <p>Grouping runs entirely in SQL over the mirrored tables and assigns every account a deterministic group id from normalized phone, email, and address keys. I kept it in pure SQL because grouping logic that lives in application code drifts depending on which path last touched a record, and the same data has to produce the same groups every time for anyone downstream to trust the result. Accounts whose keys disagree stay separate and pass to the identity engine.</p>
       <p>On the address side I put the bulk classification on FedEx and reserved a second validator for the ambiguous cases only, which took a roughly five-hour run down to about fifteen minutes. Every flag is read back after the write to confirm the value took, so a silently rejected correction gets caught rather than counted as applied.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/customer-catalog-dedupe.md" rel="noopener">Read the case study on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -244,7 +266,7 @@
     <div class="map-node-body">
     <p class="node-what">I built the service that runs a sale end to end: it pushes the new prices, proves each one took, and puts the originals back when the sale is over.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/pricing.png?v=97700a0149" alt="Pricing sessions, each one recording whether it worked at product or SKU level, a note saying what it was for, and where it got to. Most read completed, and two of them exist only to correct a specific rule in an earlier session." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/pricing.png?v=da44f926cc" alt="Pricing sessions, each one recording whether it worked at product or SKU level, a note saying what it was for, and where it got to. Most read completed, and two of them exist only to correct a specific rule in an earlier session." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>The notes are what the operator wrote at the time. Two of these sessions correct a previous one, and every session can be put back the way it was.</figcaption>
     </figure>
     <div class="node-detail">
@@ -260,6 +282,7 @@
       <h4 class="node-block-head">How it works</h4>
       <p>Every price change carries three states: queued, applied, and verified. Verified exists as its own state because the service reads each price back after writing it and compares to the penny, and anything that fails that read-back is held for a person rather than counted as done. Every push, verify, and revert is recorded, so a sale can be put back exactly as it was found. Each product carries its own lock, so two people can run different sales at the same time without stepping on each other.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/pricing-automation.md" rel="noopener">Read the case study on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -268,7 +291,7 @@
     <div class="map-node-body">
     <p class="node-what">The service I built to compare what tax was calculated, what was charged, and what was paid, across the tax engine, the ERP, and Stripe.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/tax-recon.png?v=a7af8289eb" alt="A month of tax reconciliation. 2,749 orders in view matching at 97.8 percent, with seven over the review tolerance, fifty-six that left the warehouse with no payment on record, and six charged no tax with no exemption certificate on file. Each exception opens its own section explaining what the nightly check does about it." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/tax-recon.png?v=802d907de8" alt="A month of tax reconciliation. 659 orders in view matching at 94.5 percent, with ten over the review tolerance, fifty-three that left the warehouse with no payment on record, and six charged no tax with no exemption certificate on file. Each exception opens its own section explaining what the nightly check does about it." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Dollar amounts are removed from this view. The counts, the match rate and the exception categories are what the month-end run actually produces.</figcaption>
     </figure>
     <div class="node-detail">
@@ -285,6 +308,51 @@
       <p>Both halves of a transaction have to arrive together, so the feed pulls each new tax record and enriches it from the ERP in the same pass. Reconciliation then reads one row instead of joining two systems at query time.</p>
       <p>The fragile part of the manual process was the column names. Vendors rename fields without warning, and one renamed header breaks the match before a single number is compared. Every expected field resolves through four tiers: an exact match on the normalized header, a curated alias table, a fuzzy match, and a last tier that reads the cell values themselves to break a tie. Anything that clears no tier is left unmapped and sent to review; the service does not guess. The tax engine has renamed fields twice since launch and the resolver absorbed both. It also never writes a correction back, because a write-back decides which system was right, and that is a person&#x27;s call to make.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/tax-reconciliation.md" rel="noopener">Read the case study on GitHub</a></p>
+    </div>
+    </div>
+  </article>
+  <article class="map-node" id="n-payment-recon" data-node="payment-recon" data-title="Payment Reconciliation" data-card="Every payment on every order, checked against the gateway that actually holds the money.">
+    <h3 class="map-node-title">Payment Reconciliation</h3>
+    <div class="map-node-body">
+    <p class="node-what">I built the reconciliation engine that compares what the ERP says it collected against what the payment gateways actually settled, order by order.</p>
+    <figure class="node-shot">
+      <img src="/static/img/systems/payment-recon.png?v=0e01c54a98" alt="The shipped-without-payment review. Fifty-six orders left the warehouse with no payment on record, split into forty whose payment was voided as unverifiable and sixteen that reached this state on their own. Each row carries a billing check run against the ERP&#x27;s own billing page, and every one of these came back confirmed unpaid." width="1600" height="1000" loading="lazy" decoding="async">
+      <figcaption>Dollar amounts are removed from this view. The order numbers, the split and the billing verdicts are what the nightly check actually produces.</figcaption>
+    </figure>
+    <div class="node-detail">
+    <div class="node-block">
+      <h4 class="node-block-head">The problem</h4>
+      <p>The ERP records a payment when its own checkout tells it to, and nothing after that ever confirms the money arrived. The payments live in the ERP, the settlements live at the card gateway, and the two were never compared, so whether an order had genuinely been paid for was not a question anyone could answer from either system alone.</p>
+    </div>
+    <div class="node-block">
+      <h4 class="node-block-head">The result</h4>
+      <p>Both payment rails are mirrored read-only and joined into a per-order verdict, so any order can be asked whether it is verified, partly verified, still pending, or shipped with nothing behind it. The first run surfaced 92 orders that had shipped against payments the gateway never received: the ERP&#x27;s checkout had been marking orders paid through a third-party card SDK that the payment provider was winding down, and 91 of the 92 had no transaction at the gateway.</p>
+    </div>
+    <div class="node-block node-how">
+      <h4 class="node-block-head">How it works</h4>
+      <p>Card payments join on the exact transaction reference the gateway issues. PayPal does not, because the ERP stores a third identifier that appears on neither side, so those reconcile on amount, brand, and a three-day window. An order the rails cannot settle either way gets its own verdict and is never assumed paid.</p>
+      <p>Nothing reverses on its own. A flagged order is put in front of a person with both sides shown, and if the payment is voided the order is deliberately left unlocked, because a locked order cannot accept a payment and the money still needs collecting.</p>
+    </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/payment-reconciliation.md" rel="noopener">Read the full writeup on GitHub</a></p>
+    </div>
+    </div>
+  </article>
+  <article class="map-node" id="n-order-desk" data-node="order-desk" data-title="The Order Desk" data-card="One screen for a rep taking an order, instead of three.">
+    <h3 class="map-node-title">The Order Desk</h3>
+    <div class="map-node-body">
+    <p class="node-what">Sales reps work an order on a desk I built for them, from finding the customer through pricing the freight and placing it.</p>
+    <div class="node-detail">
+    <div class="node-block">
+      <h4 class="node-block-head">Why it exists</h4>
+      <p>Taking an order over the phone on the legacy path was slow. Its quote builder did not work, so a rep could not send a customer a price and pick it back up later, and there was no way to edit the cart of a customer already on the site. The rep worked across three separate pages, moved between them mid-call, and looked the same customer up again in each one.</p>
+    </div>
+    <div class="node-block node-how">
+      <h4 class="node-block-head">How it works</h4>
+      <p>The desk is one page with the customer pinned to the left and three tabs across it: shoppers on the site right now, the order being built, and quotes saved earlier. A rep searches for a person. The ERP records the same customer as several separate accounts, and the identity work underneath is what collapses those into one result, so a rep can move between that person&#x27;s accounts without losing the order in progress.</p>
+      <p>Everything the desk writes goes into the ERP through the same interface the ERP&#x27;s own order screen uses, so a desk order and a hand-keyed order are the same kind of record and nothing downstream has to know which was which. Lines carry their own stock rollup, the ship-to and live carrier rates resolve in the same screen, freight can be overridden when the rate table does not cover what is shipping, and a part-built order can be saved, shared with another rep, or duplicated.</p>
+    </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/order-desk.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -293,7 +361,7 @@
     <div class="map-node-body">
     <p class="node-what">The warehouse tests every wireless unit before it ships on a system I built, which also tracks what happens to the ones that fail.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/qc.png?v=ea4b232a65" alt="Aggregate results from the wireless module tester: 7,947 modules tested over 8,083 sessions at a 98.2 percent pass rate, run by six testers. A thirty-day trend charts the daily volume in pass and fail, and the registry underneath lists each module by serial and radio address with how many times it has been tested and how it last came out." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/qc.png?v=5863655b08" alt="Aggregate results from the wireless module tester: 7,947 modules tested over 8,083 sessions at a 98.2 percent pass rate, run by six testers. A thirty-day trend charts the daily volume in pass and fail, and the registry underneath lists each module by serial and radio address with how many times it has been tested and how it last came out." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Every module holds its own row, so a unit that fails in the field resolves to the session that passed it and the person who ran it. Radio addresses are substituted.</figcaption>
     </figure>
     <div class="node-detail">
@@ -307,73 +375,72 @@
     </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
-      <p>A tester connects to the unit over BLE, runs the sequence, and taps pass or fail. Each unit is registered by serial number and tested against a definition specific to its SKU. A pass writes straight into the tested-inventory ledger, so the warehouse reads tested-and-ready counts per SKU without anyone running a report. A fail opens a triage entry owned by a named person, with a disposition of retest, repair, or scrap and a lifecycle it has to move through.</p>
+      <p>A tester connects to the unit over BLE, runs the sequence, and taps pass or fail. Each unit is registered by serial number and tested against a definition specific to its SKU, and every result lands in the module registry as it happens. A pass is built to feed a tested-inventory ledger the warehouse reads per SKU without running a report, and a fail to open a triage entry owned by a named person with a disposition of retest, repair, or scrap; the warehouse&#x27;s daily path today is the tester itself, and that fuller lifecycle is seeded and waiting on adoption.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/qc-tracking.md" rel="noopener">Read the case study on GitHub</a></p>
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-fulfillment" data-node="fulfillment" data-title="Fulfillment and Label Generation" data-card="Every order&#x27;s shipping method resolved to the right carrier service and handling.">
+  <article class="map-node" id="n-fulfillment" data-node="fulfillment" data-title="Fulfillment and Label Generation" data-card="The ERP prints one label for a multi-box shipment. This station prints all of them.">
     <h3 class="map-node-title">Fulfillment and Label Generation</h3>
     <div class="map-node-body">
-    <p class="node-what">I built the station warehouse staff use to produce the shipping label for an order.</p>
+    <p class="node-what">I built the station warehouse staff use to produce the shipping labels for an order, for the shipments the ERP will not print in full.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/fulfillment.png?v=5fcf485649" alt="Labels produced at the fulfillment station. Each row carries the carrier the order resolved to, the exact service level behind it, the recipient, the package weight and the date it printed, with the service varying by order down to a ground hazmat label." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/fulfillment.png?v=7ae407a1bb" alt="Labels produced at the fulfillment station. Each row carries the carrier the order resolved to, the exact service level behind it, the recipient, the package weight and the date it printed, with the service varying by order down to a ground hazmat label." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Each row records the service the order resolved to. The carrier and the handling follow from the method already on the order, so nobody at the station picks them.</figcaption>
     </figure>
     <div class="node-detail">
     <div class="node-block">
       <h4 class="node-block-head">Why it exists</h4>
-      <p>The shipping method already sits on the order, in more than 40 different ERP values, and 16 of those are hazmat methods that carry different handling requirements. Somebody has to turn that value into the right carrier service on every single shipment, and the ways to get it wrong are a refused package or an overpaid rate.</p>
-    </div>
-    <div class="node-block">
-      <h4 class="node-block-head">The result</h4>
-      <p>The service level and the handling now follow from the method already on the order, and the ERP stays the authoritative record of what shipped.</p>
+      <p>The ERP generates every label for a multi-box shipment and prints one of them. The rest lived in a second system that covers about half of the company&#x27;s labels, and the multi-box orders where a missing label hurts most are the hazmat ones, which that system never has. The shipping method itself sits on the order in more than 40 different ERP values, 16 of them hazmat methods with their own handling requirements, and getting that mapping wrong is a refused package or an overpaid rate.</p>
     </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
-      <p>The mapping from ERP shipping method to carrier service is the part that matters, so I made it explicit, including which methods are hazmat, and nothing about a label depends on a guess at the moment of printing. Label creation goes through the provider the platform already used for address validation and tracking fallback, which leaves one integration to maintain instead of one per carrier, and fulfillment state flows back to the ERP through the sync that already exists.</p>
+      <p>The mapping from ERP shipping method to carrier service is the part that matters, so I made it explicit, including which methods are hazmat, and nothing about a label depends on a guess at the moment of printing. Labels are minted through the provider the platform already uses for address validation and tracking, which leaves one integration to maintain instead of one per carrier.</p>
+      <p>The station is built to hand fulfillment state back to the ERP through the sync that already exists. That return path is not connected yet, so a label printed here is not written onto the order in the ERP today.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/order-fulfillment.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-catalog" data-node="catalog" data-title="Product Catalog and Knowledge Graph" data-card="Compatibility coverage across the catalog raised from 57% to 99.6% of products.">
+  <article class="map-node" id="n-catalog" data-node="catalog" data-title="Product Catalog and Knowledge Graph" data-card="What each product is, and what it works with, derived instead of typed in.">
     <h3 class="map-node-title">Product Catalog and Knowledge Graph</h3>
     <div class="map-node-body">
-    <p class="node-what">I built the layer that turns the ERP&#x27;s product model into what the public website shows, and the knowledge graph that answers which parts work together.</p>
+    <p class="node-what">I built the layer that decides what a product is, and the knowledge graph that answers which parts actually work together.</p>
     <div class="node-detail">
     <div class="node-block">
       <h4 class="node-block-head">The constraint</h4>
-      <p>The ERP stores option names as raw internal strings and versions a product by duplicating its record, so nothing in it is shaped like a product page. Customers also ask which accessory fits which unit, and that answer lived in support articles and in the heads of the people who have been there longest.</p>
+      <p>The ERP stores option names as raw internal strings and versions a product by duplicating its record, so nothing in it is shaped like a product page. Compatibility was not just unshaped, it was unwritten: which accessory fits which unit lived in support articles and in the heads of the people who have been there longest.</p>
     </div>
     <div class="node-block">
       <h4 class="node-block-head">The result</h4>
-      <p>The website renders from a model covering more than 56 product types, and compatibility coverage went from 57% of products to 99.6%.</p>
+      <p>The website renders from a model covering more than 56 product types, and 139 interface declarations derive 860 compatibility links across the catalog, with 93% of sellable products carrying at least one.</p>
     </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
       <p>Five services read the product model out of PostgreSQL and emit what the storefront expects, with raw option names mapped into categories a customer can actually read. A product page composes from nine independent fragments in roughly 300ms, and each fragment is isolated, so one slow section degrades itself and not the page.</p>
-      <p>The knowledge system models a sellable product as a graph, so an option a customer picks resolves into the component SKUs that choice actually adds. Spec values are harvested from support articles and every value keeps a pointer back to the article it came from, so a reviewer can check a number against its source. Each product declares its connector interfaces, and compatibility is computed from those declarations across 491 derived relationships.</p>
+      <p>The graph does not store which products go together. Each product declares the interfaces it exposes and the ones it accepts, on three axes: the connector it plugs into, the termination its firing cues need, and the chassis it physically fits. Compatibility is derived from those declarations every night. Eighteen antennas are eighteen small declarations rather than the 306 pairs they imply, and adding a nineteenth connects it to all of them without anyone editing a pair.</p>
+      <p>An option a customer picks resolves into the component SKUs that choice actually adds, so the graph describes a configured product and not just a catalog entry. Specification values are harvested from support articles and every value keeps a pointer back to the article it came from, so a reviewer can check a number against its source.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/product-catalog.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-hazmat" data-node="hazmat" data-title="Hazmat Shipping Declarations" data-card="Scan the order, print a compliant dangerous goods declaration.">
+  <article class="map-node" id="n-hazmat" data-node="hazmat" data-title="Hazmat Shipping Declarations" data-card="The form an air shipment cannot fly without, generated from the order instead of typed.">
     <h3 class="map-node-title">Hazmat Shipping Declarations</h3>
     <div class="map-node-body">
     <p class="node-what">The IATA dangerous goods declaration for an order, produced from a barcode scan by a service I built.</p>
     <div class="node-detail">
     <div class="node-block">
       <h4 class="node-block-head">The problem</h4>
-      <p>Every air shipment of dangerous goods needs an IATA Shipper&#x27;s Declaration signed by an authorized signatory, and the company&#x27;s hardware carries one fixed UN classification, so every one of those shipments needs the form. An error on it gets the shipment refused at the carrier counter. The operator was filling out a Word template, printing it, signing it, and scanning it, once per shipment.</p>
-    </div>
-    <div class="node-block">
-      <h4 class="node-block-head">The result</h4>
-      <p>The declaration comes off a barcode scan and prints straight from the browser, and the classification and the signatory list are fixed in the system, so an operator cannot declare the wrong class by typing over a field.</p>
+      <p>Every air shipment of dangerous goods needs an IATA Shipper&#x27;s Declaration signed by an authorized signatory, and the company&#x27;s hardware carries one fixed UN classification, so every one of those shipments needs the form. An error on it gets the shipment refused at the carrier counter. The operator was filling out a Word template by hand, printing it, signing it, and scanning it, once per shipment.</p>
     </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
-      <p>The regulator dictates the layout, so the official template is the base document and the order&#x27;s data is drawn onto it. Redrawing that form myself would have put the company&#x27;s compliance on my rendering of a legal document.</p>
+      <p>An operator scans the order and the declaration comes back filled. The shipper block, the UN number, the class, the packing group and the packing instruction are fixed in the system rather than entered per shipment, and the signatory comes from a list of the people authorized to sign.</p>
+      <p>The regulator dictates the layout, so the official IATA form is the base document and the order&#x27;s data is drawn onto it. Redrawing that form myself would have put the company&#x27;s compliance on my rendering of a legal document.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/hazmat-compliance.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -381,7 +448,7 @@
 <section class="reader-domain" data-group="intelligence" data-group-name="Intelligence and Reporting" data-group-desc="What the business can see once its data is collected in one place.">
   <h2 class="reader-domain-head">Intelligence and Reporting</h2>
   <p class="reader-domain-desc">What the business can see once its data is collected in one place.</p>
-  <article class="map-node" id="n-forecasting" data-node="forecasting" data-title="Demand Forecasting" data-card="Seasonal curves reproduced at 0.97 against the buyer&#x27;s hand-kept workbook.">
+  <article class="map-node" id="n-forecasting" data-node="forecasting" data-title="Demand Forecasting" data-card="Seasonal curves reproduced independently at 0.97 against the buyer&#x27;s hand-kept workbook.">
     <h3 class="map-node-title">Demand Forecasting</h3>
     <div class="map-node-body">
     <p class="node-what">A per-SKU forecasting engine I built to reproduce and pressure-test how the company decides what to reorder.</p>
@@ -390,14 +457,11 @@
       <h4 class="node-block-head">The problem</h4>
       <p>Replenishment buying ran out of one Excel workbook the purchasing lead maintained by hand, with about 186,000 formulas in it. The buying logic was that person&#x27;s judgment, written down nowhere else, and no statistical baseline existed to check it against or to carry it if they left.</p>
     </div>
-    <div class="node-block">
-      <h4 class="node-block-head">The result</h4>
-      <p>Seasonal indices I derived independently matched the lead&#x27;s hand-kept curve at a 0.97 shape correlation.</p>
-    </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
       <p>Each SKU is classified on how often it sells and how erratic that demand is, then routed to a model that suits it: seasonal series to AutoETS, intermittent ones to Croston&#x27;s SBA, and the rest to a recent-mean estimator. A single model fitted across all SKUs over-smooths the intermittent ones and under-fits the seasonal ones, which is the failure I set out to avoid. Periods when a SKU was out of stock come out of a 37-month transaction ledger and enter the model as censored demand, because a stockout looks like zero sales and is really unmet demand.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/demand-forecasting.md" rel="noopener">Read the case study on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -406,7 +470,7 @@
     <div class="map-node-body">
     <p class="node-what">The report I built to answer what sold and what it made, from category level down to the individual SKU, across product records the ERP had split apart.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/sales-trends.png?v=edb86ad93a" alt="Units sold by product category, every year from 2021 through June 2026 in one table, each year carrying its change against the year before. Above the table the same history is drawn as twelve-month curves, one line per year, and a pace figure projects the full year from what has shipped." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/sales-trends.png?v=695c429d62" alt="Units sold by product category, every year from 2021 through July 2026 in one table, each year carrying its change against the year before. Above the table the same history is drawn as twelve-month curves, one line per year, and a pace figure projects the full year from what has shipped." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Everything on this page is counted in units. The 2026 column is marked partial because the year is half over, and the current month is excluded so a half-finished month cannot read as a decline.</figcaption>
     </figure>
     <div class="node-detail">
@@ -422,6 +486,7 @@
       <h4 class="node-block-head">How it works</h4>
       <p>The report opens as a category matrix carrying a signed year-over-year delta and drills into individual SKUs, with the operator setting the range and the granularity. Some SKUs contain components that were never costed, and the profitability view leaves those out of margin entirely. Leadership acts on this report, so a margin built from partial costs would be acted on as though it were complete.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/sales-trends.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -430,8 +495,8 @@
     <div class="map-node-body">
     <p class="node-what">I built the storefront&#x27;s analytics: the telemetry that records what visitors do, and the console that reads it back. The site measured nothing about itself before this.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/analytics.png?v=1fcc4bfad6" alt="The funnel view of the storefront console. It reports 9,849 visits and 71 orders for the period, then breaks the product builder into its own stages, each with a count and a share of visits." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>I count the product builder separately from the real conversion above it, because most shoppers buy without ever opening it.</figcaption>
+      <img src="/static/img/systems/analytics.png?v=dcbc4eb026" alt="The storefront funnel. Sixty-six orders against four thousand visits, a 0.9 percent order conversion, and every stage between the two counted in turn: arrived, viewed a page, opened the product builder, added to cart. Each stage carries its own count and its share of visits, so the drop between any two of them is readable." width="1600" height="1000" loading="lazy" decoding="async">
+      <figcaption>Phone and office orders appear in the order count but have no visit behind them, so the funnel counts only what the site itself saw.</figcaption>
     </figure>
     <div class="node-detail">
     <div class="node-block">
@@ -446,15 +511,16 @@
       <h4 class="node-block-head">How it works</h4>
       <p>Attribution was the hard part. The pipeline is anonymous by design, with no cross-site identity and no personal data in the event stream, so a session cannot simply be joined to an order. The bridge I built matches sessions to orders on timing at checkout, and the matches land inside 15-second windows; sessions recorded before the bridge existed were matched retroactively. A session that does not match stays unattributed, and the console reports how many did not match. Money figures come off the authoritative order record and join through the bridge, so the console never invents its own revenue number.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/storefront-analytics-attribution.md" rel="noopener">Read the case study on GitHub</a></p>
     </div>
     </div>
   </article>
-  <article class="map-node" id="n-cart" data-node="cart" data-title="Live Cart Telemetry" data-card="A live view of every shopper on the storefront, on telemetry I built for a platform that offered none.">
+  <article class="map-node" id="n-cart" data-node="cart" data-title="Live Cart Telemetry" data-card="A live view of every shopper on the storefront, and of what they already own.">
     <h3 class="map-node-title">Live Cart Telemetry</h3>
     <div class="map-node-body">
     <p class="node-what">I built the storefront&#x27;s live presence tracking, and then a second half on top of it that lets a support rep change a shopper&#x27;s cart with that shopper&#x27;s consent.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/cart.png?v=3e441e5995" alt="Live shoppers on the storefront. Five are on the site in the last ninety seconds, three of them holding items in a cart, against 1,709 page views and 13 checkout views so far today. Under the counters each shopper appears with the page they are on, whether they signed in, and what is in their cart, beside a traffic-by-hour curve and a feed of what each visit did." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/cart.png?v=b62b0fcbdd" alt="Live shoppers on the storefront. Two are on the site in the last ninety seconds, one of them holding items in a cart, against 987 page views and 16 checkout views so far today. Under the counters each shopper appears with the page they are on, how long they have been there, whether they are signed in, and where they are." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Shoppers are identified by a rotating hash. The counters here exclude 36 employee and 207 bot visits.</figcaption>
     </figure>
     <div class="node-detail">
@@ -468,9 +534,10 @@
     </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
-      <p>I built the event pipeline the platform never had: a behavioral taxonomy feeding an ingestion API, a heartbeat that writes visitor presence, and a watchdog that closes a session when the heartbeat stops.</p>
+      <p>A behavioral taxonomy feeds an ingestion API, a heartbeat writes visitor presence, and a watchdog closes a session when the heartbeat stops. A signed-in visitor resolves to a customer record, and that customer&#x27;s order history resolves through the product graph, so the view carries what equipment the shopper already owns and not only what is in the cart in front of them. It is built to be automated against, so a triggered email or an offer can key off a live cart; that automation is not built yet.</p>
       <p>The editing half is built around consent, because a rep silently changing someone&#x27;s cart is not something I was willing to ship. The rep stages the whole change as one action, the shopper&#x27;s own browser renders a preview of it, and it executes through the storefront&#x27;s native cart only after the shopper approves.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/cart-telemetry-consent-editing.md" rel="noopener">Read the case study on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -479,13 +546,13 @@
     <div class="map-node-body">
     <p class="node-what">A reporting layer I built to turn everything the platform did overnight into something a person can read in a minute.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/monitoring.png?v=6f52ee4cc0" alt="Service controls for the platform&#x27;s background work. Each named service reports whether it is running and can be stopped from its own row: the tax sync, the deal drift monitor, the inventory and order heartbeats, the restock and email campaign syncs, the SharePoint shipment sync, and the nightly full sync." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/monitoring.png?v=365fa594d1" alt="Service controls for the platform&#x27;s background work. Each named service reports whether it is running and can be stopped from its own row: the tax sync, the deal drift monitor, the inventory and order heartbeats, the restock and email campaign syncs, the document store shipment sync, and the nightly full sync." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Each row names the outside system it depends on, and all of them report into the same morning digest.</figcaption>
     </figure>
     <div class="node-detail">
     <div class="node-block">
       <h4 class="node-block-head">Why it exists</h4>
-      <p>The platform grew one system at a time, and each system brought its own background services with it: syncs, watchers, nightly rebuilds. More than sixty of them report in now, too many to check by hand each morning.</p>
+      <p>The platform grew one system at a time, and each system brought its own background services with it: syncs, watchers, nightly rebuilds. Dozens of them report in now, too many to check by hand each morning.</p>
     </div>
     <div class="node-block">
       <h4 class="node-block-head">The result</h4>
@@ -496,6 +563,7 @@
       <p>Two kinds of record back it: what a service did and how many records it touched, and the field-level before and after of every change it made. The grading rules live in the reporting layer and not in the jobs themselves, so changing what counts as notable is one edit and never a re-run of anything.</p>
       <p>Bug reports work the same way. Every page keeps a short rolling buffer of what happened in the browser, and none of it leaves the machine until someone clicks the feedback button and describes the problem, so a report arrives with the evidence already attached.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/reporting-and-monitoring.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -521,6 +589,27 @@
       <p>The default environment is a daily snapshot replica, so an unexpected write lands on a copy of the data. Live SQL is held read-only at two independent layers: the tool refuses mutating statements and bounds the query before it ever leaves the process, and the database session itself is opened read-only, so getting past the first layer still yields nothing.</p>
       <p>A write takes two calls. The first returns a preview of exactly what would change, plus a token; the second carries that token and executes. Reads carry no such risk and run unguarded. I maintain this platform alone, so every release also goes through a review gate I built to stand in for the second engineer I do not have.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/case-studies/mcp-agent-layer.md" rel="noopener">Read the case study on GitHub</a></p>
+    </div>
+    </div>
+  </article>
+  <article class="map-node" id="n-write-safety" data-node="write-safety" data-title="Production Write Safety" data-card="Every change to a live business record previews first and proves itself by reading back.">
+    <h3 class="map-node-title">Production Write Safety</h3>
+    <div class="map-node-body">
+    <p class="node-what">The write path I built sits between every tool on this platform and any record it changes in a live business system.</p>
+    <div class="node-detail">
+    <div class="node-block">
+      <h4 class="node-block-head">The constraint</h4>
+      <p>The ERP keeps no audit log of what changed it and offers no undo, and its staging environment points at the same live data as production, so there is no copy of the business safe to practise on. Every write any tool makes lands on the real records on the first attempt.</p>
+    </div>
+    <div class="node-block node-how">
+      <h4 class="node-block-head">How it works</h4>
+      <p>A write that changes anything is a two-call tool. The first call previews the change and returns a token; nothing moves until a second call comes back carrying that token, so the confirmation is a separate deliberate act.</p>
+      <p>Whether a write worked is decided by reading the record back out of the system of record and comparing it against what was intended. The HTTP response is a hint. A write gets exactly one attempt and no automatic retry, because a lost response and a rejected write look identical from the caller&#x27;s side, so re-sending on that ambiguity can execute the same money change twice.</p>
+      <p>The read-back asserts the invariant the change was meant to produce. Asserting the exact value written would be wrong here: an order status is a field the ERP advances on its own within minutes, so checking that it still equals the number just written would report a good write as drift. The assertion is that the order is out of the shipping states.</p>
+      <p>Unknown is a real outcome here, separate from worked and from failed. When the read-back cannot settle the question the tool says so and stops, and a person checks by hand.</p>
+    </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/write-safety.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -529,7 +618,7 @@
     <div class="map-node-body">
     <p class="node-what">The sign-in and permission model I built for a dashboard that holds customer data and tools that write to production.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/auth.png?v=05de2cda42" alt="User management for the dashboard. Twenty-four people, each with a role, the groups they belong to, a count of the pages they can open, and an active state. Every row carries a Pages button that opens that person&#x27;s individual page grants." width="1600" height="1000" loading="lazy" decoding="async">
+      <img src="/static/img/systems/auth.png?v=e4f0552ffd" alt="User management for the dashboard. Twenty-six people, each with a role, the groups they belong to, a count of the pages they can open, and an active state. Every row carries a Pages button that opens that person&#x27;s individual page grants." width="1600" height="1000" loading="lazy" decoding="async">
       <figcaption>Names and email addresses are substituted here. The page counts are real, and the rows reading zero are people who have been created but granted nothing yet.</figcaption>
     </figure>
     <div class="node-detail">
@@ -541,6 +630,7 @@
       <h4 class="node-block-head">How it works</h4>
       <p>The dashboard verifies the portal&#x27;s signed token against the portal&#x27;s public key, and a first sign-in creates the account with nothing attached to it. I kept a locally authenticated admin path as the fallback for a portal outage, with those credentials stored hashed. Sessions live in the database, so losing the cache does not sign the entire team out. Permissions are granted by pattern, so one grant can cover a whole family of pages, and the check runs on both the page and the route behind it.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/auth-and-users.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -549,23 +639,20 @@
     <div class="map-node-body">
     <p class="node-what">The operational patterns I built into every background service on the platform, so it runs without anyone watching it.</p>
     <figure class="node-shot">
-      <img src="/static/img/systems/infra.png?v=464d083340" alt="Current health of the platform: database integrity, disk, memory, the age and size of the last backup, uptime since the most recent restart, and log volume. Below that sits the emergency brake, which blocks writes to twenty-two protected tables and serves the last good snapshot to six public feeds, shown here in its normal state with writes flowing." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>The brake is read-only from this screen. It also lists the two public endpoints it cannot cover, because those recompute live and have no snapshot to fall back to.</figcaption>
+      <img src="/static/img/systems/infra.png?v=ee1d04caeb" alt="The deployment record. Ninety releases, every one of them successful, each tagged with the version that went out, the commit it was built from, whether it was a full or partial deploy, and the size of the snapshot taken before it shipped. The current release is named at the top against its commit, and five snapshots are held on disk so any of them can be rolled back to." width="1600" height="1000" loading="lazy" decoding="async">
+      <figcaption>A snapshot is taken before every release, which is what makes a rollback a decision rather than a rebuild.</figcaption>
     </figure>
     <div class="node-detail">
     <div class="node-block">
       <h4 class="node-block-head">Why it exists</h4>
       <p>The hosted ERP has bad stretches where every request comes back as a server error. A service polling on a five-minute timer keeps calling right through a stretch like that: the calls accomplish nothing, and they add load to a system that is already struggling.</p>
     </div>
-    <div class="node-block">
-      <h4 class="node-block-head">The result</h4>
-      <p>Every background service throttles itself when an upstream goes bad, the platform brings itself back in the right order after a reboot, and deploying is restarting the workers.</p>
-    </div>
     <div class="node-block node-how">
       <h4 class="node-block-head">How it works</h4>
       <p>Each service counts its own consecutive failures, backs off early, and disables itself outright if the upstream stays broken, writing that state where every worker can see it and where it survives a restart. Clearing it is deliberately manual, because only a person can tell whether the other end is actually fixed.</p>
-      <p>On boot, a recovery pass re-triggers whatever stopped mid-run, in dependency order, and skips anything that had disabled itself. Schema lives with the service that owns it: each one applies its own definitions at startup, written so they can run repeatedly without effect, and guarded so that only one worker does the work while the rest keep serving traffic. That is 145 tables that come up on their own, with no migration step for anyone to forget.</p>
+      <p>On boot, a recovery pass re-triggers whatever stopped mid-run, in dependency order, and skips anything that had disabled itself. Schema lives with the service that owns it: each one applies its own definitions at startup, written so they can run repeatedly without effect, and guarded so that only one worker does the work while the rest keep serving traffic. That is more than 300 tables that come up on their own, with no migration step for anyone to forget.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/components/infrastructure.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
@@ -573,10 +660,6 @@
     <h3 class="map-node-title">Desktop Hardware Connector</h3>
     <div class="map-node-body">
     <p class="node-what">I built the Windows desktop application customers install to manage their wireless hardware modules over a USB radio.</p>
-    <figure class="node-shot">
-      <img src="/static/img/systems/connector.png?v=eb5423a3f8" alt="The connector fleet as the platform sees it. Nineteen installations, one online and eighteen offline, each tile naming the Windows host, the build it is running, how many hardware modules it can see, and whether its bridge process is running or stopped." width="1600" height="1000" loading="lazy" decoding="async">
-      <figcaption>The bridge named on every tile is the quarantined component, and it is the only part of the application that touches the obsolete runtime. Host names that carried the company name are renamed.</figcaption>
-    </figure>
     <div class="node-detail">
     <div class="node-block">
       <h4 class="node-block-head">The constraint</h4>
@@ -591,11 +674,21 @@
       <p>The application runs as two processes. The modern half owns the interface and everything the customer touches. The legacy half does nothing but drive the radio, and the two talk over a channel that never leaves the machine. The modern side supervises the legacy one and restarts it when it dies, and the radio process keeps its own store of module state, so the dashboard can still show the last known state while it is down.</p>
       <p>Distribution was its own problem. An unsigned installer draws the maximum-severity warning on Windows, and on machines with Smart App Control it is blocked outright with no way for the customer to override it, which turns every install into a support call. Signing is part of the build now, so every release a customer downloads is trusted on arrival.</p>
     </div>
+    <p class="node-source"><a href="https://github.com/ryanzegalia/portfolio/blob/main/nexus/connector/README.md" rel="noopener">Read the full writeup on GitHub</a></p>
     </div>
     </div>
   </article>
 </section>
 </div>
+
+{# 2026-08-03: the home page's Documentation card folded down to a line; this
+   is its twin, where a reader finishes the map. #}
+<section class="map-docs-cta container" data-reveal>
+  <p class="root-shelf-sub">Why each piece works the way it does, what broke
+    on the way there, and where the numbers come from:
+    <a href="https://github.com/ryanzegalia/portfolio/tree/main/nexus" target="_blank" rel="noopener">48
+    decision records and 9 case studies on GitHub</a>.</p>
+</section>
 
 <div class="map-modal-backdrop" id="map-backdrop" hidden></div>
 <div class="map-modal-wrap" id="map-modal-wrap" hidden>
@@ -640,17 +733,28 @@
     });
     GROUPS.push(g);
   });
-  var TOTAL = Object.keys(NODE).length;
+  var TOTAL = Object.keys(NODE).length;   // groups only: the hub is not a system
+
+  // The hub is a node for the modal's purposes but belongs to no group, so it
+  // is registered after TOTAL and never appears in GROUPS.
+  var hubArticle = document.getElementById('n-hub');
+  if (hubArticle) {
+    NODE.hub = { article: hubArticle, group: null };
+  }
 
   root.classList.add('map-js'); // collapses the reader; the map takes over
 
   // ---- build the rest map: hub + one card per group ----
   var hub = document.createElement('div');
   hub.className = 'map-hub-wrap';
-  hub.innerHTML = '<div class="map-hub"><span class="map-hub-k">One platform</span>' +
+  hub.innerHTML = '<button class="map-hub" type="button" id="map-hub-btn">' +
+    '<span class="map-hub-k">One platform</span>' +
     '<span class="map-hub-n">Revenue Ops</span>' +
-    '<span class="map-hub-c">' + GROUPS.length + ' groups &middot; ' + TOTAL + ' systems</span></div>';
+    '<span class="map-hub-c">' + GROUPS.length + ' groups &middot; ' + TOTAL + ' systems</span></button>';
   nodesEl.appendChild(hub);
+  var hubBtn = document.getElementById('map-hub-btn');
+  if (hubArticle) hubBtn.addEventListener('click', function () { nav('#/hub'); });
+  else hubBtn.disabled = true;
 
   var domBtns = GROUPS.map(function (g) {
     var b = document.createElement('button');
@@ -726,7 +830,9 @@
 
   function openModal(id) {
     var n = NODE[id];
-    modal.querySelector('.map-modal-eyebrow').textContent = n.group.name;
+    // the hub has no group, so it carries its own eyebrow on the article
+    modal.querySelector('.map-modal-eyebrow').textContent =
+      n.group ? n.group.name : (n.article.getAttribute('data-eyebrow') || '');
     modal.querySelector('.map-modal-title').textContent = n.article.getAttribute('data-title');
     modalBody.innerHTML = n.article.querySelector('.map-node-body').innerHTML;
     // a system with a screenshot earns the wide two-column body; text-only stays
@@ -746,7 +852,9 @@
     document.body.style.overflow = '';
     // hand focus back to the card that opened it, so the keyboard does not
     // restart at the top of the document on every close
-    var trigger = openId && cluster.querySelector('.map-part[data-part="' + openId + '"]');
+    var trigger = null;
+    if (openId === 'hub') trigger = hubBtn;
+    else if (openId) trigger = cluster.querySelector('.map-part[data-part="' + openId + '"]');
     if (trigger) trigger.focus();
     openId = null;
   }
@@ -827,6 +935,13 @@
       return;
     }
     root.classList.remove('map-reading');
+    if (h === '#/hub' && NODE.hub) {
+      showRest();              // the hub sits over the rest map, not a cluster
+      openModal('hub');
+      document.title = 'The platform | The platform map';
+      beacon(h);
+      return;
+    }
     if ((m = h.match(/^#\/n\/([a-z0-9-]+)$/)) && NODE[m[1]]) {
       showGroup(NODE[m[1]].group);
       openModal(m[1]);
