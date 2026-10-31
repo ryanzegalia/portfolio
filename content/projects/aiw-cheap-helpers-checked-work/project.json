@@ -1,0 +1,66 @@
+{
+  "title": "Cheap Helpers, Checked Work",
+  "kicker": "Cheap, then checked",
+  "shelf": "ai-workstation",
+  "order": 7,
+  "tagline": "Cheaper AI does the digging. A second pass checks every source it points to.",
+  "what": "When a chat needs searching or reading done, it launches helpers: extra AI runs, mostly on cheaper models. A second pass reopens every source they point to before a claim moves on.",
+  "built": [
+    "Every helper gets a model picked for its job from a table, even if the chat forgets to pick",
+    "Reports are built only from claims that held up when checked, with nothing new added",
+    "Big batches of helpers need a written budget and a size limit, or they don't launch",
+    "Helpers get cut off after a set number of steps"
+  ],
+  "credit": "Built it on top of Claude Code",
+  "starring": "Me, and the AI chats I run every day",
+  "status": "Running every day",
+  "requirements": [
+    "Claude Code",
+    "Python",
+    "SQLite"
+  ],
+  "rating": "B",
+  "ratingWord": "Budget",
+  "palette": {
+    "bg": "#1b1b1f",
+    "accent": "#c6dd4a",
+    "ink": "#f0efe6"
+  },
+  "art": "none",
+  "making": {
+    "problem": "A search report needs sources I can trust, without putting every reading job on the most expensive model."
+  },
+  "steps": [
+    {
+      "name": "Pick the model",
+      "says": "Each job gets a model from a table I keep: small jobs get the cheap one."
+    },
+    {
+      "name": "Dig",
+      "says": "Helpers search and read, and note exactly where they found each thing."
+    },
+    {
+      "name": "Check it",
+      "says": "A separate checker reopens what they pointed to. Only claims that hold up reach me."
+    }
+  ],
+  "moment": {
+    "what": "In my June test, cheap helpers plus a checker got 92% of claims right, versus 45% for the top model alone. A later rerun closed the gap. I kept the source check in the workflow.",
+    "scene": {
+      "type": "tally",
+      "title": "June test: claims right",
+      "total": "92% checked",
+      "bars": [
+        [
+          "Cheap + check",
+          92
+        ],
+        [
+          "Top alone",
+          45
+        ]
+      ]
+    }
+  },
+  "coverArt": "burn"
+}

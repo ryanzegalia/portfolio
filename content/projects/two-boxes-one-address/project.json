@@ -1,0 +1,100 @@
+{
+  "title": "Two Boxes, One Address",
+  "kicker": "A two-box home network",
+  "shelf": "keep-it-running",
+  "order": 2,
+  "tagline": "Two boxes share one address, so the house stays online.",
+  "what": "Two small computers that run my house's network side by side and share one address. Every phone and laptop asks that address where to go online; if the main box dies, the backup picks the address up and the house stays online.",
+  "built": [
+    "Set up two boxes that both answer network lookups, with one shared address that moves to the survivor",
+    "Built a switch so only one box at a time hands out addresses to new devices",
+    "Wrote checks that compare the boxes and flag settings that no longer match",
+    "Tested the handover with a stopped box and a frozen one"
+  ],
+  "credit": "Built on Pi-hole and keepalived; the switch, the checks and the tests are mine",
+  "starring": "Everyone on my home network",
+  "status": "Running every day",
+  "requirements": [
+    "Pi-hole",
+    "keepalived",
+    "nftables",
+    "Linux"
+  ],
+  "rating": "B",
+  "ratingWord": "Buddy system",
+  "palette": {
+    "bg": "#10161c",
+    "accent": "#5aa9d6",
+    "ink": "#f6efe0"
+  },
+  "art": "none",
+  "started": "2026-09-19",
+  "making": {
+    "problem": "Every phone and laptop needs network lookups to work. I wanted the house to stay online while either box was out of service.",
+    "how": [
+      "Both boxes answer network lookups all day. The shared address moves to the one that can answer.",
+      "Only the box holding that address can hand out addresses to new devices. My switch keeps the other one quiet.",
+      "Small checks compare the settings, so the spare is ready to take over."
+    ],
+    "broke": [
+      {
+        "title": "Give a restart time to settle",
+        "body": "A restart once set off a reboot loop. I made the watchdog wait three minutes before acting and leave the first five minutes after boot alone."
+      }
+    ],
+    "credits": [
+      "DNS and ad blocking: Pi-hole",
+      "Shared address: keepalived",
+      "Switch, drift checks, tests and the lessons: me"
+    ],
+    "log": [
+      {
+        "date": "2026-09-19",
+        "text": "Tested a stopped box: the spare took the shared address in 269 ms without losing network lookups."
+      },
+      {
+        "date": "2026-10-17",
+        "text": "Tested a frozen box too, with websites and new-device connections using the spare."
+      },
+      {
+        "date": "2026-10-17",
+        "text": "Put the address handout behind a switch, so moving it no longer restarts both boxes."
+      }
+    ],
+    "serviceRecord": {
+      "purpose": "The house stays online when a network box stops answering. The surviving box takes over the shared address.",
+      "receipt": {
+        "date": "2026-10-17",
+        "title": "The sites kept loading.",
+        "text": "A frozen machine is different from a dead one. I froze a box on purpose: the spare took over in 11 seconds, and the websites kept loading during the test."
+      },
+      "route": [
+        "HOUSE DEVICES",
+        "SHARED ADDRESS",
+        "SURVIVING BOX"
+      ],
+      "care": "Keep the two boxes alike. Drift checks compare their settings before the spare has to take over.",
+      "entries": [
+        {
+          "date": "2026-09-19",
+          "text": "Tested a stopped box: the spare took the shared address in 269 ms without losing network lookups."
+        },
+        {
+          "date": "2026-10-17",
+          "text": "Tested a frozen box too, with websites and new-device connections using the spare."
+        },
+        {
+          "date": "2026-10-17",
+          "text": "Put the address handout behind a switch, so moving it no longer restarts both boxes."
+        }
+      ]
+    }
+  },
+  "back": {
+    "pitch": "Two small computers share the job of keeping the house online. One can leave service without leaving every phone and laptop stranded.",
+    "cut": [
+      "Both answer lookups; only one hands out addresses.",
+      "Settings comparisons that catch drift between the boxes."
+    ]
+  }
+}

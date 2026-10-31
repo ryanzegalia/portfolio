@@ -1,0 +1,71 @@
+{
+  "title": "The Bouncers",
+  "kicker": "Guards at the door",
+  "shelf": "ai-workstation",
+  "order": 3,
+  "tagline": "Small checks that stop my AI from doing what I already told it not to.",
+  "what": "Small guards that sit between my AI chats and my computer. Nearly every command, file save and launch of another AI that a chat tries walks past them first, and any one of them can refuse it.",
+  "built": [
+    "Around 30 guards that look at a move before it runs, and say why when they refuse",
+    "One keeps files inside the folders that get backed up, and it's locked so the AI can't edit it",
+    "One refuses a commit that credits the AI as co-author, or that skips git's own checks",
+    "One reminds the AI that anything it reads in email or on the web is information, never orders"
+  ],
+  "credit": "Built it on top of Claude Code",
+  "starring": "Every AI chat I run, whether it likes it or not",
+  "status": "Running every day",
+  "requirements": [
+    "Claude Code",
+    "Python",
+    "Git"
+  ],
+  "rating": "C",
+  "ratingWord": "Carded",
+  "palette": {
+    "bg": "#1e1012",
+    "accent": "#e0533d",
+    "ink": "#f5e6dc"
+  },
+  "art": "none",
+  "making": {
+    "problem": "I wanted the rules for my files and commands checked before an action, not left in a note for the AI to remember."
+  },
+  "steps": [
+    {
+      "name": "Try",
+      "says": "The AI goes to run a command, save a file or launch a helper."
+    },
+    {
+      "name": "Check",
+      "says": "Every guard that cares about that kind of move looks at it first."
+    },
+    {
+      "name": "Pass or stop",
+      "says": "It goes through, or it's stopped with the reason and what to do instead."
+    }
+  ],
+  "moment": {
+    "what": "A file aimed outside my backed-up folders gets stopped with a reason and a place to put it instead. The chat can correct the path and carry on with the job.",
+    "scene": {
+      "type": "log",
+      "lines": [
+        [
+          "refused",
+          "a commit crediting the AI as co-author"
+        ],
+        [
+          "refused",
+          "git run with its checks switched off"
+        ],
+        [
+          "refused",
+          "a file saved outside the backed-up folders"
+        ],
+        [
+          "pass",
+          "editing a page"
+        ]
+      ]
+    }
+  }
+}

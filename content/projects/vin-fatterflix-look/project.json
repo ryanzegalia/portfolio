@@ -1,0 +1,77 @@
+{
+  "title": "The Fatterflix Look",
+  "kicker": "Cinema interface",
+  "shelf": "original-works",
+  "order": 5,
+  "tagline": "Deep red, warm cream and black turn my media library into one little cinema.",
+  "what": "The visual system I designed across my Jellyfin library. The login, home screen, cards, details, drawers, dialogs and player all use the same deep-red, warm-cream and near-black cinema look.",
+  "built": [
+    "Set the deep-red, warm-cream and near-black palette and carried it through the whole interface",
+    "Built the Fatterflix wordmark in CSS for the header and login screen instead of using an image",
+    "Restyled cards, detail pages, drawers, dialogs, progress states and the full player controls",
+    "Made design tokens so later login and home-screen pieces use the same surfaces, lines and elevation"
+  ],
+  "credit": "Remix of ElegantFin v25.11.25",
+  "starring": "Everyone opening my media library",
+  "status": "Live on every screen",
+  "progress": "The login, library, details and player all carry the finished theme.",
+  "requirements": [
+    "CSS",
+    "Jellyfin",
+    "JavaScript",
+    "Design tokens"
+  ],
+  "remix": {
+    "of": "ElegantFin v25.11.25",
+    "by": "ElegantFin contributors",
+    "changed": "Designed the Fatterflix palette, wordmark, cards, details, dialogs, player, login and shared token system on top."
+  },
+  "rating": "C",
+  "ratingWord": "Cinematic",
+  "palette": {
+    "bg": "#0a0a0a",
+    "accent": "#c41e1e",
+    "ink": "#f5e6c8"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "The stock media server looked like a utility. I wanted every screen, from sign-in to playback, to feel like the same late-night cinema.",
+    "how": [
+      "A small set of red, cream, black and surface tokens sets the visual language",
+      "The CSS wordmark and login card establish it before the library opens",
+      "Cards, details, dialogs and drawers reuse the same lines, glow and elevation",
+      "The player keeps the same type, progress and control treatment when the movie starts"
+    ],
+    "broke": [
+      {
+        "title": "One field held the whole theme",
+        "body": "A later login change replaced that field, so I restored all 176,232 bytes and made the base-first order explicit."
+      }
+    ],
+    "credits": [
+      "ElegantFin v25.11.25 is the visual base",
+      "Fatterflix palette, brand, components, player and login work by me"
+    ]
+  },
+  "moment": {
+    "when": "Aug 2026",
+    "what": "The public sign-in page now opens on the same red line, cream type, black surface and CSS-built wordmark that carry through the library and player."
+  },
+  "tracks": {
+    "a": [
+      "Red, cream and near-black",
+      "A wordmark made in CSS",
+      "Cards and detail pages",
+      "Drawers, dialogs and progress",
+      "The full player"
+    ],
+    "b": [
+      "Started December 2025",
+      "Built on ElegantFin",
+      "5,514 lines of theme CSS",
+      "15 saved theme changes",
+      "Live across Jellyfin"
+    ]
+  }
+}

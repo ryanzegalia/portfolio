@@ -1,0 +1,66 @@
+{
+  "title": "The AI Desk",
+  "kicker": "AI at work",
+  "shelf": "on-the-clock",
+  "order": 8,
+  "tagline": "Coworkers point AI at real work, and a person still says yes.",
+  "sticker": "AI changes wait for a person's yes",
+  "what": "I help coworkers use AI on real jobs: product pages, support answers, buying numbers, and first drafts of scripts and pages.",
+  "does": [
+    "Put AI to work on product pages, support answers and buying numbers",
+    "Write a guide a coworker's own AI can read, so they build on live data safely",
+    "Clear old page text out so the support chatbot answers from what customers see",
+    "Have a person approve product facts before an AI shows them to customers",
+    "Give support's chat assistants a safe way to manage email opt-ins",
+    "Check writing for off-brand and AI-sounding lines",
+    "Use AI voice to draft product-video read-throughs before the real recording",
+    "Try AI on design-to-page work, and keep what holds up"
+  ],
+  "solved": [
+    {
+      "problem": "AI edits to the live store needed a person to approve them.",
+      "did": "Set it up so every AI change shows a preview and waits for a yes before it touches the store.",
+      "ended": "That goes for the buyer's own AI too."
+    },
+    {
+      "problem": "The support chatbot was reading old text left behind in the website's pages.",
+      "did": "Found the leftovers and cleared them out.",
+      "ended": "Its answers now come from what customers can actually see."
+    },
+    {
+      "problem": "Purchasing wanted to use their own AI on live numbers without breaking anything.",
+      "did": "Wrote a guide their AI can read, let it look at everything, and made every change wait for a yes.",
+      "ended": "They build on it themselves."
+    }
+  ],
+  "tools": [
+    {
+      "name": "Change gate",
+      "line": "shows what an AI wants to change and waits for a person to say yes."
+    },
+    {
+      "name": "Guide for your AI",
+      "line": "a guide a coworker's own AI reads, so it knows the rules before it asks."
+    },
+    {
+      "name": "Off-brand check",
+      "line": "flags off-brand work and the tell-tale look of AI-written text."
+    }
+  ],
+  "worksWith": "Purchasing, customer service and support, finance, leadership, a developer.",
+  "story": [
+    "Coworkers use their own AI against live numbers now. Purchasing can build on their data, support can look up an order, and product-page changes wait for a person to approve them.",
+    "Giving an assistant access meant deciding what it could read and what it could change.",
+    "So I set the rule: an AI shows what it wants to change, and nothing changes until someone confirms it. Each tool and each machine got its own key, limited to one job, so one mistake never reaches everything. Wherever the AI only needs to look, it can only look.",
+    "I wrote a guide their assistant could read cold: what is live, what is read-only, what needs a yes. I kept it current and checked it against what the systems really do.",
+    "The smaller jobs stayed useful too: turning a design into page code, checking the voice of a draft, or reading a script aloud before the real recording."
+  ],
+  "credit": "The job, plus the tools I built for it",
+  "status": "Every workday",
+  "palette": {
+    "bg": "#101c2e",
+    "accent": "#7fe0ff",
+    "ink": "#f4efe2"
+  },
+  "screen": "screen-ai"
+}

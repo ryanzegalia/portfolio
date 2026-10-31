@@ -1,0 +1,64 @@
+{
+  "starring": "Me",
+  "status": "Built and running",
+  "photo": "photo.jpg",
+  "title": "The Thor, Both Ways",
+  "kicker": "One handheld, two systems",
+  "shelf": "make-it-do-more",
+  "order": 9,
+  "tagline": "Android or SteamOS. One handheld, one shared game shelf.",
+  "what": "I made the Thor boot Android or SteamOS and share its game storage between them. On the Steam side, a game from my home library gets one page: install it, stream it or play the copy already on the handheld.",
+  "built": [
+    "Split the internal drive between both systems and shared storage",
+    "Added checked boot switching to both systems’ power menus",
+    "Put Install, Stream and Play on each game’s Steam page",
+    "Built library tabs and genre and series folders around the server collection"
+  ],
+  "credit": "Remix of ROCKNIX and TabMaster",
+  "progress": "Both systems and the shared library are installed.",
+  "requirements": [
+    "Android",
+    "SteamOS",
+    "ROCKNIX",
+    "Python",
+    "TabMaster"
+  ],
+  "remix": {
+    "of": "ROCKNIX and TabMaster",
+    "by": "their open-source contributors",
+    "changed": "I built the shared-storage layout, checked boot switch, library importer, install-and-stream panel and browsing views."
+  },
+  "rating": "D",
+  "ratingWord": "Dual boot",
+  "palette": {
+    "bg": "#12232c",
+    "accent": "#72c6a3",
+    "ink": "#f5efe0"
+  },
+  "making": {
+    "problem": "I wanted Android games and my Steam library on the same handheld, without keeping a second copy of everything.",
+    "how": [
+      "Both systems use the same 535.75 GiB shared partition. The protected partitions stay untouched.",
+      "The switch checks the boot record, saves the old block and reads its write back before rebooting.",
+      "My library layer gives each server game one Steam entry and knows whether to install, stream or play it."
+    ],
+    "broke": [
+      {
+        "title": "A whole library, one device",
+        "body": "The library audit closed with 13,537 entries and 806 exclusions. Every file had to be a game on the shelf or have a written reason to stay out. Ghosts and duplicates failed the check."
+      }
+    ],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "The real “On This Thor” library, with its installed-game tab."
+      }
+    ],
+    "credits": [
+      "Operating-system base and bootloader: ROCKNIX",
+      "Steam library tabs: TabMaster, with my browsing changes",
+      "Shared storage, checked switch and install/stream layer: me"
+    ]
+  }
+}

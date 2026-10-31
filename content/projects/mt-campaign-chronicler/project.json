@@ -1,0 +1,46 @@
+{
+  "title": "Campaign Chronicler",
+  "kicker": "Game-session recorder",
+  "shelf": "missing-tool",
+  "order": 4,
+  "tagline": "A long game night becomes a private, searchable story while I sleep.",
+  "what": "A recorder for long game sessions. It keeps my microphone and the other voices separate, captures the game, transcribes everything on my own PC and turns the night into a session I can search and play back later.",
+  "built": [
+    "Kept my microphone and the other voices on separate channels, with playback for either one or both",
+    "Split long sessions into 10-minute chunks and captured a game frame every 15 seconds",
+    "Ran transcription, alignment, speaker separation and voice matching on my own graphics card",
+    "Synced the audio, transcript and finished session to a private dashboard"
+  ],
+  "credit": "Built it from scratch",
+  "starring": "The people at my game table",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "FastAPI",
+    "WhisperX",
+    "Pyannote",
+    "PostgreSQL",
+    "NVIDIA GPU"
+  ],
+  "rating": "C",
+  "ratingWord": "Chronicled",
+  "palette": {
+    "bg": "#11101f",
+    "accent": "#e94560",
+    "ink": "#eeeaf8"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "A campaign can run for hours. I wanted the story, the voices and the useful moments afterwards without spending the next day cutting up one giant recording.",
+    "how": [
+      "The recorder keeps each side of the conversation on its own channel",
+      "Every 10 minutes becomes a chunk, with a game frame saved every 15 seconds",
+      "My graphics card transcribes the chunks, lines up the words and separates the speakers",
+      "The finished audio and transcript become one searchable session on the dashboard"
+    ]
+  },
+  "moment": {
+    "what": "One speaker pass cleaned 19 labels down to 9 real voices, then relabeled 42 older transcripts so those sessions became searchable by the right voice too."
+  }
+}

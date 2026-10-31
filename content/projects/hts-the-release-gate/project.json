@@ -1,0 +1,54 @@
+{
+  "title": "The Release Gate",
+  "kicker": "Nothing goes live until it passes every check",
+  "shelf": "how-things-ship",
+  "order": 3,
+  "tagline": "Tests, then a practice run. Anything that isn't all green waits.",
+  "what": "Before a release can go live, every test runs against a throwaway copy of real data. Then a program clicks through the practice site the way a person would, and it has to come back green.",
+  "built": [
+    "Each test run gets its own fresh copy of the data, thrown away after",
+    "A release goes live only once every test passes on the exact code going out",
+    "A program has to click through the practice site and come back green before anything goes live",
+    "If a check doesn't finish, the release waits for the next run instead of going out"
+  ],
+  "credit": "Built it from scratch",
+  "starring": "Every release, before anyone at work sees it",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "pytest",
+    "Postgres",
+    "Docker"
+  ],
+  "rating": "G",
+  "ratingWord": "Green",
+  "palette": {
+    "bg": "#1c0f0f",
+    "accent": "#d9483b",
+    "ink": "#f5e6dc"
+  },
+  "art": "gate",
+  "making": {
+    "problem": "A change could pass its own tests and still break the real site, because the tests never saw real data or clicked through real pages."
+  },
+  "moment": {
+    "what": "Now every release proves itself the way a person would, on real pages, before anyone else sees it. If it isn't green, it waits."
+  },
+  "frames": [
+    {
+      "name": "Test on a copy",
+      "says": "Every test runs against a fresh, throwaway copy of the real data.",
+      "icon": "copy"
+    },
+    {
+      "name": "Click through it",
+      "says": "Then a program clicks through a practice copy of the site, the way a person would.",
+      "icon": "walk"
+    },
+    {
+      "name": "Green or it waits",
+      "says": "Only an all-green release goes live. Anything else waits for the next run.",
+      "icon": "signal"
+    }
+  ]
+}

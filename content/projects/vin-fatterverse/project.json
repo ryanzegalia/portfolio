@@ -1,0 +1,79 @@
+{
+  "title": "FatterVerse",
+  "kicker": "Live AI galaxy",
+  "shelf": "original-works",
+  "order": 3,
+  "tagline": "Every AI conversation becomes a star. Related work forms constellations.",
+  "what": "A live 3D galaxy of my AI work. Every conversation is a star, related work gathers into constellations, plans and work paths run through them, and new sessions flare into view while the page is open.",
+  "built": [
+    "Turned every session and summary into a star, including older sessions with no observation records",
+    "Streamed new work into every open browser and made newborn sessions flare without a reload",
+    "Laid the galaxy out nightly by meaning, named the clusters and drew plans and work paths through them",
+    "Added a wall-display mode and a time-lapse replay of the galaxy growing"
+  ],
+  "credit": "Remix of Constellate by JCarterJohnson",
+  "starring": "Every AI conversation I have had",
+  "status": "Live and growing",
+  "progress": "The live galaxy, semantic layout, work overlays, wall mode and replay are all running.",
+  "requirements": [
+    "JavaScript",
+    "Three.js",
+    "FastAPI",
+    "SQLite",
+    "UMAP",
+    "Server-sent events"
+  ],
+  "remix": {
+    "of": "Constellate",
+    "by": "JCarterJohnson",
+    "changed": "Built the live corpus, streaming bridge, semantic layout, plans, work paths, star births, wall mode and replay on top."
+  },
+  "rating": "G",
+  "ratingWord": "Galactic",
+  "palette": {
+    "bg": "#08080d",
+    "accent": "#a89cff",
+    "ink": "#f2efff"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "Thousands of AI conversations were useful one at a time but impossible to see as one body of work. I wanted to stand back and see what kept connecting.",
+    "how": [
+      "A bridge turns each saved conversation and summary into one star",
+      "Related conversations pull together in a nightly three-dimensional layout",
+      "Plans, work paths and named clusters draw the shape around those stars",
+      "A live event stream adds new stars and flares them in every open browser"
+    ],
+    "broke": [
+      {
+        "title": "The galaxy outgrew one big snapshot",
+        "body": "I changed the 299 MB snapshot from three copies in memory to a stream, and the next nightly layout finished cleanly at a 75 MB peak."
+      }
+    ],
+    "credits": [
+      "Constellate by JCarterJohnson is the MIT-licensed visual foundation",
+      "Live corpus, bridge, layout, work structure and effects by me"
+    ]
+  },
+  "moment": {
+    "when": "Jul 2026",
+    "what": "I can start a new session, keep the galaxy open on the wall and watch its new star flare into view about 35 seconds later."
+  },
+  "tracks": {
+    "a": [
+      "Every conversation is a star",
+      "Related work becomes a constellation",
+      "New sessions flare live",
+      "Plans run through the galaxy",
+      "Wall mode and replay"
+    ],
+    "b": [
+      "Live since July 2026",
+      "12,200 conversations at launch",
+      "33,000 semantic links at launch",
+      "About 35 seconds to a new star",
+      "Built on Constellate"
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "title": "The Audit Gate",
+  "kicker": "No AI gets to grade its own work",
+  "shelf": "how-things-ship",
+  "order": 1,
+  "tagline": "The AI that writes a change can't approve it. A second AI checks it first.",
+  "what": "The AI that writes a change doesn't get to approve it. Before anything can get in line to go live, a separate AI checks that exact change, and if it's edited afterward, it has to be checked again.",
+  "built": [
+    "A gate that won't let a change get in line until a separate AI's check of it has passed",
+    "Each pass is tied to a fingerprint of that exact change, so editing it afterward cancels the pass",
+    "When it says no, it names which reviewer to run and how, so the chat can fix it and try again",
+    "Only a tiny change can skip it, and the skip has to say why"
+  ],
+  "credit": "Built it on top of my own tools",
+  "starring": "Every AI chat that writes code for the product",
+  "status": "Running every day",
+  "requirements": [
+    "Claude Code",
+    "Python",
+    "Git",
+    "SQLite"
+  ],
+  "rating": "X",
+  "ratingWord": "Cross-check",
+  "palette": {
+    "bg": "#17140a",
+    "accent": "#d4b13c",
+    "ink": "#f3ecd6"
+  },
+  "art": "stamp",
+  "making": {
+    "problem": "The AI that wrote a change was also the one saying it was ready, and fixes made after a review went out with no one looking again."
+  },
+  "moment": {
+    "what": "The gate tells a chat when its review covered an earlier version of the code. It names the fresh review to run, so the next step is clear instead of another round of guessing."
+  },
+  "frames": [
+    {
+      "name": "A second opinion",
+      "says": "A different AI checks the exact change. The AI that wrote it can't approve it.",
+      "icon": "review"
+    },
+    {
+      "name": "No pass, no line",
+      "says": "Until that check passes, the change can't get in line to go live.",
+      "icon": "train"
+    },
+    {
+      "name": "Edit it, check again",
+      "says": "Change it after the check and the pass no longer counts. It has to be checked again.",
+      "icon": "again"
+    }
+  ]
+}

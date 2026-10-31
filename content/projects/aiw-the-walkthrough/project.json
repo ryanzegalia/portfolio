@@ -1,0 +1,139 @@
+{
+  "title": "The Walkthrough",
+  "kicker": "One request, start to finish",
+  "shelf": "ai-workstation",
+  "order": 1,
+  "tagline": "Follow one made-up request from the words I type to checked, finished work.",
+  "what": "How I work with AI chats, shown with one made-up request: a search box for my website. My own add-ons around Claude Code carry it through six stops, from the words I type to work that's checked and live.",
+  "request": "Add a search box to my website",
+  "built": [
+    "Over 60 small add-ons on every chat; around 30 are guards that check an action before it runs",
+    "A separate window that asks me before anything risky, one action at a time",
+    "Goals that close only on proof: a command's output, a second checker, or my own words",
+    "Notes, facts and the last chat's progress attached to every request"
+  ],
+  "credit": "Built it on top of Claude Code",
+  "starring": "Me, and the AI chats I run every day",
+  "status": "Running every day",
+  "requirements": [
+    "Claude Code",
+    "Python",
+    "SQLite",
+    "MCP"
+  ],
+  "rating": "G",
+  "ratingWord": "Guided",
+  "palette": {
+    "bg": "#0f1b22",
+    "accent": "#e0b04a",
+    "ink": "#f3ead6"
+  },
+  "art": "none",
+  "journey": [
+    {
+      "name": "Ask",
+      "adds": "I type what I want in plain words, the way I'd ask a person.",
+      "example": "I ask for a search box on my website, and for it to go live once it's ready.",
+      "scene": {
+        "type": "chat",
+        "said": "Add a search box to my website, and put it live when it's ready."
+      }
+    },
+    {
+      "name": "Context arrives",
+      "adds": "Before the AI reads a word, my setup attaches the notes, settled facts and last chat's progress it needs.",
+      "example": "It already knows how the site is built, where the last chat stopped, and that nothing goes live without my yes.",
+      "scene": {
+        "type": "attach",
+        "cards": [
+          "How the site is built",
+          "Where we left off",
+          "Live needs my yes"
+        ],
+        "to": "Add a search box to my website..."
+      }
+    },
+    {
+      "name": "Rules check",
+      "adds": "Every action passes small guards. Anything risky stops and asks me in a separate window.",
+      "example": "Editing the page goes ahead. Putting a password in the code is refused. Putting it live waits for me.",
+      "scene": {
+        "type": "gate",
+        "actions": [
+          [
+            "edit the page",
+            "pass"
+          ],
+          [
+            "password in the code",
+            "refused"
+          ],
+          [
+            "put it live",
+            "asks me"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "Plan and goals",
+      "adds": "The work becomes a plan with a finish line, and every goal says what proof will close it.",
+      "example": "Three goals: a search finds the right page, it works on a phone, and it goes live only after I say yes.",
+      "scene": {
+        "type": "plan",
+        "title": "Search box",
+        "goals": [
+          [
+            "A search finds the right page",
+            "proof: a test's output"
+          ],
+          [
+            "Works on a phone",
+            "proof: a second checker"
+          ],
+          [
+            "Live only after my yes",
+            "proof: my own words"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "Work, then proof",
+      "adds": "Helpers, extra AI runs the chat starts, search and read side by side. A checker reopens every source they point to, and nothing closes without evidence.",
+      "example": "The test passes, a second checker signs off on the phone view, and the last goal waits until I say yes.",
+      "scene": {
+        "type": "close",
+        "rows": [
+          [
+            "Search works",
+            "TEST PASSED"
+          ],
+          [
+            "Phone view",
+            "CHECKER: YES"
+          ],
+          [
+            "Goes live",
+            "RYAN: \"YES, SHIP IT\""
+          ]
+        ]
+      }
+    },
+    {
+      "name": "Handoff",
+      "adds": "The chat writes where it stopped and what's next, so the next one starts warm.",
+      "example": "It notes that search is live and filters come next. The next chat opens already knowing that.",
+      "scene": {
+        "type": "handoff",
+        "title": "Where we stopped",
+        "rules": [
+          "Search box is live",
+          "Every goal closed on proof",
+          "Next: add filters"
+        ],
+        "next": "Next chat"
+      }
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "title": "Offline Achievements",
+  "kicker": "RetroAchievements, offline",
+  "shelf": "bring-it-back",
+  "order": 5,
+  "tagline": "Earn it on a plane. It counts when you land.",
+  "what": "My offline mode for RetroAchievements keeps classic-game unlocks on the handheld until I'm back online. On the Thor, each one appears as Steam's own achievement pop-up.",
+  "built": [
+    "Rewrote the catalog storage as one small file per game",
+    "A faster offline mode for the tool I started from",
+    "A relay that turns every unlock into Steam's own pop-up on the Thor",
+    "Matched 4,684 games across 33 systems to their achievement sets"
+  ],
+  "credit": "Remix of RAOfflineProxy by misantronic",
+  "starring": "Me",
+  "status": "In use",
+  "requirements": [
+    "Python",
+    "RetroArch",
+    "SteamOS"
+  ],
+  "remix": {
+    "of": "RAOfflineProxy",
+    "by": "misantronic",
+    "changed": "A faster offline mode, plus a relay that shows the pop-ups in Steam on the Thor."
+  },
+  "rating": "U",
+  "ratingWord": "Unlocked",
+  "palette": {
+    "bg": "#101722",
+    "accent": "#e9a23b",
+    "ink": "#f6efe0"
+  },
+  "art": "unlock",
+  "started": "2026-05-11",
+  "making": {
+    "problem": "RetroAchievements checks in with its servers the moment you earn something. On a plane, in the car, anywhere without signal, the unlock just doesn't count.",
+    "how": [
+      "Every emulator's achievement calls go to a small relay on the device instead of straight to the internet.",
+      "The relay hands them to the offline proxy, which answers from a local copy of the whole achievement catalog and holds your unlocks until you're back online.",
+      "A Steam plugin turns each unlock into Steam's own achievement pop-up, so it feels like part of the Thor."
+    ],
+    "broke": [
+      {
+        "title": "A catalog that fits",
+        "body": "I changed the cache to one small file per entry: 2,786 games run in 25 MB, where 1,000 took 172 MB before. Badges load from RetroArch's own image cache, ready offline."
+      }
+    ],
+    "credits": [
+      "Offline proxy: RAOfflineProxy by misantronic",
+      "Achievements: RetroAchievements",
+      "Storage rewrite, relay, Steam pop-ups and Thor setup: me"
+    ]
+  },
+  "photo": "photo.jpg"
+}

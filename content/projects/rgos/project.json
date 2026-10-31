@@ -1,0 +1,68 @@
+{
+  "title": "rgOS",
+  "kicker": "Firmware for two screens",
+  "order": 5,
+  "tagline": "A touch library below, artwork above. Firmware built around both screens.",
+  "what": "My own firmware for the Anbernic RG DS, a two-screen handheld, built on ROCKNIX. The menus are rebuilt around both screens: a touch library on the bottom, art and what's playing on the top.",
+  "built": [
+    "Rebuilt the frontend around both screens, with EmulationStation running headless only to launch games",
+    "Wireless Transfer: a web page the handheld hosts so I can drop ROMs, saves and BIOS files in from a browser",
+    "Pal Park: one bank for every Pokemon across every save on the card, with rollback and legality checks",
+    "23 PC games tested on the device; for 9 of them you add your own copy of the game's files"
+  ],
+  "credit": "Remix of ROCKNIX",
+  "starring": "Me",
+  "status": "Public alpha",
+  "progress": "The source is public; this is my build.",
+  "requirements": [
+    "ROCKNIX",
+    "Python",
+    "SDL2",
+    "EmulationStation",
+    "Linux"
+  ],
+  "remix": {
+    "of": "ROCKNIX",
+    "by": "the ROCKNIX project",
+    "changed": "Replaced the frontend with two Python and SDL2 screens, and added transfer, Pal Park, ports, DOS and offline achievements."
+  },
+  "rating": "H",
+  "ratingWord": "Hacked",
+  "palette": {
+    "bg": "#171f2e",
+    "accent": "#f0b24a",
+    "ink": "#f5efe0"
+  },
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "On other firmware the second screen is an afterthought that fights the first one for focus.",
+    "how": [
+      "EmulationStation stays, but headless: it still picks the core, maps the controller and handles save states, and draws nothing.",
+      "Two Python and SDL2 screens own the interface: touch-first browsing on the bottom, artwork and now-playing on top.",
+      "What's baked into the image is kept apart from what lives in storage, so I can iterate fast without reflashing."
+    ],
+    "broke": [],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "The library, across both screens."
+      },
+      {
+        "type": "image",
+        "src": "shot-activity.png",
+        "caption": "Activity: the games I played, with the calendar and recency details kept private."
+      },
+      {
+        "type": "image",
+        "src": "shot-shaders.png",
+        "caption": "The shader picker."
+      }
+    ],
+    "credits": [
+      "Base system: ROCKNIX",
+      "Frontend, transfer portal, Pal Park, DOS and port launching: me"
+    ]
+  },
+  "shelf": "make-it-do-more"
+}

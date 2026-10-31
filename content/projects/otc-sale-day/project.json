@@ -1,0 +1,74 @@
+{
+  "title": "Sale Day",
+  "kicker": "Sales and pricing",
+  "shelf": "on-the-clock",
+  "order": 3,
+  "tagline": "Two big sales a year, and about fifteen rounds of price increases a year.",
+  "sticker": "Black Friday 2025 sales up over 60%",
+  "what": "I run the website and email side of the big sales and every price change in between, from working out the prices to switching them back off.",
+  "does": [
+    "Plan the two big yearly sales: dates, discount levels, price lists",
+    "Work out every sale price and load it everywhere it shows",
+    "Build the sale page, banners and countdowns with the contract designer",
+    "Draft, preview and schedule the sale emails",
+    "Switch the sale on, and take it down again in a day",
+    "Set quantity discounts, bundle deals and free-shipping offers",
+    "Run price increases across every kit and option, with a before-and-after record",
+    "Run dealer prices, coupon codes, payment plans and pre-orders"
+  ],
+  "solved": [
+    {
+      "problem": "Price increases hit parts that live inside many kits and options, so a one-part change could leave a dozen products wrong.",
+      "did": "I made the tool spread a change to every kit and option that contains the part, kept the endings consistent, and added a baseline so increases never stack on top of earlier ones.",
+      "ended": "A single round turned four part changes into dozens of price updates, every one applied and checked."
+    },
+    {
+      "problem": "The price a rep quoted and the price on the website had to agree, every time.",
+      "did": "I lined up every place a price gets set, so every kind of deal counts the same way everywhere, and a rep's discount gets a quick yes or no before it goes out.",
+      "ended": "A quote matches the website for that day."
+    },
+    {
+      "problem": "Dealers worked from a wholesale price spreadsheet that went stale.",
+      "did": "I settled who counts as a dealer, in one rule every report uses, and built a page where dealers sign in and see their price.",
+      "ended": "The spreadsheet is retired, and every dealer got the new page."
+    },
+    {
+      "problem": "The team found pricing mistakes by chance, such as one product priced under its newer version.",
+      "did": "I fixed each one as it was reported and corrected the pricing rules behind it.",
+      "ended": "The team can report a price and trust it gets sorted."
+    }
+  ],
+  "tools": [
+    {
+      "name": "Price changer",
+      "line": "change a price once and it reaches every kit and option, with a history and a clean undo. Used by me and purchasing."
+    },
+    {
+      "name": "Sale switch",
+      "line": "turns a whole sale on and off by button or timer."
+    },
+    {
+      "name": "Coupon maker",
+      "line": "the whole customer service team creates and turns off codes on their own."
+    },
+    {
+      "name": "Dealer price page",
+      "line": "dealers sign in and see their price."
+    }
+  ],
+  "worksWith": "Leadership, customer service, purchasing, accounting, a contract designer, a developer.",
+  "story": [
+    "Black Friday sales came in over 60% higher than the year before, and I took the sale down in one day. Leadership set the discounts; I worked out the prices and ran the websites and email.",
+    "The first sale I ran meant changing prices across both sites by hand, then spending days taking it down.",
+    "For the next Black Friday I put every sale price in one file, worked out the savings and added a preview and a single on-off switch. I could see the sale before customers did.",
+    "By spring, that file had grown into a price tool with a sale planner. I tested it on a real price increase, checked every product, then ran the whole spring sale on it. That sale came down in a day too."
+  ],
+  "credit": "The job, plus the tools I built for it",
+  "status": "Every workday",
+  "palette": {
+    "bg": "#4a1210",
+    "accent": "#ff6a4d",
+    "ink": "#f6eedc"
+  },
+  "screen": "screen-sale"
+}

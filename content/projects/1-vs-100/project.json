@@ -1,0 +1,63 @@
+{
+  "title": "1 vs 100",
+  "kicker": "Xbox game show, revived",
+  "shelf": "bring-it-back",
+  "order": 1,
+  "tagline": "Microsoft pulled the plug in 2010. I plugged it back in.",
+  "insertQuote": "I played a show myself with a controller",
+  "what": "I play the original Xbox game show on my Linux PC, with a controller, a host voice of my own and a Mob of a hundred AI contestants. My show server runs the questions, lifelines, eliminations and money ladder.",
+  "built": [
+    "Got the original Xbox 360 game running as a normal Linux program",
+    "A show server I wrote from scratch: the schedule, the questions, and a Mob of 100 AI players and their answers",
+    "All three helps, the show's lifelines, work: ask the Mob, ask a Crowd of 50, or ask the Top 10",
+    "A host voice of my own, fitted into the game's own lines, not a copy of the original host",
+    "Dressed avatars for the whole Mob, each with a fixed look and name"
+  ],
+  "credit": "Built it, on the ReXGlue recompiler and the 1 vs 100 Reborn team's fixes to it",
+  "starring": "Me, and a hundred AI contestants",
+  "status": "Plays a full show",
+  "progress": "I play as the One against the AI Mob.",
+  "requirements": [
+    "Linux",
+    "ReXGlue recompiler",
+    "C++",
+    "Python"
+  ],
+  "rating": "B",
+  "ratingWord": "Back on air",
+  "palette": {
+    "bg": "#14122b",
+    "accent": "#f2c230",
+    "ink": "#f6efe0"
+  },
+  "art": "spotlights",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "Microsoft shut the servers down in 2010. Without a show server, the original game had no show to join.",
+    "how": [
+      "The game's original Xbox 360 program gets translated, function by function, into a normal Linux program.",
+      "Anything it expects from an Xbox (sign-in, the network, its own logging, avatars) is answered by code I wrote.",
+      "Instead of calling Microsoft, it calls a show server on my PC that runs the schedule, asks the questions and plays the Mob.",
+      "A control page starts the show: the game opens full screen and I play with a controller."
+    ],
+    "broke": [],
+    "proof": [
+      {
+        "type": "quote",
+        "text": "YOU ARE THE ONE",
+        "caption": "What the game says now when a show starts on my server. Then come the wall of a hundred AI contestants, the questions, the eliminations and the money ladder."
+      }
+    ],
+    "credits": [
+      "Original game: Microsoft's 1 vs 100 for Xbox LIVE (2009 to 2010)",
+      "Recompiler: ReXGlue",
+      "Kit fixes: the 1 vs 100 Reborn team",
+      "Avatar dressing: built after AvatarEditorRecomp",
+      "Questions: Open Trivia",
+      "Revival, fixes, show server and host voice: me"
+    ]
+  },
+  "moment": {
+    "what": "The evening it first worked, I played a show myself with a controller: the countdown, \"YOU ARE THE ONE\", a wall of a hundred AI contestants, and a host who isn't the original guy."
+  }
+}

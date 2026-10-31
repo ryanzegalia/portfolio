@@ -1,0 +1,95 @@
+{
+  "title": "The Nightly Backup",
+  "kicker": "Offsite server backup",
+  "shelf": "keep-it-running",
+  "order": 6,
+  "tagline": "Every night my server copies itself offsite, and I test the restore.",
+  "what": "A backup job for my home server. It packs up the databases, settings and game saves, encrypts them, and keeps one copy on the server's own disks and another with an offsite storage service.",
+  "built": [
+    "Wrote the nightly job that packs databases, settings and game saves into encrypted copies",
+    "Included the shared game library’s saves, states and screenshots",
+    "Ran a restore drill using only the offsite copy",
+    "Added a second offsite copy nobody can erase for 45 days, me included"
+  ],
+  "credit": "Built on restic, a free backup tool; the job, the checks and the drills are mine",
+  "starring": "Me, and anyone whose saves I hold",
+  "status": "Running every day",
+  "requirements": [
+    "restic",
+    "Bash",
+    "Backblaze B2",
+    "systemd"
+  ],
+  "rating": "R",
+  "ratingWord": "Restorable",
+  "palette": {
+    "bg": "#141a10",
+    "accent": "#9bc34f",
+    "ink": "#f6efe0"
+  },
+  "art": "none",
+  "started": "2026-07-09",
+  "making": {
+    "problem": "I wanted the important files to survive losing the server, with a restore I had actually tried.",
+    "how": [
+      "Each night the server gathers databases, settings and saves, then stores them in an encrypted backup on its own disks and offsite.",
+      "A second, locked copy is made offsite automatically, and it cannot be changed or deleted for 45 days.",
+      "I run real restores from the offsite copy alone and compare the files, to check it works when it matters."
+    ],
+    "broke": [],
+    "credits": [
+      "Backups: restic",
+      "Offsite storage: Backblaze B2",
+      "Job, checks and restore drills: me"
+    ],
+    "log": [
+      {
+        "date": "2026-10-17",
+        "text": "Restored a selected recovery set using only the offsite copy and compared it with the originals."
+      },
+      {
+        "date": "2026-10-18",
+        "text": "Put the locked offsite copy into service."
+      },
+      {
+        "date": "2026-10-19",
+        "text": "Wrote a step-by-step recovery recipe I can follow without the server."
+      }
+    ],
+    "serviceRecord": {
+      "purpose": "Databases, settings and game saves, packed and encrypted each night. One copy stays here; another lives offsite.",
+      "receipt": {
+        "date": "2026-10-17",
+        "title": "Restored, not just copied.",
+        "text": "I restored a selected recovery set using only the offsite copy. All 110 files checked out and matched the live originals. This tested file recovery, not rebuilding the whole machine."
+      },
+      "route": [
+        "DATABASES + SAVES",
+        "ENCRYPTED COPY",
+        "OFFSITE STORAGE"
+      ],
+      "care": "Test the restore, not just the copy. Keep the recovery key outside the system it needs to unlock.",
+      "entries": [
+        {
+          "date": "2026-10-17",
+          "text": "Restored a selected recovery set using only the offsite copy and compared it with the originals."
+        },
+        {
+          "date": "2026-10-18",
+          "text": "Put the locked offsite copy into service."
+        },
+        {
+          "date": "2026-10-19",
+          "text": "Wrote a step-by-step recovery recipe I can follow without the server."
+        }
+      ]
+    }
+  },
+  "back": {
+    "pitch": "Keep the things I cannot download again. A nightly job protects the server’s databases, settings and game saves, with an offsite copy and real restore drills.",
+    "cut": [
+      "A second offsite copy is locked against deletion for 45 days.",
+      "Restore drills that compare recovered files with their originals."
+    ]
+  }
+}

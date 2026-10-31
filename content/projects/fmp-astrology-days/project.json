@@ -1,0 +1,53 @@
+{
+  "title": "Astrology Days",
+  "kicker": "Tickets and a door list",
+  "shelf": "for-my-people",
+  "order": 5,
+  "tagline": "A friend runs a record label. I built the ticket site for its live show.",
+  "what": "A small ticket site for a live show. You reserve tickets, pay by Venmo, and get a ticket page that gets stamped PAID once they confirm it. On the night, whoever's at the door checks people in from a list on their phone.",
+  "built": [
+    "Reserve, then pay: phones get an Open Venmo button, computers get a QR code of the same link",
+    "A door list made for a phone: search, one-tap check-in, walk-ups, and a PDF to email anyone",
+    "Paid tickets get a red PAID stamp on their page and a receipt by email",
+    "Google-only sign-in for the back office, and new people wait until an admin lets them in",
+    "Code that splits the show photo into two ink layers, so it looks like a two-colour print"
+  ],
+  "credit": "Built it on the bones of my Chunky sign-up site",
+  "starring": "A friend's record label",
+  "status": "Built for the first show",
+  "requirements": [
+    "Python",
+    "FastAPI",
+    "SQLite",
+    "Pillow",
+    "Docker",
+    "Google sign-in"
+  ],
+  "rating": "T",
+  "ratingWord": "Tickets",
+  "palette": {
+    "bg": "#15171d",
+    "accent": "#3ba1d3",
+    "ink": "#f2efe6"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "A friend's record label was selling tickets for a show through a generic online form and wanted something less janky.",
+    "how": [
+      "You reserve tickets and get a ticket page with a short code",
+      "You pay by Venmo with the amount and a note already filled in",
+      "They mark it paid, and your page gets the PAID stamp",
+      "At the door, a list on a phone with one-tap check-in"
+    ],
+    "broke": [],
+    "credits": [
+      "Venmo handles the money and Google handles sign-in",
+      "The show, the music and the photos are the label's"
+    ]
+  },
+  "moment": {
+    "when": "Sep 2026",
+    "what": "I built the whole thing in one day, Sep 25: ten rounds of changes, from the first page to emailing the door list as a PDF."
+  }
+}

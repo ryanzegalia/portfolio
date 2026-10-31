@@ -1,0 +1,55 @@
+{
+  "starring": "Me",
+  "status": "Built and running",
+  "title": "The Jellyfin Home Screen",
+  "kicker": "An abandoned plugin, kept alive",
+  "shelf": "bring-it-back",
+  "order": 6,
+  "tagline": "I kept my library’s front door open after its plugin was archived.",
+  "what": "I kept the home-screen plugin I use alive after its author archived it. My fork makes the library open faster, keeps its settings ready and brings the home rows in together instead of popping them onto the page one at a time.",
+  "built": [
+    "Kept the archived plugin running as my own numbered builds",
+    "Replaced a full asset download with a tiny version check",
+    "Made the home rows arrive together behind one reveal",
+    "Fixed the settings cache so the page does not rebuild it on every call"
+  ],
+  "credit": "Remix of Jellyfin MonWUI",
+  "requirements": [
+    "Jellyfin",
+    "C#",
+    "JavaScript",
+    "CSS"
+  ],
+  "remix": {
+    "of": "Jellyfin MonWUI",
+    "by": "G-grbz",
+    "changed": "I kept the archived plugin alive and rebuilt asset loading, configuration caching and the home-screen reveal."
+  },
+  "rating": "R",
+  "ratingWord": "Revived",
+  "palette": {
+    "bg": "#241416",
+    "accent": "#e05850",
+    "ink": "#f5efe0"
+  },
+  "making": {
+    "problem": "The home-screen plugin I used was archived. I wanted to keep its front door, without the long wait to get inside.",
+    "how": [
+      "I took over the code as a fork and shipped my own builds.",
+      "The browser checks a small version file instead of fetching the whole embedded asset tree again.",
+      "I cache the settings and reveal the home rows together once they are ready."
+    ],
+    "broke": [
+      {
+        "title": "Less to fetch, sooner to watch",
+        "body": "On the Thor with a warm cache, the plugin payload went from 4,840 KB to 7 KB. The page’s DOMContentLoaded time fell from 3,114 ms to about 1,475 ms."
+      }
+    ],
+    "proof": [],
+    "credits": [
+      "Original plugin: G-grbz/Jellyfin-MonWUI-Plugin",
+      "Media server: Jellyfin",
+      "Fork, loading fixes, settings cache and reveal: me"
+    ]
+  }
+}

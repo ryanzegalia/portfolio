@@ -1,0 +1,74 @@
+{
+  "title": "Show Season",
+  "kicker": "Events and trade shows",
+  "shelf": "on-the-clock",
+  "order": 4,
+  "tagline": "Signs, badges, shirts and booth kits, ready before the doors open.",
+  "sticker": "11 events by Oct 2026",
+  "what": "I run the marketing for a convention the company hosts every spring, and get us ready for the trade shows around it, at home and overseas.",
+  "does": [
+    "Plan the hosted convention from ticket launch to post-event survey",
+    "Keep the events calendar, event pages and countdowns current",
+    "Brief the designer on every sign, shirt, lanyard and badge",
+    "Order and track the print and swag: badges, lanyards, shirts, bags",
+    "Build sponsor pages, signs and a looping highlight slideshow",
+    "Make backdrops, table throws, banners and posters for each trade show",
+    "Translate and print brochures and signs for shows overseas",
+    "Pack and label show shipments, and run giveaways at the booth"
+  ],
+  "solved": [
+    {
+      "problem": "Overseas shows need brochures and signs in other languages and in local paper sizes, and ordering them from home does not work.",
+      "did": "I had materials translated and resized for local formats, and found printers near each show.",
+      "ended": "The signs and brochures were at the show on time, in the right language."
+    },
+    {
+      "problem": "Signs and booth equipment needed to reach the same pack list.",
+      "did": "I merged the lists so everything for a booth flows into one load-out and print list.",
+      "ended": "Everything for a booth now ships from one list."
+    },
+    {
+      "problem": "A sponsor slideshow is only as reliable as the venue Wi-Fi.",
+      "did": "I built an animated sponsor site instead of a flat slide deck, and made it run offline.",
+      "ended": "It played in the main hall, after I demoed it to leadership."
+    },
+    {
+      "problem": "A giant backdrop looked soft and would not hold up at 20 feet.",
+      "did": "I rebuilt it from a higher resolution original, then ordered it in time to ship ahead to the show.",
+      "ended": "It arrived ahead of the show."
+    }
+  ],
+  "tools": [
+    {
+      "name": "Event editor",
+      "line": "the event team adds or changes an event and every page showing it updates."
+    },
+    {
+      "name": "Show packing page",
+      "line": "numbered totes, a pick list and shipping labels for a show shipment, used by the warehouse."
+    },
+    {
+      "name": "Sponsor slideshow site",
+      "line": "an animated showcase that still runs if the Wi-Fi drops."
+    },
+    {
+      "name": "Event page for the team",
+      "line": "equipment, signs and shipping for each event in one view."
+    }
+  ],
+  "worksWith": "Leadership, the event team, a contract designer, the warehouse, accounting, print vendors, a translator, venue staff.",
+  "story": [
+    "The convention drew over 600 registrations and 94% checked in. For the outside shows, the warehouse used my packing page on a real shipment: numbered totes, a pick list and a label for each box.",
+    "The schedule, signs, shirts and lanyards had lived on separate lists, with someone retyping changes onto the website.",
+    "I built an event editor the team could use themselves, then a page with equipment, signs and shipping side by side. Lanyards, swag bags, sponsor signs and flyers went out together, with a tracking sheet for the people on site.",
+    "The event team keeps the pages current and the warehouse can pack a show without asking me to assemble another list."
+  ],
+  "credit": "The job, plus the tools I built for it",
+  "status": "Every workday",
+  "palette": {
+    "bg": "#2c1745",
+    "accent": "#c48cff",
+    "ink": "#f4efe2"
+  },
+  "screen": "screen-show"
+}

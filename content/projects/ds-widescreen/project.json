@@ -1,0 +1,53 @@
+{
+  "title": "DS in Widescreen",
+  "kicker": "Widescreen DS emulator",
+  "order": 4,
+  "tagline": "No black bars, no stretching: DS games drawn wide, with real extra scenery.",
+  "what": "A build of the melonDS emulator that draws a DS game's top-screen 3D in widescreen on the Thor, at five times the original resolution, with a drawn LCD grid on top for that DS look.",
+  "built": [
+    "Ported WideMelon's widescreen trick into my own melonDS build: 3D drawn 342 pixels wide instead of 256",
+    "HD mode: 3D drawn at 5 times the DS resolution, in about 4 ms a frame on the Thor",
+    "Wrote an LCD grid shader that stays sharp over HD, with one grid cell per DS pixel",
+    "Live switches for widescreen, HD and grid, remembered per game"
+  ],
+  "credit": "Remix of WideMelon by pruefsumme",
+  "starring": "Me",
+  "status": "Running on my Thor",
+  "progress": "Only top-screen 3D widens. Games with 3D on the bottom screen gain nothing.",
+  "requirements": [
+    "melonDS",
+    "OpenGL",
+    "C++",
+    "SteamOS"
+  ],
+  "remix": {
+    "of": "WideMelon",
+    "by": "pruefsumme",
+    "changed": "Ported its widescreen method into my melonDS build, then added HD, the LCD grid shader and live switches."
+  },
+  "rating": "W",
+  "ratingWord": "Widened",
+  "palette": {
+    "bg": "#141a12",
+    "accent": "#9ad14b",
+    "ink": "#f4f1e2"
+  },
+  "art": "widescreen",
+  "making": {
+    "problem": "A DS game draws its 3D picture for a 4:3 screen. The Thor's top screen is 16:9, so games either sat in black bars or got stretched.",
+    "how": [
+      "The emulator can draw a wider view of the 3D scene, so you see real extra scenery at the sides instead of a stretched picture.",
+      "The top screen's 3D is drawn 342 DS pixels wide: at 192 lines that is almost exactly 16:9, the Thor's 1920 by 1080 top panel.",
+      "A small launcher passes the settings per game and a live tool changes them while the game runs."
+    ],
+    "broke": [],
+    "proof": [],
+    "credits": [
+      "Widescreen method: WideMelon by pruefsumme (GPL-3)",
+      "Emulator: melonDS",
+      "Port, HD mode, LCD grid shader and live switches: me"
+    ]
+  },
+  "shelf": "make-it-do-more",
+  "photo": "photo.jpg"
+}

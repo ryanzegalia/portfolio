@@ -1,0 +1,63 @@
+{
+  "starring": "Me",
+  "status": "Built and running",
+  "photo": "photo.jpg",
+  "title": "PokéBonk, Two Screens",
+  "kicker": "A browser game, downstairs too",
+  "shelf": "make-it-do-more",
+  "order": 8,
+  "tagline": "The game up top. The things I press down below.",
+  "what": "I made PokéBonk feel at home on the Thor, a two-screen handheld. The game stays up top; menus, touch controls and a keyboard move downstairs. It is Charcher’s browser game, with my Steam wrapper and two-screen add-on around it.",
+  "built": [
+    "Wrapped the browser game in its own Steam-launched window",
+    "Moved menus and controls downstairs instead of showing the same page twice",
+    "Made one controller highlight travel between both screens",
+    "Added a touch keyboard and full-size choices on the bottom screen"
+  ],
+  "credit": "Remix of the PokéBonk launcher",
+  "progress": "The two-screen rework shipped in October 2026.",
+  "requirements": [
+    "Chromium",
+    "JavaScript",
+    "SteamOS",
+    "Linux"
+  ],
+  "remix": {
+    "of": "PokéBonk launcher",
+    "by": "alfonsopuicercus",
+    "changed": "I built the Linux Steam wrapper and two-screen add-on. PokéBonk itself is Charcher’s game."
+  },
+  "rating": "D",
+  "ratingWord": "Dual screen",
+  "palette": {
+    "bg": "#172d36",
+    "accent": "#e5bf51",
+    "ink": "#f5efe0"
+  },
+  "making": {
+    "problem": "The browser game was made for one screen. I wanted the Thor’s other screen to have a job.",
+    "how": [
+      "I launch the game in its own browser window from Steam, with my add-on loaded.",
+      "The add-on moves the game’s own controls below, leaving more room to read above.",
+      "The controller highlight crosses between screens; touch and a keyboard work below too."
+    ],
+    "broke": [
+      {
+        "title": "Look up, press down",
+        "body": "In the Pokédex, the Pokémon and its stats sit above while the collection and search sit below. I can pick the next one without covering what I am reading."
+      }
+    ],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "The real Pokédex across both screens, before the October layout rework."
+      }
+    ],
+    "credits": [
+      "Game: Charcher’s PokéBonk",
+      "Launcher inspiration: alfonsopuicercus (MIT)",
+      "Steam wrapper and two-screen add-on: me"
+    ]
+  }
+}

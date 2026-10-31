@@ -1,0 +1,53 @@
+{
+  "title": "The Bethl'mite",
+  "kicker": "A postcard's back office",
+  "shelf": "for-my-people",
+  "order": 4,
+  "tagline": "A free monthly postcard of Bethlehem shows, filled from a site I built.",
+  "what": "The Bethl'mite is a free monthly postcard of live concerts and obscure happenings around Bethlehem, PA. I built the website behind it: bands and venues send in shows, artists send in art for the front, and a map shows where to grab a card.",
+  "built": [
+    "Built four parts: the public site, plus pages for the crew, the venues and the shops that carry cards",
+    "A pickup map with its own pin for each of the 9 spots that hand out cards",
+    "An issue builder: drag the month's shows into order and see the postcard take shape",
+    "Bands, venues and artists can send in shows and art without making an account"
+  ],
+  "credit": "Built the website from scratch",
+  "starring": "A local postcard crew, plus the venues, artists and shops around it",
+  "status": "Running every day",
+  "requirements": [
+    "Node.js",
+    "Express",
+    "React",
+    "SQLite",
+    "Leaflet and OpenStreetMap",
+    "Docker"
+  ],
+  "rating": "L",
+  "ratingWord": "Local",
+  "palette": {
+    "bg": "#2a1d16",
+    "accent": "#b5532c",
+    "ink": "#f3ece0"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "Every month a print-only postcard needs shows from bands and venues, art for the front, and a list of where to pick it up. I wanted all of that in one place.",
+    "how": [
+      "Bands, venues and artists send in shows and art, no account needed",
+      "The crew approves or turns down each one, with a reason",
+      "Approved shows get dragged into order for the month's card",
+      "Shops sign up to carry cards and land on the map once approved"
+    ],
+    "broke": [],
+    "credits": [
+      "Map tiles and the backup address lookup come from OpenStreetMap",
+      "Addresses get matched first by the US Census geocoder",
+      "Drag and drop by dnd-kit, maps drawn with Leaflet"
+    ]
+  },
+  "moment": {
+    "when": "Sep 2026",
+    "what": "All 9 pickup spots have their own pin on the map. Someone looking for the postcard can find a place to grab one, while the crew puts the next issue together."
+  }
+}

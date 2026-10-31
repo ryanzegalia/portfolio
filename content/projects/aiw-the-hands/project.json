@@ -1,0 +1,61 @@
+{
+  "title": "The Hands",
+  "kicker": "What it can reach",
+  "shelf": "ai-workstation",
+  "order": 8,
+  "tagline": "My phone, a real browser, an image maker and the graphics card.",
+  "what": "These are the things the AI can reach beyond the chat: my phone's screen, a web browser I signed into by hand, an image maker, and a queue for my graphics card. They let a job keep going instead of stopping to hand me a chore.",
+  "built": [
+    "It can see and tap my phone's screen to clear a sign-in prompt. Banking apps show it black, so those come to me.",
+    "A real Chrome I signed into by hand, because login pages turn away a scripted browser",
+    "An image maker that runs through my own ChatGPT, for quick mockups and sketches while I plan.",
+    "A queue so AI jobs on my PC take turns on its one graphics card, and give it up when I stream a game"
+  ],
+  "credit": "Built it on top of Claude Code",
+  "starring": "The AI, doing the parts I used to do by hand",
+  "status": "Done and in use",
+  "requirements": [
+    "Claude Code",
+    "MCP",
+    "Android ADB",
+    "Chrome DevTools Protocol",
+    "Python"
+  ],
+  "rating": "H",
+  "ratingWord": "Handy",
+  "palette": {
+    "bg": "#24101f",
+    "accent": "#f06ab0",
+    "ink": "#f8e8f0"
+  },
+  "art": "none",
+  "making": {
+    "problem": "Jobs kept stopping on things only I could reach: a tap on my phone, a login page that blocked robots, a graphics card two programs wanted at once."
+  },
+  "steps": [
+    {
+      "name": "Reach",
+      "says": "The AI asks for a tool: the phone, the browser, the image maker or the graphics card."
+    },
+    {
+      "name": "Do it",
+      "says": "It taps, clicks or draws the way I would, in my own signed-in apps."
+    },
+    {
+      "name": "Hand back",
+      "says": "If a screen is blocked to it or wants my face or fingerprint, it stops and asks me."
+    }
+  ],
+  "moment": {
+    "what": "The AI works in a real browser I signed into by hand, in my own apps. It can carry on through the login page and do the clicks I'd otherwise have to take over.",
+    "scene": {
+      "type": "hands",
+      "tools": [
+        "Phone",
+        "Browser",
+        "Images",
+        "Graphics card"
+      ]
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "title": "The Mailroom",
+  "kicker": "Email campaigns",
+  "shelf": "on-the-clock",
+  "order": 2,
+  "tagline": "About three sends a week, planned on a calendar weeks out.",
+  "sticker": "Nearly 5 million emails in under three years",
+  "what": "I run the email program for two product brands and the convention: the calendar, the writing, the building, the sign-off and the send.",
+  "does": [
+    "Plan the year of email on a calendar, weeks ahead",
+    "Write, build and schedule campaigns for two product brands",
+    "Run the convention's email, from ticket sales to the thank-you survey",
+    "Run sale series: announcement, 48 hours, 24 hours, final hours, reopen",
+    "Announce software updates, shipping cutoffs, outages and price changes",
+    "Get every email reviewed and approved before it is scheduled",
+    "Build the templates, including the order and shipping emails",
+    "Keep lists clean: imports, address checks, unsubscribe fixes"
+  ],
+  "solved": [
+    {
+      "problem": "Customers were getting order emails full of raw system labels.",
+      "did": "I rewrote the labels in plain words, rebuilt every order and shipping email from shared pieces, and cleared out the old templates nobody should be using.",
+      "ended": "The order emails read like a person wrote them, and customer service gets a copy to watch."
+    },
+    {
+      "problem": "The email provider only keeps results for about six months, so last year's numbers vanished.",
+      "did": "I started keeping our own copy of the opens, clicks and unsubscribes from every send.",
+      "ended": "We kept our history, and I plan from it."
+    },
+    {
+      "problem": "Customer service chat assistants could not add or remove people from the email lists, so every request came to me.",
+      "did": "I built a small service that lets them add or remove customers directly.",
+      "ended": "Support handles it on the spot, and it has been running since."
+    },
+    {
+      "problem": "The holiday run-up promised customers delivery dates we could not always keep.",
+      "did": "I set the cutoffs with the warehouse, then rewrote the countdown language into honest delivery expectations and let the homepage flip itself by midnight.",
+      "ended": "Every email went out on schedule, with nothing to update by hand over the holiday weekend."
+    },
+    {
+      "problem": "A review step by email is easy to skip when you are sending three a week.",
+      "did": "I moved previews onto a shared board where the team signs off, and added a last check that stops any email still carrying draft notes.",
+      "ended": "That check now runs on every send."
+    }
+  ],
+  "tools": [
+    {
+      "name": "Email preview page",
+      "line": "the whole team can open past and queued emails and share a link with a client."
+    },
+    {
+      "name": "Subscribe helper",
+      "line": "lets customer service assistants add or remove people from lists."
+    },
+    {
+      "name": "Pre-send check",
+      "line": "stops an email that still has draft notes in it."
+    },
+    {
+      "name": "Our own email history",
+      "line": "keeps our results after the provider clears them."
+    }
+  ],
+  "worksWith": "Leadership, customer service, the convention team, a contract designer, the warehouse, accounting, a developer.",
+  "story": [
+    "The convention's email started as one ticket-sale email I wrote by hand. A few months later it had a plan. I laid out a thirty-day calendar, then a series with a different message for each kind of person: buyers, sponsors, attendees who were coming and people who had said no. Every email went through a review board and got an approval before I scheduled it. Most of the work was in the lists. Ticket buyers land in the right series on their own now, and sponsors' attendees get the sponsor series, so nobody gets two copies. After the event a thank-you went out and a survey followed, and the answers became the starting point for the next year's plan. The series has more than doubled since its first year, and every email in it now has an owner and a send date on a board before anything is written."
+  ],
+  "credit": "The job, plus the tools I built for it",
+  "status": "Every workday",
+  "palette": {
+    "bg": "#14264f",
+    "accent": "#6fa8ff",
+    "ink": "#f4efe2"
+  },
+  "screen": "screen-mail"
+}

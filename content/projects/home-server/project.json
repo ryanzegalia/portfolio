@@ -1,0 +1,99 @@
+{
+  "title": "The Home Server",
+  "kicker": "My Linux home server",
+  "shelf": "keep-it-running",
+  "order": 1,
+  "tagline": "About 40 apps and 48 TB of drives, on one small PC.",
+  "what": "The computer in my house that everything else leans on. It streams our movies and shows to family and friends, runs the downloads, handles everyone's sign-ins and keeps watch on itself, all from five hard drives pooled into one.",
+  "built": [
+    "Converted the storage drives from a Windows format to a Linux one, over six days",
+    "Joined five drives into one 48 TB folder that every device sees as a single drive",
+    "Added one Google sign-in button, so family and friends log in without a password from me"
+  ],
+  "credit": "I set it up and run it, on top of Docker and Jellyfin",
+  "starring": "My family and friends",
+  "status": "Running every day",
+  "requirements": [
+    "Docker",
+    "Linux",
+    "Jellyfin",
+    "Authentik",
+    "mergerfs"
+  ],
+  "rating": "H",
+  "ratingWord": "Hoarder",
+  "palette": {
+    "bg": "#1a1408",
+    "accent": "#e3a92b",
+    "ink": "#f6efe0"
+  },
+  "art": "none",
+  "making": {
+    "problem": "I wanted one home for the movie library, downloads and family sign-ins, without tending a separate machine for each.",
+    "how": [
+      "Every app runs in its own container, a sealed-off box, so one broken app can't take down the rest.",
+      "The five big drives are joined into one pool, so a movie lives in one place and every device sees one folder.",
+      "A single Google button signs people in, and the server makes their accounts for them."
+    ],
+    "broke": [
+      {
+        "title": "Keep the service history",
+        "body": "After a power loss, I found the older logs had already gone. I increased the history the server keeps so I have more to read after an interruption."
+      }
+    ],
+    "credits": [
+      "Streaming: Jellyfin",
+      "Sign-in: Authentik",
+      "Everything else: set up, wired together and run by me"
+    ],
+    "log": [
+      {
+        "date": "2026-05-18",
+        "text": "The small PC took over the house network lookups."
+      },
+      {
+        "date": "2026-06-08",
+        "text": "Finished converting the storage drives to Linux format."
+      },
+      {
+        "date": "2026-08-28",
+        "text": "Put the one-button Google sign-in live."
+      }
+    ],
+    "serviceRecord": {
+      "purpose": "Movies, downloads and sign-ins, all on one small computer. Five pooled drives look like one folder to every device.",
+      "receipt": {
+        "date": "2026-08-29",
+        "title": "Same file. Faster read.",
+        "text": "I changed one drive setting and tested it both ways. Network reads went from 32 to 70 MB/s, then back to 34 when I undid it. The change made the difference."
+      },
+      "route": [
+        "FIVE DRIVES",
+        "ONE POOL",
+        "MOVIE LIBRARY"
+      ],
+      "care": "Keep the logs as well as the movies. They are the service history of the machine.",
+      "entries": [
+        {
+          "date": "2026-05-18",
+          "text": "The small PC took over the house network lookups."
+        },
+        {
+          "date": "2026-06-08",
+          "text": "Finished converting the storage drives to Linux format."
+        },
+        {
+          "date": "2026-08-28",
+          "text": "Put the one-button Google sign-in live."
+        }
+      ]
+    }
+  },
+  "back": {
+    "pitch": "The house has its own little machine room. It serves the movie library, runs about 40 apps and keeps 48 TB of storage in one place.",
+    "cut": [
+      "One sign-in button for family and friends.",
+      "A storage pool made from five separate drives."
+    ]
+  }
+}

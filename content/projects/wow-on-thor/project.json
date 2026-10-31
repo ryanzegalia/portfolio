@@ -1,0 +1,58 @@
+{
+  "title": "WoW on the Thor",
+  "kicker": "Split across two screens",
+  "order": 6,
+  "tagline": "World of Warcraft on a handheld: the world up top, bags and map below.",
+  "what": "The real World of Warcraft, running on the AYN Thor, a handheld built on a phone chip, through a Windows compatibility layer I patched. It plays across both screens, with the game's own windows moved to the touchscreen.",
+  "built": [
+    "Moved WoW's bags, map and quest tracker onto the Thor's touchscreen",
+    "My patched Wine build reached the login screen on all 8 cold starts in my test",
+    "One 4400 by 1080 canvas shows a different strip on each screen, so WoW thinks it has one monitor",
+    "A picker app that starts Retail, Classic or the Forever beta in dual screen"
+  ],
+  "credit": "Remix of GameNative by utkarshdalal",
+  "starring": "Me",
+  "status": "Working on my Thor",
+  "requirements": [
+    "GameNative",
+    "Wine",
+    "DXVK",
+    "Turnip driver",
+    "Magisk"
+  ],
+  "remix": {
+    "of": "GameNative",
+    "by": "utkarshdalal",
+    "changed": "Patched its Wine build and launcher, and added my own dual-screen layout and a picker app."
+  },
+  "rating": "M",
+  "ratingWord": "Multiscreen",
+  "palette": {
+    "bg": "#1a1208",
+    "accent": "#e8b04a",
+    "ink": "#f7edd8"
+  },
+  "photo": "photo.png",
+  "making": {
+    "problem": "WoW now comes in a version for ARM chips like the Thor's, but nothing I found ran it reliably on a handheld, and the game only knows about one screen.",
+    "how": [
+      "Run it through GameNative's Wine, with the community's ARM64 build of the game.",
+      "Use my patched Wine build with ARM64 graphics libraries.",
+      "Give Wine one very wide monitor and show different slices of it on each screen, with WoW's own windows moving to the bottom."
+    ],
+    "broke": [],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.png",
+        "caption": "Both screens stacked: the world on top, quest tracker, minimap and bags below. An earlier version of the layout."
+      }
+    ],
+    "credits": [
+      "Runs on: GameNative, Wine, Proton and Mesa Turnip",
+      "Controller and dialogue addons: ConsolePort and Immersion by seblindfors",
+      "Wine fixes, dual-screen layout, picker app and Thor setup: me"
+    ]
+  },
+  "shelf": "make-it-do-more"
+}

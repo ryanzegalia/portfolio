@@ -1,0 +1,70 @@
+{
+  "title": "Wasteland Nine",
+  "kicker": "Baseball after the end",
+  "shelf": "original-works",
+  "order": 1,
+  "tagline": "The world ended. The season didn't.",
+  "what": "A baseball roguelike I made, set after the end of the world. You coach a ragtag nine across six ruined regions on a battered bus and recruit players along the way, all in chunky 3D pixel art. It has a mock store page too, because I wanted to see it like a real release.",
+  "built": [
+    "Built every stadium, player and face out of code: the game itself has no image files",
+    "Six regions with three teams each, and a boss waiting at the end of every one",
+    "Put together the sound: 15 music cues, 50 sound effects and 38 ambience, crowd, radio and voice sounds",
+    "A mock store page with 13 in-game shots, 21 capsule images and a 60-second trailer"
+  ],
+  "credit": "Code, art and melodies by me; the rest is credited inside",
+  "starring": "Me, so far, plus a test bot that plays whole runs",
+  "status": "Paused at version 19",
+  "progress": "Plays start to finish. A bot plays whole runs; I played it and tuned the pacing.",
+  "requirements": [
+    "TypeScript",
+    "Three.js",
+    "Vite",
+    "Web Audio",
+    "Python",
+    "Vitest"
+  ],
+  "rating": "D",
+  "ratingWord": "Debut",
+  "palette": {
+    "bg": "#221a15",
+    "accent": "#d9a441",
+    "ink": "#eedcc0"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "I wanted a baseball roguelike that looks like my own concept art, without a single painted image in it.",
+    "how": [
+      "Ported the at-bat math from my May prototype, line for line",
+      "Drew it all small, at 480 by 270, then scaled it up with hard pixel edges",
+      "Wrote the melodies in code and layered free recordings under the sound effects",
+      "Shot the store page from the game itself, frame by frame, no painted art"
+    ],
+    "broke": [],
+    "credits": [
+      "Three.js for the 3D, and the Silkscreen and VT323 pixel fonts",
+      "Free CC0 and public-domain sounds from Freesound, Wikimedia Commons and OpenGameArt",
+      "Music beds from ACE-Step 1.5, an AI music model I ran on my own PC"
+    ]
+  },
+  "moment": {
+    "when": "Oct 2026",
+    "what": "I played it through and tuned the pacing, then shot the mock store page from the game itself: 13 in-game shots and a 60-second trailer. The stadiums, players and faces are all drawn in code."
+  },
+  "tracks": {
+    "a": [
+      "Behind the batter",
+      "Six regions, six bosses",
+      "Keep the bus alive",
+      "Drawn in code, 480 by 270",
+      "Bring the rain back"
+    ],
+    "b": [
+      "Prototype, May 2026",
+      "The web rebuild",
+      "Melodies in code",
+      "Sixty seconds on film",
+      "Version 19, start to finish"
+    ]
+  }
+}

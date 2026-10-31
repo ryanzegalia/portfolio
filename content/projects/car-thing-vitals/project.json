@@ -1,0 +1,53 @@
+{
+  "title": "Car Thing Vitals",
+  "kicker": "Desk status screen",
+  "order": 7,
+  "tagline": "It was made for Spotify in a car. Now it watches my servers.",
+  "what": "The Car Thing is a small screen made for Spotify in a car. Mine sits on my desk running an app I wrote: one glance shows whether my servers, storage, graphics card and AI accounts are all okay.",
+  "built": [
+    "Wrote the Vitals app for the Car Thing's 800 by 480 screen: servers, storage, graphics card and service health",
+    "Moved the data gathering into one service, so the Car Thing, the wall projector and phone share one feed",
+    "Tap the screen to switch AI accounts, or flip my PC between work and gaming",
+    "Made the layout fit the Car Thing's older browser, with room between every readout"
+  ],
+  "credit": "Built it, on top of DeskThing",
+  "starring": "Me",
+  "status": "Running every day",
+  "requirements": [
+    "DeskThing",
+    "React",
+    "Node",
+    "TypeScript",
+    "Car Thing"
+  ],
+  "rating": "C",
+  "ratingWord": "Co-opted",
+  "palette": {
+    "bg": "#10180f",
+    "accent": "#6fe08a",
+    "ink": "#eaf5e6"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "I wanted an \"is my stuff working\" board I could take in at a glance, without opening anything.",
+    "how": [
+      "DeskThing lets third-party apps run on the Car Thing; my app is a server plus a React screen.",
+      "The Car Thing only reaches my network through the PC it is plugged into, so everything is fetched on the PC and images are sent inline.",
+      "The app doesn't fetch anything itself any more: it listens to one shared feed that also drives the wall and phone readouts."
+    ],
+    "broke": [],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "The Vitals screen: servers, storage and the graphics card in one view."
+      }
+    ],
+    "credits": [
+      "Platform: DeskThing and the Spotify Car Thing",
+      "Vitals app, shared data feed and device fixes: me"
+    ]
+  },
+  "shelf": "make-it-do-more"
+}

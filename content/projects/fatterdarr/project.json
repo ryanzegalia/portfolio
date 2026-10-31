@@ -1,0 +1,107 @@
+{
+  "title": "FatterDarr",
+  "kicker": "A video file shrinker",
+  "shelf": "keep-it-running",
+  "order": 5,
+  "tagline": "It checks nobody's watching before swapping a file for a smaller copy.",
+  "what": "A work queue for the roughly 34,000 video files on my home server. One at a time, the graphics card in my gaming PC re-saves each file in a smaller format and puts it back, so the same library takes up less disk.",
+  "built": [
+    "Wrote the queue server and the graphics-card worker that replaced the ready-made tool I ran before",
+    "Added a guard that asks my media server if anyone is watching before a file gets swapped",
+    "Set aside any file that fails three times, and taught it real errors from files that won't shrink",
+    "Tuned the network reads that feed the graphics-card worker",
+    "Made new movies show up in Recently Added as soon as they land"
+  ],
+  "credit": "Wrote it myself, to replace Tdarr, the ready-made tool it took over from",
+  "starring": "Me and my family",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "FFmpeg",
+    "NVIDIA NVENC",
+    "Docker",
+    "SQLite"
+  ],
+  "rating": "C",
+  "ratingWord": "Courteous",
+  "palette": {
+    "bg": "#151120",
+    "accent": "#a98bd8",
+    "ink": "#f6efe0"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "started": "2026-05-16",
+  "making": {
+    "problem": "I wanted a smaller video library without interrupting a movie or making the queue retry the same file forever.",
+    "how": [
+      "A small server keeps the queue and one row for every file.",
+      "A worker on my gaming PC does the encoding on the graphics card and reports back live.",
+      "Before replacing a file, the worker asks Jellyfin, my media server, whether anyone is watching it."
+    ],
+    "broke": [
+      {
+        "title": "A key just for the viewer check",
+        "body": "The viewer check lost access after a server move. I gave it its own sign-in key, so changing my password cannot break it."
+      }
+    ],
+    "credits": [
+      "Encoding: FFmpeg",
+      "Video library: Jellyfin",
+      "Queue, worker and guard: me"
+    ],
+    "log": [
+      {
+        "date": "2026-06-19",
+        "text": "Ran the queue, graphics-card worker and file replacement end to end."
+      },
+      {
+        "date": "2026-08-17",
+        "text": "Gave the viewer check its own sign-in key."
+      },
+      {
+        "date": "2026-08-24",
+        "text": "Separated videos that cannot shrink from files with read errors."
+      },
+      {
+        "date": "2026-08-29",
+        "text": "Raised network read speed from 32 to 70 MB/s to keep the worker fed."
+      }
+    ],
+    "serviceRecord": {
+      "purpose": "Make the same movie library take less disk. A queue feeds the graphics card one file at a time and checks for viewers before a swap.",
+      "receipt": {
+        "date": "2026-08-29",
+        "title": "New means new.",
+        "text": "A newly imported movie appeared in Recently Added with the right arrival date. I made the importer stamp the arrival and notify the library, rather than wait for a later scan."
+      },
+      "route": [
+        "FILE QUEUE",
+        "GPU WORKER",
+        "VIEWER CHECK"
+      ],
+      "care": "Check for viewers before replacing a file. Put repeat failures aside so the rest of the queue can move.",
+      "entries": [
+        {
+          "date": "2026-06-19",
+          "text": "Ran the queue, graphics-card worker and file replacement end to end."
+        },
+        {
+          "date": "2026-08-24",
+          "text": "Separated videos that cannot shrink from files with read errors."
+        },
+        {
+          "date": "2026-08-29",
+          "text": "Raised network read speed from 32 to 70 MB/s to keep the worker fed."
+        }
+      ]
+    }
+  },
+  "back": {
+    "pitch": "A smaller video library without interrupting movie night. My queue sends files to the gaming PC to be re-saved, then checks nobody is watching before replacing them.",
+    "cut": [
+      "Three failed attempts put a file aside instead of retrying forever.",
+      "Import notifications that put new arrivals into the library."
+    ]
+  }
+}

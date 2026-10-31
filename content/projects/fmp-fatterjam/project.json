@@ -1,0 +1,52 @@
+{
+  "title": "FatterJam",
+  "kicker": "Music for the living room",
+  "shelf": "for-my-people",
+  "order": 7,
+  "tagline": "A living-room jukebox my wife and I run from our phones.",
+  "what": "A jukebox for our living room. YouTube plays on the TV, my wife and I add songs and steer it from our phones, and the queue lives on a server, so nothing wipes it. A second mode plays my own music library at my desk.",
+  "built": [
+    "Kept the queue on the server, so restarting or unplugging the TV can't wipe it",
+    "Made the TV screen and the phone remote update together, with pause and volume on the phone",
+    "Built a native Android TV app in Kotlin and installed it on our Chromecast",
+    "Added a desk-radio mode over my own 4,965 MP3s that never touches the house queue"
+  ],
+  "credit": "I wrote it; yt-dlp and ytmusicapi find the songs",
+  "starring": "My wife and me",
+  "status": "Running at home",
+  "requirements": [
+    "Python",
+    "FastAPI",
+    "PostgreSQL",
+    "React",
+    "Kotlin",
+    "Android TV"
+  ],
+  "rating": "J",
+  "ratingWord": "Jamming",
+  "palette": {
+    "bg": "#150c0c",
+    "accent": "#e03a3a",
+    "ink": "#f6ead8"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "When we get home and want music, we open YouTube on the TV and scroll the same suggestions week after week, and one wrong tap can wipe the queue.",
+    "how": [
+      "A small server finds each song and hands its video to the TV.",
+      "The queue lives in a database on the server. The TV and every phone listen to it, so a change on one shows on the others at once.",
+      "A native app on the Chromecast shows the video and what is next. The phone adds songs, pauses, changes the volume, skips and can undo a clear.",
+      "Desk mode plays my own collection in rotation: songs not yet played come first, and no album repeats within eight songs."
+    ],
+    "credits": [
+      "Song search and streams: yt-dlp and ytmusicapi",
+      "Video playback: hls.js",
+      "Everything else: me"
+    ]
+  },
+  "moment": {
+    "when": "Oct 2026",
+    "what": "Desk mode went live on Oct 1 over 389 albums and 4,965 songs. It plays everything it hasn't played before it repeats anything, and a song I skip three times early gets benched."
+  }
+}

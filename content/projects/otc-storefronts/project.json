@@ -1,0 +1,65 @@
+{
+  "title": "Storefronts",
+  "kicker": "Two brand websites",
+  "shelf": "on-the-clock",
+  "order": 1,
+  "tagline": "I'm the one who changes both websites.",
+  "sticker": "81 site pages and features in two years",
+  "what": "I run two brand websites: the product pages, the homepages, the guides and everything a customer clicks between finding a product and paying for it.",
+  "does": [
+    "Build and refresh product pages for two brands",
+    "Design homepage sections, banners and landing pages for products, sales and events",
+    "Keep prices, stock and pre-order messages right across the catalog",
+    "Add buy buttons, option pickers and payment plans at checkout",
+    "Show shipping times, holiday cutoffs and delivery warnings",
+    "Run our own find-a-store map and site search",
+    "Keep release notes, warranty, returns and help pages current",
+    "Fix titles, redirects and slow pages, and back up and patch the sites"
+  ],
+  "solved": [
+    {
+      "problem": "The store was paying for a rented retailer map and rented site search, and both were hard to fix when they went wrong.",
+      "did": "I built my own map from real purchase evidence, with a dealer list the team manages, and then my own search.",
+      "ended": "Both rented services are gone, and search answers in a fraction of a second."
+    },
+    {
+      "problem": "A site full of old pages, missing titles and stale links hurts search and confuses customers.",
+      "did": "I audited the pages, gave every live page a proper title, retired the dead ones safely, and kept the old links pointing somewhere useful.",
+      "ended": "Every live page has a title, and the leftovers are cleared."
+    },
+    {
+      "problem": "Every page on both sites lived only inside the store's own system, with no copy of our own.",
+      "did": "I exported all the page templates and put the landing pages and guides under version history.",
+      "ended": "We have our own copy, and I can search every page at once."
+    }
+  ],
+  "tools": [
+    {
+      "name": "Self-updating prices",
+      "line": "the pages read their prices from one source, so nobody retypes a price after a change. Used by me and the sales team."
+    },
+    {
+      "name": "Retailer finder",
+      "line": "my own find-a-store map, with a dealer list behind it that customer service keeps up."
+    },
+    {
+      "name": "Stock switch",
+      "line": "turns a whole batch of products to sold-out or pre-order at once, with an undo. Customer service asked for it."
+    }
+  ],
+  "worksWith": "Leadership, customer service, the sales team, the warehouse, purchasing, accounting, a contract designer, an outside web developer.",
+  "story": [
+    "New owners have a guide with two clear paths, links straight to each section, and a printable version that builds itself from the page. The paper copy always matches.",
+    "Owners needed one place to start after opening the box. I mocked up a small site for them, then built it as a landing page.",
+    "Customer service sent 42 notes before launch and 17 more after. I worked through every one, taking the guide from mock-up to live over a few months.",
+    "The guide sits alongside the product pages, warranty, returns and help pages I keep current on both sites. Customer service helped shape what a new owner sees."
+  ],
+  "credit": "The job, plus the tools I built for it",
+  "status": "Every workday",
+  "palette": {
+    "bg": "#0f3b40",
+    "accent": "#3fd0c0",
+    "ink": "#f4efe2"
+  },
+  "screen": "screen-web"
+}

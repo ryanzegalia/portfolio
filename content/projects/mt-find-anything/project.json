@@ -1,0 +1,46 @@
+{
+  "title": "Find Anything",
+  "kicker": "File search for Linux",
+  "shelf": "missing-tool",
+  "order": 2,
+  "tagline": "Type part of a name, get the file, from every drive, in a blink.",
+  "what": "A file search that the AI assistants on my Linux PC can ask: part of a name, a file type, a size or a date. It answers from an index of my drives instead of searching them file by file.",
+  "built": [
+    "Taught it the search language of the Everything search tool: wildcards, file type, size, dates and text inside files",
+    "Hooked it to FSearch's index of over 6 million files, so sizes and dates come back without touching the disk",
+    "Pointed it at my home folder, every local drive, Google Drive and my home server's shared folders",
+    "Finding the video files over 40 GB in my media library takes 0.06 seconds"
+  ],
+  "credit": "I wrote the search; FSearch, plocate, fd and ripgrep do the indexing and the digging.",
+  "starring": "My AI chats, any time they need to find a file",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "FSearch",
+    "plocate",
+    "fd",
+    "ripgrep",
+    "MCP"
+  ],
+  "rating": "F",
+  "ratingWord": "Found",
+  "palette": {
+    "bg": "#0e1a1c",
+    "accent": "#19c9c0",
+    "ink": "#eef3e8"
+  },
+  "art": "search",
+  "making": {
+    "problem": "When I moved to Linux, my AI assistants needed the same whole-machine file search they'd used on Windows.",
+    "how": [
+      "It takes the question in Everything's own search language.",
+      "It looks the answer up in FSearch's file index first, and in plocate's for the system folders FSearch skips. Both are free indexing tools.",
+      "Only for 'changed today' questions, which the indexes haven't caught up on, does it walk the disk live.",
+      "Questions about the text inside files go to ripgrep, a fast text search."
+    ]
+  },
+  "moment": {
+    "what": "I ask for the video files over 40 GB in my media library. The answer comes back in 0.06 seconds, from the index, without walking the drives."
+  },
+  "photo": "photo.jpg"
+}

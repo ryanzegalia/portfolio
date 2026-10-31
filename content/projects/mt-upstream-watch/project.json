@@ -1,0 +1,53 @@
+{
+  "title": "The Upstream Watch",
+  "kicker": "Updates for borrowed code",
+  "shelf": "missing-tool",
+  "order": 3,
+  "tagline": "A morning check on code I borrow, with a warning if it looks tampered with.",
+  "what": "A watch list of the outside code my projects are built on, plus a script that checks every entry each morning for new releases, new code and signs of tampering.",
+  "built": [
+    "Built a list of nearly 400 outside projects, each noting what I use it for and which of my projects needs it",
+    "Made a private copy of nearly all of them on my own server, synced every 6 hours",
+    "Wrote a tamper check: a release that suddenly points at different code, or rewritten history, gets flagged first",
+    "Added screening: known malware accounts are refused, brand-new or little-known ones get a caution label"
+  ],
+  "credit": "I wrote it from scratch; the code it watches belongs to other people.",
+  "starring": "Me, and every project of mine that borrows code",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "Git",
+    "GitHub API",
+    "Discord webhooks",
+    "systemd timers"
+  ],
+  "rating": "W",
+  "ratingWord": "Wary",
+  "palette": {
+    "bg": "#141a0d",
+    "accent": "#9be22d",
+    "ink": "#f2efdc"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "I build on a lot of other people's code, and I wanted to hear when they improved it. Then the next question was: how do I know an update is safe to take?",
+    "how": [
+      "Anything I clone or fork gets queued for the list automatically, and I add the rest by hand.",
+      "Each morning a script reads every project's releases and newest code, and compares them with the last run.",
+      "What changed goes to my Discord, grouped by which of my projects uses it, with anything that looks tampered with at the top.",
+      "Taking an update is always my call."
+    ]
+  },
+  "moment": {
+    "what": "The watch flagged two releases of a Mario Kart 64 port for the 3DS: both suddenly pointed at different code. I dug in. The author had rewritten the whole history to change one text file, and the downloads were untouched. Real alarm, harmless cause."
+  },
+  "run": [
+    "> upstream_watch.py --dry-run",
+    "Check before taking (possible tampering):",
+    "3DS",
+    "- mario-kart-64-3ds: tag v2.0, v2.1-E1 now points at different code",
+    "  (re-tagged after release). Do not take this release until someone has read why.",
+    "Nothing updates by itself: upstream changes are reviewed and cherry-picked on purpose."
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "title": "Picture to Part",
+  "kicker": "Pictures into printed parts",
+  "shelf": "original-works",
+  "order": 2,
+  "tagline": "I hand it a picture. My printer gets a part that already fits.",
+  "what": "Code I wrote that turns a flat picture, like a logo, a pattern or a label, into a solid 3D shape and carves it into a part for my 3D printer. I used it to dress up the small printed rack that holds my home server: lattice vents, clear side panels, nameplates.",
+  "built": [
+    "Wrote the code that turns a two-color picture into a printable part, no CAD app open",
+    "Cut a 526-hole lattice into a flat panel and checked the solid had no gaps",
+    "Got clear plastic to print glass-clear, so the art sits inside a see-through panel",
+    "Set 8 checks every part passes before printing"
+  ],
+  "credit": "My code, dressing up other people's rack parts",
+  "starring": "The rack that holds my home server",
+  "status": "Parked since June 2026",
+  "progress": "Printed so far: clear side panels, fan caps, a power-supply plate, drive trays and a fan panel",
+  "requirements": [
+    "Python",
+    "OpenCV",
+    "Shapely",
+    "manifold3d",
+    "trimesh",
+    "A desktop 3D printer"
+  ],
+  "rating": "P",
+  "ratingWord": "Pressed",
+  "palette": {
+    "bg": "#0f1a22",
+    "accent": "#7fd3e3",
+    "ink": "#eef3f5"
+  },
+  "art": "lattice",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "I wanted the little printed rack for my home server to look like mine. I don't do CAD, so I needed code that puts my art onto parts that already fit.",
+    "how": [
+      "Start from a picture: a logo, a pattern or a label in two colors",
+      "Trace it into clean shapes and turn those into a solid with no gaps",
+      "Carve it into an existing part, matching its size to within 0.01 mm",
+      "Run 8 checks, render it, look at it, then send it to the printer"
+    ],
+    "broke": [],
+    "credits": [
+      "The Lab Rax rack and other donor parts, shared on MakerWorld by their designers",
+      "The clear-print settings come from the How to Print Ice profile on MakerWorld",
+      "Built on manifold3d, Shapely, OpenCV and trimesh. Some source art began as AI-generated images"
+    ]
+  },
+  "moment": {
+    "when": "Jun 2026",
+    "what": "The rack's vent pieces came with a honeycomb grid. I cut out just the grid, grew a Japanese asanoha lattice in its place, and left the original designer's logo alone, with the new struts fused 0.8 mm into it."
+  },
+  "tracks": {
+    "a": [
+      "Picture in, solid out",
+      "Asanoha in the vents",
+      "Ice: the clear side panels",
+      "A nameplate in two colors",
+      "Fan caps, top and bottom"
+    ],
+    "b": [
+      "526 holes, zero gaps",
+      "Black art on a red badge",
+      "Through the clear panel",
+      "41 parts that meet flush",
+      "Eight checks before printing"
+    ]
+  }
+}

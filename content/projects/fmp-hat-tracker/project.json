@@ -1,0 +1,52 @@
+{
+  "title": "Hat Tracker",
+  "kicker": "Her hat of the day",
+  "shelf": "for-my-people",
+  "order": 1,
+  "tagline": "My wife wears a Phillies hat every day. This helps her pick which one.",
+  "what": "A web app I built for my wife. She logs which Phillies hat she wore each day, and it lines each day's hat up against how the Phillies did: the score, the lineup, what the team wore. It turns all of that into Hot Takes that help her pick the next one.",
+  "built": [
+    "Pulls the schedule, scores and lineups from MLB's stats feed, checking every 30 seconds close to game time",
+    "Posts the starting lineup to our Discord as soon as it's out",
+    "Keeps a photo of every one of her hats and works out each one's win-loss record",
+    "Added the team's jersey and cap for each game, so a hat gets judged against what the team wore too",
+    "Hot Takes written in plain words, with a test that keeps them that way"
+  ],
+  "credit": "Built it from scratch",
+  "starring": "My wife",
+  "status": "Resting until next season",
+  "requirements": [
+    "Python",
+    "FastAPI",
+    "SQLite",
+    "JavaScript",
+    "MLB's stats feed",
+    "Docker"
+  ],
+  "rating": "S",
+  "ratingWord": "Superstitious",
+  "palette": {
+    "bg": "#2a1210",
+    "accent": "#d8442f",
+    "ink": "#f3e4cc"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "I wanted her pick of the day to come with each hat's record behind it.",
+    "how": [
+      "Schedule, scores, lineups and uniforms come in from MLB's stats feed on their own",
+      "She logs the hat she wore that day",
+      "It works out every hat's record and splits",
+      "Hot Takes turn those numbers into a few plain lines for tonight"
+    ],
+    "broke": [],
+    "credits": [
+      "Schedules, scores, lineups and uniforms come from MLB's public stats feed"
+    ]
+  },
+  "moment": {
+    "when": "Oct 2026",
+    "what": "Before the deciding Wild Card game, I made the Hot Takes read like a person talking about tonight's game. She's picking a hat, not reading a stats sheet."
+  }
+}

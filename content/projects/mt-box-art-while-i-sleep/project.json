@@ -1,0 +1,52 @@
+{
+  "title": "Box Art While I Sleep",
+  "kicker": "Cover art, filled in",
+  "shelf": "missing-tool",
+  "order": 6,
+  "tagline": "Box art for my whole game library, filled in while I slept.",
+  "what": "A scraper I wrote to fill my handheld game library with box art, screenshots and title screens. It runs unattended for days, matches each game by its file's fingerprint, and never wipes a good game list.",
+  "built": [
+    "Matched games by the file's CRC fingerprint instead of its name, reading it inside zips without unpacking them",
+    "Saved each game list through a temporary file, so an empty or broken run can't erase it",
+    "Made it remember games the service lacks, and sleep through the daily quota until it could carry on",
+    "Added a second, cautious cover pass for Wii, PS2, Switch and other formats a fingerprint can't identify"
+  ],
+  "credit": "I wrote it; the art comes from ScreenScraper and SteamGridDB",
+  "starring": "My game library, and the handhelds that show it",
+  "status": "Filling gaps every week",
+  "requirements": [
+    "Python",
+    "ScreenScraper",
+    "SteamGridDB",
+    "systemd",
+    "Linux"
+  ],
+  "rating": "S",
+  "ratingWord": "Scraped",
+  "palette": {
+    "bg": "#101c19",
+    "accent": "#58c9a0",
+    "ink": "#f1ece0"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "started": "2026-05-02",
+  "making": {
+    "problem": "The scraper built into my handheld's firmware could not be fixed, and the desktop one doesn't suit a run on a server. I wanted covers for every game without watching it work.",
+    "how": [
+      "It reads each game's CRC fingerprint, asks ScreenScraper for the match, and downloads the box, screenshot, title screen and marquee.",
+      "A free account allows about 20,000 requests a day, so the job stops at the quota, sleeps, and picks up again after the reset. The whole library took days.",
+      "Games the service doesn't know are written down so they are not asked about again, and each game list is merged through a temporary file.",
+      "A weekly fallback searches SteamGridDB for the rest and only takes a cover when the game's name clearly agrees."
+    ],
+    "credits": [
+      "Matching and art: ScreenScraper (a free account)",
+      "Fallback covers: SteamGridDB",
+      "Everything else: me"
+    ]
+  },
+  "moment": {
+    "when": "Oct 2026",
+    "what": "On Oct 13, 2026, I cut the library’s missing covers from 962 to 218 with a reviewed cover pass and a cautious name-match pass. About 67 of the remaining entries were BIOS or utility files, not games."
+  }
+}

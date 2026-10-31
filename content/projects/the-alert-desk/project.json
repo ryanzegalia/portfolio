@@ -1,0 +1,105 @@
+{
+  "title": "The Alert Desk",
+  "kicker": "Server alerts, sorted",
+  "shelf": "keep-it-running",
+  "order": 3,
+  "tagline": "Repeated alarms become one case. Only the critical ones interrupt me.",
+  "what": "A Discord bot and an inbox page I built for the alarms my home servers raise. The bot merges repeats before they post, the inbox files each problem as a case with its own history, and only a short list of real trouble is allowed to page me.",
+  "built": [
+    "Wrote a Discord bot that sorts every alert into the right channel and merges the repeats",
+    "Built the inbox page, where each alert and automated email becomes a case with its own history",
+    "Made email the last resort: only a critical failure, the first time it happens, emails me",
+    "Loaded in 30 days of old Discord alerts and 19 emails, with 62 automated tests behind it"
+  ],
+  "credit": "I wrote the bot and the inbox; Discord carries the messages",
+  "starring": "Just me",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "Flask",
+    "SQLite",
+    "Discord API",
+    "Docker"
+  ],
+  "rating": "T",
+  "ratingWord": "Triaged",
+  "palette": {
+    "bg": "#1b1112",
+    "accent": "#e0645a",
+    "ink": "#f6efe0"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "started": "2026-04-18",
+  "making": {
+    "problem": "Repeated server alarms buried the things I needed to act on. I wanted one place to read each problem and its history.",
+    "how": [
+      "A small bot gets every alert first. It waits a bit before posting, merges repeats, and silences anything that keeps switching on and off.",
+      "A desk page files each alert as a case with a history, so the same problem is one case, not fifty messages.",
+      "Rules decide what is allowed to page me: only down services, a damaged storage pool, a full disk or a failed backup.",
+      "An AI helper can read a case and write up the likely cause."
+    ],
+    "broke": [],
+    "credits": [
+      "Chat platform: Discord",
+      "Everything else: me, with Claude as my pair programmer"
+    ],
+    "log": [
+      {
+        "date": "2026-04-18",
+        "text": "Built and deployed the alert bot."
+      },
+      {
+        "date": "2026-05-26",
+        "text": "Put the alert senders through one route, so repeats merge before posting."
+      },
+      {
+        "date": "2026-10-15",
+        "text": "Started the inbox for alerts and automated emails."
+      },
+      {
+        "date": "2026-10-17",
+        "text": "Imported the older alerts and set a short list of failures allowed to email me."
+      },
+      {
+        "date": "2026-10-19",
+        "text": "Tested the AI case write-ups: the main model completed all 25 runs."
+      }
+    ],
+    "serviceRecord": {
+      "purpose": "One problem, one case. Server alarms and automated mail arrive at a desk that keeps their history and decides what needs me.",
+      "receipt": {
+        "date": "2026-10-19",
+        "title": "It watched the watchers.",
+        "text": "The desk filed four missing daily reports on its own during a slow-network morning. I could see the missed runs in the same place as the server alarms, without checking each report separately."
+      },
+      "route": [
+        "ALARMS + MAIL",
+        "ONE CASE",
+        "PAGE IF CRITICAL"
+      ],
+      "care": "Keep the interruption bar high. Down services, damaged storage, a full disk or a failed backup can page me.",
+      "entries": [
+        {
+          "date": "2026-04-18",
+          "text": "Built and deployed the alert bot. Server alarms now had a place to go."
+        },
+        {
+          "date": "2026-05-26",
+          "text": "Put the alert senders through one route, so repeats merge before they reach Discord."
+        },
+        {
+          "date": "2026-10-17",
+          "text": "Brought 19 emails and 30 days of Discord history into the desk. Each problem keeps its own case history."
+        }
+      ]
+    }
+  },
+  "back": {
+    "pitch": "A quieter inbox for a busy home lab. Repeated alarms become one case, and only a short list of critical first-time failures can send me an email.",
+    "cut": [
+      "Discord carries the messages; my bot sorts them before they post.",
+      "An inbox that keeps each problem’s history together."
+    ]
+  }
+}

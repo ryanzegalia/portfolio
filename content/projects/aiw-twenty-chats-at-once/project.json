@@ -1,0 +1,55 @@
+{
+  "title": "Twenty Chats at Once",
+  "kicker": "Side by side",
+  "shelf": "ai-workstation",
+  "order": 6,
+  "tagline": "Twenty AI chats, one desk, and notes that don't wake anyone up.",
+  "what": "I keep about 20 AI chats open at a time, each on its own piece of work. When one fills up, it writes down where it stopped and a fresh one takes the job from there.",
+  "built": [
+    "Each chat starts knowing which job it's on and where the last one stopped",
+    "A mailbox for notes that can wait, so only urgent asks wake another chat",
+    "One board shows where every chat stands, with the ones that need me at the top",
+    "A handoff that writes down the mission, the state, the traps and the next step"
+  ],
+  "credit": "Built it on top of Claude Code",
+  "starring": "Me, and the AI chats I run every day",
+  "status": "Running every day",
+  "requirements": [
+    "Claude Code",
+    "Python",
+    "JSON Lines"
+  ],
+  "rating": "M",
+  "ratingWord": "Mailed",
+  "palette": {
+    "bg": "#221a10",
+    "accent": "#f08a3c",
+    "ink": "#f6e9d8"
+  },
+  "art": "none",
+  "making": {
+    "problem": "With about 20 jobs running, I needed to know which ones needed me without reading every chat."
+  },
+  "steps": [
+    {
+      "name": "Own job",
+      "says": "Each chat starts knowing its job and what the last chat on it got done."
+    },
+    {
+      "name": "Mail",
+      "says": "A note that can wait goes in a mailbox. Only do-this-now and questions wake a chat."
+    },
+    {
+      "name": "Handoff",
+      "says": "A chat that's full writes down where it stopped, and a fresh one picks it up."
+    }
+  ],
+  "moment": {
+    "what": "I look at one board for the chats that need me. The others keep their own jobs, leave notes in the mailbox, and write a handoff when they're full so the next chat starts where they stopped.",
+    "scene": {
+      "type": "chats",
+      "count": 20,
+      "cost": "Notes wait. Urgent asks come to me."
+    }
+  }
+}

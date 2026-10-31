@@ -1,0 +1,53 @@
+{
+  "title": "One Shipper at a Time",
+  "kicker": "Only one release goes live at a time",
+  "shelf": "how-things-ship",
+  "order": 4,
+  "tagline": "Several AI chats, one way out: whoever holds the reservation goes live.",
+  "what": "Several AI chats work on the same code at once, and they all want to go live. A reservation lets exactly one go at a time, and a change added during a release waits in line instead of breaking it.",
+  "built": [
+    "A reservation with one holder, a reason and a time limit, so a crashed chat can't keep it",
+    "A second try at going live while it's held is refused, and told which chat holds it",
+    "A guard that catches a change added during someone else's release and puts it in line instead",
+    "The timetable that takes changes live (the deploy train) takes the reservation itself every time it leaves"
+  ],
+  "credit": "Built it from scratch",
+  "starring": "Every AI session that wants to ship, and the one that gets to",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "Git",
+    "Claude Code"
+  ],
+  "rating": "W",
+  "ratingWord": "Waiting",
+  "palette": {
+    "bg": "#0f1716",
+    "accent": "#4fb3a5",
+    "ink": "#ecf0e6"
+  },
+  "art": "doorway",
+  "making": {
+    "problem": "Several AI chats work on the same code. If one added a change while another's release was going out, that release stopped partway and had to start over."
+  },
+  "moment": {
+    "what": "A second chat trying to ship gets the current holder’s contact card and stops before touching the live site. It knows who has the turn, rather than asking every chat to hold off."
+  },
+  "frames": [
+    {
+      "name": "Take the turn",
+      "says": "One chat takes the reservation, with a reason and a time limit.",
+      "icon": "ticket"
+    },
+    {
+      "name": "Everyone else waits",
+      "says": "A second try at going live is turned away, and a change added now waits in line.",
+      "icon": "gate"
+    },
+    {
+      "name": "Hand it back",
+      "says": "The holder hands it back, or it runs out if the chat crashes. The next in line goes.",
+      "icon": "handback"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "title": "Done Means Done",
+  "kicker": "No proof, no done",
+  "shelf": "ai-workstation",
+  "order": 2,
+  "tagline": "The AI doesn't get to say it's done. The proof does.",
+  "what": "My plan board shows what's finished, what still needs checking and what needs my yes. Goals close on a command's output, a separate AI's sign-off or my own words, not the working chat's say-so.",
+  "built": [
+    "Every stage of a plan gets 2 to 5 goals before work starts, each naming the proof that will close it",
+    "Goals tick themselves off when that proof shows up in the chat's record, not on the AI's say-so",
+    "A sign-off only counts from a separate AI. The working chat typing one counts for nothing.",
+    "My yes has to be my own words, typed by me in that chat. Made-up quotes get refused."
+  ],
+  "credit": "Built it on top of Claude Code",
+  "starring": "Me, and the AI chats I run every day",
+  "status": "Running every day",
+  "requirements": [
+    "Claude Code",
+    "Python",
+    "SQLite",
+    "MCP"
+  ],
+  "rating": "N",
+  "ratingWord": "Notarized",
+  "palette": {
+    "bg": "#10201a",
+    "accent": "#6fcf8f",
+    "ink": "#eef2e6"
+  },
+  "art": "none",
+  "making": {
+    "problem": "Halfway through a big job I couldn't tell how far along it really was, what was left, or when the work had wandered off."
+  },
+  "steps": [
+    {
+      "name": "Define done",
+      "says": "When I approve a plan, I'm approving the goals that say when each stage is finished."
+    },
+    {
+      "name": "Watch for proof",
+      "says": "At the end of every turn, the chat's record is scanned for that proof."
+    },
+    {
+      "name": "Close on proof",
+      "says": "A goal closes only on the evidence. Dropping one takes a written reason I can see."
+    }
+  ],
+  "moment": {
+    "what": "I can look at the plan and see which goals have proof, which are still open and which are waiting for me. Each closed goal carries the evidence that closed it.",
+    "scene": {
+      "type": "board",
+      "rows": [
+        [
+          "It builds on a clean copy",
+          "met",
+          "a command's output"
+        ],
+        [
+          "A second checker agrees",
+          "met",
+          "the checker's yes"
+        ],
+        [
+          "I like the look",
+          "open",
+          ""
+        ],
+        [
+          "It works on a phone",
+          "open",
+          ""
+        ]
+      ]
+    }
+  }
+}

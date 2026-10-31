@@ -1,0 +1,53 @@
+{
+  "title": "Group Trip Planner",
+  "kicker": "Dates and a house",
+  "shelf": "for-my-people",
+  "order": 2,
+  "tagline": "One page where six friends pick the dates and the house for a trip.",
+  "what": "A private site for planning a trip with my friends. Everyone marks the days they can and can't go, it suggests dates that work for the group, and we save rental listings, vote on them and see what each house costs per person.",
+  "built": [
+    "Google sign-in that only lets in the six of us",
+    "A shared calendar where everyone marks free, maybe or out, and it ranks the best date ranges",
+    "Paste a rental link and it pulls in the photos, amenities and price, then splits it per person",
+    "Shows how far each of us is from the house, from our zip codes, plus the nearest airports",
+    "Locks in the dates we pick and rechecks a house's price for those nights"
+  ],
+  "credit": "Built it from scratch",
+  "starring": "My friends",
+  "status": "Shipped and used",
+  "requirements": [
+    "Python",
+    "FastAPI",
+    "SQLite",
+    "Playwright",
+    "Leaflet",
+    "Google sign-in"
+  ],
+  "rating": "F",
+  "ratingWord": "Friends",
+  "palette": {
+    "bg": "#13202b",
+    "accent": "#3d7dc4",
+    "ink": "#eef2f0"
+  },
+  "art": "calendar",
+  "making": {
+    "problem": "Six people means six calendars and a pile of rental links. I wanted one page that showed who was free and what each house would cost each of us.",
+    "how": [
+      "Everyone signs in with Google and marks their days",
+      "It ranks the stretches when the most people are free",
+      "Saved houses get votes, a price check and a per-person split"
+    ],
+    "broke": [],
+    "credits": [
+      "Calendar by Vanilla Calendar Pro, charts by Chart.js, maps by Leaflet",
+      "Rental search uses the open-source pyairbnb library",
+      "Zip codes and nearby places come from OpenStreetMap"
+    ]
+  },
+  "moment": {
+    "when": "Mar 2026",
+    "what": "I built it on a Friday and had it live for the group the next day."
+  },
+  "photo": "photo.jpg"
+}

@@ -1,0 +1,98 @@
+{
+  "title": "FatterWatch",
+  "kicker": "Home server monitor",
+  "shelf": "keep-it-running",
+  "order": 4,
+  "tagline": "A local AI that reads the server logs and writes up the likely cause.",
+  "what": "A program that runs all the time on my home server and keeps an eye on its health. When something goes wrong, an AI model running on my own PC digs in, reading logs and checking what's running, and writes up the likely cause.",
+  "built": [
+    "Wrote the always-on watcher that reads the server's health numbers and spots trouble early",
+    "Taught it to search my past notes and docs before it guesses",
+    "Made it remember the last log line it read, so an old crash is not a new alarm"
+  ],
+  "credit": "Wrote it myself, around Qwen, an open AI model that runs on my own PC",
+  "starring": "Just me",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "A local AI model",
+    "systemd",
+    "Docker"
+  ],
+  "rating": "N",
+  "ratingWord": "Nosy",
+  "palette": {
+    "bg": "#0e1a1a",
+    "accent": "#6fd0c4",
+    "ink": "#f6efe0"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "An alarm that says \"service down\" at 3 a.m. tells me nothing. I wanted something that looks around, finds the actual reason, and only wakes me when it has to.",
+    "how": [
+      "It collects health numbers and spots trouble early, before something breaks.",
+      "A local AI model investigates with tools: it can read logs, search my notes and check what is running.",
+      "A paid model is only called in when the local one is blind or beaten."
+    ],
+    "broke": [
+      {
+        "title": "One crash, one alarm",
+        "body": "An old crash kept being treated as new. I gave each run a bookmark in the logs and made it judge memory pressure by current activity."
+      }
+    ],
+    "credits": [
+      "Local model: Qwen",
+      "Everything else: me"
+    ],
+    "log": [
+      {
+        "date": "2026-06-22",
+        "text": "Put the watcher into service, with a local AI model doing the investigating."
+      },
+      {
+        "date": "2026-06-22",
+        "text": "Traced abandoned processes to a health check and stopped it leaving more behind."
+      },
+      {
+        "date": "2026-10-28",
+        "text": "Shipped version 0.6 with memory between runs and a check for active memory pressure."
+      }
+    ],
+    "serviceRecord": {
+      "purpose": "A local investigator for the home server. It reads logs, checks what is running and searches my notes before writing up a likely cause.",
+      "receipt": {
+        "date": "2026-06-22",
+        "title": "One restart, memory back.",
+        "text": "I checked the diagnosis against the process list and found the app holding 351 abandoned processes. Restarting it cut the total from 360 to 9 and freed 7.5 GB of memory."
+      },
+      "route": [
+        "HEALTH CHECKS",
+        "LOCAL MODEL",
+        "CAUSE + NOTES"
+      ],
+      "care": "Read only new log lines. Judge swap by how fast it is being used, not just how full it looks.",
+      "entries": [
+        {
+          "date": "2026-06-22",
+          "text": "Put the watcher into service, with a local AI model doing the investigating."
+        },
+        {
+          "date": "2026-06-22",
+          "text": "Traced abandoned processes to a health check and stopped it leaving more behind."
+        },
+        {
+          "date": "2026-10-28",
+          "text": "Shipped version 0.6 with memory between runs and a check for active memory pressure."
+        }
+      ]
+    }
+  },
+  "back": {
+    "pitch": "A local investigator for my home server. It reads the logs, checks what is running and searches my notes before writing up a likely cause.",
+    "cut": [
+      "The local model does the investigating; a paid one is the fallback.",
+      "A watcher that searches my notes before it writes a diagnosis."
+    ]
+  }
+}
