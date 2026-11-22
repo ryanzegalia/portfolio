@@ -1,0 +1,56 @@
+{
+  "title": "Fatter Tracker",
+  "kicker": "Magic table companion",
+  "shelf": "for-my-people",
+  "order": 6,
+  "tagline": "Our phones keep the game straight. A tiny printer makes the missing tokens.",
+  "what": "A shared Magic: The Gathering game table I built for my friends. Everybody's phone stays on the same life totals, poison, damage and turn clock, and a web button prints any card token we need during the game.",
+  "built": [
+    "Synced life, poison and commander damage for two to six players across their phones in real time",
+    "Added game codes, a lobby, per-player chess clocks, history and win-rate profiles",
+    "Reverse-engineered the printer's Bluetooth sign-in and its request to resend a lost packet",
+    "Turned card art into a dithered, one-bit, 384-dot print with its own calibration strip"
+  ],
+  "credit": "Built it from scratch",
+  "starring": "My friends around the table",
+  "status": "Shipped and used",
+  "requirements": [
+    "Node.js",
+    "React",
+    "Socket.IO",
+    "SQLite",
+    "Python",
+    "Bluetooth LE"
+  ],
+  "rating": "T",
+  "ratingWord": "Tokenized",
+  "palette": {
+    "bg": "#170d0d",
+    "accent": "#d3232a",
+    "ink": "#f1e4cf"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "A Commander table has too many totals for one person to babysit, and the tiny printer on the table only worked through its vendor phone app.",
+    "how": [
+      "One game code puts two to six phones in the same live game",
+      "Every life, poison, damage and turn change is sent to the whole table",
+      "The token page finds the card art, shrinks it to the printer's 384 dots and dithers it to black or white",
+      "The printer signs in over Bluetooth and reports any packet it needs again"
+    ],
+    "broke": [
+      {
+        "title": "The print that stopped halfway",
+        "body": "The printer was asking for one lost packet, so I taught the sender to rewind to that packet and finish the card."
+      }
+    ],
+    "credits": [
+      "Card data and art come from Scryfall"
+    ]
+  },
+  "moment": {
+    "when": "Sep 2026",
+    "what": "In the middle of a game, I can search a card on the web page and the 48 mm printer spits out its 384-dot token without the vendor app."
+  }
+}

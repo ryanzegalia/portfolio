@@ -1,0 +1,45 @@
+{
+  "title": "The GPU Traffic Cop",
+  "kicker": "Graphics card queue",
+  "shelf": "missing-tool",
+  "order": 1,
+  "tagline": "One graphics card, a line of AI jobs, and room for a render when I need it.",
+  "what": "A program that decides who gets my PC’s graphics card next. Background AI jobs, image making and 3D renders all go through it, so they can share the card without me stopping and starting them by hand.",
+  "built": [
+    "Gave every job a priority from 1 to 10: the note-taker for my AI chats is a 9, the morning digest a 2",
+    "Made a job that waits over 10 minutes move up a step every 2 minutes, so low ones still get a turn",
+    "Wrote the lease that hands one job the whole card and expires on its own, so a crashed job can't hold it",
+    "Made the model load back on its own when a lease ends, even if the job that held the card crashed"
+  ],
+  "credit": "I wrote it from scratch, for the one graphics card in my PC.",
+  "starring": "Every local AI job on my PC, and the chats that need the card",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "FastAPI",
+    "vLLM",
+    "Ollama",
+    "ComfyUI",
+    "NVIDIA RTX 5090"
+  ],
+  "rating": "Q",
+  "ratingWord": "Queued",
+  "palette": {
+    "bg": "#1c0f19",
+    "accent": "#ff2fa8",
+    "ink": "#f5e9dc"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "The AI model holds about 30 of the card's 32 GB of memory, so nothing else fits beside it. To render anything, I had to stop the model by hand and remember to start it again afterwards. I wanted that to happen on its own.",
+    "how": [
+      "Every request waits in line, and the most important job waiting goes next.",
+      "A job that needs the whole card takes a lease: the model steps off and the line waits.",
+      "When the lease ends, or runs out because the job crashed, the model loads back and the line moves again."
+    ]
+  },
+  "moment": {
+    "what": "When I need a render, the model steps off the card and the render gets all of it. When the lease ends, the model loads back on its own and the waiting jobs carry on."
+  }
+}

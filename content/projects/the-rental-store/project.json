@@ -1,0 +1,63 @@
+{
+  "starring": "Me, family and friends",
+  "status": "Built and running",
+  "photo": "photo.jpg",
+  "title": "The Rental Store",
+  "kicker": "My library, back in the aisles",
+  "shelf": "bring-it-back",
+  "order": 7,
+  "tagline": "A walk through the video store, with my own library on the shelves.",
+  "what": "I put my Jellyfin library inside Halcyon Video’s walkable rental store. I built the parts that make it work for my family and friends: their usual login, private service keys and a catalog that does not make them wait at the door.",
+  "built": [
+    "Replaced the server picker with a membership-card login",
+    "Kept catalog and game-service keys behind a server proxy",
+    "Cached each person’s catalog for their next visit",
+    "Moved actor lookups behind the opening so the store appears first"
+  ],
+  "credit": "Remix of Halcyon Video",
+  "requirements": [
+    "Halcyon Video",
+    "Jellyfin",
+    "Three.js",
+    "JavaScript",
+    "Docker"
+  ],
+  "remix": {
+    "of": "Halcyon Video",
+    "by": "the Halcyon Video project",
+    "changed": "I built the home deployment, membership login, private proxy, catalog cache and faster opening."
+  },
+  "rating": "R",
+  "ratingWord": "Revived",
+  "palette": {
+    "bg": "#192348",
+    "accent": "#f4c34e",
+    "ink": "#f5efe0"
+  },
+  "making": {
+    "problem": "I wanted picking a movie to feel like a walk through a rental store, not another long list.",
+    "how": [
+      "Halcyon Video supplies the walkable store. My membership-card login uses the Jellyfin accounts people already have.",
+      "A server proxy keeps service keys out of public browser code. Each person’s catalog is cached for the next visit.",
+      "The store opens before actor details finish loading; those arrive in the background."
+    ],
+    "broke": [
+      {
+        "title": "Back in the aisles",
+        "body": "A cached visit opened in about nine seconds, with the catalog restored in a quarter of a second. Moving cast lookups out of the opening cut the Movies boot page from 48.3 seconds to 4.2."
+      }
+    ],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "The real store renderer, stocked with its built-in demo library."
+      }
+    ],
+    "credits": [
+      "Walkable store: Halcyon Video (GPL-3.0)",
+      "Media library: Jellyfin",
+      "Membership login, proxy, cache and opening fixes: me"
+    ]
+  }
+}

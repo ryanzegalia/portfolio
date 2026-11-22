@@ -1,0 +1,69 @@
+{
+  "title": "Art Department",
+  "kicker": "Directing the visuals",
+  "shelf": "on-the-clock",
+  "order": 6,
+  "tagline": "I art-direct a designer, a 3D studio and a voice actor.",
+  "sticker": "110 design projects in 2025",
+  "what": "I direct the people who make our visuals, a contract designer and an outside 3D studio, and I make plenty of it myself.",
+  "does": [
+    "Brief and review a contract designer, with one set of rules for every request",
+    "Direct a 3D render studio through models, renders and revision rounds",
+    "Script product videos, cast a voice actor and approve the final read",
+    "Shoot reference footage for the animators myself",
+    "Publish videos with thumbnails and descriptions",
+    "Keep the brand kit: logos, voice and style guide",
+    "Design hang tags, labels, decals, trophies, patches and shirt mockups myself",
+    "Lay out brochures, posters, banners and infographics, sized for local print"
+  ],
+  "solved": [
+    {
+      "problem": "Product videos needed a consistent order, pace and voice.",
+      "did": "Wrote the order and speed down as a standard, reviewed round by round, then lined up scripts and a voice actor.",
+      "ended": "The finished videos came back with scripts and voice, and one was reused as an intro later."
+    },
+    {
+      "problem": "Hundreds of product photos needed clean cutouts.",
+      "did": "Scoped the batch, sent the main photos to the designer first, and added a check that catches cutout flaws.",
+      "ended": "Approved photos now live in one library."
+    },
+    {
+      "problem": "Design requests arrived in every shape, so the designer lost time decoding them.",
+      "did": "Wrote the briefing rules: where work gets queued, how priority is set, how a brief reads, and where files and share links live.",
+      "ended": "Briefs follow one set of rules now, and the busiest month held thirteen design projects."
+    }
+  ],
+  "tools": [
+    {
+      "name": "3D review board",
+      "line": "where the studio and I review each model, with a check that catches the broken ones first."
+    },
+    {
+      "name": "Brand kit",
+      "line": "one place for how everything should look and sound."
+    },
+    {
+      "name": "Homepage video converter",
+      "line": "turns a finished video into files the website can play."
+    },
+    {
+      "name": "Photo library",
+      "line": "holds accepted product photos, with a check that catches cutout flaws."
+    }
+  ],
+  "worksWith": "A contract designer, a 3D render studio, a voice actor, printers, leadership, customer service, a developer.",
+  "story": [
+    "I built a repeatable way to get product models from a 3D studio reviewed and approved. The plan covered 14 products and 67 models, starting with a small pilot.",
+    "We wanted customers to see and spin a product before buying it, and needed models built from the real products.",
+    "I wrote the model spec, set the file names and built a tracking board. Upload checks compare scale, connection points and textures, followed by a fit check against the real part. The studio and I work from the same short standard.",
+    "The first model passed from start to finish. After that, approved models started arriving steadily, each through the same review."
+  ],
+  "credit": "The job, plus the tools I built for it",
+  "status": "Every workday",
+  "palette": {
+    "bg": "#3a0f2c",
+    "accent": "#ff6fb5",
+    "ink": "#f6eedc"
+  },
+  "screen": "screen-art"
+}

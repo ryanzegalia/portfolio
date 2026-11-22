@@ -1,0 +1,91 @@
+{
+  "title": "Behind the Counter",
+  "kicker": "Orders, shipping and money",
+  "shelf": "on-the-clock",
+  "order": 7,
+  "tagline": "When a team keeps doing a chore by hand, I build them a tool for it.",
+  "sticker": "44,000+ order lookups in two months",
+  "what": "Work comes to me from the sales team, customer service, the warehouse, accounting and purchasing: taking orders, shipping them, counting stock and checking the bills.",
+  "does": [
+    "Build the screen reps take orders and quotes on, with shipping prices up front",
+    "Teach the support bot to answer \"where's my order\" on its own",
+    "Clean customer data: addresses, home or business flags, duplicate records",
+    "Run the shipping station: labels, packing slips, tracking, delivery notices",
+    "Handle customs, duties and export paperwork for overseas orders",
+    "Test and reprogram hardware on a bench tool the warehouse uses",
+    "Build the warehouse's count and repair logs, and the checks that make month-end tie out",
+    "Check sales tax, carrier bills and payments so mistakes surface before anyone pays"
+  ],
+  "solved": [
+    {
+      "problem": "Our shipping carrier shut down the tool we used to quote and print labels.",
+      "did": "Moved quoting and labels over, and built a shipping station so we print our own carrier labels.",
+      "ended": "Shipping works from it every day."
+    },
+    {
+      "problem": "Shipping bills were too long to check by eye, and double charges slipped through.",
+      "did": "Built a check that matches every shipping charge to a real shipment and flags anything billed twice.",
+      "ended": "Double charges surface on their own now, and nearly every line matches without anyone checking by hand."
+    },
+    {
+      "problem": "Repairs and part-outs lived in a spreadsheet nobody trusted.",
+      "did": "Replaced it with a log the warehouse fills in as they take units apart, which builds the write-off list by itself.",
+      "ended": "The old sheet was retired and the log is the record."
+    },
+    {
+      "problem": "Customer addresses carried the wrong home or business type, so shipping rates came out wrong.",
+      "did": "Built an address checker for customer service, with a one-page guide, then fixed the old records in bulk.",
+      "ended": "Customer service uses it, and rates come out right."
+    }
+  ],
+  "tools": [
+    {
+      "name": "Order screen",
+      "line": "where sales reps build orders and quotes, with shipping options and approvals."
+    },
+    {
+      "name": "Address checker",
+      "line": "for customer service to validate addresses and flag home or business."
+    },
+    {
+      "name": "Shipping station",
+      "line": "for shipping, to print labels, slips and customs sheets."
+    },
+    {
+      "name": "Carrier-bill check",
+      "line": "for accounting, to catch double charges and billed duties."
+    },
+    {
+      "name": "Sales-tax check",
+      "line": "for finance, to match sales tax across systems before filing."
+    },
+    {
+      "name": "Buyer's live numbers",
+      "line": "for purchasing, live numbers feeding the buyer's budget workbook."
+    },
+    {
+      "name": "Count tool",
+      "line": "for warehouse staff, to post counts and write-offs with a cost on every line."
+    },
+    {
+      "name": "Repair log",
+      "line": "for the warehouse, to track take-aparts, part-outs and vendor credits."
+    }
+  ],
+  "worksWith": "Sales, customer service, shipping, the warehouse, accounting, finance, purchasing, leadership, a developer, the carriers.",
+  "story": [
+    "A rep can pick a customer, build an order, see real shipping prices and send a quote from one screen. I built it with customer service, then handed it over to reps and a warehouse tech.",
+    "Before it, quoting meant jumping between systems to find the customer, the products and the shipping price.",
+    "I got the first version running end to end on a safe copy, then sat with customer service and worked through their notes. Card payments, discounts and approvals followed, so a rep could give a customer a break with accounting in the loop.",
+    "I watched it run on real orders before the handover. Store credit, thirty-day quotes and confirmation emails followed.",
+    "Underneath it, I lined up what counts as a customer, a dealer and a sale. The price the rep sees matches what gets billed."
+  ],
+  "credit": "The job, plus the tools I built for it",
+  "status": "Every workday",
+  "palette": {
+    "bg": "#12331c",
+    "accent": "#69d38a",
+    "ink": "#f4efe2"
+  },
+  "screen": "screen-order"
+}

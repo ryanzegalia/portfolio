@@ -1,0 +1,46 @@
+{
+  "title": "One Save Everywhere",
+  "kicker": "Game-save bridge",
+  "shelf": "missing-tool",
+  "order": 5,
+  "tagline": "One game save follows me between old consoles, ports and emulators.",
+  "what": "A service that keeps one game save moving between original console versions, PC ports, native rebuilds and different emulators, even when each one stores the same progress in a different format.",
+  "built": [
+    "Wrote two-way converters between PlayStation memory cards and the PC saves for Final Fantasy VII and IX",
+    "Bridged Ocarina of Time, Pokémon and Switch saves between versions that store them differently",
+    "Backed up the old side, waited for files to settle and refused pairs that were not safe to convert",
+    "Parked stale emulator auto-saves before they could overwrite newer in-game progress"
+  ],
+  "credit": "Built it from scratch",
+  "starring": "My games, wherever I pick them up",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "Syncthing",
+    "RetroArch",
+    "systemd",
+    "JSON",
+    "Binary save formats"
+  ],
+  "rating": "S",
+  "ratingWord": "Synced",
+  "palette": {
+    "bg": "#07131c",
+    "accent": "#55b9ff",
+    "ink": "#dbeaf5"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "The same game can have a memory card, a PC file and an emulator file that cannot read one another. I wanted to stop choosing which version owned my progress.",
+    "how": [
+      "Each game has a pair that names its two save formats and the safe direction between them",
+      "The watcher waits for a stable file, backs up the older side and converts only the game data both versions share",
+      "The new file moves through my save folder to the other devices",
+      "A status screen shows both sides together so I can see that the slot and time match"
+    ]
+  },
+  "moment": {
+    "what": "A Final Fantasy IX save from the PC crossed to a PlayStation card in about 30 seconds, then loaded in the original game with the same place and play time."
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "title": "FatterDex",
+  "kicker": "A living Pokedex",
+  "shelf": "bring-it-back",
+  "order": 4,
+  "tagline": "A Pokedex that fills itself in from my real save files.",
+  "what": "A website that tracks my living dex, Pokemon slang for owning one of every species, by reading the save files from every game I play.",
+  "built": [
+    "Reads the save files directly, so nothing gets typed in by hand",
+    "Finds new save files on its own",
+    "Tracks every box and every shiny across games"
+  ],
+  "credit": "Built it from scratch",
+  "starring": "Me",
+  "status": "Running every day",
+  "requirements": [
+    ".NET 10",
+    "PKHeX.Core",
+    "SQLite",
+    "Docker"
+  ],
+  "rating": "I",
+  "ratingWord": "Indexed",
+  "palette": {
+    "bg": "#120f0f",
+    "accent": "#d23a3a",
+    "ink": "#f6efe0"
+  },
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "A living dex means one of every Pokemon, spread across a dozen games and save files. Tracking that by hand in a spreadsheet goes stale the minute you play.",
+    "how": [
+      "It watches the folders where my save files land.",
+      "Each save is opened and read directly, box by box.",
+      "The website adds it all up into one dex across every game."
+    ],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "The living dex when I took this: 534 of 1,078 caught, box by box."
+      }
+    ],
+    "credits": [
+      "Save-file reading: PKHeX.Core",
+      "Everything else: me"
+    ]
+  }
+}

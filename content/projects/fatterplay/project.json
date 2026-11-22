@@ -1,0 +1,67 @@
+{
+  "title": "FatterPlay",
+  "kicker": "Home game launcher",
+  "shelf": "bring-it-back",
+  "order": 2,
+  "tagline": "Pick a game. It installs, it launches, and your save follows you.",
+  "what": "One app for every game in the house, old consoles and PC alike. It runs on two open-source library apps, Playnite and RomM, plus my own layer that does the installing, the launching and the saves.",
+  "built": [
+    "Wrote the extension that installs a game the moment you pick it, then launches it",
+    "Saves that follow you between devices, switched on for the whole library at once",
+    "Netplay setup for playing with friends",
+    "27 native PC ports, picked and added to the library"
+  ],
+  "credit": "Built it, on top of Playnite and RomM",
+  "starring": "Me and my family",
+  "status": "Running every day",
+  "requirements": [
+    "Playnite",
+    "RomM",
+    "PowerShell",
+    "Python"
+  ],
+  "rating": "P",
+  "ratingWord": "Playable",
+  "palette": {
+    "bg": "#1b1010",
+    "accent": "#e0442f",
+    "ink": "#f6efe0"
+  },
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "Games were spread over a dozen systems and devices, and a save made on the TV stayed on the TV. Picking up in bed on the handheld meant starting over.",
+    "how": [
+      "Playnite is the shelf you browse; RomM holds the library on the home server.",
+      "My extension installs a game the moment you pick it, then launches it.",
+      "A hook runs before and after every game, pulling your save down and pushing it back up, so every game gets save sync without being set up one by one."
+    ],
+    "broke": [],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "The home screen: keep playing, play with friends."
+      },
+      {
+        "type": "image",
+        "src": "shot-console.jpg",
+        "caption": "Browsing one console's shelf."
+      },
+      {
+        "type": "image",
+        "src": "shot-series.jpg",
+        "caption": "Series shelves."
+      },
+      {
+        "type": "image",
+        "src": "shot-systems.jpg",
+        "caption": "Every system in the library."
+      }
+    ],
+    "credits": [
+      "Library app: Playnite",
+      "Library server: RomM",
+      "Install, launch, save sync, netplay and ports: me"
+    ]
+  }
+}

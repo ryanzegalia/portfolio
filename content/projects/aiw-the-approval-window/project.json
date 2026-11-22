@@ -1,0 +1,70 @@
+{
+  "title": "The Approval Window",
+  "kicker": "One yes, one action",
+  "shelf": "ai-workstation",
+  "order": 4,
+  "tagline": "One place my AI chats ask me for a yes, so they don't sit stuck.",
+  "what": "When a chat needs my OK, it opens one big window on my screen with a plain-words brief, instead of stopping dead and waiting. My yes lets that one exact action run once, within 15 minutes, and the chat keeps working on its own.",
+  "built": [
+    "One window for every question from every chat, plus a page I can answer from my phone",
+    "Each ask comes with a brief I can read cold: what, why, what changes, what could go wrong",
+    "A yes covers that one chat and that exact command, nothing else",
+    "If I'm away for 3 minutes or my screen is locked, my phone gets one nudge"
+  ],
+  "credit": "Built it on top of Claude Code",
+  "starring": "Me, answering from my desk or my phone",
+  "status": "Running every day",
+  "requirements": [
+    "Claude Code",
+    "Python",
+    "PyQt6",
+    "MCP"
+  ],
+  "rating": "Y",
+  "ratingWord": "Yes, once",
+  "palette": {
+    "bg": "#121a2b",
+    "accent": "#5aa9e6",
+    "ink": "#eaf0f7"
+  },
+  "art": "none",
+  "making": {
+    "problem": "When a safety check blocked something, the only way to say yes was to switch the whole chat to manual mode."
+  },
+  "steps": [
+    {
+      "name": "Ask",
+      "says": "The chat sends a short brief and the exact action it wants to run."
+    },
+    {
+      "name": "Decide",
+      "says": "I say yes, say no, or write back a note, from the window or my phone."
+    },
+    {
+      "name": "Use once",
+      "says": "The chat runs that exact action. The pass works one time, then it's gone."
+    }
+  ],
+  "moment": {
+    "what": "In its first two days my chats sent it 764 questions. I said yes to 330, typed a reply to 329 and said no to 13. Most of the rest I answered in the chat itself.",
+    "scene": {
+      "type": "tally",
+      "title": "First two days",
+      "total": "764 asks",
+      "bars": [
+        [
+          "Yes",
+          330
+        ],
+        [
+          "Replied",
+          329
+        ],
+        [
+          "No",
+          13
+        ]
+      ]
+    }
+  }
+}

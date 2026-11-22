@@ -1,0 +1,55 @@
+{
+  "title": "The Deploy Train",
+  "kicker": "Changes go live on a timetable, not by hand",
+  "shelf": "how-things-ship",
+  "order": 2,
+  "tagline": "I took going live off everyone's desk and put it on a timetable.",
+  "what": "When a change is ready, it gets in line instead of going straight out. A computer of its own takes everything in line on a schedule, tests it, tries it on a practice copy of the site, and only then puts it live.",
+  "built": [
+    "A line where finished changes wait, so nobody puts them live by hand from their own desk",
+    "A computer of its own that leaves on a timetable through the day, with no one at the keyboard",
+    "It tests each change on its own, names the one that fails and sends the rest live",
+    "Going live waits for any order in progress to finish before it switches over"
+  ],
+  "credit": "Built it from scratch",
+  "starring": "Every change to the product, and the staff waiting on it",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "Git",
+    "Postgres",
+    "Docker",
+    "Linux"
+  ],
+  "rating": "T",
+  "ratingWord": "Timetable",
+  "palette": {
+    "bg": "#1a120a",
+    "accent": "#e8a33d",
+    "ink": "#f5e9d6"
+  },
+  "art": "train",
+  "making": {
+    "problem": "Every change went live on its own, by hand, and each one ran the whole set of tests by itself. Changes that finished at the same time tripped over each other."
+  },
+  "moment": {
+    "what": "Going live used to be a job done by hand from someone's desk. Now it leaves on a timetable with no one at the keyboard, and putting a release live by hand gets refused."
+  },
+  "frames": [
+    {
+      "name": "Get in line",
+      "says": "Finished changes wait in line, and on a timetable a computer of its own takes them all.",
+      "icon": "train"
+    },
+    {
+      "name": "Test",
+      "says": "Every test runs on the batch, then a walk through a practice copy of the site has to pass.",
+      "icon": "test"
+    },
+    {
+      "name": "Go live",
+      "says": "Only then does it go live, and never in the middle of someone's order.",
+      "icon": "ship"
+    }
+  ]
+}

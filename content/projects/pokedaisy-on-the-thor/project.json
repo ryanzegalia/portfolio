@@ -1,0 +1,62 @@
+{
+  "title": "PokeDaisy on the Thor",
+  "kicker": "A Pokémon player, ported",
+  "shelf": "make-it-do-more",
+  "order": 10,
+  "tagline": "A Pokémon player for the Thor: the game on top, its companion below.",
+  "what": "I ported PokeDaisy, an Android Pokémon player, to the Thor's Linux side. The game plays on the top screen and PokeDaisy's companion (party, map, bag, guide) sits on the bottom one, with saves shared with my other emulators.",
+  "built": [
+    "Ran PokeDaisy's own emulator engine inside a Linux desktop app, with the game on top and the companion below",
+    "Shared Game Boy, GBA and DS saves with my other emulators, proven on Platinum, HeartGold and SoulSilver",
+    "Turned the player's messages and achievement pop-ups into native Steam notifications",
+    "Widened text boxes and corner menus for the wide screen, holding 60 frames a second on DS games"
+  ],
+  "credit": "Remix of PokeDaisy by lidor30",
+  "starring": "Me",
+  "status": "Running on my Thor",
+  "requirements": [
+    "Kotlin",
+    "Compose Desktop",
+    "mGBA",
+    "melonDS",
+    "SteamOS"
+  ],
+  "remix": {
+    "of": "PokeDaisy",
+    "by": "lidor30",
+    "changed": "Ported it to a Linux desktop app for the Thor, shared its saves with my other emulators, and added Steam notifications and widescreen text boxes."
+  },
+  "rating": "P",
+  "ratingWord": "Ported",
+  "palette": {
+    "bg": "#12231f",
+    "accent": "#f2c14e",
+    "ink": "#f5efe0"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "PokeDaisy is made for Android phones. I wanted it on the Thor's Linux side, with the game on the top screen, the companion on the bottom, and saves that match my other emulators.",
+    "how": [
+      "PokeDaisy's app wraps an emulator engine. I built a desktop app around the same engine, so it runs on the Thor's Linux side.",
+      "The game goes to the top screen and the companion to the bottom. One button press hands the controls to the companion, and another gives them back.",
+      "Saves and states are the same files my other emulators use, so a game started in one can carry on in another."
+    ],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "The companion's party and battle screens, drawn by the app's own code at the Thor's bottom-screen size."
+      }
+    ],
+    "credits": [
+      "Player and companion: PokeDaisy by lidor30",
+      "Game engines: mGBA and melonDS",
+      "Desktop app, save sharing, Steam notifications and widescreen boxes: me"
+    ]
+  },
+  "moment": {
+    "when": "Oct 2026",
+    "what": "On Oct 25 a DS save made in PokeDaisy loaded in the Thor's regular DS emulator, for Platinum, HeartGold and SoulSilver. That was the day the port was finished and upstream's newest version was merged in."
+  }
+}

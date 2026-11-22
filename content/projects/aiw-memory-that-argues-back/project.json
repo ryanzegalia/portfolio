@@ -1,0 +1,56 @@
+{
+  "title": "Memory That Argues Back",
+  "kicker": "Facts that check facts",
+  "shelf": "ai-workstation",
+  "order": 5,
+  "tagline": "When a fact gets corrected, the old one has to go.",
+  "what": "A memory for my AI chats. Before the AI reads a word I type, my setup attaches the notes, settled facts and past work that match it, and the fact list won't quietly hold two answers that disagree.",
+  "built": [
+    "Over 270 notes on how my things work, each tagged so the right one gets pointed at",
+    "Short, settled facts attached to the messages they match",
+    "A new fact that nearly matches an old one updates it, instead of sitting beside it",
+    "A recheck stamp, so a fact nobody has confirmed in a while shows up as stale"
+  ],
+  "credit": "Built it on top of Claude Code",
+  "starring": "Me, and the AI chats I run every day",
+  "status": "Running every day",
+  "requirements": [
+    "Claude Code",
+    "Python",
+    "SQLite",
+    "MCP"
+  ],
+  "rating": "O",
+  "ratingWord": "Overruled",
+  "palette": {
+    "bg": "#1a1426",
+    "accent": "#b48ef0",
+    "ink": "#efe8f7"
+  },
+  "art": "none",
+  "making": {
+    "problem": "A fresh chat needs the decisions and context from the work before it."
+  },
+  "steps": [
+    {
+      "name": "Match",
+      "says": "My message is matched against the keywords on every note and fact."
+    },
+    {
+      "name": "Attach",
+      "says": "The best few ride along as short pointers, not whole documents."
+    },
+    {
+      "name": "Argue back",
+      "says": "When a new fact disagrees with an old one, one of them has to go."
+    }
+  ],
+  "moment": {
+    "what": "I correct a fact once and retire the old answer, instead of leaving two versions for the next chat to choose between. A recheck gets its own stamp, so I can tell what we've actually confirmed.",
+    "scene": {
+      "type": "facts",
+      "left": "CORRECT ONCE\nREPLACE THE OLD ANSWER",
+      "stamp": "Rechecked, with a date"
+    }
+  }
+}

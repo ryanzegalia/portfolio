@@ -1,0 +1,59 @@
+{
+  "title": "Pinball Across Two Screens",
+  "kicker": "A Pokemon Pinball remix",
+  "order": 3,
+  "tagline": "Pokemon Pinball as one tall table, the ball crossing the hinge.",
+  "what": "A remix of a Pokemon Pinball engine for the AYN Thor, a handheld with two screens: the top of the table plays up top, the flippers and status bar below, with no loading between them.",
+  "built": [
+    "Added a two-screen layout to the Pinball NS engine: one tall virtual screen split across the Thor's panels",
+    "Wrote an SDL2 front-end for SteamOS, then moved the engine inside my Pokemon player",
+    "Added Pinball Generations' tables, with Red and Blue picked up top and Gold and Silver below",
+    "Wired the cartridge's rumble to the Thor's motor"
+  ],
+  "credit": "Remix of Pinball NS by ReiniShari",
+  "starring": "Me",
+  "status": "Working on my Thor",
+  "progress": "Private: the original has no license, so it stays on my machines.",
+  "requirements": [
+    "C",
+    "SDL2",
+    "Kotlin",
+    "SteamOS"
+  ],
+  "remix": {
+    "of": "Pinball NS",
+    "by": "ReiniShari",
+    "changed": "A two-screen layout, a SteamOS front-end, Generations support, double-speed mode and rumble for the Thor."
+  },
+  "rating": "T",
+  "ratingWord": "Tilted",
+  "palette": {
+    "bg": "#2a0f16",
+    "accent": "#ff5b6e",
+    "ink": "#fff1e6"
+  },
+  "art": "pinball",
+  "making": {
+    "problem": "The table is tall and the Thor's screens are two separate panels with a hinge between them. Normal emulators show one small rectangle on one screen.",
+    "how": [
+      "Pinball NS already draws both halves of each table as one 160 by 290 field, so I took its engine and wrote a layout that puts one half on each panel.",
+      "The top panel is 6.0 inches, the bottom 3.92, with different pixel density, so the top draws at about 0.875 of the bottom's pixels to keep the ball the same size.",
+      "Rumble: the engine follows the cartridge's motor, starts it when the game does and stops it explicitly."
+    ],
+    "broke": [],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "The table split above and below the hinge."
+      }
+    ],
+    "credits": [
+      "Engine: Pinball NS by ReiniShari",
+      "Extra tables: Pokemon Pinball Generations by huderlem",
+      "Two-screen layout, SteamOS front-end, rumble and the player it runs in: me"
+    ]
+  },
+  "shelf": "make-it-do-more",
+  "photo": "photo.jpg"
+}

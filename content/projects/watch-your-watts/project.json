@@ -1,0 +1,100 @@
+{
+  "title": "Watch Your Watts",
+  "kicker": "What the PC draws",
+  "shelf": "keep-it-running",
+  "order": 7,
+  "tagline": "A live page that shows where my PC's power goes and what it costs.",
+  "what": "A live dashboard for my PC's power. A smart strip measures the wall, the PC reports its own parts, and the page splits the draw into graphics card, processor and everything else, with today's cost and a badge for what the machine is doing.",
+  "built": [
+    "Merged the strip's wall reading with the graphics card and processor readings into one live view",
+    "Taught it to tell idle, desktop, AI, gaming and rendering apart, switching only after 90 seconds",
+    "Built the live chart, a cost tile, and daily, weekly and monthly summaries posted to Discord",
+    "Kept the page fast by showing the last saved sample instead of waiting on the strip"
+  ],
+  "credit": "I wrote the collector, backend and page; the strip is a TP-Link HS300",
+  "starring": "My PC",
+  "status": "Running every day",
+  "requirements": [
+    "Python",
+    "FastAPI",
+    "SQLite",
+    "Chart.js",
+    "TP-Link HS300 smart strip",
+    "LibreHardwareMonitor"
+  ],
+  "rating": "M",
+  "ratingWord": "Metered",
+  "palette": {
+    "bg": "#0f1628",
+    "accent": "#78dc96",
+    "ink": "#eaf2ea"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "started": "2026-04-19",
+  "making": {
+    "problem": "A smart plug gives you one number for the whole PC. I wanted to know which part was using the power, and what it cost.",
+    "how": [
+      "A smart strip on the wall measures the whole PC. A small program on the PC reads the graphics card and processor and sends the numbers over every 15 seconds.",
+      "The page takes those two parts out of the wall reading, and what is left is everything else: board, drives and fans.",
+      "A set of rules reads the load and names the activity. It waits 90 seconds before changing the name, so a short spike does not flip it.",
+      "Everything is kept for 90 days, so the chart, the cost and the summaries all come from the same record."
+    ],
+    "broke": [],
+    "credits": [
+      "Strip: TP-Link HS300, read with the python-kasa library",
+      "Processor power: LibreHardwareMonitor. Graphics card: NVIDIA's nvidia-smi",
+      "Chart: Chart.js",
+      "Everything else: me"
+    ],
+    "log": [
+      {
+        "date": "2026-04-19",
+        "text": "Planned and built the power suite: smart strip, collector on the PC and the live page."
+      },
+      {
+        "date": "2026-06-02",
+        "text": "Moved the backend to the home server it runs on now."
+      },
+      {
+        "date": "2026-10-03",
+        "text": "Connected the processor watt reading to the page’s live breakdown."
+      }
+    ],
+    "serviceRecord": {
+      "purpose": "Where the PC's power goes, live, with the cost and what the machine was doing.",
+      "receipt": {
+        "date": "2026-10-03",
+        "title": "Three parts, one reading.",
+        "text": "With the processor sensor reporting again, I could read its watts separately from the graphics card and everything else. The wall total and the parts finally shared one view."
+      },
+      "route": [
+        "WALL + PC READINGS",
+        "ONE LIVE VIEW",
+        "COST + ACTIVITY"
+      ],
+      "care": "Check that the processor reading is arriving. It is what separates the processor from everything else.",
+      "entries": [
+        {
+          "date": "2026-04-19",
+          "text": "Built the suite: strip sampler, PC collector, live page and the Discord summaries."
+        },
+        {
+          "date": "2026-06-02",
+          "text": "Moved the backend to its current home server."
+        },
+        {
+          "date": "2026-10-03",
+          "text": "Connected the processor watt reading to the live breakdown."
+        }
+      ]
+    }
+  },
+  "back": {
+    "pitch": "A watt-by-watt look at my PC. It splits the wall power into graphics card, processor and the rest, prices it, and says what the machine is doing.",
+    "cut": [
+      "The strip's wall reading and the PC's own sensors, merged every 15 seconds.",
+      "Daily, weekly and monthly summaries land in Discord."
+    ]
+  }
+}

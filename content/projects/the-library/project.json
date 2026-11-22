@@ -1,0 +1,51 @@
+{
+  "title": "The Library",
+  "kicker": "Retro game collection",
+  "shelf": "bring-it-back",
+  "order": 3,
+  "tagline": "Thirty-six systems, a dozen sources, and one good copy of each game.",
+  "insertQuote": "Sorted 12,043 games (about 857 GB) into one clean copy per game",
+  "what": "My collection of classic games, kept on the home server and copied out to my handhelds and PC, with saves that move between them.",
+  "built": [
+    "Sorted 12,043 games (about 857 GB) into one clean copy per game",
+    "Save syncing between the handhelds and the PC, with separate saves for each person",
+    "Automatic conversion of DS saves between the two formats emulators use, so a save made on one device loads on another",
+    "Tools that fill gaps in the collection and apply fan patches"
+  ],
+  "credit": "Built it: my scripts on top of Syncthing",
+  "starring": "Me and my family",
+  "status": "Running every day",
+  "requirements": [
+    "Syncthing",
+    "Python"
+  ],
+  "rating": "V",
+  "ratingWord": "Verified",
+  "palette": {
+    "bg": "#0f1a16",
+    "accent": "#6fc39a",
+    "ink": "#f6efe0"
+  },
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "Games for 36 systems come in every format and from a dozen sources, half of them duplicates. Every handheld wants its own copy, and its own kind of save file.",
+    "how": [
+      "One master library lives on the home server: one best copy of each game, with box art pulled for every system.",
+      "Syncthing carries the games and the saves out to each handheld and back.",
+      "A service on the server watches DS saves and writes the other emulator's format within about 15 seconds, keeps old versions, and backs it all up offsite that night."
+    ],
+    "broke": [],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "Every system in the library, as it shows up on the TV."
+      }
+    ],
+    "credits": [
+      "Sync: Syncthing",
+      "Box art: ScreenScraper",
+      "Library, sorting, save conversion and gap-fill tools: me"
+    ]
+  }
+}

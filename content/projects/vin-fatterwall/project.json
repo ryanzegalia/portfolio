@@ -1,0 +1,73 @@
+{
+  "title": "FatterWall",
+  "kicker": "Projector wall installation",
+  "shelf": "original-works",
+  "order": 4,
+  "tagline": "System cards, messages and a game stream float in the corner of my office.",
+  "what": "A projector installation that turns the corner above my desk into an ambient display. Live system cards, messages and a friend's game stream look like they are floating across two walls instead of sitting inside a bright rectangle.",
+  "built": [
+    "Solved the four-corner warp in CSS so a crooked two-wall throw becomes one square display",
+    "Made a calibration page on my main monitor so the mouse never has to enter the projector",
+    "Built a mouse fence that bounces the real pointer away from the wall display",
+    "Added message, live-vitals and game-stream views, plus a self-healing wireless cast path"
+  ],
+  "credit": "Built it from scratch",
+  "starring": "The corner above my desk",
+  "status": "Running on my office wall",
+  "progress": "Three views and both the direct-cable and wireless paths are working.",
+  "requirements": [
+    "Python",
+    "HTML",
+    "CSS transforms",
+    "JavaScript",
+    "H.264",
+    "DLNA"
+  ],
+  "rating": "W",
+  "ratingWord": "Warped",
+  "palette": {
+    "bg": "#000000",
+    "accent": "#ff3333",
+    "ink": "#f5e6c8"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "A normal projected desktop looks like a washed-out monitor and steals the mouse. I wanted the wall itself to feel like the display.",
+    "how": [
+      "The page draws only light on black, so the unlit part disappears into the wall",
+      "A projective transform pins the page to four measured corners across the two-wall throw",
+      "The control page moves those corners from my main monitor while a mouse fence protects the projector",
+      "The same wall page can arrive through a direct cable or a wireless video cast"
+    ],
+    "broke": [
+      {
+        "title": "The cable still needed a menu",
+        "body": "I added a wireless cast that finds the projector again after a power cycle, so the wall can heal without a cable or input menu."
+      }
+    ],
+    "credits": [
+      "Display, calibration, mouse fence, views and cast path by me"
+    ]
+  },
+  "moment": {
+    "when": "Sep 2026",
+    "what": "When the room is dim, the projector's black disappears and the clock, messages and live cards read like light sitting directly on the wall."
+  },
+  "tracks": {
+    "a": [
+      "Black becomes the wall",
+      "Four-corner CSS warp",
+      "Calibrate from the desk",
+      "Keep the mouse out",
+      "Messages, vitals and streams"
+    ],
+    "b": [
+      "Built September 2026",
+      "Four corners, set by hand",
+      "Calibration updates live",
+      "Direct cable or wireless cast",
+      "About 1 to 2 seconds wireless"
+    ]
+  }
+}

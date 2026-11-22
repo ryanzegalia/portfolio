@@ -1,0 +1,54 @@
+{
+  "title": "Build While You Wait",
+  "kicker": "Keep building while a change waits",
+  "shelf": "how-things-ship",
+  "order": 5,
+  "tagline": "While one change waits to go live, the next one gets built on top of it.",
+  "what": "Every task gets its own sandbox: its own copy of the code and its own copy of the data. When a change is stuck waiting to go live, the next piece gets built on top of it instead of everyone sitting idle.",
+  "built": [
+    "Every change gets its own sandbox, with its own copy of the code and the data",
+    "When a change is held, the next piece starts from that exact point instead of waiting",
+    "Each piece on top gets its own review and full test run while the hold stands",
+    "The whole pile goes live once the held change is live"
+  ],
+  "credit": "Built it on top of my own tools",
+  "starring": "Every AI chat with a change in line",
+  "status": "Done and in use",
+  "requirements": [
+    "Git",
+    "Docker",
+    "Postgres",
+    "Claude Code"
+  ],
+  "rating": "K",
+  "ratingWord": "Kept moving",
+  "palette": {
+    "bg": "#161311",
+    "accent": "#ecdcbc",
+    "ink": "#f7f1e6"
+  },
+  "art": "crates",
+  "making": {
+    "problem": "Every time a change waited for the timetable that takes changes live (the deploy train), the chat that built it just sat there until it went live."
+  },
+  "moment": {
+    "what": "When a change is held up, I no longer wait. The next pieces get built, reviewed and tested on top of it, ready to go live the moment it does."
+  },
+  "frames": [
+    {
+      "name": "Held",
+      "says": "Sometimes a finished change has to wait before it can go live.",
+      "icon": "clock"
+    },
+    {
+      "name": "Build on top",
+      "says": "The next piece starts from the waiting change and gets its own review and full tests.",
+      "icon": "stack"
+    },
+    {
+      "name": "All go live",
+      "says": "Once the waiting change is live, everything built on top of it follows.",
+      "icon": "ship"
+    }
+  ]
+}

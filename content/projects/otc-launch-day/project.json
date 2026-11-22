@@ -1,0 +1,65 @@
+{
+  "title": "Launch Day",
+  "kicker": "Product launches",
+  "shelf": "on-the-clock",
+  "order": 5,
+  "tagline": "Every new product needs a page, a sticker, a guide and a date.",
+  "sticker": "26 launches in 2025",
+  "what": "When something new ships, whether it is a product, a software release or a new program, I get everything around it ready: the page, the labels, the inserts, the guide and the day-of checklist.",
+  "does": [
+    "Launch new products, kits and accessories: page, photos, options, price, stock",
+    "Ship software and firmware releases with notes, a what's-new page and an email",
+    "Run beta, trade-up, dealer and partner programs from plan to announcement",
+    "Design warning, safety and product stickers, and cut down how many kinds we keep",
+    "Write and design the inserts that ship in the box, with a spec sheet for reorders",
+    "Draw box artwork to fit the foam, checked with purchasing",
+    "Print prototypes in house, test the fit and vet vendor samples",
+    "Run the day-of checklist: stock in, products live, test order, email out"
+  ],
+  "solved": [
+    {
+      "problem": "A big firmware release had to hit the site, the product options and customers' inboxes together.",
+      "did": "Got the new pages ready ahead of time so they could go live together, and held the email until engineering finished testing.",
+      "ended": "It went live in two stages, with a beta label on the new version."
+    },
+    {
+      "problem": "The warehouse kept eight to ten kinds of stickers on hand for modules and firmware.",
+      "did": "Cut the set down to a few, and built a page that prints serial and address stickers on the label printer.",
+      "ended": "A warehouse tech tested it on their own printer and it went into daily use."
+    },
+    {
+      "problem": "A beta product needed a part that fit snugly with no glue.",
+      "did": "Printed and refined a filler part until it fit to a fraction of a millimetre, then made a batch.",
+      "ended": "The beta units went out to field testers."
+    }
+  ],
+  "tools": [
+    {
+      "name": "Sticker printer page",
+      "line": "prints serial and address stickers on the warehouse's label printer."
+    },
+    {
+      "name": "Artwork library",
+      "line": "holds every sticker and insert file with a photo of the real thing, so a reorder gets the right one."
+    },
+    {
+      "name": "Firmware download page",
+      "line": "builds the right download on click, so customer service can point to one place."
+    }
+  ],
+  "worksWith": "Leadership, customer service, the warehouse, purchasing, finance, a developer, a contract designer, printers and vendors.",
+  "story": [
+    "The finished welcome packets were in my hands before the biggest sale of the year, ready to go into customers' boxes: a set of cards, a decal and a proper envelope.",
+    "The box had held separate inserts made at different times. I wanted one packet that felt like it belonged together.",
+    "I got quotes at a few print quantities and put design options in front of leadership. Once they picked one, I wrote a master spec sheet with leadership and customer service so reorders use the same files and sizes.",
+    "I ran a sample and checked that the printed codes scanned. Then I placed the order and tracked it in. The decal stayed in the kit as the piece people could hold on to."
+  ],
+  "credit": "The job, plus the tools I built for it",
+  "status": "Every workday",
+  "palette": {
+    "bg": "#3d2408",
+    "accent": "#ffb13b",
+    "ink": "#f6eedc"
+  },
+  "screen": "screen-launch"
+}

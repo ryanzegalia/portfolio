@@ -1,0 +1,59 @@
+{
+  "title": "Chunky",
+  "kicker": "Site, shirts, swag",
+  "shelf": "for-my-people",
+  "order": 3,
+  "tagline": "I run the website for our yearly golf weekend, and I make the shirts and swag.",
+  "what": "The Chunky Invitational is a golf weekend around 20 of my friends do every year. I run its website, where everyone signs up, picks a shirt size and a bag-tag nickname, and pays. I also do the shirts, and I make the bag tags and coasters on my 3D printer.",
+  "built": [
+    "This year's site: sign up, pick a shirt size and a bag-tag nickname, then pay by Venmo",
+    "An admin page with who's paid and the shirt count by size, which the shirt order comes from",
+    "Shirt art for the front and back, traced into clean one-colour files for screen printing",
+    "Code that turns the signup list into one print file per person",
+    "A nameplate for the trophy, printed at home, so nobody had to find an engraving shop"
+  ],
+  "credit": "I run the site and make the swag",
+  "starring": "My friends, around 20 of us",
+  "status": "Resting until next year's weekend",
+  "requirements": [
+    "Python",
+    "FastAPI",
+    "SQLite",
+    "Docker",
+    "OrcaSlicer",
+    "PLA"
+  ],
+  "rating": "G",
+  "ratingWord": "Golf",
+  "palette": {
+    "bg": "#1b1f17",
+    "accent": "#d0563f",
+    "ink": "#f1ead6"
+  },
+  "art": "none",
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "Around 20 people have to sign up, pay, and end up with a shirt in the right size and a bag tag with their own nickname, all in a few weeks.",
+    "how": [
+      "Everyone registers on the site with a shirt size and a nickname",
+      "They pay by Venmo and I mark them paid",
+      "The shirt order comes straight from the size count",
+      "A script builds each person's bag tag file from their nickname"
+    ],
+    "broke": [
+      {
+        "title": "A plate in four hours",
+        "body": "A plate of coasters came down from about 14 hours to about 4 after I corrected the filament settings in the code that builds the print files."
+      }
+    ],
+    "credits": [
+      "The Chunky logo carries over from earlier years",
+      "This year's shirt art and the coaster art started as ChatGPT images, the coaster one from a friend's photo",
+      "I turned them into the files that got printed"
+    ]
+  },
+  "moment": {
+    "when": "Aug 2026",
+    "what": "I texted the group that registration was open at about 1:45 in the afternoon. By 3:30, five people had signed up, with their shirt sizes and nicknames."
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "title": "Every Site in the House",
+  "kicker": "The lab's own directory",
+  "shelf": "keep-it-running",
+  "order": 8,
+  "tagline": "Every site on my network, listed, and nobody has to keep the list.",
+  "what": "A page that lists every web app on my home network: what runs it, whether it is up, and how new it is. It rebuilds itself every minute from the network's own settings, so there is no list to keep up.",
+  "built": [
+    "Made the page build its list from the web server's own settings and what is running on the box",
+    "New sites appear on their own, removed ones stay listed for 90 days, and a moved site's port follows it",
+    "Kept the last good list when a source fails, and put the failure on the page instead of turning it all red",
+    "Added a crash alert and a stale-page banner if the rebuild stops"
+  ],
+  "credit": "I built the page and the automatic site finder",
+  "starring": "Everything on my home network",
+  "status": "Running every day",
+  "requirements": [
+    "Web server settings",
+    "Running apps",
+    "Network name records"
+  ],
+  "rating": "L",
+  "ratingWord": "Listed",
+  "palette": {
+    "bg": "#140f10",
+    "accent": "#d93a32",
+    "ink": "#f3e9dc"
+  },
+  "art": "none",
+  "started": "2026-10-26",
+  "making": {
+    "problem": "I could not always find the sites on my own network, tell what they were, or see whether they were running.",
+    "how": [
+      "Every minute a small program reads the web server's own settings and checks what is running behind each site.",
+      "It adds each page's own title and the earliest sign it existed, and checks whether it answers.",
+      "Anything it cannot read is said on the page. If a whole run crashes, the page keeps the last good list and shows a banner."
+    ],
+    "credits": [
+      "Caddy: web server; Docker: app runner",
+      "systemd: service manager; Pi-hole: network names",
+      "Page and checks: me"
+    ],
+    "log": [
+      {
+        "date": "2026-10-26",
+        "text": "Built the page and its one-minute agent, and put it live."
+      },
+      {
+        "date": "2026-10-26",
+        "text": "Forced a crash in a test copy: the page kept its last good list and showed the crash banner."
+      }
+    ],
+    "serviceRecord": {
+      "purpose": "Every site in the house, what runs it and whether it is up, with no list to keep.",
+      "receipt": {
+        "date": "2026-10-26",
+        "title": "The last good list stays.",
+        "text": "I forced a test copy to stop rebuilding. The page kept the last good list and showed a warning, so I could still find the sites while seeing that the list needed attention."
+      },
+      "route": [
+        "LIVE SETTINGS",
+        "ONE LIST",
+        "UP OR DOWN"
+      ],
+      "care": "Never add a site by hand. Fix where it comes from and the list follows.",
+      "entries": [
+        {
+          "date": "2026-10-26",
+          "text": "Built it and put it live. It rebuilds every minute, in about 3.5 seconds."
+        },
+        {
+          "date": "2026-10-26",
+          "text": "Added pages without a name yet and names with no working site behind them."
+        },
+        {
+          "date": "2026-10-26",
+          "text": "Tested the crash path in a copy. The banner and the last good list held."
+        }
+      ]
+    }
+  },
+  "back": {
+    "pitch": "A directory that updates itself. New sites appear within about two minutes, removed ones age out, and the page flags any source it cannot read.",
+    "cut": [
+      "Built from the web server’s own settings and the apps running on the box.",
+      "Every site shows what runs it, when it last restarted and when it was added."
+    ]
+  }
+}

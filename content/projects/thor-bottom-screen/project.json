@@ -1,0 +1,73 @@
+{
+  "title": "The Other Screen",
+  "kicker": "Bottom-screen app for Steam",
+  "order": 1,
+  "tagline": "Steam only uses one of the Thor's two screens. I put the other to work.",
+  "what": "A companion app for the bottom screen of the AYN Thor, a handheld with two screens. It watches what Steam is pointing at up top and shows what the top screen can't: achievements, play time, a keyboard, game controls.",
+  "built": [
+    "Bottom screen follows Steam's focus: move along a row up top and that game's card appears below",
+    "A game card with Overview, Achievements and On this Thor pages you swipe between",
+    "Moved Steam's on-screen keyboard to the bottom, with Steam's own swipe typing",
+    "While a game runs: a taskbar, touch buttons, achievements and a performance page"
+  ],
+  "credit": "Remix of Barry Launcher by Project Barry",
+  "starring": "Me",
+  "status": "Running on my Thor",
+  "requirements": [
+    "SteamOS",
+    "Qt / QML",
+    "Python",
+    "Steam Game Mode",
+    "AYN Thor"
+  ],
+  "remix": {
+    "of": "Barry Launcher",
+    "by": "Project Barry",
+    "changed": "Kept its window, replaced everything it shows with my own skin and a background service that reads what Steam is focused on."
+  },
+  "rating": "E",
+  "ratingWord": "Extended",
+  "palette": {
+    "bg": "#0d1626",
+    "accent": "#3aa0ff",
+    "ink": "#eaf2ff"
+  },
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "The bottom screen sat there with the last game's art on it, telling me nothing the top screen didn't.",
+    "how": [
+      "A small background service asks Steam what it is focused on and publishes it.",
+      "My skin for Barry Launcher draws the right thing for that focus: a game card, a post to read, a friend, a download, the clock.",
+      "Anything the top screen already shows gets dropped from the top or replaced with something only the Thor knows, like battery hours left for this game."
+    ],
+    "broke": [],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.jpg",
+        "caption": "Moving along a row on top: the bottom shows that game's card. Top recorded on the Thor, bottom replayed from the data it was showing."
+      },
+      {
+        "type": "image",
+        "src": "shot-achievements.jpg",
+        "caption": "The Achievements page, swiped to. My real skin code on sample data, filmed off the device."
+      },
+      {
+        "type": "image",
+        "src": "shot-systems.jpg",
+        "caption": "My own Library tab groups games by system, and the bottom shows that system's card. Top recorded on the Thor, bottom replayed."
+      },
+      {
+        "type": "image",
+        "src": "shot-keyboard.jpg",
+        "caption": "Steam's keyboard moved to the bottom, with accents on a held key. My real skin code on sample data, filmed off the device."
+      }
+    ],
+    "credits": [
+      "Host window: Barry Launcher by Project Barry (GPL-2)",
+      "Platform: pb-os and Steam Game Mode",
+      "Skin, background service, game cards, keyboard and sheets: me"
+    ]
+  },
+  "shelf": "make-it-do-more"
+}

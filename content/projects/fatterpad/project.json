@@ -1,0 +1,77 @@
+{
+  "title": "FatterPad",
+  "kicker": "Thor controller support",
+  "order": 2,
+  "tagline": "The Thor's buttons are laid out like a Nintendo pad. Now Steam knows it.",
+  "insertQuote": "The motion reader now uses 0.04% of a core between games, down from 3.7%.",
+  "what": "Patches and a helper app that make Steam understand the AYN Thor's built-in controls: the right button icons for each game, a drawing of the real Thor in Steam's controller screens, and gyro aim in an emulator.",
+  "built": [
+    "Patches so Steam sees the Thor as a Switch Pro Controller, updating about 221 times a second",
+    "A per-game switch: games that ship Nintendo icons get that layout, every other game gets Xbox",
+    "Drew the Thor into Steam's controller screens, including the live Test Device Inputs page",
+    "Gyro aim for the 3DS emulator, with drift correction while I hold the Thor"
+  ],
+  "credit": "Remix of InputPlumber by ShadowBlip",
+  "starring": "Me",
+  "status": "Working on my Thor",
+  "progress": "Gyro aim is for the 3DS emulator.",
+  "requirements": [
+    "SteamOS",
+    "InputPlumber",
+    "Decky Loader",
+    "Python",
+    "C"
+  ],
+  "remix": {
+    "of": "InputPlumber",
+    "by": "ShadowBlip",
+    "changed": "A set of patches so the Thor shows up as a Switch Pro Controller, plus my own per-game layout switcher and motion reader."
+  },
+  "rating": "R",
+  "ratingWord": "Remapped",
+  "palette": {
+    "bg": "#0e1822",
+    "accent": "#34d3c4",
+    "ink": "#eef7f5"
+  },
+  "photo": "photo.jpg",
+  "making": {
+    "problem": "Steam saw a generic gamepad, so it drew the wrong buttons and had no idea the Thor could sense motion.",
+    "how": [
+      "InputPlumber turns the Thor's controller into the virtual pads Steam sees; my patches make one of them a Switch Pro Controller.",
+      "A list of every game I own, with PCGamingWiki's answer on whether it ships Nintendo icons, decides the identity and layout when a game launches.",
+      "A small background program feeds the gyro to emulators, and only reads the sensor while something can use it."
+    ],
+    "broke": [
+      {
+        "title": "Quiet between games",
+        "body": "The motion reader now uses 0.04% of a core between games, down from 3.7%. It reads the sensor only while something can use it."
+      }
+    ],
+    "proof": [
+      {
+        "type": "image",
+        "src": "photo.png",
+        "caption": "Steam's Test Device Inputs screen with the Thor drawn in."
+      },
+      {
+        "type": "image",
+        "src": "shot-hades.png",
+        "caption": "Hades in Nintendo mode, drawing its own Switch icons."
+      },
+      {
+        "type": "image",
+        "src": "shot-launch.png",
+        "caption": "The Thor on Steam's game-launch screen."
+      }
+    ],
+    "credits": [
+      "Virtual pads: InputPlumber by ShadowBlip",
+      "Platform: pb-os by Project Barry",
+      "Nintendo-icon list: PCGamingWiki",
+      "Switch Pro protocol: nxbt, joycontrol, SDL and the Linux hid-nintendo driver",
+      "Patches, per-game switch, Thor drawing and gyro: me"
+    ]
+  },
+  "shelf": "make-it-do-more"
+}
